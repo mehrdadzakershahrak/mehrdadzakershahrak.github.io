@@ -11,9 +11,10 @@ redirect_from:
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* B.S. in Computer Engineering, Shiraz University, 2010
+* M.S. in Information Technology, Khajeh Nasir Toosi University of Technology, 2013
+* M.S. in Information Technology, University of Nebraska, 2016
+* Ph.D in Computer Science, Arizona State University, 2020 (expected)
 
 Work experience
 ======
