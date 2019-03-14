@@ -28,20 +28,47 @@ Research Experience
   * System Security - Hardware Isolation - Data Protection
   * Supervisor: Sheng Wei
 
+* Fall 2016 - Summer 2017
+  * Arizona State University
+  * Human Robot Interaction
+  * Supervisor: Erin Chiou
+
+* Fall 2017 - Now
+  * Arizona State University
+  * Human Robot Interaction
+  * Supervisor: Yu (Tony) Zhang
 
 Teaching Experience
+
 ======
+
 * University of Nebraska - Lincoln
   * Fall 2014
     * Fundamentals of Programming
+  * Spring 2015
+    * Computation Theory
+  * Fall 2016
+    * Computer Organization
 
+* Arizona State University
+  * Fall 2017
+    * Computation Theory
+  * Spring 2018
+    * Artificial Intelligence
+  * Fall 2018
+    * Advanced Artificial Intelligence
+  * Spring 2018
+    * Advanced Artificial Intelligence
 
-
-
-  
 Skills
+
 ======
-* Skill 1
+
+* Programming Languages
+  * Python
+  * C++
+  * Java
+  * Bash
 * Skill 2
   * Sub-skill 2.1
   * Sub-skill 2.2
