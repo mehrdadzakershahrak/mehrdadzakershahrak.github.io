@@ -83,11 +83,11 @@ Publications
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-[//]: # (Talks)
-[//]: # (======)
-[//]: # (<ul>{% for post in site.talks %})
-[//]: # (   {% include archive-single-talk-cv.html %})
-[//]: # ( {% endfor %}</ul>)
+[//]: <> (Talks)
+[//]: <> (======)
+[//]: <> (<ul>{% for post in site.talks %})
+[//]: <> (   {% include archive-single-talk-cv.html %})
+[//]: <> ( {% endfor %}</ul>)
   
 [//]: # (Teaching)
 [//]: # (======)
@@ -97,6 +97,6 @@ Publications
   
 Service and leadership
 ======
-* ASU Capstone 401
-  * Fall 2016 - Now
-    * Mentored 4 Capstone teams (3 undergrad and one grad)
+
+* ASU Capstone 401 - Fall 2016 - Now
+  * Mentored 4 Capstone teams (3 undergrad and one grad)
