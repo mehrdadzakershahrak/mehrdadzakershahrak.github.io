@@ -59,7 +59,6 @@ Teaching Experience
     * Advanced Artificial Intelligence
 
 Skills
-
 ======
 
 * Programming Languages
