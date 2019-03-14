@@ -39,9 +39,7 @@ Research Experience
   * Supervisor: Yu (Tony) Zhang
 
 Teaching Experience
-
 ======
-
 * University of Nebraska - Lincoln
   * Fall 2014
     * Fundamentals of Programming
@@ -69,6 +67,7 @@ Skills
   * C++
   * Java
   * Bash
+  * R
 * Skill 2
   * Sub-skill 2.1
   * Sub-skill 2.2
