@@ -16,17 +16,28 @@ Education
 * M.S. in Information Technology, University of Nebraska, 2016
 * Ph.D in Computer Science, Arizona State University, 2020 (expected)
 
-Work experience
+Research Experience
 ======
-* Fall 2014 - Spring 2015 : Research Assistant
+* Fall 2014 - Spring 2015
   * University of Nebraska - Lincoln
-  * Image Processing & Pattern Recognition
-  * Supervisor: Professor Reichenbach
+  * Digital Image Processing Algorithms
+  * Supervisor: Stephen Reichenbach
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* Fall 2015 - Summer 2016
+  * University of Nebraska - Lincoln
+  * System Security - Hardware Isolation - Data Protection
+  * Supervisor: Sheng Wei
+
+
+Teaching Experience
+======
+* University of Nebraska - Lincoln
+  * Fall 2014
+    * Fundamentals of Programming
+
+
+
+
   
 Skills
 ======
