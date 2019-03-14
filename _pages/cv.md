@@ -87,7 +87,7 @@ Publications
 Talks
 ======
 
-  <ul>{% for post in site.publications %}
+  <ul>{% for post in site.talks %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
 
