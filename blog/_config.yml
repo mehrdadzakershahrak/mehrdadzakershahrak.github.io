@@ -28,6 +28,7 @@ twitter_username: mehrdadhw
 github_username:
 
 # Build settings
+markdown: GFM
 theme: minima
 plugins:
   - jekyll-feed
