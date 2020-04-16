@@ -29,10 +29,9 @@ github_username:
 
 # Build settings
 markdown: GFM
-remote_theme: benbalter/retlab
-plugins:
-  - jekyll-feed
-  - jekyll-remote-theme
+theme: minima
+#plugins:
+#  - jekyll-feed
 
 # Exclude from processing.
 # The following items will not be processed, by default.
