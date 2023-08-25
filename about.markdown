@@ -13,8 +13,8 @@ Welcome to my personal page! I'm Dr. Mehrdad Zaker, a Principal ML Scientist wit
 **Contact Information**:
 - **Email**: [zaker.mehrdad@gmail.com](mailto:zaker.mehrdad@gmail.com)
 - **GitHub**: [mehrdadzakershahrak](https://github.com/mehrdadzakershahrak)
-- **Twitter**: [@mehrdadzaker](https://twitter.com/mehrdadzaker)
-- **Google Scholar**: [Profile Link](https://scholar.google.com/citations?user=XXXXXXXX)
+- **Twitter**: [@mehrdadhw](https://twitter.com/mehrdadhw)
+- **Google Scholar**: [Profile Link](https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en)
 
 ### Overview
 
@@ -22,6 +22,7 @@ As an established AI and Machine Learning expert, my passion lies at the interse
 
 ### Education
 
-- **Ph.D. in Computer Science**, Arizona State University, 2016-2021
-- **Master of Science in Computer Science**, [University name]
-
+- **Ph.D. in Computer Science**, Arizona State University
+- **Master of Science in Computer Science**, University of Nebraska-Lincoln
+- **Master of Science in Information Technology**, Khaje-Nassir University of Technology
+- **Bachelor of Engineering in Computer Engineering**, Shiraz University
