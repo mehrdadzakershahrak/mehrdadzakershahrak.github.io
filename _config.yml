@@ -25,3 +25,5 @@ external:                  # shows a footer with social links - for available ic
 
 comments:
 #  disqus_shortname: ""    # Uncomment and provide Disqus short
+
+  - {file: "_posts/2023-08-25-newsletter-signup.md", title: "Blog"}

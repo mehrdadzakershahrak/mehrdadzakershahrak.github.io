@@ -4,3 +4,7 @@
 
 layout: home
 ---
+
+## Stay Updated!
+
+Interested in my research, updates, and insights? [Sign up for my newsletter!](/blog/first/)
