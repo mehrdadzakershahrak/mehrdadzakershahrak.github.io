@@ -1,6 +1,7 @@
 ---
 layout: home
 title: Home
+permalink: /home/
 ---
 
 <div style="padding-left: 20px;">
