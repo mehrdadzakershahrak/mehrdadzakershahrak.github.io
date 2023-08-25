@@ -2,7 +2,7 @@
 ---
 layout: post
 title:  "Newsletter Signup"
-permalink: /blog/signup/
+permalink: /blog/first/
 ---
 
 # Sign Up for My Newsletter!

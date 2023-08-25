@@ -17,6 +17,7 @@ navigation:                # accepts {file, title, url, icon, sidebaricon}
   - {file: "index.html", title: "Home"}
   - {file: "about.markdown", title: "About Me"}
 
+  - {file: "2023-08-25-newsletter-signup.md", title: "Blog"}
 external:                  # shows a footer with social links - for available icons see fontawesome.com/icons
   - {title: Email, icon: envelope, url: "mailto:zaker.mehrdad@gmail.com"}
   - {title: Github, icon: github, url: "https://github.com/mehrdadzakershahrak"}
