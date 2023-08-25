@@ -1,8 +1,8 @@
 
 <div style="padding-left: 20px;">
 ---
-
 layout: home
+title: Home
 ---
 
 ## Stay Updated!
