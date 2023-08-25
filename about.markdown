@@ -13,8 +13,8 @@ Welcome to my personal page! I'm Dr. Mehrdad Zaker, a Principal ML Scientist wit
 **Contact Information**:
 - **Email**: [zaker.mehrdad@gmail.com](mailto:zaker.mehrdad@gmail.com)
 - **GitHub**: [mehrdadzakershahrak](https://github.com/mehrdadzakershahrak)
-- **Twitter**: [@mehrdadzaker](https://twitter.com/mehrdadzaker)
-- **Google Scholar**: [Profile Link](https://scholar.google.com/citations?user=XXXXXXXX)
+- **X (Twitter)**: [@mehrdadhw](https://twitter.com/mehrdadhw)
+- **Google Scholar**: [Profile Link](https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en)
 
 ### Overview
 
