@@ -1,8 +1,8 @@
-
 ---
 layout: post
 title:  "Newsletter Signup"
-permalink: /blog/first/
+author: Mehrdad Zaker
+permalink: /blog/signup/
 ---
 
 # Sign Up for My Newsletter!
