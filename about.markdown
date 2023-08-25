@@ -22,6 +22,7 @@ As an established AI and Machine Learning expert, my passion lies at the interse
 
 ### Education
 
-- **Ph.D. in Computer Science**, Arizona State University, 2016-2021
-- **Master of Science in Computer Science**, [University name]
-
+- **Ph.D. in Computer Science**, Arizona State University
+- **Master of Science in Computer Science**, University of Nebraska-Lincoln
+- **Master of Science in Information Technology**, Khajeh-Nassir Toosi University of Technology
+- **Bachelor of Engineering in Computer Engineering**, Shiraz University
