@@ -18,7 +18,11 @@ Welcome to my personal page! I'm Dr. Mehrdad Zaker, a Principal ML Scientist wit
 
 ### Overview
 
-As an established AI and Machine Learning expert, my passion lies at the intersection of robotics, human-AI interaction, and data management. I've honed my skills throughout a diverse career, including during my Ph.D. research which focused on human-AI interaction. I'm well-versed in translating complex ML theories into practical applications, with a knack for converting unstructured data into actionable insights. As a Principal ML Scientist, I've showcased my ability to seamlessly integrate AI into operational workflows, maximizing efficiency and performance. Whether driving research initiatives or leading high-impact projects, I bring a blend of technical prowess and strategic thinking to the table.
+I have carved a niche for myself in the field of Machine Learning and Artificial Intelligence. Born and raised in Shiraz, Iran, I embarked on my journey in technology with a Bachelor’s degree in Computer Engineering from Shiraz University, followed by a Master's in Computer Science from UNL. My learning path, focused on human-centered AI with a Ph.D. in Computer Science from ASU, laid a solid foundation for my specialization in ML/AI.
+
+Throughout my career, I have engaged with a broad spectrum of technologies, with a particular interest on Reinforcement Learning and its applications. My journey has also led me to become proficient in embedded C, distributed system architecture, database management, cloud infrastructure, and a variety of algorithms. Additionally, my expertise extends to areas like 3D graphics and robotics, showcasing my versatility in the tech domain.
+
+A defining aspect of my approach is the pursuit of high performance in everything I build. This pursuit is rooted in my understanding that while computers are inherently fast, their full potential is frequently underutilized. I strive to tap into this untapped potential, ensuring that the systems and solutions I develop are not just functional, but also exceptionally efficient and responsive, a quality that, although often unspoken, is palpable to users.
 
 ### Education
 
