@@ -4,17 +4,9 @@ title: About
 permalink: /about/
 ---
 
-Welcome to my personal page! I'm Dr. Mehrdad Zaker, a Principal ML Scientist with a passion for innovation and research. Let's dive into my journey...
-
 ## About Mehrdad Zakershahrak
 
-**Position**: Principal ML Scientist
-
-**Contact Information**:
-- **Email**: [zaker.mehrdad@gmail.com](mailto:zaker.mehrdad@gmail.com)
-- **GitHub**: [mehrdadzakershahrak](https://github.com/mehrdadzakershahrak)
-- **Twitter**: [@mehrdadhw](https://twitter.com/mehrdadhw)
-- **Google Scholar**: [Profile Link](https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en)
+**Position**: Lead AI/ML Scientist
 
 ### Overview
 
