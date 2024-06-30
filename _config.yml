@@ -1,33 +1,31 @@
 title: "Mehrdad Zaker's Blog"
-author: "Mehrdad Zaker, Ph.D."
-description: "Mehrdad Zaker, Ph.D. Personal Blog. Insights on ML, Computer Science and more."
+author: "Mehrdad Zaker"
+description: "Dr. Mehrdad Zaker's Personal Blog. Insights on ML, Computer Science and more."
 permalink: /:title/
 lang: "en"
 excerpt_separator: "\n\n\n"
 date_format: "%B %d, %Y"
 
 # Layout
-show_excerpts: true        # show article excerpts on the home page
-show_frame: true           # adds a gray frame to the site
-show_sidebar: true         # show a sidebar instead of the usual header
-minimal: false             # use a dark header
+show_excerpts: true
+show_frame: true
+show_sidebar: true
+minimal: false
 
 # Menu
-navigation:                # accepts {file, title, url, icon, sidebaricon}
+navigation:
   - {file: "index.html", title: "Home"}
   - {file: "about.markdown", title: "About Me"}
   - {file: "blog.md", title: "Blog"}
+  - {file: "projects.md", title: "Projects"}
+  - {file: "contact.md", title: "Contact"}
 
-external:                  # shows a footer with social links - for available icons see fontawesome.com/icons
-  - {title: Email, icon: envelope, url: "mailto:zaker.mehrdad@gmail.com"}
+external:
   - {title: Github, icon: github, url: "https://github.com/mehrdadzakershahrak"}
   - {title: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/in/mehrdadzaker/"}
   - {title: Google Scholar, icon: graduation-cap, url: "https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en"}
 
-comments:
-#  disqus_shortname: ""    # Uncomment and provide Disqus short
-
-# New settings for enhanced functionality
+# Plugins and other settings (as previously configured)
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -35,16 +33,9 @@ plugins:
   - jekyll-paginate
   - jekyll-archives
 
-# SEO settings
-twitter:
-  username: mehrdadhw
-  card: summary
-
-# Pagination
 paginate: 5
 paginate_path: "/blog/page:num/"
 
-# Archives
 jekyll-archives:
   enabled:
     - categories
@@ -55,13 +46,3 @@ jekyll-archives:
   permalinks:
     category: /categories/:name/
     tag: /tags/:name/
-
-# Exclude from processing
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
