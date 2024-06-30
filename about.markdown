@@ -1,24 +1,41 @@
 ---
 layout: page
-title: About
+title: About Dr. Mehrdad Zakershahrak
 permalink: /about/
+description: "Dr. Mehrdad Zakershahrak is a Lead AI/ML Scientist specializing in Reinforcement Learning, Human-Centered AI, and High-Performance Computing."
 ---
 
-## About Mehrdad Zakershahrak
+# About Dr. Mehrdad Zakershahrak
 
-**Position**: Lead AI/ML Scientist
+**Current Position**: Lead AI/ML Scientist
 
-### Overview
+## Professional Overview
 
-I have carved a niche for myself in the field of Machine Learning and Artificial Intelligence. Born and raised in Shiraz, Iran, I embarked on my journey in technology with a Bachelor’s degree in Computer Engineering from Shiraz University, followed by a Master's in Computer Science from UNL. My learning path, focused on human-centered AI with a Ph.D. in Computer Science from ASU, laid a solid foundation for my specialization in ML/AI.
+Dr. Mehrdad Zakershahrak has established himself as a prominent figure in the fields of Machine Learning and Artificial Intelligence. With a rich background spanning from Iran to the United States, Dr. Zakershahrak brings a unique global perspective to his work in AI and ML.
 
-Throughout my career, I have engaged with a broad spectrum of technologies, with a particular interest on Reinforcement Learning and its applications. My journey has also led me to become proficient in embedded C, distributed system architecture, database management, cloud infrastructure, and a variety of algorithms. Additionally, my expertise extends to areas like 3D graphics and robotics, showcasing my versatility in the tech domain.
+### Expertise and Interests
 
-A defining aspect of my approach is the pursuit of high performance in everything I build. This pursuit is rooted in my understanding that while computers are inherently fast, their full potential is frequently underutilized. I strive to tap into this untapped potential, ensuring that the systems and solutions I develop are not just functional, but also exceptionally efficient and responsive, a quality that, although often unspoken, is palpable to users.
+- **Core Focus**: Reinforcement Learning and its real-world applications
+- **Specialized Areas**: Human-centered AI, High-performance computing
+- **Technical Proficiencies**: Embedded C, Distributed system architecture, Database management, Cloud infrastructure
+- **Interdisciplinary Skills**: 3D graphics, Robotics
 
-### Education
+### Professional Philosophy
+
+Dr. Zakershahrak is driven by a passion for unlocking the full potential of computing systems. He believes that while modern computers are inherently powerful, their capabilities are often underutilized. His work focuses on developing systems and solutions that are not only functional but also exceptionally efficient and responsive, providing tangible benefits to end-users.
+
+## Educational Background
 
 - **Ph.D. in Computer Science**, Arizona State University
+  - Focus: Human-centered AI
 - **Master of Science in Computer Science**, University of Nebraska-Lincoln
 - **Master of Science in Information Technology**, Khaje-Nassir University of Technology
 - **Bachelor of Engineering in Computer Engineering**, Shiraz University
+
+## Career Journey
+
+Born and raised in Shiraz, Iran, Dr. Zakershahrak's journey in technology began with his Bachelor's degree in Computer Engineering. His pursuit of knowledge led him to the United States, where he completed advanced degrees and established himself as a leader in AI and ML research and application.
+
+Throughout his career, Dr. Zakershahrak has consistently pushed the boundaries of what's possible in AI and ML, always with an eye towards creating systems that are not just smart, but also efficient and user-centric.
+
+For more detailed information about Dr. Zakershahrak's projects and publications, please visit the [Projects](/projects/) page.
