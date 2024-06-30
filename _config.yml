@@ -1,6 +1,6 @@
 title: "Mehrdad Zaker's Blog"
-author: "Mehrdad Zaker"
-description: "Dr. Mehrdad Zaker's Personal Blog. Insights on ML, Computer Science and more."
+author: "Mehrdad Zaker, Ph.D."
+description: "Mehrdad Zaker, Ph.D. Personal Blog. Insights on ML, Computer Science and more."
 permalink: /:title/
 lang: "en"
 excerpt_separator: "\n\n\n"
@@ -16,8 +16,8 @@ minimal: false             # use a dark header
 navigation:                # accepts {file, title, url, icon, sidebaricon}
   - {file: "index.html", title: "Home"}
   - {file: "about.markdown", title: "About Me"}
-
   - {file: "blog.md", title: "Blog"}
+
 external:                  # shows a footer with social links - for available icons see fontawesome.com/icons
   - {title: Email, icon: envelope, url: "mailto:zaker.mehrdad@gmail.com"}
   - {title: Github, icon: github, url: "https://github.com/mehrdadzakershahrak"}
@@ -27,4 +27,41 @@ external:                  # shows a footer with social links - for available ic
 comments:
 #  disqus_shortname: ""    # Uncomment and provide Disqus short
 
-  - {file: "_posts/2023-08-25-newsletter-signup.md", title: "Blog"}
+# New settings for enhanced functionality
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-archives
+
+# SEO settings
+twitter:
+  username: mehrdadhw
+  card: summary
+
+# Pagination
+paginate: 5
+paginate_path: "/blog/page:num/"
+
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive-taxonomy
+    tag: archive-taxonomy
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
