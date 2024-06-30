@@ -1,0 +1,14 @@
+---
+layout: default
+---
+<article class="project">
+  <h1>{{ page.title }}</h1>
+  <div class="project-content">
+    {{ content }}
+  </div>
+  <div id="project-container">
+    <!-- The project's HTML will be loaded here -->
+  </div>
+</article>
+
+<script src="{{ page.script_path | relative_url }}"></script>
