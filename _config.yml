@@ -1,8 +1,9 @@
 title: "Dr. Mehrdad Zakershahrak - Lead AI/ML Scientist"
 author: "Dr. Mehrdad Zakershahrak"
 description: "Expert in Reinforcement Learning, Human-Centered AI, and High-Performance Computing. Pioneering AI integration in data architectures and robotics."
-keywords: "AI, Machine Learning, Reinforcement Learning, Human-Centered AI, Robotics"
-permalink: /:categories/:year/:month/:day/:title/
+theme: jekyll-theme-primer
+github:
+  is_project_page: false
 lang: "en"
 excerpt_separator: "\n\n\n"
 date_format: "%B %d, %Y"
@@ -26,14 +27,13 @@ show_sidebar: true
 navigation:
   - {file: "index.html", title: "Home"}
   - {file: "about.markdown", title: "About Me"}
-  - {file: "blog.html", title: "Blog"}
+  - {file: "blog.md", title: "Blog"}
 
 external:
   - {title: Github, icon: github, url: "https://github.com/mehrdadzakershahrak"}
   - {title: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/in/mehrdadzaker/"}
   - {title: Google Scholar, icon: graduation-cap, url: "https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en"}
 
-# Plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -43,10 +43,7 @@ plugins:
 paginate: 5
 paginate_path: "/blog/page:num/"
 
-collections:
-  blog:
-    output: true
-    permalink: /blog/:title/
+permalink: /:categories/:year/:month/:day/:title/
 
 defaults:
   - scope:
@@ -54,3 +51,8 @@ defaults:
       type: "posts"
     values:
       layout: "post"
+      
+collections:
+  blog:
+    output: true
+    permalink: /blog/:title/
