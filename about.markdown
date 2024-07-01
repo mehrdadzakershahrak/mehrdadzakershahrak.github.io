@@ -34,4 +34,6 @@ Born and raised in Shiraz, Iran, Dr. Zakershahrak's journey in technology began 
 
 Throughout his career, Dr. Zakershahrak has consistently pushed the boundaries of what's possible in AI and ML, always with an eye towards creating systems that are not just smart, but also efficient and user-centric.
 
-For more detailed information about Dr. Zakershahrak's projects and publications, please visit the [Projects](/projects/) page.
+Curious about the latest in AI and ML? Check out my [latest blog posts](/blog) for in-depth analyses and exciting discoveries in the field!
+
+[Explore My Blog](/blog){: .button}
