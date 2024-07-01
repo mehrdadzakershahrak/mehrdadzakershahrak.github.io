@@ -3,6 +3,14 @@ layout: page
 title: Projects and Research
 permalink: /projects/
 ---
+# Interactive Projects
+
+Here you can explore some of my interactive AI and ML projects:
+
+{% for project in site.projects %}
+  <h2><a href="{{ project.url }}">{{ project.title }}</a></h2>
+  <p>{{ project.excerpt }}</p>
+{% endfor %}
 
 # Research Projects and Publications
 

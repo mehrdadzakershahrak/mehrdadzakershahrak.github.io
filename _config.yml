@@ -1,10 +1,23 @@
-title: "Mehrdad Zaker's Blog"
-author: "Mehrdad Zaker"
-description: "Dr. Mehrdad Zaker's Personal Blog. Insights on ML, Computer Science and more."
+title: "Dr. Mehrdad Zakershahrak - AI/ML Scientist and Researcher"
+author: "Dr. Mehrdad Zakershahrak"
+description: "Explore the work of Dr. Mehrdad Zakershahrak, a Lead AI/ML Scientist specializing in Reinforcement Learning, Human-Centered AI, and High-Performance Computing."
+keywords: "AI, Machine Learning, Reinforcement Learning, Human-Centered AI, Robotics, Data Science"
 permalink: /:title/
 lang: "en"
 excerpt_separator: "\n\n\n"
 date_format: "%B %d, %Y"
+
+# SEO settings
+twitter:
+  username: your_twitter_handle
+  card: summary_large_image
+logo: /path/to/your/logo.png
+social:
+  name: Dr. Mehrdad Zakershahrak
+  links:
+    - https://www.linkedin.com/in/mehrdadzaker/
+    - https://github.com/mehrdadzakershahrak
+    - https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en
 
 # Layout
 show_excerpts: true
@@ -46,3 +59,8 @@ jekyll-archives:
   permalinks:
     category: /categories/:name/
     tag: /tags/:name/
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:path/
