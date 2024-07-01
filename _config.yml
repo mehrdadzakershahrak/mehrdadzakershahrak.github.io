@@ -3,10 +3,11 @@ author: "Mehrdad"
 description: "Expert in Reinforcement Learning, Human-Centered AI, and High-Performance Computing. Pioneering AI integration in data architectures and robotics."
 baseurl: ""
 url: "https://mehrdadzakershahrak.github.io"
+permalink: /:year/:month/:day/:title/
+paginate: 5
 
 # Build settings
 markdown: kramdown
-theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -23,25 +24,13 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
 
-# Custom settings
-header_pages:
-  - about.md
-  - blog.md
-
 # Social links
 github_username: mehrdadzakershahrak
 linkedin_username: mehrdadzaker
 google_scholar: Y_-UFnUAAAAJ
 
 # Pagination
-paginate: 5
 paginate_path: "/blog/page:num/"
-
-# Collections
-collections:
-  blog:
-    output: true
-    permalink: /blog/:title/
 
 # Defaults
 defaults:
