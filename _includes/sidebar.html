@@ -11,6 +11,10 @@
       <span aria-hidden="true">{{ title }}</span>
     </a>
   {%- endfor -%}
+  <a aria-label="Blog" href="{{ '/blog/' | relative_url }}" {% if page.url == '/blog/' %}class="selected"{% endif %}>
+    <svg aria-hidden="true" class="icon"><use xlink:href="{{ "/assets/fontawesome/icons.svg" | relative_url }}#pencil-alt"></use></svg>
+    <span aria-hidden="true">Blog</span>
+  </a>
   {%- for item in site.external -%}
     {%- assign node = site.pages | where: "name", item.file | first -%}
     {%- assign url = item.url | default: node.url -%}

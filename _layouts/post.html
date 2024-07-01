@@ -36,4 +36,13 @@ layout: default
   {%- endif -%}
 
   <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+  <div class="social-sharing">
+    <h3>Share this post:</h3>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}&title={{ page.title | url_encode }}&summary={{ page.excerpt | strip_html | truncate: 140 | url_encode }}&source={{ site.title }}" target="_blank" rel="noopener noreferrer">
+      Share on LinkedIn
+    </a>
+    <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}&via={{ site.twitter.username }}" target="_blank" rel="noopener noreferrer">
+      Share on X (Twitter)
+    </a>
+  </div>
 </article>

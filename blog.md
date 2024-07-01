@@ -1,16 +1,39 @@
 ---
 layout: page
 title: Blog
-permalink: /blog/
 ---
 
-<h1>Blog Posts</h1>
+<div class="posts">
+  {% for post in site.posts %}
+  <div class="post">
+    <h1 class="post-title">
+      <a href="{{ post.url | relative_url }}">
+        {{ post.title }}
+      </a>
+    </h1>
 
-{% for post in site.posts %}
-  <article style="margin-bottom: 30px; border-bottom: 1px solid #e8e8e8; padding-bottom: 20px;">
-    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-    <p style="color: #828282; font-size: 0.9em; margin-bottom: 10px;">{{ post.date | date: "%B %-d, %Y" }}</p>
-    {{ post.excerpt }}
-    <p><a href="{{ post.url | relative_url }}">Read more...</a></p>
-  </article>
-{% endfor %}
+    <span class="post-date">{{ post.date | date_to_string }}</span>
+
+    {{ post.content | strip_html | truncatewords: 50 }}
+
+    <a href="{{ post.url | relative_url }}">Read more</a>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="pagination">
+  {% if paginator.next_page %}
+    <a class="pagination-item older" href="{{ paginator.next_page_path | relative_url }}">Older</a>
+  {% else %}
+    <span class="pagination-item older">Older</span>
+  {% endif %}
+  {% if paginator.previous_page %}
+    {% if paginator.page == 2 %}
+      <a class="pagination-item newer" href="{{ '/' | relative_url }}">Newer</a>
+    {% else %}
+      <a class="pagination-item newer" href="{{ paginator.previous_page_path | relative_url }}">Newer</a>
+    {% endif %}
+  {% else %}
+    <span class="pagination-item newer">Newer</span>
+  {% endif %}
+</div>
