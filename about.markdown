@@ -5,10 +5,6 @@ permalink: /about/
 description: "Dr. Mehrdad Zakershahrak is a Lead AI/ML Scientist specializing in Reinforcement Learning, Human-Centered AI, and High-Performance Computing."
 ---
 
-# About Mehrdad Zakershahrak
-
-**Current Position**: Lead AI/ML Scientist
-
 ## Professional Overview
 
 Dr. Mehrdad Zakershahrak has established himself as a prominent figure in the fields of Machine Learning and Artificial Intelligence. With a rich background spanning from Iran to the United States, Dr. Zakershahrak brings a unique global perspective to his work in AI and ML.
