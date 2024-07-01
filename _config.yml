@@ -1,7 +1,7 @@
-title: "Dr. Mehrdad Zakershahrak - AI/ML Scientist and Researcher"
+title: "Dr. Mehrdad Zakershahrak - Lead AI/ML Scientist"
 author: "Dr. Mehrdad Zakershahrak"
-description: "Explore the work of Dr. Mehrdad Zakershahrak, a Lead AI/ML Scientist specializing in Reinforcement Learning, Human-Centered AI, and High-Performance Computing."
-keywords: "AI, Machine Learning, Reinforcement Learning, Human-Centered AI, Robotics, Data Science"
+description: "Expert in Reinforcement Learning, Human-Centered AI, and High-Performance Computing. Pioneering AI integration in data architectures and robotics."
+keywords: "AI, Machine Learning, Reinforcement Learning, Human-Centered AI, Robotics"
 permalink: /:title/
 lang: "en"
 excerpt_separator: "\n\n\n"
@@ -9,9 +9,8 @@ date_format: "%B %d, %Y"
 
 # SEO settings
 twitter:
-  username: your_twitter_handle
+  username: mehrdadhw
   card: summary_large_image
-logo: /path/to/your/logo.png
 social:
   name: Dr. Mehrdad Zakershahrak
   links:
@@ -21,44 +20,28 @@ social:
 
 # Layout
 show_excerpts: true
-show_frame: true
 show_sidebar: true
-minimal: false
 
 # Menu
 navigation:
   - {file: "index.html", title: "Home"}
   - {file: "about.markdown", title: "About Me"}
   - {file: "blog.md", title: "Blog"}
-  - {file: "projects.md", title: "Projects"}
-  - {file: "contact.md", title: "Contact"}
 
 external:
   - {title: Github, icon: github, url: "https://github.com/mehrdadzakershahrak"}
   - {title: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/in/mehrdadzaker/"}
   - {title: Google Scholar, icon: graduation-cap, url: "https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en"}
 
-# Plugins and other settings (as previously configured)
+# Plugins
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-paginate
-  - jekyll-archives
 
 paginate: 5
 paginate_path: "/blog/page:num/"
-
-jekyll-archives:
-  enabled:
-    - categories
-    - tags
-  layouts:
-    category: archive-taxonomy
-    tag: archive-taxonomy
-  permalinks:
-    category: /categories/:name/
-    tag: /tags/:name/
 
 collections:
   blog:
@@ -67,7 +50,7 @@ collections:
 
 defaults:
   - scope:
-      path: "blog"
+      path: ""
       type: "posts"
     values:
       layout: "post"
