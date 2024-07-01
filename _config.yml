@@ -61,6 +61,13 @@ jekyll-archives:
     tag: /tags/:name/
 
 collections:
-  projects:
+  blog:
     output: true
-    permalink: /projects/:path/
+    permalink: /blog/:title/
+
+defaults:
+  - scope:
+      path: "blog"
+      type: "posts"
+    values:
+      layout: "post"
