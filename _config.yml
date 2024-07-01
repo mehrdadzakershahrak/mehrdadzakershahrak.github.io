@@ -2,7 +2,7 @@ title: "Dr. Mehrdad Zakershahrak - Lead AI/ML Scientist"
 author: "Dr. Mehrdad Zakershahrak"
 description: "Expert in Reinforcement Learning, Human-Centered AI, and High-Performance Computing. Pioneering AI integration in data architectures and robotics."
 keywords: "AI, Machine Learning, Reinforcement Learning, Human-Centered AI, Robotics"
-permalink: /:title/
+permalink: /:categories/:year/:month/:day/:title/
 lang: "en"
 excerpt_separator: "\n\n\n"
 date_format: "%B %d, %Y"
@@ -26,7 +26,7 @@ show_sidebar: true
 navigation:
   - {file: "index.html", title: "Home"}
   - {file: "about.markdown", title: "About Me"}
-  - {file: "blog.md", title: "Blog"}
+  - {file: "blog.html", title: "Blog"}
 
 external:
   - {title: Github, icon: github, url: "https://github.com/mehrdadzakershahrak"}
