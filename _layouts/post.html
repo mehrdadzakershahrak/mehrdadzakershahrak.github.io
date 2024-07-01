@@ -1,26 +1,29 @@
 ---
 layout: default
 ---
-<article class="post">
-  <h1>{{ page.title }}</h1>
-  <p class="meta">
-    {{ page.date | date: "%B %-d, %Y" }}
-    {% if page.categories %}
-      • Categories: 
-      {% for category in page.categories %}
-        <a href="/categories/{{ category | slugify }}">{{ category }}</a>
-      {% endfor %}
-    {% endif %}
-  </p>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-  {{ content }}
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {{ page.date | date: date_format }}
+      </time>
+      {%- if page.author -%}
+        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+      {%- endif -%}</p>
+  </header>
 
-  {% if page.tags %}
-    <p class="tags">
-      Tags: 
-      {% for tag in page.tags %}
-        <a href="/tags/{{ tag | slugify }}">{{ tag }}</a>
-      {% endfor %}
-    </p>
-  {% endif %}
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+  <div class="social-sharing">
+    <h3>Share this post:</h3>
+    <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ page.url }}" target="_blank" rel="noopener noreferrer">Share on X (Twitter)</a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url }}&title={{ page.title | url_encode }}&summary={{ page.excerpt | strip_html | truncate: 140 | url_encode }}&source={{ site.title }}" target="_blank" rel="noopener noreferrer">Share on LinkedIn</a>
+  </div>
+
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
 </article>
