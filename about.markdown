@@ -1,11 +1,11 @@
 ---
 layout: page
-title: About Dr. Mehrdad Zakershahrak
+title: About Mehrdad 
 permalink: /about/
 description: "Dr. Mehrdad Zakershahrak is a Lead AI/ML Scientist specializing in Reinforcement Learning, Human-Centered AI, and High-Performance Computing."
 ---
 
-# About Dr. Mehrdad Zakershahrak
+# About Mehrdad Zakershahrak
 
 **Current Position**: Lead AI/ML Scientist
 
