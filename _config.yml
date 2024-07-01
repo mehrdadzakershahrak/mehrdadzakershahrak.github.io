@@ -1,10 +1,8 @@
 title: "Mehrdad - Lead AI/ML Scientist"
 author: "Mehrdad"
 description: "Expert in Reinforcement Learning, Human-Centered AI, and High-Performance Computing. Pioneering AI integration in data architectures and robotics."
-baseurl: ""
-url: "https://mehrdadzakershahrak.github.io"
-permalink: /:year/:month/:day/:title/
-paginate: 5
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://mehrdadzakershahrak.github.io" # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown
@@ -13,6 +11,8 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-paginate
+
+paginate: 5
 
 # Exclude from processing
 exclude:
