@@ -1,58 +1,52 @@
-title: "Dr. Mehrdad Zakershahrak - Lead AI/ML Scientist"
-author: "Dr. Mehrdad Zakershahrak"
+title: "Mehrdad - Lead AI/ML Scientist"
+author: "Mehrdad"
 description: "Expert in Reinforcement Learning, Human-Centered AI, and High-Performance Computing. Pioneering AI integration in data architectures and robotics."
-theme: jekyll-theme-primer
-github:
-  is_project_page: false
-lang: "en"
-excerpt_separator: "\n\n\n"
-date_format: "%B %d, %Y"
+baseurl: ""
+url: "https://mehrdadzakershahrak.github.io"
 
-# SEO settings
-twitter:
-  username: mehrdadhw
-  card: summary_large_image
-social:
-  name: Dr. Mehrdad Zakershahrak
-  links:
-    - https://www.linkedin.com/in/mehrdadzaker/
-    - https://github.com/mehrdadzakershahrak
-    - https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en
-
-# Layout
-show_excerpts: true
-show_sidebar: true
-
-# Menu
-navigation:
-  - {file: "index.html", title: "Home"}
-  - {file: "about.markdown", title: "About Me"}
-  - {file: "blog.md", title: "Blog"}
-
-external:
-  - {title: Github, icon: github, url: "https://github.com/mehrdadzakershahrak"}
-  - {title: LinkedIn, icon: linkedin, url: "https://www.linkedin.com/in/mehrdadzaker/"}
-  - {title: Google Scholar, icon: graduation-cap, url: "https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en"}
-
+# Build settings
+markdown: kramdown
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-paginate
 
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Custom settings
+header_pages:
+  - about.md
+  - blog.md
+
+# Social links
+github_username: mehrdadzakershahrak
+linkedin_username: mehrdadzaker
+google_scholar: Y_-UFnUAAAAJ
+
+# Pagination
 paginate: 5
 paginate_path: "/blog/page:num/"
 
-permalink: /:categories/:year/:month/:day/:title/
+# Collections
+collections:
+  blog:
+    output: true
+    permalink: /blog/:title/
 
+# Defaults
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       layout: "post"
-      
-collections:
-  blog:
-    output: true
-    permalink: /blog/:title/
