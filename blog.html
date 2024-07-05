@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="markdown-renderer.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mehrdad Zakershahrak - Blog</title>
@@ -18,9 +20,10 @@
     </header>
 
     <main>
+        <div id="content"></div>
         <h2>Blog Posts</h2>
         <ul id="blog-list">
-            <li><a href="posts/post-template.html?post=2023-09-11-optimizing-pytorch-xla-performance">Optimizing PyTorch/XLA Performance on LLaMA Models</a></li>
+            <li><a href="posts/2023-09-11-optimizing-pytorch-xla-performance.md">Optimizing PyTorch/XLA Performance on LLaMA Models</a></li>
             <!-- Add more blog post links here as you create them -->
         </ul>
     </main>
