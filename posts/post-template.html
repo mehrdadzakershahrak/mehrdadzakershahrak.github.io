@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Mehrdad Zakershahrak</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Mehrdad Zakershahrak</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article>
+            <h1 id="post-title">Loading...</h1>
+            <p id="post-date" class="post-date"></p>
+            <p id="post-author" class="post-author"></p>
+            <div id="post-content" class="post-content">Loading content...</div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mehrdad Zakershahrak. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Get the Markdown file name from the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const postName = urlParams.get('post');
+        
+        // Fetch and render the Markdown content
+        fetch(`${postName}.md`)
+            .then(response => response.text())
+            .then(markdown => {
+                // Split the front matter and content
+                const [, frontMatter, content] = markdown.split('---');
+                
+                // Parse the front matter
+                const metadata = jsyaml.load(frontMatter);
+                
+                // Update the page with the metadata
+                document.title = `${metadata.title} - Your Name`;
+                document.getElementById('post-title').textContent = metadata.title;
+                document.getElementById('post-date').textContent = `Posted on: ${metadata.date}`;
+                document.getElementById('post-author').textContent = `Author: ${metadata.author}`;
+                
+                // Render the Markdown content
+                document.getElementById('post-content').innerHTML = marked(content);
+            })
+            .catch(error => {
+                console.error('Error loading blog post:', error);
+                document.getElementById('post-content').textContent = 'Error loading blog post.';
+            });
+    </script>
+</body>
+</html>
