@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post - Your Name</title>
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Your Name</h1>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../blog.html">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <article id="post-content">
+            Loading...
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Your Name. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Fetch and render the Markdown content
+        fetch('2023-09-11-optimizing-pytorch-xla-performance.md')
+            .then(response => response.text())
+            .then(markdown => {
+                document.getElementById('post-content').innerHTML = marked(markdown);
+                // Set the page title to the first h1 in the markdown
+                const title = document.querySelector('h1').textContent;
+                document.title = `${title} - Your Name`;
+            })
+            .catch(error => {
+                console.error('Error loading blog post:', error);
+                document.getElementById('post-content').textContent = 'Error loading blog post.';
+            });
+    </script>
+</body>
+</html>
