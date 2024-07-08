@@ -23,13 +23,46 @@
         <div id="content"></div>
         <h2>Blog Posts</h2>
         <ul id="blog-list">
-            <li><a href="posts/2023-09-11-optimizing-pytorch-xla-performance.md">Optimizing PyTorch/XLA Performance on LLaMA Models</a></li>
-            <!-- Add more blog post links here as you create them -->
+            <!-- Blog posts will be dynamically inserted here -->
         </ul>
     </main>
 
     <footer>
         <p>&copy; 2024 Mehrdad Zakershahrak. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Function to extract metadata from Markdown content
+        function extractMetadata(markdown) {
+            const lines = markdown.split('\n');
+            const title = lines[0].replace('#', '').trim();
+            const dateLine = lines.find(line => line.startsWith('Date:'));
+            const date = dateLine ? dateLine.split(':')[1].trim() : 'Unknown date';
+            return { title, date };
+        }
+
+        // Function to load and display blog posts
+        function loadBlogPosts() {
+            const blogList = document.getElementById('blog-list');
+            const posts = [
+                'posts/2023-09-11-optimizing-pytorch-xla-performance.md',
+                // Add more post filenames here as you create them
+            ];
+
+            posts.forEach(post => {
+                fetch(post)
+                    .then(response => response.text())
+                    .then(markdown => {
+                        const { title, date } = extractMetadata(markdown);
+                        const li = document.createElement('li');
+                        li.innerHTML = `<a href="${post}">${title}</a> <span class="post-date">(${date})</span>`;
+                        blogList.appendChild(li);
+                    });
+            });
+        }
+
+        // Load blog posts when the page is ready
+        document.addEventListener('DOMContentLoaded', loadBlogPosts);
+    </script>
 </body>
 </html>
