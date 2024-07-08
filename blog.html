@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="markdown-renderer.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mehrdad Zakershahrak - Blog</title>
@@ -20,7 +18,6 @@
     </header>
 
     <main>
-        <div id="content"></div>
         <h2>Blog Posts</h2>
         <ul id="blog-list">
             <!-- Blog posts will be dynamically inserted here -->
@@ -35,9 +32,15 @@
         // Function to extract metadata from Markdown content
         function extractMetadata(markdown) {
             const lines = markdown.split('\n');
-            const title = lines[0].replace('#', '').trim();
-            const dateLine = lines.find(line => line.startsWith('Date:'));
-            const date = dateLine ? dateLine.split(':')[1].trim() : 'Unknown date';
+            let title = '', date = '';
+            for (let line of lines) {
+                if (line.startsWith('title:')) {
+                    title = line.split(':')[1].trim().replace(/"/g, '');
+                } else if (line.startsWith('date:')) {
+                    date = line.split(':')[1].trim();
+                }
+                if (title && date) break;
+            }
             return { title, date };
         }
 
@@ -46,6 +49,7 @@
             const blogList = document.getElementById('blog-list');
             const posts = [
                 'posts/2023-09-11-optimizing-pytorch-xla-performance.md',
+                'posts/2023-09-11-second.md'
                 // Add more post filenames here as you create them
             ];
 
@@ -55,7 +59,8 @@
                     .then(markdown => {
                         const { title, date } = extractMetadata(markdown);
                         const li = document.createElement('li');
-                        li.innerHTML = `<a href="${post}">${title}</a> <span class="post-date">(${date})</span>`;
+                        const postName = post.split('/').pop().replace('.md', '');
+                        li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${title}</a> <span class="post-date">(${date})</span>`;
                         blogList.appendChild(li);
                     });
             });

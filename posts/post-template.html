@@ -6,7 +6,6 @@
     <title>Blog Post - Mehrdad Zakershahrak</title>
     <link rel="stylesheet" href="../styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
 </head>
 <body>
     <header>
@@ -41,17 +40,30 @@
         fetch(`${postName}.md`)
             .then(response => response.text())
             .then(markdown => {
-                // Split the front matter and content
-                const [, frontMatter, content] = markdown.split('---');
-                
-                // Parse the front matter
-                const metadata = jsyaml.load(frontMatter);
-                
+                const lines = markdown.split('\n');
+                let title = '', date = '', author = '';
+                let contentStart = 0;
+
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].startsWith('title:')) {
+                        title = lines[i].split(':')[1].trim().replace(/"/g, '');
+                    } else if (lines[i].startsWith('date:')) {
+                        date = lines[i].split(':')[1].trim();
+                    } else if (lines[i].startsWith('author:')) {
+                        author = lines[i].split(':')[1].trim();
+                    } else if (lines[i].trim() === '---' && i > 0) {
+                        contentStart = i + 1;
+                        break;
+                    }
+                }
+
+                const content = lines.slice(contentStart).join('\n');
+
                 // Update the page with the metadata
-                document.title = `${metadata.title} - Your Name`;
-                document.getElementById('post-title').textContent = metadata.title;
-                document.getElementById('post-date').textContent = `Posted on: ${metadata.date}`;
-                document.getElementById('post-author').textContent = `Author: ${metadata.author}`;
+                document.title = `${title} - Mehrdad Zakershahrak`;
+                document.getElementById('post-title').textContent = title;
+                document.getElementById('post-date').textContent = `Posted on: ${date}`;
+                document.getElementById('post-author').textContent = `Author: ${author}`;
                 
                 // Render the Markdown content
                 document.getElementById('post-content').innerHTML = marked(content);
