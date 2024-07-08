@@ -54,15 +54,19 @@
             ];
 
             posts.forEach(post => {
-                fetch(post)
-                    .then(response => response.text())
-                    .then(markdown => {
-                        const { title, date } = extractMetadata(markdown);
-                        const li = document.createElement('li');
-                        const postName = post.split('/').pop().replace('.md', '');
-                        li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${title}</a> <span class="post-date">(${date})</span>`;
-                        blogList.appendChild(li);
-                    });
+                if (!post.includes('404.html')) {  // Exclude 404.html
+                    fetch(post)
+                        .then(response => response.text())
+                        .then(markdown => {
+                            const { title, date } = extractMetadata(markdown);
+                            if (title && date) {  // Only add if title and date are found
+                                const li = document.createElement('li');
+                                const postName = post.split('/').pop().replace('.md', '');
+                                li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${title}</a> <span class="post-date">(${date})</span>`;
+                                blogList.appendChild(li);
+                            }
+                        });
+                }
             });
         }
 
