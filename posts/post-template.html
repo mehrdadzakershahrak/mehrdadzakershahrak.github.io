@@ -24,13 +24,15 @@
     <main>
         <article>
             <h1 id="post-title">Loading...</h1>
-            <p id="post-date" class="post-date"></p>
-            <p id="post-author" class="post-author"></p>
-            <p id="post-layout" class="post-layout"></p>
-            <p id="post-categories" class="post-categories"></p>
+            <div class="post-metadata">
+                <p id="post-date" class="post-date"></p>
+                <p id="post-author" class="post-author"></p>
+                <p id="post-categories" class="post-categories"></p>
+            </div>
             <div id="post-content" class="post-content">Loading content...</div>
         </article>
     </main>
+
 
     <footer>
         <p>&copy; 2024 Mehrdad Zakershahrak. All rights reserved.</p>
@@ -78,7 +80,6 @@
                 document.getElementById('post-title').textContent = metadata.title;
                 document.getElementById('post-date').textContent = `Posted on: ${metadata.date}`;
                 document.getElementById('post-author').textContent = `Author: ${metadata.author || 'Mehrdad Zakershahrak'}`;
-                document.getElementById('post-layout').textContent = `Layout: ${metadata.layout || 'post'}`;
                 document.getElementById('post-categories').textContent = `Categories: ${metadata.categories || ''}`;
                 
                 // Add SEO meta tags
