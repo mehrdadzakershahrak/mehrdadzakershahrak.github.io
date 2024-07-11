@@ -13,9 +13,7 @@
             <ul>
                 <li><a href="index.html">Home</a></li>
                 <li><a href="blog.html">Blog</a></li>
-                <li><a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-graduation-cap"></i> Google Scholar
-                </a></li>
+                <li><a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             </ul>
         </nav>
     </header>
@@ -32,49 +30,7 @@
     </footer>
 
     <script>
-        // Function to extract metadata from Markdown content
-        function extractMetadata(markdown) {
-            const lines = markdown.split('\n');
-            let title = '', date = '';
-            for (let line of lines) {
-                if (line.startsWith('title:')) {
-                    title = line.split(':')[1].trim().replace(/"/g, '');
-                } else if (line.startsWith('date:')) {
-                    date = line.split(':')[1].trim();
-                }
-                if (title && date) break;
-            }
-            return { title, date };
-        }
-
-        // Function to load and display blog posts
-        function loadBlogPosts() {
-            const blogList = document.getElementById('blog-list');
-            const posts = [
-                'posts/2023-09-11-optimizing-pytorch-xla-performance.md',
-                'posts/2023-09-11-second.md'
-                // Add more post filenames here as you create them
-            ];
-
-            posts.forEach(post => {
-                if (!post.includes('404.html')) {  // Exclude 404.html
-                    fetch(post)
-                        .then(response => response.text())
-                        .then(markdown => {
-                            const { title, date } = extractMetadata(markdown);
-                            if (title && date) {  // Only add if title and date are found
-                                const li = document.createElement('li');
-                                const postName = post.split('/').pop().replace('.md', '');
-                                li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${title}</a> <span class="post-date">(${date})</span>`;
-                                blogList.appendChild(li);
-                            }
-                        });
-                }
-            });
-        }
-
-        // Load blog posts when the page is ready
-        document.addEventListener('DOMContentLoaded', loadBlogPosts);
+        // Your existing JavaScript for loading blog posts
     </script>
 </body>
 </html>
