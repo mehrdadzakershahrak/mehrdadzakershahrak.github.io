@@ -26,6 +26,8 @@
             <h1 id="post-title">Loading...</h1>
             <p id="post-date" class="post-date"></p>
             <p id="post-author" class="post-author"></p>
+            <p id="post-layout" class="post-layout"></p>
+            <p id="post-categories" class="post-categories"></p>
             <div id="post-content" class="post-content">Loading content...</div>
         </article>
     </main>
@@ -40,14 +42,22 @@
             const lines = markdown.split('\n');
             let metadata = {};
             let contentStart = 0;
+            let inMetadata = false;
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].trim() === '---') {
-                    contentStart = i + 1;
-                    break;
+                    if (!inMetadata) {
+                        inMetadata = true;
+                        continue;
+                    } else {
+                        contentStart = i + 1;
+                        break;
+                    }
                 }
-                const [key, ...value] = lines[i].split(':');
-                if (key && value.length) {
-                    metadata[key.trim()] = value.join(':').trim().replace(/^"(.*)"$/, '$1');
+                if (inMetadata) {
+                    const [key, ...value] = lines[i].split(':');
+                    if (key && value.length) {
+                        metadata[key.trim()] = value.join(':').trim().replace(/^"(.*)"$/, '$1');
+                    }
                 }
             }
             return { metadata, content: lines.slice(contentStart).join('\n') };
@@ -68,6 +78,8 @@
                 document.getElementById('post-title').textContent = metadata.title;
                 document.getElementById('post-date').textContent = `Posted on: ${metadata.date}`;
                 document.getElementById('post-author').textContent = `Author: ${metadata.author || 'Mehrdad Zakershahrak'}`;
+                document.getElementById('post-layout').textContent = `Layout: ${metadata.layout || 'post'}`;
+                document.getElementById('post-categories').textContent = `Categories: ${metadata.categories || ''}`;
                 
                 // Add SEO meta tags
                 const head = document.querySelector('head');
