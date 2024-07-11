@@ -6,6 +6,8 @@
     <title>Blog Post - Mehrdad Zakershahrak</title>
     <link rel="stylesheet" href="../styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+    <!-- SEO meta tags will be dynamically inserted here -->
+    <meta name="author" content="Mehrdad Zakershahrak">
 </head>
 <body>
     <header>
@@ -14,6 +16,7 @@
             <ul>
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../blog.html">Blog</a></li>
+                <li><a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             </ul>
         </nav>
     </header>
@@ -32,6 +35,24 @@
     </footer>
 
     <script>
+        // Function to extract metadata from Markdown content
+        function extractMetadata(markdown) {
+            const lines = markdown.split('\n');
+            let metadata = {};
+            let contentStart = 0;
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].trim() === '---') {
+                    contentStart = i + 1;
+                    break;
+                }
+                const [key, ...value] = lines[i].split(':');
+                if (key && value.length) {
+                    metadata[key.trim()] = value.join(':').trim().replace(/^"(.*)"$/, '$1');
+                }
+            }
+            return { metadata, content: lines.slice(contentStart).join('\n') };
+        }
+
         // Get the Markdown file name from the URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const postName = urlParams.get('post');
@@ -40,30 +61,25 @@
         fetch(`${postName}.md`)
             .then(response => response.text())
             .then(markdown => {
-                const lines = markdown.split('\n');
-                let title = '', date = '', author = '';
-                let contentStart = 0;
-
-                for (let i = 0; i < lines.length; i++) {
-                    if (lines[i].startsWith('title:')) {
-                        title = lines[i].split(':')[1].trim().replace(/"/g, '');
-                    } else if (lines[i].startsWith('date:')) {
-                        date = lines[i].split(':')[1].trim();
-                    } else if (lines[i].startsWith('author:')) {
-                        author = lines[i].split(':')[1].trim();
-                    } else if (lines[i].trim() === '---' && i > 0) {
-                        contentStart = i + 1;
-                        break;
-                    }
-                }
-
-                const content = lines.slice(contentStart).join('\n');
-
+                const { metadata, content } = extractMetadata(markdown);
+                
                 // Update the page with the metadata
-                document.title = `${title} - Mehrdad Zakershahrak`;
-                document.getElementById('post-title').textContent = title;
-                document.getElementById('post-date').textContent = `Posted on: ${date}`;
-                document.getElementById('post-author').textContent = `Author: ${author}`;
+                document.title = `${metadata.title} - Mehrdad Zakershahrak`;
+                document.getElementById('post-title').textContent = metadata.title;
+                document.getElementById('post-date').textContent = `Posted on: ${metadata.date}`;
+                document.getElementById('post-author').textContent = `Author: ${metadata.author || 'Mehrdad Zakershahrak'}`;
+                
+                // Add SEO meta tags
+                const head = document.querySelector('head');
+                head.innerHTML += `
+                    <meta name="description" content="${metadata.description || 'A blog post by Mehrdad Zakershahrak'}">
+                    <meta name="keywords" content="${metadata.categories || ''}">
+                    <meta property="og:title" content="${metadata.title}">
+                    <meta property="og:description" content="${metadata.description || 'A blog post by Mehrdad Zakershahrak'}">
+                    <meta property="og:type" content="article">
+                    <meta property="article:published_time" content="${metadata.date}">
+                    <meta property="article:author" content="Mehrdad Zakershahrak">
+                `;
                 
                 // Render the Markdown content
                 document.getElementById('post-content').innerHTML = marked(content);
