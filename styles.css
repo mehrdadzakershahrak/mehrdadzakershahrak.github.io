@@ -156,3 +156,25 @@ nav ul li a i {
         margin: 5px 10px;
     }
 }
+
+#latest-updates, #recent-posts {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#updates-list, #recent-posts-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#updates-list li, #recent-posts-list li {
+    margin-bottom: 0.5rem;
+}
+
+.post-date {
+    font-size: 0.9em;
+    color: #666;
+}

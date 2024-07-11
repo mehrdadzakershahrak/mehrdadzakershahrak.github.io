@@ -23,10 +23,87 @@
             <h2>About Me</h2>
             <p>I'm Mehrdad. Welcome to my webpage. I share a summary of my interests as a computer scientist and an RF Engineer</p>
         </section>
+
+        <section id="latest-updates">
+            <h2>Latest Updates</h2>
+            <ul id="updates-list">
+                <!-- Updates will be added here -->
+            </ul>
+        </section>
+
+        <section id="recent-posts">
+            <h2>Recent Blog Posts</h2>
+            <ul id="recent-posts-list">
+                <!-- Recent blog posts will be added here -->
+            </ul>
+        </section>
     </main>
 
     <footer>
         <p>&copy; 2024 Mehrdad Zakershahrak. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Function to extract metadata from Markdown content
+        function extractMetadata(markdown) {
+            const lines = markdown.split('\n');
+            let title = '', date = '';
+            for (let line of lines) {
+                if (line.startsWith('title:')) {
+                    title = line.split(':')[1].trim().replace(/"/g, '');
+                } else if (line.startsWith('date:')) {
+                    date = line.split(':')[1].trim();
+                }
+                if (title && date) break;
+            }
+            return { title, date };
+        }
+
+        // Function to load and display recent blog posts
+        function loadRecentPosts() {
+            const recentPostsList = document.getElementById('recent-posts-list');
+            const posts = [
+                'posts/2023-09-11-optimizing-pytorch-xla-performance.md',
+                'posts/2023-09-11-second.md'
+                // Add more post filenames here as you create them
+            ];
+
+            posts.slice(0, 3).forEach(post => {
+                fetch(post)
+                    .then(response => response.text())
+                    .then(markdown => {
+                        const { title, date } = extractMetadata(markdown);
+                        if (title && date) {
+                            const li = document.createElement('li');
+                            const postName = post.split('/').pop().replace('.md', '');
+                            li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${title}</a> <span class="post-date">(${date})</span>`;
+                            recentPostsList.appendChild(li);
+                        }
+                    });
+            });
+        }
+
+        // Function to add latest updates
+        function addLatestUpdates() {
+            const updatesList = document.getElementById('updates-list');
+            const updates = [
+                { date: '2024-03-15', text: 'Published a new paper on AI optimization techniques' },
+                { date: '2024-02-28', text: 'Gave a talk at the International Conference on Machine Learning' },
+                { date: '2024-01-10', text: 'Started a new research project on quantum computing applications' }
+            ];
+
+            updates.forEach(update => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${update.date}:</strong> ${update.text}`;
+                updatesList.appendChild(li);
+            });
+        }
+
+        // Load content when the page is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRecentPosts();
+            addLatestUpdates();
+        });
+    </script>
 </body>
 </html>
