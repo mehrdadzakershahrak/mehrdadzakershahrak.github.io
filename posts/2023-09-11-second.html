@@ -40,6 +40,9 @@
             const postName = '2023-09-11-second.md';
             try {
                 const response = await fetch(postName);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const markdown = await response.text();
                 const [, frontMatter, content] = markdown.split('---');
                 
@@ -58,7 +61,7 @@
                 document.getElementById('post-content').innerHTML = marked(content);
             } catch (error) {
                 console.error('Error loading blog post:', error);
-                document.getElementById('post-content').textContent = 'Error loading blog post.';
+                document.getElementById('post-content').textContent = `Error loading blog post: ${error.message}. Please check the console for more details.`;
             }
         }
 
