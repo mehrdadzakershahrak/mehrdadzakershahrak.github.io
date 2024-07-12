@@ -31,29 +31,42 @@
         async function loadBlogPosts() {
             const blogList = document.getElementById('blog-list');
             const posts = [
-                { file: 'posts/2024-03-15-pytorch-advanced-guide.md', html: 'posts/2024-03-15-pytorch-advanced-guide.html' },
-                { file: 'posts/2023-09-11-second.md', html: 'posts/2023-09-11-second.html' }
+                { id: '2024-03-15-pytorch-advanced-guide', file: 'posts/2024-03-15-pytorch-advanced-guide.md' },
+                { id: '2023-09-11-second', file: 'posts/2023-09-11-second.md' }
             ];
 
             for (const post of posts) {
                 try {
                     const response = await fetch(post.file);
                     const text = await response.text();
-                    let title, date;
-                    if (post.file.includes('2024-03-15')) {
-                        title = text.split('\n')[0].replace('# ', '');
-                        date = '2024-03-15';
-                    } else {
-                        title = text.match(/title:\s*"(.+)"/)[1];
-                        date = text.match(/date:\s*(\S+)/)[1];
-                    }
+                    const { title, date } = parseMarkdown(text);
                     const li = document.createElement('li');
-                    li.innerHTML = `<a href="${post.html}">${title}</a> <span class="post-date">(${date})</span>`;
+                    li.innerHTML = `<a href="post-template.html?post=${post.id}">${title}</a> <span class="post-date">(${date})</span>`;
                     blogList.appendChild(li);
                 } catch (error) {
                     console.error(`Error loading ${post.file}:`, error);
                 }
             }
+        }
+
+        function parseMarkdown(markdown) {
+            const lines = markdown.split('\n');
+            let title = '', date = '';
+            let inFrontMatter = false;
+            
+            for (const line of lines) {
+                if (line.trim() === '---') {
+                    inFrontMatter = !inFrontMatter;
+                    continue;
+                }
+                if (inFrontMatter) {
+                    if (line.startsWith('title:')) title = line.split(':')[1].trim().replace(/"/g, '');
+                    if (line.startsWith('date:')) date = line.split(':')[1].trim();
+                }
+                if (title && date) break;
+            }
+            
+            return { title, date };
         }
 
         document.addEventListener('DOMContentLoaded', loadBlogPosts);
