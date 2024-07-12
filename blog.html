@@ -28,34 +28,25 @@
     </footer>
 
     <script>
-        async function fetchMarkdownFiles() {
-            const response = await fetch('posts/');
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
-            const links = Array.from(doc.querySelectorAll('a'));
-            return links
-                .map(link => link.href)
-                .filter(href => href.endsWith('.md'))
-                .map(href => href.split('/').pop());
-        }
-
         async function loadBlogPosts() {
             const blogList = document.getElementById('blog-list');
-            try {
-                const posts = await fetchMarkdownFiles();
-                for (const post of posts) {
-                    const response = await fetch(`posts/${post}`);
-                    const markdown = await response.text();
-                    const title = markdown.match(/title:\s*"(.+)"/)[1];
-                    const date = markdown.match(/date:\s*(\S+)/)[1];
+            const posts = [
+                'posts/2024-03-15-pytorch-advanced-guide.md',
+                'posts/2023-09-11-second.md'
+            ];
+
+            for (const post of posts) {
+                try {
+                    const response = await fetch(post);
+                    const text = await response.text();
+                    const title = text.match(/title:\s*"(.+)"/)[1];
+                    const date = text.match(/date:\s*(\S+)/)[1];
                     const li = document.createElement('li');
-                    li.innerHTML = `<a href="posts/post-template.html?post=${post}">${title}</a> <span class="post-date">(${date})</span>`;
+                    li.innerHTML = `<a href="posts/${post.split('/').pop().replace('.md', '.html')}">${title}</a> <span class="post-date">(${date})</span>`;
                     blogList.appendChild(li);
+                } catch (error) {
+                    console.error(`Error loading ${post}:`, error);
                 }
-            } catch (error) {
-                console.error('Error loading blog posts:', error);
-                blogList.innerHTML = '<li>Error loading blog posts.</li>';
             }
         }
 

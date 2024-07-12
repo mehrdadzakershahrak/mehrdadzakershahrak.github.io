@@ -3,45 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Post - Your Name</title>
+    <title>Blog Post - Mehrdad Zakershahrak</title>
     <link rel="stylesheet" href="../styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
-    <header>
-        <h1>Your Name</h1>
+    <div>
+        <h1>Mehrdad Zakershahrak</h1>
         <nav>
             <ul>
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../blog.html">Blog</a></li>
+                <li><a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             </ul>
         </nav>
-    </header>
+    </div>
 
-    <main>
+    <main role="main">
         <article id="post-content">
             Loading...
         </article>
     </main>
 
     <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
+        <p>&copy; 2024 Mehrdad Zakershahrak. All rights reserved.</p>
     </footer>
 
     <script>
-        // Fetch and render the Markdown content
-        fetch('2023-09-11-optimizing-pytorch-xla-performance.md')
-            .then(response => response.text())
-            .then(markdown => {
-                document.getElementById('post-content').innerHTML = marked(markdown);
-                // Set the page title to the first h1 in the markdown
-                const title = document.querySelector('h1').textContent;
-                document.title = `${title} - Your Name`;
-            })
-            .catch(error => {
+        async function loadBlogPost() {
+            const postName = window.location.pathname.split('/').pop().replace('.html', '.md');
+            try {
+                const response = await fetch(postName);
+                const markdown = await response.text();
+                const content = markdown.split('---')[2]; // Get content after front matter
+                document.getElementById('post-content').innerHTML = marked(content);
+                
+                // Set title
+                const title = markdown.match(/title:\s*"(.+)"/)[1];
+                document.title = `${title} - Mehrdad Zakershahrak`;
+            } catch (error) {
                 console.error('Error loading blog post:', error);
                 document.getElementById('post-content').textContent = 'Error loading blog post.';
-            });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadBlogPost);
     </script>
 </body>
 </html>
