@@ -53,25 +53,36 @@
             return metadata;
         }
 
-        function loadBlogPosts() {
+        async function loadBlogPosts() {
             const blogList = document.getElementById('blog-list');
             const posts = [
+                'posts/2024-03-15-pytorch-advanced-guide.md',
                 'posts/2023-09-11-optimizing-pytorch-xla-performance.md',
-                'posts/2024-03-15-pytorch-advanced-guide.md'
+                'posts/2023-09-11-second.md'  // Include the old post
                 // Add more post filenames here as you create them
             ];
 
-            posts.forEach(post => {
-                fetch(post)
-                    .then(response => response.text())
-                    .then(markdown => {
-                        const metadata = extractMetadata(markdown);
+            for (const post of posts) {
+                try {
+                    const response = await fetch(post);
+                    if (!response.ok) {
+                        console.error(`Failed to fetch ${post}: ${response.status} ${response.statusText}`);
+                        continue;  // Skip this post and move to the next one
+                    }
+                    const markdown = await response.text();
+                    const metadata = extractMetadata(markdown);
+                    if (metadata.title && metadata.date) {
                         const li = document.createElement('li');
                         const postName = post.split('/').pop().replace('.md', '');
                         li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${metadata.title}</a> <span class="post-date">(${metadata.date})</span>`;
                         blogList.appendChild(li);
-                    });
-            });
+                    } else {
+                        console.error(`Missing metadata in ${post}`);
+                    }
+                } catch (error) {
+                    console.error(`Error loading ${post}:`, error);
+                }
+            }
         }
 
         document.addEventListener('DOMContentLoaded', loadBlogPosts);
