@@ -1,44 +1,17 @@
-/* Import Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Lora:wght@400;700&display=swap');
-
-/* Color palette */
-:root {
-    --primary-color: #3498db;
-    --secondary-color: #2c3e50;
-    --background-color: #f4f4f4;
-    --text-color: #333;
-    --link-color: #2980b9;
-    --header-bg: #ffffff;
-}
-
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, sans-serif;
     line-height: 1.6;
-    color: var(--text-color);
+    color: #333;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    background-color: var(--background-color);
 }
 
 header {
-    background-color: var(--header-bg);
+    background-color: #f4f4f4;
     padding: 1rem;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    border-radius: 5px;
 }
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Lora', serif;
-    color: var(--secondary-color);
-    margin-top: 1.5em;
-    margin-bottom: 0.5em;
-}
-
-h1 { font-size: 2.5em; }
-h2 { font-size: 2em; }
-h3 { font-size: 1.5em; }
 
 nav ul {
     list-style-type: none;
@@ -47,134 +20,20 @@ nav ul {
 
 nav ul li {
     display: inline;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 nav ul li a {
     text-decoration: none;
-    color: var(--primary-color);
-    font-weight: bold;
-    transition: color 0.3s ease;
+    color: #333;
 }
 
-nav ul li a:hover {
-    color: var(--link-color);
-}
-
-main {
-    background-color: var(--header-bg);
-    padding: 2rem;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+h1, h2 {
+    color: #2c3e50;
 }
 
 footer {
     margin-top: 2rem;
     text-align: center;
-    font-size: 0.9rem;
-    color: var(--secondary-color);
-}
-
-/* Blog post styles */
-.post-date {
-    color: var(--secondary-color);
-    font-style: italic;
-    margin-bottom: 1em;
-}
-
-.post-content {
-    margin-top: 1rem;
-}
-
-.post-content img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin: 1em 0;
-}
-
-.post-content pre {
-    background-color: #f8f8f8;
-    padding: 1rem;
-    overflow-x: auto;
-    border-radius: 5px;
-    border: 1px solid #e0e0e0;
-}
-
-a {
-    color: var(--link-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: var(--primary-color);
-    text-decoration: underline;
-}
-
-/* Responsive design */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    header, main {
-        padding: 1rem;
-    }
-
-    h1 { font-size: 2em; }
-    h2 { font-size: 1.7em; }
-    h3 { font-size: 1.4em; }
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: var(--primary-color);
-    font-weight: bold;
-    transition: color 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-}
-
-nav ul li a:hover {
-    color: var(--link-color);
-}
-
-nav ul li a i {
-    margin-right: 5px;
-}
-
-/* Responsive design for navigation */
-@media (max-width: 600px) {
-    nav ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    nav ul li {
-        margin: 5px 10px;
-    }
-}
-
-#latest-updates, #recent-posts {
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-#updates-list, #recent-posts-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-#updates-list li, #recent-posts-list li {
-    margin-bottom: 0.5rem;
-}
-
-.post-date {
-    font-size: 0.9em;
-    color: #666;
+    font-size: 0.8rem;
 }
