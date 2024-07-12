@@ -110,3 +110,5 @@ compiled_model = torch.compile(
     dynamic=False,  # Disable support for dynamic shapes
     backend="inductor"  # Specify the compiler backend
 )
+```
+
