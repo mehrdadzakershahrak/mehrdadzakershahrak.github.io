@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mehrdad Zakershahrak - Personal Website</title>
+    <title>Mehrdad Zakershahrak - Blog</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,20 +19,8 @@
     </div>
 
     <main role="main">
-        <section id="about" class="section">
-            <h2>About Me</h2>
-            <p>I'm Mehrdad. Welcome to my webpage. I share a summary of my journey as a computer scientist and a systems engineer.</p>
-        </section>
-
-        <section id="latest-updates" class="section">
-            <h2>Latest Updates</h2>
-            <ul id="updates-list"></ul>
-        </section>
-
-        <section id="recent-posts" class="section">
-            <h2>Recent Blog Posts</h2>
-            <ul id="recent-posts-list"></ul>
-        </section>
+        <h2>Blog Posts</h2>
+        <ul id="blog-list"></ul>
     </main>
 
     <footer>
@@ -40,52 +28,48 @@
     </footer>
 
     <script>
-        async function loadRecentPosts() {
-            const recentPostsList = document.getElementById('recent-posts-list');
+        async function loadBlogPosts() {
+            const blogList = document.getElementById('blog-list');
             const posts = [
-                { file: 'posts/2024-03-15-pytorch-advanced-guide.md', html: 'posts/2024-03-15-pytorch-advanced-guide.html' },
-                { file: 'posts/2023-09-11-second.md', html: 'posts/2023-09-11-second.html' }
+                { id: '2024-03-15-pytorch-advanced-guide', file: 'posts/2024-03-15-pytorch-advanced-guide.md' },
+                { id: '2023-09-11-second', file: 'posts/2023-09-11-second.md' }
             ];
 
             for (const post of posts) {
                 try {
                     const response = await fetch(post.file);
                     const text = await response.text();
-                    let title, date;
-                    if (post.file.includes('2024-03-15')) {
-                        title = text.split('\n')[0].replace('# ', '');
-                        date = '2024-03-15';
-                    } else {
-                        title = text.match(/title:\s*"(.+)"/)[1];
-                        date = text.match(/date:\s*(\S+)/)[1];
-                    }
+                    const { title, date } = parseMarkdown(text);
                     const li = document.createElement('li');
-                    li.innerHTML = `<a href="${post.html}">${title}</a> <span class="post-date">(${date})</span>`;
-                    recentPostsList.appendChild(li);
+                    li.innerHTML = `<a href="post-template.html?post=${post.id}">${title}</a> <span class="post-date">(${date})</span>`;
+                    blogList.appendChild(li);
                 } catch (error) {
                     console.error(`Error loading ${post.file}:`, error);
                 }
             }
         }
 
-        function addLatestUpdates() {
-            const updatesList = document.getElementById('updates-list');
-            const updates = [
-                { date: '2024-03-15', text: 'Published a new blog post on PyTorch Advanced Guide' },
-                { date: '2023-09-11', text: 'Published a blog post on Optimizing PyTorch/XLA Performance' }
-            ];
-
-            updates.forEach(update => {
-                const li = document.createElement('li');
-                li.innerHTML = `<strong>${update.date}:</strong> ${update.text}`;
-                updatesList.appendChild(li);
-            });
+        function parseMarkdown(markdown) {
+            const lines = markdown.split('\n');
+            let title = '', date = '';
+            let inFrontMatter = false;
+            
+            for (const line of lines) {
+                if (line.trim() === '---') {
+                    inFrontMatter = !inFrontMatter;
+                    continue;
+                }
+                if (inFrontMatter) {
+                    if (line.startsWith('title:')) title = line.split(':')[1].trim().replace(/"/g, '');
+                    if (line.startsWith('date:')) date = line.split(':')[1].trim();
+                }
+                if (title && date) break;
+            }
+            
+            return { title, date };
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            loadRecentPosts();
-            addLatestUpdates();
-        });
+        document.addEventListener('DOMContentLoaded', loadBlogPosts);
     </script>
 </body>
 </html>
