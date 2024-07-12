@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
+    <div>
         <h1>Mehrdad Zakershahrak</h1>
         <nav>
             <ul>
@@ -16,13 +16,11 @@
                 <li><a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             </ul>
         </nav>
-    </header>
+    </div>
 
-    <main>
+    <main role="main">
         <h2>Blog Posts</h2>
-        <ul id="blog-list">
-            <!-- Blog posts will be dynamically inserted here -->
-        </ul>
+        <ul id="blog-list"></ul>
     </main>
 
     <footer>
@@ -36,11 +34,7 @@
             let inMetadata = false;
             for (let i = 0; i < lines.length; i++) {
                 if (lines[i].trim() === '---') {
-                    if (!inMetadata) {
-                        inMetadata = true;
-                    } else {
-                        break;
-                    }
+                    inMetadata = !inMetadata;
                     continue;
                 }
                 if (inMetadata) {
@@ -57,18 +51,13 @@
             const blogList = document.getElementById('blog-list');
             const posts = [
                 'posts/2024-03-15-pytorch-advanced-guide.md',
-                'posts/2023-09-11-optimizing-pytorch-xla-performance.md',
-                'posts/2023-09-11-second.md'  // Include the old post
-                // Add more post filenames here as you create them
+                'posts/2023-09-11-second.md'
             ];
 
             for (const post of posts) {
                 try {
                     const response = await fetch(post);
-                    if (!response.ok) {
-                        console.error(`Failed to fetch ${post}: ${response.status} ${response.statusText}`);
-                        continue;  // Skip this post and move to the next one
-                    }
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     const markdown = await response.text();
                     const metadata = extractMetadata(markdown);
                     if (metadata.title && metadata.date) {
@@ -76,8 +65,6 @@
                         const postName = post.split('/').pop().replace('.md', '');
                         li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${metadata.title}</a> <span class="post-date">(${metadata.date})</span>`;
                         blogList.appendChild(li);
-                    } else {
-                        console.error(`Missing metadata in ${post}`);
                     }
                 } catch (error) {
                     console.error(`Error loading ${post}:`, error);
