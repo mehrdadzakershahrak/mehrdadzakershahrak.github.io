@@ -30,28 +30,34 @@
     </footer>
 
     <script>
-        // Function to extract metadata from Markdown content
         function extractMetadata(markdown) {
             const lines = markdown.split('\n');
-            let title = '', date = '';
-            for (let line of lines) {
-                if (line.startsWith('title:')) {
-                    title = line.split(':')[1].trim().replace(/"/g, '');
-                } else if (line.startsWith('date:')) {
-                    date = line.split(':')[1].trim();
+            let metadata = {};
+            let inMetadata = false;
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].trim() === '---') {
+                    if (!inMetadata) {
+                        inMetadata = true;
+                    } else {
+                        break;
+                    }
+                    continue;
                 }
-                if (title && date) break;
+                if (inMetadata) {
+                    const [key, ...value] = lines[i].split(':');
+                    if (key && value.length) {
+                        metadata[key.trim()] = value.join(':').trim().replace(/^"(.*)"$/, '$1');
+                    }
+                }
             }
-            return { title, date };
+            return metadata;
         }
 
-        // Function to load and display blog posts
         function loadBlogPosts() {
             const blogList = document.getElementById('blog-list');
             const posts = [
                 'posts/2023-09-11-optimizing-pytorch-xla-performance.md',
-                'posts/2023-09-11-second.md',
-                'posts/2024-03-15-pytorch-advanced-guide.md',
+                'posts/2024-03-15-pytorch-advanced-guide.md'
                 // Add more post filenames here as you create them
             ];
 
@@ -59,18 +65,15 @@
                 fetch(post)
                     .then(response => response.text())
                     .then(markdown => {
-                        const { title, date } = extractMetadata(markdown);
-                        if (title && date) {  // Only add if title and date are found
-                            const li = document.createElement('li');
-                            const postName = post.split('/').pop().replace('.md', '');
-                            li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${title}</a> <span class="post-date">(${date})</span>`;
-                            blogList.appendChild(li);
-                        }
+                        const metadata = extractMetadata(markdown);
+                        const li = document.createElement('li');
+                        const postName = post.split('/').pop().replace('.md', '');
+                        li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${metadata.title}</a> <span class="post-date">(${metadata.date})</span>`;
+                        blogList.appendChild(li);
                     });
             });
         }
 
-        // Load blog posts when the page is ready
         document.addEventListener('DOMContentLoaded', loadBlogPosts);
     </script>
 </body>
