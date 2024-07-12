@@ -34,47 +34,27 @@
     </footer>
 
     <script>
-        function extractMetadata(markdown) {
-            const lines = markdown.split('\n');
-            let metadata = {};
-            let inMetadata = false;
-            let contentStart = 0;
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].trim() === '---') {
-                    if (!inMetadata) {
-                        inMetadata = true;
-                    } else {
-                        contentStart = i + 1;
-                        break;
-                    }
-                    continue;
-                }
-                if (inMetadata) {
-                    const [key, ...value] = lines[i].split(':');
-                    if (key && value.length) {
-                        metadata[key.trim()] = value.join(':').trim().replace(/^"(.*)"$/, '$1');
-                    }
-                }
-            }
-            return { metadata, content: lines.slice(contentStart).join('\n') };
-        }
-
         async function loadBlogPost() {
             const urlParams = new URLSearchParams(window.location.search);
             const postName = urlParams.get('post');
             
             try {
-                const response = await fetch(`${postName}.md`);
+                const response = await fetch(postName);
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const markdown = await response.text();
-                const { metadata, content } = extractMetadata(markdown);
                 
-                document.title = `${metadata.title} - Mehrdad Zakershahrak`;
-                document.getElementById('post-title').textContent = metadata.title;
-                document.getElementById('post-date').textContent = `Posted on: ${metadata.date}`;
-                document.getElementById('post-author').textContent = `Author: ${metadata.author || 'Mehrdad Zakershahrak'}`;
-                document.getElementById('post-categories').textContent = `Categories: ${metadata.categories || ''}`;
+                const title = markdown.match(/title:\s*"(.+)"/)[1];
+                const date = markdown.match(/date:\s*(\S+)/)[1];
+                const author = markdown.match(/author:\s*(.+)/)[1];
+                const categories = markdown.match(/categories:\s*\[(.+)\]/)[1];
                 
+                document.title = `${title} - Mehrdad Zakershahrak`;
+                document.getElementById('post-title').textContent = title;
+                document.getElementById('post-date').textContent = `Posted on: ${date}`;
+                document.getElementById('post-author').textContent = `Author: ${author}`;
+                document.getElementById('post-categories').textContent = `Categories: ${categories}`;
+                
+                const content = markdown.split('---').slice(2).join('---').trim();
                 document.getElementById('post-content').innerHTML = marked(content);
             } catch (error) {
                 console.error('Error loading blog post:', error);

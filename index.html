@@ -40,47 +40,34 @@
     </footer>
 
     <script>
-        function extractMetadata(markdown) {
-            const lines = markdown.split('\n');
-            let metadata = {};
-            let inMetadata = false;
-            for (let i = 0; i < lines.length; i++) {
-                if (lines[i].trim() === '---') {
-                    inMetadata = !inMetadata;
-                    continue;
-                }
-                if (inMetadata) {
-                    const [key, ...value] = lines[i].split(':');
-                    if (key && value.length) {
-                        metadata[key.trim()] = value.join(':').trim().replace(/^"(.*)"$/, '$1');
-                    }
-                }
-            }
-            return metadata;
+        async function fetchMarkdownFiles() {
+            const response = await fetch('posts/');
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const links = Array.from(doc.querySelectorAll('a'));
+            return links
+                .map(link => link.href)
+                .filter(href => href.endsWith('.md'))
+                .map(href => href.split('/').pop());
         }
 
         async function loadRecentPosts() {
             const recentPostsList = document.getElementById('recent-posts-list');
-            const posts = [
-                'posts/2024-03-15-pytorch-advanced-guide.md',
-                'posts/2023-09-11-second.md'
-            ];
-
-            for (const post of posts) {
-                try {
-                    const response = await fetch(post);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            try {
+                const posts = await fetchMarkdownFiles();
+                for (const post of posts.slice(0, 3)) {
+                    const response = await fetch(`posts/${post}`);
                     const markdown = await response.text();
-                    const metadata = extractMetadata(markdown);
-                    if (metadata.title && metadata.date) {
-                        const li = document.createElement('li');
-                        const postName = post.split('/').pop().replace('.md', '');
-                        li.innerHTML = `<a href="posts/post-template.html?post=${postName}">${metadata.title}</a> <span class="post-date">(${metadata.date})</span>`;
-                        recentPostsList.appendChild(li);
-                    }
-                } catch (error) {
-                    console.error(`Error loading ${post}:`, error);
+                    const title = markdown.match(/title:\s*"(.+)"/)[1];
+                    const date = markdown.match(/date:\s*(\S+)/)[1];
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="posts/post-template.html?post=${post}">${title}</a> <span class="post-date">(${date})</span>`;
+                    recentPostsList.appendChild(li);
                 }
+            } catch (error) {
+                console.error('Error loading recent posts:', error);
+                recentPostsList.innerHTML = '<li>Error loading recent posts.</li>';
             }
         }
 
