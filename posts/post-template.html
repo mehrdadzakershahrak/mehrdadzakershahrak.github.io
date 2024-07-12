@@ -42,11 +42,8 @@
 
             try {
                 const response = await fetch(`/posts/${postId}.md`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const markdown = await response.text();
-                
                 const { title, date, author, categories, content } = parseMarkdown(markdown);
                 
                 document.title = `${title} - Mehrdad Zakershahrak`;
