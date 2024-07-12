@@ -43,21 +43,21 @@
         async function loadRecentPosts() {
             const recentPostsList = document.getElementById('recent-posts-list');
             const posts = [
-                'posts/2024-03-15-pytorch-advanced-guide.md',
-                'posts/2023-09-11-second.md'
+                { file: 'posts/2024-03-15-pytorch-advanced-guide.md', html: 'posts/2024-03-15-pytorch-advanced-guide.html' },
+                { file: 'posts/2023-09-11-second.md', html: 'posts/2023-09-11-second.html' }
             ];
 
             for (const post of posts) {
                 try {
-                    const response = await fetch(post);
+                    const response = await fetch(post.file);
                     const text = await response.text();
                     const title = text.match(/title:\s*"(.+)"/)[1];
                     const date = text.match(/date:\s*(\S+)/)[1];
                     const li = document.createElement('li');
-                    li.innerHTML = `<a href="posts/${post.split('/').pop().replace('.md', '.html')}">${title}</a> <span class="post-date">(${date})</span>`;
+                    li.innerHTML = `<a href="${post.html}">${title}</a> <span class="post-date">(${date})</span>`;
                     recentPostsList.appendChild(li);
                 } catch (error) {
-                    console.error(`Error loading ${post}:`, error);
+                    console.error(`Error loading ${post.file}:`, error);
                 }
             }
         }
