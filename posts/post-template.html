@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Post - Mehrdad Zakershahrak</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -12,21 +12,19 @@
         <h1>Mehrdad Zakershahrak</h1>
         <nav>
             <ul>
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../blog.html">Blog</a></li>
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="/blog.html">Blog</a></li>
                 <li><a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en" target="_blank" rel="noopener noreferrer">Google Scholar</a></li>
             </ul>
         </nav>
     </div>
 
     <main role="main">
-        <h1 id="post-title">Loading...</h1>
-        <div class="post-metadata">
-            <p id="post-date" class="post-date"></p>
-            <p id="post-author" class="post-author"></p>
-            <p id="post-categories" class="post-categories"></p>
-        </div>
-        <div id="post-content" class="post-content">Loading content...</div>
+        <article>
+            <h1 id="post-title">Loading...</h1>
+            <div class="post-metadata"></div>
+            <div id="post-content">Loading content...</div>
+        </article>
     </main>
 
     <footer>
@@ -36,30 +34,61 @@
     <script>
         async function loadBlogPost() {
             const urlParams = new URLSearchParams(window.location.search);
-            const postName = urlParams.get('post');
-            
+            const postId = urlParams.get('post');
+            if (!postId) {
+                displayError('No post specified');
+                return;
+            }
+
             try {
-                const response = await fetch(postName);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const response = await fetch(`/posts/${postId}.md`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 const markdown = await response.text();
                 
-                const title = markdown.match(/title:\s*"(.+)"/)[1];
-                const date = markdown.match(/date:\s*(\S+)/)[1];
-                const author = markdown.match(/author:\s*(.+)/)[1];
-                const categories = markdown.match(/categories:\s*\[(.+)\]/)[1];
+                const { title, date, author, categories, content } = parseMarkdown(markdown);
                 
                 document.title = `${title} - Mehrdad Zakershahrak`;
                 document.getElementById('post-title').textContent = title;
-                document.getElementById('post-date').textContent = `Posted on: ${date}`;
-                document.getElementById('post-author').textContent = `Author: ${author}`;
-                document.getElementById('post-categories').textContent = `Categories: ${categories}`;
-                
-                const content = markdown.split('---').slice(2).join('---').trim();
+                document.querySelector('.post-metadata').innerHTML = `
+                    <p>Posted on: ${date}</p>
+                    <p>Author: ${author}</p>
+                    <p>Categories: ${categories}</p>
+                `;
                 document.getElementById('post-content').innerHTML = marked(content);
             } catch (error) {
                 console.error('Error loading blog post:', error);
-                document.getElementById('post-content').textContent = 'Error loading blog post.';
+                displayError(`Error loading blog post: ${error.message}`);
             }
+        }
+
+        function parseMarkdown(markdown) {
+            const lines = markdown.split('\n');
+            let title = '', date = '', author = '', categories = '', content = '';
+            let inFrontMatter = false;
+            
+            for (const line of lines) {
+                if (line.trim() === '---') {
+                    inFrontMatter = !inFrontMatter;
+                    continue;
+                }
+                if (inFrontMatter) {
+                    if (line.startsWith('title:')) title = line.split(':')[1].trim().replace(/"/g, '');
+                    if (line.startsWith('date:')) date = line.split(':')[1].trim();
+                    if (line.startsWith('author:')) author = line.split(':')[1].trim();
+                    if (line.startsWith('categories:')) categories = line.split(':')[1].trim().replace(/[\[\]]/g, '');
+                } else {
+                    content += line + '\n';
+                }
+            }
+            
+            return { title, date, author, categories, content: content.trim() };
+        }
+
+        function displayError(message) {
+            document.getElementById('post-title').textContent = 'Error';
+            document.getElementById('post-content').innerHTML = `<p>${message}</p>`;
         }
 
         document.addEventListener('DOMContentLoaded', loadBlogPost);
