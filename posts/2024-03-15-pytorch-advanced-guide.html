@@ -22,11 +22,7 @@
     <main role="main">
         <article>
             <h1 id="post-title">Loading...</h1>
-            <div class="post-metadata">
-                <p id="post-date"></p>
-                <p id="post-author"></p>
-                <p id="post-categories"></p>
-            </div>
+            <div class="post-metadata"></div>
             <div id="post-content">Loading content...</div>
         </article>
     </main>
@@ -37,30 +33,25 @@
 
     <script>
         async function loadBlogPost() {
-            const postName = '2024-03-15-pytorch-advanced-guide.md';
             try {
-                const response = await fetch(postName);
+                const response = await fetch('2024-03-15-pytorch-advanced-guide.md');
                 const markdown = await response.text();
                 
-                // Parse front matter (if exists)
-                let content = markdown;
-                let title = '';
-                if (markdown.startsWith('# ')) {
-                    const lines = markdown.split('\n');
-                    title = lines[0].substring(2);
-                    content = lines.slice(1).join('\n');
-                }
+                const lines = markdown.split('\n');
+                const title = lines[0].replace('# ', '');
+                const content = lines.slice(1).join('\n');
                 
-                // Update page content
                 document.title = `${title} - Mehrdad Zakershahrak`;
                 document.getElementById('post-title').textContent = title;
-                document.getElementById('post-date').textContent = `Posted on: 2024-03-15`;
-                document.getElementById('post-author').textContent = `Author: Mehrdad Zakershahrak`;
-                document.getElementById('post-categories').textContent = `Categories: PyTorch, Deep Learning, Optimization, AOT Compilation`;
+                document.querySelector('.post-metadata').innerHTML = `
+                    <p>Posted on: 2024-03-15</p>
+                    <p>Author: Mehrdad Zakershahrak</p>
+                    <p>Categories: PyTorch, Deep Learning, Optimization, AOT Compilation</p>
+                `;
                 document.getElementById('post-content').innerHTML = marked(content);
             } catch (error) {
                 console.error('Error loading blog post:', error);
-                document.getElementById('post-content').textContent = 'Error loading blog post.';
+                document.getElementById('post-content').textContent = 'Error loading blog post. Please try again later.';
             }
         }
 

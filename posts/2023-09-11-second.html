@@ -22,11 +22,7 @@
     <main role="main">
         <article>
             <h1 id="post-title">Loading...</h1>
-            <div class="post-metadata">
-                <p id="post-date"></p>
-                <p id="post-author"></p>
-                <p id="post-categories"></p>
-            </div>
+            <div class="post-metadata"></div>
             <div id="post-content">Loading content...</div>
         </article>
     </main>
@@ -37,31 +33,27 @@
 
     <script>
         async function loadBlogPost() {
-            const postName = '2023-09-11-second.md';
             try {
-                const response = await fetch(postName);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                const response = await fetch('2023-09-11-second.md');
                 const markdown = await response.text();
                 const [, frontMatter, content] = markdown.split('---');
                 
-                // Parse front matter
                 const title = frontMatter.match(/title:\s*"(.+)"/)[1];
                 const date = frontMatter.match(/date:\s*(\S+)/)[1];
                 const author = frontMatter.match(/author:\s*(.+)/)[1];
                 const categories = frontMatter.match(/categories:\s*\[(.+)\]/)[1];
                 
-                // Update page content
                 document.title = `${title} - Mehrdad Zakershahrak`;
                 document.getElementById('post-title').textContent = title;
-                document.getElementById('post-date').textContent = `Posted on: ${date}`;
-                document.getElementById('post-author').textContent = `Author: ${author}`;
-                document.getElementById('post-categories').textContent = `Categories: ${categories}`;
+                document.querySelector('.post-metadata').innerHTML = `
+                    <p>Posted on: ${date}</p>
+                    <p>Author: ${author}</p>
+                    <p>Categories: ${categories}</p>
+                `;
                 document.getElementById('post-content').innerHTML = marked(content);
             } catch (error) {
                 console.error('Error loading blog post:', error);
-                document.getElementById('post-content').textContent = `Error loading blog post: ${error.message}. Please check the console for more details.`;
+                document.getElementById('post-content').textContent = 'Error loading blog post. Please try again later.';
             }
         }
 

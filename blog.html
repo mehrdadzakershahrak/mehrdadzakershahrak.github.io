@@ -39,8 +39,14 @@
                 try {
                     const response = await fetch(post.file);
                     const text = await response.text();
-                    const title = text.match(/title:\s*"(.+)"/)[1];
-                    const date = text.match(/date:\s*(\S+)/)[1];
+                    let title, date;
+                    if (post.file.includes('2024-03-15')) {
+                        title = text.split('\n')[0].replace('# ', '');
+                        date = '2024-03-15';
+                    } else {
+                        title = text.match(/title:\s*"(.+)"/)[1];
+                        date = text.match(/date:\s*(\S+)/)[1];
+                    }
                     const li = document.createElement('li');
                     li.innerHTML = `<a href="${post.html}">${title}</a> <span class="post-date">(${date})</span>`;
                     blogList.appendChild(li);
