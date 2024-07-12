@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyTorch Advanced Guide: torch.compile() and AOT Compilation - Mehrdad Zakershahrak</title>
+    <title>Blog Post - Mehrdad Zakershahrak</title>
     <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <div>
@@ -20,22 +21,50 @@
 
     <main role="main">
         <article>
-            <h1>PyTorch Advanced Guide: torch.compile() and AOT Compilation</h1>
+            <h1 id="post-title">Loading...</h1>
             <div class="post-metadata">
-                <p class="post-date">Posted on: 2024-03-15</p>
-                <p class="post-author">Author: Mehrdad Zakershahrak</p>
-                <p class="post-categories">Categories: PyTorch, Deep Learning, Optimization, AOT Compilation</p>
+                <p id="post-date"></p>
+                <p id="post-author"></p>
+                <p id="post-categories"></p>
             </div>
-            <div class="post-content">
-                <h2>Introduction to torch.compile()</h2>
-                <p>PyTorch's `torch.compile()` is a powerful feature that leverages Ahead-of-Time (AOT) compilation to optimize deep learning models. As systems engineers and deep learning researchers, understanding the intricacies of this compilation process is crucial for maximizing performance and efficiency in our models.</p>
-                <!-- Add the rest of your blog post content here -->
-            </div>
+            <div id="post-content">Loading content...</div>
         </article>
     </main>
 
     <footer>
         <p>&copy; 2024 Mehrdad Zakershahrak. All rights reserved.</p>
     </footer>
+
+    <script>
+        async function loadBlogPost() {
+            const postName = '2024-03-15-pytorch-advanced-guide.md';
+            try {
+                const response = await fetch(postName);
+                const markdown = await response.text();
+                
+                // Parse front matter (if exists)
+                let content = markdown;
+                let title = '';
+                if (markdown.startsWith('# ')) {
+                    const lines = markdown.split('\n');
+                    title = lines[0].substring(2);
+                    content = lines.slice(1).join('\n');
+                }
+                
+                // Update page content
+                document.title = `${title} - Mehrdad Zakershahrak`;
+                document.getElementById('post-title').textContent = title;
+                document.getElementById('post-date').textContent = `Posted on: 2024-03-15`;
+                document.getElementById('post-author').textContent = `Author: Mehrdad Zakershahrak`;
+                document.getElementById('post-categories').textContent = `Categories: PyTorch, Deep Learning, Optimization, AOT Compilation`;
+                document.getElementById('post-content').innerHTML = marked(content);
+            } catch (error) {
+                console.error('Error loading blog post:', error);
+                document.getElementById('post-content').textContent = 'Error loading blog post.';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadBlogPost);
+    </script>
 </body>
 </html>

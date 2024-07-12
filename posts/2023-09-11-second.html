@@ -20,8 +20,14 @@
     </div>
 
     <main role="main">
-        <article id="post-content">
-            Loading...
+        <article>
+            <h1 id="post-title">Loading...</h1>
+            <div class="post-metadata">
+                <p id="post-date"></p>
+                <p id="post-author"></p>
+                <p id="post-categories"></p>
+            </div>
+            <div id="post-content">Loading content...</div>
         </article>
     </main>
 
@@ -31,16 +37,25 @@
 
     <script>
         async function loadBlogPost() {
-            const postName = window.location.pathname.split('/').pop().replace('.html', '.md');
+            const postName = '2023-09-11-second.md';
             try {
                 const response = await fetch(postName);
                 const markdown = await response.text();
-                const content = markdown.split('---')[2]; // Get content after front matter
-                document.getElementById('post-content').innerHTML = marked(content);
+                const [, frontMatter, content] = markdown.split('---');
                 
-                // Set title
-                const title = markdown.match(/title:\s*"(.+)"/)[1];
+                // Parse front matter
+                const title = frontMatter.match(/title:\s*"(.+)"/)[1];
+                const date = frontMatter.match(/date:\s*(\S+)/)[1];
+                const author = frontMatter.match(/author:\s*(.+)/)[1];
+                const categories = frontMatter.match(/categories:\s*\[(.+)\]/)[1];
+                
+                // Update page content
                 document.title = `${title} - Mehrdad Zakershahrak`;
+                document.getElementById('post-title').textContent = title;
+                document.getElementById('post-date').textContent = `Posted on: ${date}`;
+                document.getElementById('post-author').textContent = `Author: ${author}`;
+                document.getElementById('post-categories').textContent = `Categories: ${categories}`;
+                document.getElementById('post-content').innerHTML = marked(content);
             } catch (error) {
                 console.error('Error loading blog post:', error);
                 document.getElementById('post-content').textContent = 'Error loading blog post.';
