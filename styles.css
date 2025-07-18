@@ -41,7 +41,7 @@ footer {
 /* Media object layout for Projects page */
 .media {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 1.5rem;
 }
 .media-image {
