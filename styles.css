@@ -63,3 +63,10 @@ footer {
     display: block;
     margin: 0 auto 1.5rem;
 }
+
+/* Grid layout for two-column media lists */
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
