@@ -57,6 +57,21 @@ footer {
     margin-bottom: 0.5rem;
 }
 
+/* Category tags for project media */
+.tag {
+    display: inline-block;
+    padding: 0.2em 0.6em;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 0.25em;
+    margin-left: 0.5em;
+}
+.tag.robotics { background-color: #007bff; }
+.tag.human-ai { background-color: #28a745; }
+.tag.hardware { background-color: #fd7e14; }
+.tag.devops { background-color: #6f42c1; }
+
 .about-photo {
     max-width: 400px;
     border-radius: 50%;
