@@ -1,15 +1,108 @@
 ---
-layout: null
+layout: single
+title: "Mehrdad Zaker"
 permalink: /
+classes: wide home-page
 ---
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="refresh" content="0;url={{ '/about/' | relative_url }}" />
-  <link rel="canonical" href="{{ '/about/' | relative_url }}" />
-</head>
-<body>
-  <p>If you are not redirected automatically, follow <a href="{{ '/about/' | relative_url }}">this link</a>.</p>
-</body>
-</html>
+<section class="mdz-band mdz-band--carousel">
+  <div class="mdz-band__inner mdz-band__inner--top">
+    {% include home_thumbnails.html mode="carousel" autoplay_ms=3000 %}
+  </div>
+</section>
+
+<section class="mdz-band mdz-band--content">
+  <div class="mdz-band__inner">
+    <h2>Featured content</h2>
+    <p class="mdz-muted">Curated links, embeds, and highlights from around the web.</p>
+    {% include home_feed.html %}
+  </div>
+</section>
+
+<section class="mdz-band mdz-band--demos">
+  <div class="mdz-band__inner">
+    <h2>Featured demos</h2>
+    <div class="mdz-card-grid">
+      <div class="mdz-card">
+        <h3 class="mdz-card__title"><a href="{{ '/industry-ai/legal/' | relative_url }}">Legal AI</a></h3>
+        <p class="mdz-card__desc">Drafting, summarization, and contract Q&amp;A workflows (demo).</p>
+        <a class="btn btn--small mdz-cta" href="{{ '/industry-ai/legal/' | relative_url }}">Try it</a>
+      </div>
+      <div class="mdz-card">
+        <h3 class="mdz-card__title"><a href="{{ '/industry-ai/finance/' | relative_url }}">Finance AI</a></h3>
+        <p class="mdz-card__desc">Financial analysis helpers and narrative summaries (demo).</p>
+        <a class="btn btn--small mdz-cta" href="{{ '/industry-ai/finance/' | relative_url }}">Try it</a>
+      </div>
+      <div class="mdz-card">
+        <h3 class="mdz-card__title"><a href="{{ '/industry-ai/real-estate/' | relative_url }}">Real Estate AI</a></h3>
+        <p class="mdz-card__desc">Listing intelligence, comps reasoning, and deal memos (demo).</p>
+        <a class="btn btn--small mdz-cta" href="{{ '/industry-ai/real-estate/' | relative_url }}">Try it</a>
+      </div>
+    </div>
+    <div class="mdz-demos-cta">
+      <a class="btn btn--primary mdz-cta" href="{{ '/ai-robotics-solutions/' | relative_url }}">Explore Demos</a>
+    </div>
+  </div>
+</section>
+
+<div class="mdz-horizontal-stack mdz-horizontal-stack--bleed mdz-horizontal-stack--search">
+  <div class="mdz-horizontal-stack__inner">
+    <section class="mdz-search-promo" aria-labelledby="home-search-title">
+      <div class="mdz-search-promo__copy">
+        <h2 id="home-search-title">Looking for something specific?</h2>
+        <p>Search the full Mehrdad Zaker site library across demos, articles, pages, and resources.</p>
+      </div>
+
+      <form class="mdz-search-promo__form" action="{{ '/search/' | relative_url }}" method="get" role="search">
+        <label class="sr-only" for="home-search-input">Search the site</label>
+        <div class="mdz-search-promo__field">
+          <input
+            id="home-search-input"
+            class="mdz-search-promo__input"
+            type="search"
+            name="q"
+            placeholder="What are you looking for?"
+            autocomplete="off"
+          >
+          <button class="mdz-search-promo__submit" type="submit" aria-label="Search the site">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="11" cy="11" r="6.5"></circle>
+              <path d="M16 16L21 21"></path>
+            </svg>
+            <span>Search</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+
+<div class="mdz-horizontal-stack mdz-horizontal-stack--bleed mdz-horizontal-stack--features">
+  <div class="mdz-horizontal-stack__inner">
+    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--about" href="{{ '/about/' | relative_url }}">
+      <div class="mdz-horizontal-card__body">
+        <h3>About</h3>
+        <p>Read the story behind Mehrdad Zaker's work on streamlined reasoning systems across AI, robotics, and production platforms.</p>
+        <span class="mdz-horizontal-card__cta mdz-cta">Read About</span>
+      </div>
+      <div class="mdz-horizontal-card__media" style="background-image:url('{{ '/assets/images/about-profile-2026.jpg' | relative_url }}');"></div>
+    </a>
+
+    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--book" href="{{ '/book/' | relative_url }}">
+      <div class="mdz-horizontal-card__body">
+        <h3>Book</h3>
+        <p>I am writing a practical guide for building secure, production-ready AI systems.</p>
+        <span class="mdz-horizontal-card__cta mdz-cta">View Book Page</span>
+      </div>
+      <div class="mdz-horizontal-card__media" style="background-image:url('{{ '/assets/images/project8.png' | relative_url }}');"></div>
+    </a>
+
+    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--reverse mdz-horizontal-card--newsletter" href="{{ '/newsletter/' | relative_url }}">
+      <div class="mdz-horizontal-card__media" style="background-image:url('{{ '/assets/images/1.jpg' | relative_url }}');"></div>
+      <div class="mdz-horizontal-card__body">
+        <h3>Newsletter</h3>
+        <p>Get updates on demos, releases, and practical AI deployment insights.</p>
+        <span class="mdz-horizontal-card__cta mdz-cta">Go to Newsletter</span>
+      </div>
+    </a>
+  </div>
+</div>

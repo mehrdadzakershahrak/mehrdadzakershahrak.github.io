@@ -1,85 +1,200 @@
 ---
-layout: default
+layout: single
 title: About
 permalink: /about/
+classes: wide about-page
 ---
-<section id="about">
-    <h2>About Me</h2>
-    <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Mehrdad Zakershahrak" class="about-photo">
-    <p>From the start of my career, I’ve been captivated by the dynamic relationship between humans and intelligent machines—an inspiration sparked by watching Star Wars and dreaming about droids like R2-D2. That early fascination led me into reinforcement learning, robotics, and secure computing, where I’ve spent over a decade embedding complex algorithms into real-world systems that deliver impact.</p>
-    <p>I thrive on the challenges of building resilient AI infrastructure that scales in demanding environments. Whether I’m tuning reinforcement learning models, architecting microservices for robotics, or designing agentic AI systems, I approach every problem with a blend of creativity and technical rigor.</p>
-    <p>Outside of work, my passions for amateur radio, chess, judo, and Brazilian jiu-jitsu keep me sharp and disciplined. These pursuits reinforce a strategic mindset and adaptability—qualities I bring into leadership, mentorship, and engineering.</p>
-    <p>I believe the best technology bridges theory and practice, pushing what machines can do while enhancing human potential. For me, AI isn’t just about training models; it’s about building systems that learn, evolve, and make a difference—just like the droids that inspired me as a kid.</p>
-</section>
+<noscript>
+  <style>
+    .mdz-about__content[hidden] {
+      display: block !important;
+    }
+  </style>
+</noscript>
 
-<!-- Categories sections similar to Projects page -->
-<section id="education">
-    <h2>Education</h2>
-    <div class="media">
-        <img src="{{ '/assets/images/education1.png' | relative_url }}" alt="Education 1" class="media-image">
-        <div class="media-body">
+<section class="mdz-about" data-mdz-about-page>
+  <section class="mdz-about__hero" aria-labelledby="about-hero-title">
+    <div class="mdz-about__hero-card">
+      <img
+        src="{{ '/assets/images/about-profile-2026.jpg' | relative_url }}"
+        alt="Mehrdad Zaker portrait outdoors"
+        class="mdz-about__hero-image"
+      >
+      <div class="mdz-about__hero-overlay">
+        <p class="mdz-about__hero-kicker">About</p>
+        <h1 id="about-hero-title" class="mdz-about__hero-title">
+          Get to know<br>
+          Dr. Mehrdad Zaker
+        </h1>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="mdz-about__hero-toggle"
+      data-mdz-about-toggle
+      aria-expanded="false"
+      aria-controls="about-content"
+      aria-label="Reveal about content"
+    >
+      <span class="mdz-about__hero-chevron" aria-hidden="true"></span>
+      <span class="mdz-about__hero-chevron" aria-hidden="true"></span>
+    </button>
+  </section>
+
+  <div id="about-content" class="mdz-about__content" data-mdz-about-content hidden>
+    <section class="mdz-about__panel mdz-about__panel--story">
+      <p>Mehrdad Zaker works at the point where AI stops being a concept and starts becoming a system people can actually use. His work sits across foundation models, robotics, decision systems, and secure infrastructure, but the thread running through it is simple: build reasoning systems that are streamlined, trustworthy, and genuinely helpful in the environments where decisions have consequences.</p>
+      <p>That makes him especially interesting to an audience trying to separate signal from noise in AI. He is not focused on novelty for its own sake, and he is not interested in shipping intelligence as a flashy layer on top of weak foundations. The emphasis is on systems that can reason clearly, fit real workflows, and improve over time. Whether the problem looks like search and recommendations, an agentic workflow, a robotics platform, or a production AI deployment, the question is the same: can this system hold up when it matters?</p>
+      <p>That perspective has been shaped by both research depth and production experience. As Founding AI Engineer at Neural Intelligence Labs, he has been helping shape the architecture and technical direction of automated reasoning platforms built on foundation models. Before that, at Grainger in Chicago, he led machine learning work on search, ranking, and recommendation systems at scale. Earlier roles involved building the engineering foundations for software platforms meant to last, which helps explain why his approach to AI is usually architectural before it is theatrical.</p>
+      <p>His academic background adds range without making the story feel scattered. Zaker holds a Ph.D. in Computer Science from Arizona State University, along with master's degrees in Computer Science and Information Technology and a bachelor's degree in Computer Engineering. Across that path, he developed a habit of thinking about intelligence as a whole system: the model, the data, the interface, the feedback loops, the evaluation framework, and the operational constraints all belong in the same conversation.</p>
+      <p>That systems view is visible in the span of his work. He has worked across LLMs, retrieval-augmented generation, agentic and multi-model AI systems, reinforcement learning, sequential decision-making, experimentation, platform design, model serving, and system health. His research has also moved comfortably between software and physical autonomy, including SLAM-based indoor navigation, ROS self-driving platforms, VR-operated robotic arms with deep-learning grasping, and multi-agent planning environments. There is also a practical inventive streak in the mix, including a U.S. patent application for an autonomous robotic vending machine system and authorship connected to a forthcoming Springer handbook on human-AI interaction.</p>
+      <p>For people arriving here through his demos, writing, or applied AI work, that is probably the clearest introduction: Mehrdad is a builder who thinks in full loops. He cares about how systems reason, how they fail, how they recover, and how they become useful enough to earn trust. Outside of engineering, martial arts, chess, santoor, and amateur radio seem to reinforce the same sensibility: precision, patience, and respect for systems that only reveal their depth when you stay with them.</p>
+    </section>
+
+    <div class="mdz-about__detail-grid">
+      <section class="mdz-about__panel" aria-labelledby="about-education-title">
+        <h2 id="about-education-title">Education</h2>
+        <div class="mdz-about__item-list">
+          <article class="mdz-about__item">
             <h3>Computer Science, Ph.D.</h3>
-            <p>Arizona State University</p>
+            <p>Arizona State University, 2016-2021</p>
+          </article>
+          <article class="mdz-about__item">
+            <h3>Computer Science, M.Sc.</h3>
+            <p>University of Nebraska-Lincoln, 2014-2016</p>
+          </article>
+          <article class="mdz-about__item">
+            <h3>Information Technology, M.Sc.</h3>
+            <p>K. N. Toosi University of Technology, 2010-2012</p>
+          </article>
+          <article class="mdz-about__item">
+            <h3>Computer Engineering, B.S.</h3>
+            <p>Pahlavi University, 2006-2010</p>
+          </article>
         </div>
-    </div>
-    <div class="media">
-        <img src="{{ '/assets/images/education2.png' | relative_url }}" alt="Education 2" class="media-image">
-        <div class="media-body">
-            <h3>Computer Science, MSc.</h3>
-            <p>University of Nebraska, Lincoln</p>
-        </div>
-    </div>
-    <!-- Add more media objects as needed -->
-</section>
+      </section>
 
-<section id="hobbies">
-    <h2>Life</h2>
-    <div class="media">
-        <img src="{{ '/assets/images/hobby1.png' | relative_url }}" alt="Hobby 1" class="media-image">
-        <div class="media-body">
+      <section class="mdz-about__panel" aria-labelledby="about-life-title">
+        <h2 id="about-life-title">Life</h2>
+        <div class="mdz-about__item-list">
+          <article class="mdz-about__item">
             <h3>Martial Arts</h3>
             <p>Judo black belt 有段者</p>
-        </div>
-    </div>
-    <div class="media">
-        <img src="{{ '/assets/images/hobby3.png' | relative_url }}" alt="Hobby 3" class="media-image">
-        <div class="media-body">
+          </article>
+          <article class="mdz-about__item">
             <h3>Santoor</h3>
             <p>Hammered dulcimer played using wooden mallets called mezrabs.</p>
-        </div>
-    </div>
-    <div class="media">
-        <img src="{{ '/assets/images/hobby2.png' | relative_url }}" alt="Hobby 2" class="media-image">
-        <div class="media-body">
+          </article>
+          <article class="mdz-about__item">
             <h3>Chess</h3>
             <p>ELO 1200</p>
-        </div>
-    </div>
-    <div class="media">
-        <img src="{{ '/assets/images/hobby4.png' | relative_url }}" alt="Hobby 4" class="media-image">
-        <div class="media-body">
+          </article>
+          <article class="mdz-about__item">
             <h3>Amateur Radio</h3>
             <p>General License</p>
+          </article>
         </div>
-    </div>
-    <!-- Add more media objects as needed -->
-</section>
+      </section>
 
-<section id="skills">
-    <h2>Skills</h2>
-    <div class="media">
-        <img src="{{ '/assets/images/skill1.png' | relative_url }}" alt="Skill 1" class="media-image">
-        <div class="media-body">
-            <h3>AI</h3>
-            <p>Deep Learning, Reinforcement Learning, Planning</p>
+      <section class="mdz-about__panel" aria-labelledby="about-skills-title">
+        <h2 id="about-skills-title">Skills</h2>
+        <div class="mdz-about__item-list">
+          <article class="mdz-about__item">
+            <h3>Foundation Models</h3>
+            <p>LLMs, RAG, agentic systems, multi-model workflows, evaluation, safety, and governance.</p>
+          </article>
+          <article class="mdz-about__item">
+            <h3>Decision Systems</h3>
+            <p>Reinforcement learning, sequential decision-making, contextual bandits, ranking, search, and optimization.</p>
+          </article>
+          <article class="mdz-about__item">
+            <h3>Platforms</h3>
+            <p>Data platforms, feature systems, model serving, reliability, latency, privacy, and cost optimization.</p>
+          </article>
+          <article class="mdz-about__item">
+            <h3>Leadership</h3>
+            <p>Architecture reviews, technical roadmaps, cross-org influence, and mentoring senior engineers.</p>
+          </article>
         </div>
+      </section>
     </div>
-    <div class="media">
-        <img src="{{ '/assets/images/skill2.png' | relative_url }}" alt="Skill 2" class="media-image">
-        <div class="media-body">
-            <h3>Entrepreneurship</h3>
-            <p>Strategic Planning, Technical Leadership, Product Management</p>
+
+    <section class="mdz-about__gallery" aria-labelledby="about-gallery-title">
+      <div class="mdz-about__gallery-header">
+        <p class="mdz-about__gallery-kicker">In Motion</p>
+        <h2 id="about-gallery-title">Selected moments beyond the lab and keyboard.</h2>
+      </div>
+
+      <div class="mdz-about__gallery-row">
+        <div class="mdz-about__gallery-track mdz-about__gallery-track--forward">
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/education1.png' | relative_url }}" alt="Mehrdad Zaker educational milestone">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/hobby1.png' | relative_url }}" alt="Mehrdad Zaker in martial arts practice">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/hobby3.png' | relative_url }}" alt="Mehrdad Zaker with santoor">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/about-gallery-smile-2026.jpg' | relative_url }}" alt="Mehrdad Zaker smiling outdoors">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/skill1.png' | relative_url }}" alt="Mehrdad Zaker working in AI">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/education1.png' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/hobby1.png' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/hobby3.png' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/about-gallery-smile-2026.jpg' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/skill1.png' | relative_url }}" alt="">
+          </figure>
         </div>
-    </div>
-    <!-- Add more media objects as needed -->
+      </div>
+
+      <div class="mdz-about__gallery-row">
+        <div class="mdz-about__gallery-track mdz-about__gallery-track--reverse">
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/education2.png' | relative_url }}" alt="Mehrdad Zaker graduate study">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/hobby2.png' | relative_url }}" alt="Mehrdad Zaker playing chess">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/hobby4.png' | relative_url }}" alt="Mehrdad Zaker in amateur radio">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/about-gallery-drive-2026.jpg' | relative_url }}" alt="Mehrdad Zaker and a companion during a sunny drive">
+          </figure>
+          <figure class="mdz-about__gallery-card">
+            <img src="{{ '/assets/images/skill2.png' | relative_url }}" alt="Mehrdad Zaker in leadership and product work">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/education2.png' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/hobby2.png' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/hobby4.png' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/about-gallery-drive-2026.jpg' | relative_url }}" alt="">
+          </figure>
+          <figure class="mdz-about__gallery-card" aria-hidden="true">
+            <img src="{{ '/assets/images/skill2.png' | relative_url }}" alt="">
+          </figure>
+        </div>
+      </div>
+    </section>
+  </div>
 </section>

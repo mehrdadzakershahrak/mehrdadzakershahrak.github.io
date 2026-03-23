@@ -1,0 +1,11 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+{% if page.demo_id or page.lead_capture %}
+  <meta name="robots" content="index,follow">
+{% endif %}
+
+{% if page.permalink == "/" or page.url == "/" or page.classes contains "home-page" %}
+  <link rel="stylesheet" href="{{ '/assets/css/home-carousel-bleed.css' | relative_url }}">
+{% endif %}

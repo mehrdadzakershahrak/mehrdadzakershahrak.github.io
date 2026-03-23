@@ -1,0 +1,103 @@
+{% assign feed = site.data.home_feed %}
+{% assign card_items = feed | where: "type", "card" %}
+
+{% if card_items and card_items.size > 0 %}
+  {% assign hero = card_items[0] %}
+  {% assign hero_link_url = hero.url %}
+  {% assign hero_is_external = false %}
+  {% if hero_link_url contains '://' %}
+    {% assign hero_is_external = true %}
+  {% endif %}
+  {% capture hero_href %}{% if hero_is_external %}{{ hero_link_url }}{% else %}{{ hero_link_url | relative_url }}{% endif %}{% endcapture %}
+
+  <div class="mdz-feed-stack">
+    <a
+      class="mdz-feed-card mdz-feed-card--hero"
+      href="{{ hero_href | strip }}"
+      {% if hero_is_external %}target="_blank" rel="noopener noreferrer"{% endif %}
+    >
+      {% if hero.image_urls and hero.image_urls.size > 0 %}
+        <div class="mdz-feed-card__img mdz-feed-card__img--collage">
+          {% for image_url in hero.image_urls limit: 3 %}
+            {% assign panel_id = 4 | minus: forloop.index %}
+            <div
+              class="mdz-feed-card__img-panel"
+              data-panel="{{ panel_id }}"
+              style="background-image:url('{{ image_url | escape }}');"
+            ></div>
+          {% endfor %}
+        </div>
+      {% elsif hero.image_url %}
+        <div class="mdz-feed-card__img" style="background-image:url('{{ hero.image_url | escape }}');"></div>
+      {% endif %}
+      <div class="mdz-feed-card__body">
+        <div class="mdz-feed-card__top">
+          {% if hero.badge %}
+            <span class="mdz-badge">{{ hero.badge }}</span>
+          {% endif %}
+        </div>
+        <div class="mdz-feed-card__title">{{ hero.title }}</div>
+        {% if hero.description %}
+          <div class="mdz-feed-card__desc">{{ hero.description }}</div>
+        {% endif %}
+      </div>
+    </a>
+
+    {% if feed.size > 1 %}
+      <div class="mdz-feed-grid mdz-feed-grid--bottom">
+        {% for item in feed offset: 1 limit: 2 %}
+          {% if item.type == "card" %}
+            {% assign item_link_url = item.url %}
+            {% assign item_is_external = false %}
+            {% if item_link_url contains '://' %}
+              {% assign item_is_external = true %}
+            {% endif %}
+            {% capture item_href %}{% if item_is_external %}{{ item_link_url }}{% else %}{{ item_link_url | relative_url }}{% endif %}{% endcapture %}
+            <a
+              class="mdz-feed-card mdz-feed-card--small"
+              href="{{ item_href | strip }}"
+              {% if item_is_external %}target="_blank" rel="noopener noreferrer"{% endif %}
+            >
+              {% if item.image_urls and item.image_urls.size > 0 %}
+                <div class="mdz-feed-card__img mdz-feed-card__img--collage">
+                  {% for image_url in item.image_urls limit: 3 %}
+                    {% assign panel_id = 4 | minus: forloop.index %}
+                    <div
+                      class="mdz-feed-card__img-panel"
+                      data-panel="{{ panel_id }}"
+                      style="background-image:url('{{ image_url | escape }}');"
+                    ></div>
+                  {% endfor %}
+                </div>
+              {% elsif item.image_url %}
+                <div class="mdz-feed-card__img" style="background-image:url('{{ item.image_url | escape }}');"></div>
+              {% endif %}
+              <div class="mdz-feed-card__body">
+                <div class="mdz-feed-card__top">
+                  {% if item.badge %}
+                    <span class="mdz-badge">{{ item.badge }}</span>
+                  {% endif %}
+                </div>
+                <div class="mdz-feed-card__title">{{ item.title }}</div>
+                {% if item.description %}
+                  <div class="mdz-feed-card__desc">{{ item.description }}</div>
+                {% endif %}
+              </div>
+            </a>
+          {% elsif item.embed_html %}
+            <div class="mdz-feed-embed mdz-feed-card mdz-feed-card--small">
+              {% if item.title %}
+                <div class="mdz-feed-embed__title">{{ item.title }}</div>
+              {% endif %}
+              <div class="mdz-feed-embed__body">
+                {{ item.embed_html }}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% else %}
+  <p class="mdz-muted">No featured cards yet. Add at least one <code>type: card</code> item in <code>_data/home_feed.yml</code>.</p>
+{% endif %}

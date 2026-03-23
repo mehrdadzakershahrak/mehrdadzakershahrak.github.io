@@ -1,5 +1,5 @@
-title: Mehrdad Zakershahrak
-description: Personal website
+title: Mehrdad Zaker
+description: Industry AI demos, private AI deployment, and custom AI systems.
 baseurl: ""
 url: "https://www.mehrdadzaker.com"
 markdown: kramdown
@@ -8,3 +8,44 @@ kramdown:
   math_engine: mathjax
   math_engine_opts:
     preview: true
+
+# Minimal Mistakes (GitHub Pages compatible)
+remote_theme: "mmistakes/minimal-mistakes@4.27.3"
+minimal_mistakes_skin: "default"
+plugins:
+  - jekyll-include-cache
+
+collections:
+  podcast_entries:
+    output: true
+    permalink: /podcast/:name/
+
+defaults:
+  - scope:
+      path: ""
+      type: podcast_entries
+    values:
+      layout: podcast_entry
+      classes: wide podcast-entry-page
+
+# Site features
+search: true
+
+# Site-specific settings
+contact_email: "mehrdadz@neuralint.io"
+logo_mark: "/assets/images/logo-mark.svg"
+
+# Lead capture + demo chat (set these)
+leads_endpoint: ""
+turnstile_site_key: ""
+demo_chat_endpoints:
+  legal: ""
+  finance: ""
+  real_estate: ""
+  healthcare: ""
+  education: ""
+  research: ""
+  revenue_operations: ""
+
+# Newsletter (Substack) (set this)
+substack_subscribe_url: ""

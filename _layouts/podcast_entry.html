@@ -1,0 +1,58 @@
+---
+layout: single
+---
+
+{% assign has_transcript = false %}
+{% if content contains 'id="transcript"' or page.content contains '## Transcript' %}
+  {% assign has_transcript = true %}
+{% endif %}
+
+<article class="mdz-podcast-entry">
+  {% if page.image_url %}
+    <div class="mdz-podcast-entry__hero">
+      <div class="mdz-podcast-entry__date-badge">
+        <time class="mdz-podcast-entry__date" datetime="{{ page.date | date_to_xmlschema }}">
+          {{ page.date | date: "%B %-d, %Y" }}
+        </time>
+      </div>
+
+      <div class="mdz-podcast-entry__media">
+        <img
+          class="mdz-podcast-entry__image"
+          src="{{ page.image_url | relative_url }}"
+          alt="{{ page.title | escape }} artwork"
+        >
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="mdz-entry-actions" aria-label="Entry actions">
+    {% if page.watch_url %}
+      <a class="mdz-cta" href="{{ page.watch_url }}" target="_blank" rel="noopener noreferrer">
+        {{ page.watch_label | default: "Watch on YouTube" }}
+      </a>
+    {% endif %}
+
+    {% if has_transcript %}
+      <a class="mdz-cta mdz-cta--outline" href="#transcript">
+        Read transcript
+      </a>
+    {% endif %}
+
+    <a class="mdz-cta mdz-cta--outline" href="{{ '/resources/ask-mehrdad/' | relative_url }}">
+      Chat with podcast library
+    </a>
+  </div>
+
+  <h1 class="mdz-podcast-entry__title">{{ page.title }}</h1>
+
+  {% if page.topic %}
+    <div class="mdz-podcast-entry__topics">
+      <span class="mdz-podcast-entry__topic">{{ page.topic }}</span>
+    </div>
+  {% endif %}
+
+  <div class="mdz-podcast-entry__content">
+    {{ content }}
+  </div>
+</article>

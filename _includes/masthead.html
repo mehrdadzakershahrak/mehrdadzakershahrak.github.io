@@ -1,0 +1,113 @@
+<div class="masthead mdz-masthead">
+  <div class="masthead__inner-wrap">
+    <div class="mdz-masthead__bar">
+      <a class="mdz-brand" href="{{ '/' | relative_url }}">
+        {% if site.logo_mark %}
+          <img class="mdz-brand__logo" src="{{ site.logo_mark | relative_url }}" alt="{{ site.title | escape }} logo" />
+        {% endif %}
+        <span class="mdz-brand__text mdz-brand__text--mobile">{{ site.title }}</span>
+        <span class="mdz-brand__text mdz-brand__text--desktop">Mehrdad Zaker</span>
+      </a>
+
+      <nav class="mdz-desktop-nav" aria-label="Primary">
+        {% assign utility_urls = "/search/,/login/" | split: "," %}
+        <ul class="mdz-menu-list mdz-menu-list--primary">
+          {% for item in site.data.navigation.main %}
+            {% unless utility_urls contains item.url %}
+              <li class="mdz-menu-item">
+                {% if item.url == "/book/" %}
+                  <a href="{{ item.url | relative_url }}">Book</a>
+                {% else %}
+                  <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                {% endif %}
+                {% if item.children %}
+                  <ul class="mdz-submenu-list">
+                    {% for child in item.children %}
+                      <li class="mdz-submenu-item">
+                        <a href="{{ child.url | relative_url }}">{{ child.title }}</a>
+                        {% if child.children %}
+                          <ul class="mdz-subsubmenu-list">
+                            {% for grandchild in child.children %}
+                              <li class="mdz-subsubmenu-item">
+                                <a href="{{ grandchild.url | relative_url }}">{{ grandchild.title }}</a>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+              </li>
+            {% endunless %}
+          {% endfor %}
+        </ul>
+
+        <ul class="mdz-menu-list mdz-menu-list--utility">
+          {% for item in site.data.navigation.main %}
+            {% if utility_urls contains item.url %}
+              <li class="mdz-menu-item mdz-menu-item--utility">
+                {% if item.url == "/search/" %}
+                  <a class="mdz-menu-link--search" href="{{ item.url | relative_url }}" aria-label="Search" title="Search">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <circle cx="11" cy="11" r="6.5"></circle>
+                      <path d="M16 16L21 21"></path>
+                    </svg>
+                    <span>Search</span>
+                  </a>
+                {% else %}
+                  <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                {% endif %}
+              </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </nav>
+
+      <div class="mdz-menu-wrap" data-mdz-menu-wrap>
+        <button
+          class="mdz-menu-trigger"
+          type="button"
+          aria-expanded="false"
+          aria-controls="mdz-menu-overlay"
+          data-mdz-menu-toggle
+        >
+          <span>Menu</span>
+        </button>
+
+        <div class="mdz-menu-overlay" id="mdz-menu-overlay" data-mdz-menu-overlay aria-hidden="true">
+          <div class="mdz-menu-drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+            <button class="mdz-menu-close" type="button" data-mdz-menu-close aria-label="Close menu">Close</button>
+            <nav class="mdz-menu-mobile-nav" aria-label="Mobile primary">
+              <ul class="mdz-menu-list">
+                {% for item in site.data.navigation.main %}
+                  <li class="mdz-menu-item">
+                    <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
+                    {% if item.children %}
+                      <ul class="mdz-submenu-list">
+                        {% for child in item.children %}
+                          <li class="mdz-submenu-item">
+                            <a href="{{ child.url | relative_url }}">{{ child.title }}</a>
+                            {% if child.children %}
+                              <ul class="mdz-subsubmenu-list">
+                                {% for grandchild in child.children %}
+                                  <li class="mdz-subsubmenu-item">
+                                    <a href="{{ grandchild.url | relative_url }}">{{ grandchild.title }}</a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            {% endif %}
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

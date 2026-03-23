@@ -1,0 +1,68 @@
+main:
+  - title: "AI & Robotics"
+    key: ai_robotics
+    url: /ai-robotics-solutions/
+    children:
+      - title: "AI"
+        url: /ai-robotics-solutions/#ai
+        children:
+          - title: "Industry AI"
+            key: industry_ai
+            url: /industry-ai/
+          - title: "Private AI Deployment"
+            key: private_ai_deployment
+            url: /private-ai-deployment/
+          - title: "Custom AI Systems"
+            url: /custom-ai-systems/
+      - title: "Robotics"
+        url: /ai-robotics-solutions/#robotics
+        children:
+          - title: "Industrial Robotics"
+            url: /robotics/industrial-robotics/
+          - title: "Autonomous Systems"
+            url: /robotics/autonomous-systems/
+          - title: "AI-Powered Robotics"
+            url: /robotics/ai-powered-robotics/
+  - title: "Podcast"
+    key: podcast
+    url: /podcast/
+    children:
+      - title: "Explore the Podcast"
+        url: /podcast/
+      - title: "Browse All Episodes"
+        url: /podcast/episodes/
+      - title: "Browse by Topic"
+        url: /podcast/topics/
+  - title: "Resources"
+    url: /resources/
+    children:
+      - title: "Ask Mehrdad"
+        url: /resources/ask-mehrdad/
+      - title: "Affiliate Program"
+        url: /resources/affiliate-program/
+      - title: "Contact"
+        url: /resources/contact/
+  - title: "Newsletter"
+    key: newsletter
+    url: /newsletter/
+    children:
+      - title: "Subscribe"
+        url: /newsletter/
+      - title: "Archive"
+        url: /newsletter/archive/
+  - title: "Book"
+    key: book
+    url: /book/
+    children:
+      - title: "Book Overview"
+        url: /book/
+      - title: "Chapters"
+        url: /book/chapters/
+      - title: "Purchase Links"
+        url: /book/purchase-links/
+  - title: "About"
+    url: /about/
+  - title: "Search"
+    url: /search/
+  - title: "Login"
+    url: /login/

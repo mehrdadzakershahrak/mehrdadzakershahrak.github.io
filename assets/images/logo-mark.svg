@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Logo mark">
+  <defs>
+    <linearGradient id="leafOuter" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#1f3a30"/>
+      <stop offset="100%" stop-color="#162b24"/>
+    </linearGradient>
+    <linearGradient id="leafInner" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#6f7640"/>
+      <stop offset="100%" stop-color="#4f5c2f"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#d2a071"/>
+      <stop offset="100%" stop-color="#a97249"/>
+    </linearGradient>
+    <linearGradient id="base" x1="0%" x2="0%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#c56a2e"/>
+      <stop offset="100%" stop-color="#985026"/>
+    </linearGradient>
+  </defs>
+  <path d="M256 40c86 88 120 145 120 220 0 79-49 136-120 166-71-30-120-87-120-166 0-75 34-132 120-220z" fill="url(#leafOuter)"/>
+  <path d="M256 88c58 58 84 102 84 160 0 57-34 101-84 126-50-25-84-69-84-126 0-58 26-102 84-160z" fill="url(#leafInner)"/>
+  <rect x="238" y="188" width="36" height="188" rx="2" fill="url(#wood)"/>
+  <rect x="110" y="336" width="292" height="74" rx="2" fill="url(#base)"/>
+  <rect x="152" y="364" width="208" height="20" fill="#8a4b24" opacity="0.62"/>
+</svg>
