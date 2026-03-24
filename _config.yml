@@ -32,7 +32,7 @@ defaults:
 search: true
 
 # Site-specific settings
-contact_email: "[EMAIL_ADDRESS]"
+contact_email: "mehrdadz@neuralint.io"
 logo_mark: "/assets/images/logo-mark.svg"
 google_client_id: "363122025709-tqi291fl6r2lnc9s89unlajemfajfmm4.apps.googleusercontent.com"
 auth_api_base_url: "https://auth.mehrdadzaker.com"
