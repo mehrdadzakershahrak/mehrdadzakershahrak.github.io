@@ -52,6 +52,7 @@
                         <a
                           class="mdz-site-footer__link"
                           href="{{ link_href | strip }}"
+                          {% if link_url == "/login/" %}data-auth-link data-login-label="{{ link.label | escape }}" data-logout-label="Sign Out"{% endif %}
                           {% if is_absolute %}target="_blank" rel="noopener noreferrer"{% endif %}
                         >
                           <span>{{ link.label }}</span>

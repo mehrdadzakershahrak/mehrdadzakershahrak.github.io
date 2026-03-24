@@ -37,6 +37,10 @@ columns:
         url: "/resources/ask-mehrdad/"
       - label: "Contact"
         url: "/resources/contact/"
+      - label: "Privacy Policy"
+        url: "/privacy-policy/"
+      - label: "Terms of Service"
+        url: "/terms-of-service/"
       - label: "Affiliate Program"
         url: "/resources/affiliate-program/"
       - label: "Search"
@@ -87,4 +91,4 @@ social_links:
 
 legal:
   copyright: "Mehrdad Zaker. All rights reserved."
-  secondary_text: "Footer links and social profiles are placeholder data and can be updated later in _data/footer.yml."
+  secondary_text: "Use of this site is subject to published privacy, access, and demo usage terms."

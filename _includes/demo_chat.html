@@ -2,9 +2,6 @@
   class="demo-chat"
   data-demo-chat
   data-demo-id="{{ page.demo_id | escape }}"
-  data-chat-endpoint="{{ page.chat_endpoint | default: site.demo_chat_endpoints[page.demo_id] | escape }}"
-  data-leads-endpoint="{{ site.leads_endpoint | escape }}"
-  data-turnstile-site-key="{{ site.turnstile_site_key | escape }}"
 >
   <div class="demo-chat__header">
     <div>
@@ -18,57 +15,26 @@
 
   <div class="demo-chat__body" data-demo-chat-body>
     <div class="demo-chat__msg">
-      <div class="demo-chat__bubble">
-        Ask a question to try this demo. Your email is required once (to unlock chat), but the demo remains free.
+      <div class="demo-chat__bubble" data-demo-chat-initial>
+        Checking sign-in status…
       </div>
     </div>
   </div>
 
-  <div class="demo-chat__footer">
+  <div class="demo-chat__gate" data-demo-chat-gate hidden>
+    <strong>Sign in required</strong>
+    <p data-demo-chat-gate-msg>Sign in with Google to use this demo.</p>
+    <div class="demo-chat__actions">
+      <a class="btn btn--primary" href="{{ '/login/' | relative_url }}" data-demo-chat-login>Sign in with Google</a>
+    </div>
+  </div>
+
+  <div class="demo-chat__footer" data-demo-chat-footer hidden>
     <textarea class="demo-chat__input" rows="2" placeholder="Type your question…" data-demo-chat-input></textarea>
     <div class="demo-chat__actions">
       <button type="button" class="btn btn--primary" data-demo-chat-send>Send</button>
     </div>
     <div></div>
     <div class="demo-chat__status" data-demo-chat-hint></div>
-  </div>
-
-  {% if site.turnstile_site_key and site.turnstile_site_key != "" %}
-    <div style="display:none">
-      <div data-demo-chat-turnstile></div>
-    </div>
-  {% endif %}
-</div>
-
-<div class="mdz-modal" aria-hidden="true" role="dialog" aria-modal="true" data-demo-email-modal>
-  <div class="mdz-modal__panel">
-    <h3>Unlock the demo</h3>
-    <p>Enter your email to send messages (the demo is free). We use this to share updates and future releases.</p>
-
-    <form data-demo-email-form>
-      <div class="mdz-field">
-        <label for="demo-email">Email</label>
-        <input id="demo-email" type="email" inputmode="email" autocomplete="email" required data-demo-email-input />
-        <div class="mdz-error" data-demo-email-error style="display:none"></div>
-      </div>
-
-      <div class="mdz-field">
-        <label style="display:flex; gap:0.5rem; align-items:center; font-weight:500;">
-          <input type="checkbox" checked data-demo-newsletter-optin />
-          Also send me the newsletter (optional)
-        </label>
-      </div>
-
-      {% if site.turnstile_site_key and site.turnstile_site_key != "" %}
-        <div class="mdz-field">
-          <div class="cf-turnstile" data-demo-email-turnstile data-sitekey="{{ site.turnstile_site_key }}"></div>
-        </div>
-      {% endif %}
-
-      <div class="mdz-modal__row">
-        <button type="button" class="btn" data-demo-email-cancel>Cancel</button>
-        <button type="submit" class="btn btn--primary" data-demo-email-submit>Continue</button>
-      </div>
-    </form>
   </div>
 </div>
