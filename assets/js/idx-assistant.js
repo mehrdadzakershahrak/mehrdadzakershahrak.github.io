@@ -178,6 +178,9 @@
     if (!value) return "";
     if (typeof value === "string") return normalizeString(value);
     if (typeof value === "object") {
+      if (value.document && typeof value.document === "object") {
+        return getDocumentId(value.document) || normalizeString(value.document_id || value.id || "");
+      }
       return normalizeString(value.document_id || value.id || "");
     }
     return "";
@@ -197,38 +200,55 @@
     return result;
   }
 
-  function normalizeDocument(value) {
-    const id = getDocumentId(value);
+  function normalizeDocument(value, fallback) {
+    const fallbackValue = fallback && typeof fallback === "object" ? fallback : {};
+    const raw = unwrapDocumentPayload(value);
+    const id = getDocumentId(raw) || getDocumentId(fallbackValue);
     if (!id) return null;
 
-    if (typeof value === "string") {
-      return {
-        id: id,
-        title: id,
-        status: "",
-        ocrStatus: "",
-      };
-    }
-
-    return {
+    const normalized = {
       id: id,
-      title: normalizeString(value.title || value.name || value.filename || value.file_name || id) || id,
-      status: normalizeString(value.status || ""),
-      ocrStatus: normalizeString(value.ocr_status || value.ocrStatus || ""),
-      raw: value,
+      title:
+        normalizeString(
+          (raw && (raw.title || raw.name || raw.filename || raw.file_name || raw.original_filename)) ||
+            fallbackValue.title ||
+            fallbackValue.fileName ||
+            id
+        ) || id,
+      status: normalizeString((raw && raw.status) || fallbackValue.status || ""),
+      ocrStatus: normalizeString((raw && (raw.ocr_status || raw.ocrStatus)) || fallbackValue.ocrStatus || ""),
+      lifecycle: normalizeString((raw && raw.lifecycle) || fallbackValue.lifecycle || ""),
+      error: normalizeString((raw && (raw.error || raw.message)) || fallbackValue.error || ""),
+      fileName:
+        normalizeString(
+          (raw && (raw.filename || raw.file_name || raw.original_filename || raw.name)) || fallbackValue.fileName || ""
+        ) || "",
+      raw: raw || fallbackValue.raw || value || null,
     };
+
+    normalized.lifecycle = normalized.lifecycle || resolveDocumentLifecycle(normalized);
+    return normalized;
+  }
+
+  function unwrapDocumentPayload(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return value;
+    if (!(value.document && typeof value.document === "object")) return value;
+
+    return Object.assign({}, value, value.document, {
+      document_id: getDocumentId(value.document) || value.document_id || value.id || "",
+    });
   }
 
   function mergeDocuments(existingDocuments, incomingDocuments, incomingDocumentIds) {
     const byId = new Map();
 
     (existingDocuments || []).forEach(function (item) {
-      const normalized = normalizeDocument(item);
+      const normalized = normalizeDocument(item, item);
       if (normalized) byId.set(normalized.id, normalized);
     });
 
     (incomingDocuments || []).forEach(function (item) {
-      const normalized = normalizeDocument(item);
+      const normalized = normalizeDocument(item, item);
       if (normalized) {
         const previous = byId.get(normalized.id) || {};
         byId.set(normalized.id, Object.assign({}, previous, normalized));
@@ -237,12 +257,20 @@
 
     uniqueStrings((incomingDocumentIds || []).map(getDocumentId)).forEach(function (id) {
       if (!byId.has(id)) {
-        byId.set(id, {
-          id: id,
-          title: id,
-          status: "",
-          ocrStatus: "",
-        });
+        byId.set(
+          id,
+          normalizeDocument(
+            {
+              id: id,
+              title: id,
+              status: "processing",
+              ocr_status: "pending",
+            },
+            {
+              lifecycle: "processing",
+            }
+          )
+        );
       }
     });
 
@@ -321,6 +349,238 @@
 
   function normalizeStatus(value) {
     return normalizeString(value).toLowerCase();
+  }
+
+  function isDevelopmentEnvironment() {
+    const hostname = window.location.hostname || "";
+    return hostname === "127.0.0.1" || hostname === "localhost" || /\.local$/.test(hostname);
+  }
+
+  function logNormalizationIssue(label, payload) {
+    if (!isDevelopmentEnvironment()) return;
+    console.warn("[idx-assistant] " + label, payload);
+  }
+
+  function humanizeValue(value) {
+    const text = normalizeString(value).replace(/[-_]+/g, " ");
+    if (!text) return "";
+    return text.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
+  }
+
+  function resolveDocumentLifecycle(documentItem) {
+    const status = normalizeStatus(documentItem && documentItem.status);
+    const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
+    const error = normalizeString(documentItem && documentItem.error);
+
+    if (error || TERMINAL_FAILURE_STATUSES.has(status) || TERMINAL_FAILURE_STATUSES.has(ocrStatus)) {
+      return "failed";
+    }
+
+    if (status === READY_STATUS && ocrStatus === READY_STATUS) {
+      return "ready";
+    }
+
+    if (status === "uploading") {
+      return "uploading";
+    }
+
+    return "processing";
+  }
+
+  function isReadyDocument(documentItem) {
+    return resolveDocumentLifecycle(documentItem) === "ready";
+  }
+
+  function createPendingDocument(file) {
+    const title = normalizeString(file && file.name) || "Untitled PDF";
+    return normalizeDocument(
+      {
+        id: "local-upload-" + String(Date.now()) + "-" + Math.random().toString(16).slice(2),
+        title: title,
+        status: "uploading",
+        ocr_status: "pending",
+      },
+      {
+        title: title,
+        fileName: title,
+        lifecycle: "uploading",
+      }
+    );
+  }
+
+  function replaceDocuments(existingDocuments, matchIds, replacements) {
+    const matchSet = new Set(uniqueStrings(matchIds || []));
+    const next = [];
+    let inserted = false;
+
+    (existingDocuments || []).forEach(function (item) {
+      if (matchSet.has(item.id)) {
+        if (!inserted) {
+          (replacements || []).forEach(function (replacement) {
+            const normalized = normalizeDocument(replacement, replacement);
+            if (normalized) next.push(normalized);
+          });
+          inserted = true;
+        }
+        return;
+      }
+
+      next.push(item);
+    });
+
+    if (!inserted) {
+      (replacements || []).forEach(function (replacement) {
+        const normalized = normalizeDocument(replacement, replacement);
+        if (normalized) next.unshift(normalized);
+      });
+    }
+
+    return next;
+  }
+
+  function upsertDocument(existingDocuments, documentItem, matchIds) {
+    const normalized = normalizeDocument(documentItem, documentItem);
+    if (!normalized) return existingDocuments || [];
+    return replaceDocuments(existingDocuments, uniqueStrings([normalized.id].concat(matchIds || [])), [normalized]);
+  }
+
+  function extractUploadDocumentRecords(response, file) {
+    const raw = response && typeof response === "object" ? response : {};
+    const fallbackTitle = normalizeString(file && file.name) || "Uploaded PDF";
+    const records = [];
+    const seen = new Set();
+
+    function pushRecord(value, fallback) {
+      const normalized = normalizeDocument(
+        value,
+        Object.assign(
+          {
+            title: fallbackTitle,
+            fileName: fallbackTitle,
+            lifecycle: "processing",
+            status: "processing",
+            ocrStatus: "pending",
+          },
+          fallback || {}
+        )
+      );
+
+      if (!normalized || seen.has(normalized.id)) return;
+      seen.add(normalized.id);
+      records.push(
+        normalizeDocument(
+          Object.assign({}, normalized, {
+            status: normalized.status || "processing",
+            ocrStatus: normalized.ocrStatus || "pending",
+            lifecycle: "processing",
+            error: "",
+          }),
+          normalized
+        )
+      );
+    }
+
+    if (raw.document && typeof raw.document === "object") {
+      pushRecord(raw.document);
+    }
+
+    if (Array.isArray(raw.documents)) {
+      raw.documents.forEach(function (item) {
+        pushRecord(item);
+      });
+    }
+
+    pushRecord(raw);
+
+    uniqueStrings(
+      []
+        .concat(getDocumentId(raw.document_id))
+        .concat(getDocumentId(raw.id))
+        .concat(Array.isArray(raw.document_ids) ? raw.document_ids.map(getDocumentId) : [])
+    ).forEach(function (id) {
+      pushRecord({ id: id });
+    });
+
+    if (!records.length) {
+      logNormalizationIssue("Upload response could not be normalized into document records.", response);
+    }
+
+    return records;
+  }
+
+  function summarizeUploadStatus(documents, selectedDocumentIds, isUploading) {
+    const counts = {
+      uploading: 0,
+      processing: 0,
+      ready: 0,
+      failed: 0,
+    };
+
+    (documents || []).forEach(function (item) {
+      const lifecycle = resolveDocumentLifecycle(item);
+      if (Object.prototype.hasOwnProperty.call(counts, lifecycle)) {
+        counts[lifecycle] += 1;
+      }
+    });
+
+    if (counts.uploading > 0) {
+      return counts.uploading === 1 ? "Uploading 1 file" : "Uploading " + counts.uploading + " files";
+    }
+
+    if (counts.processing > 0) {
+      return counts.processing === 1 ? "Processing 1 document" : "Processing " + counts.processing + " documents";
+    }
+
+    if ((selectedDocumentIds || []).length > 0) {
+      return selectedDocumentIds.length === 1 ? "1 document selected" : selectedDocumentIds.length + " documents selected";
+    }
+
+    if (counts.failed > 0 && !isUploading) {
+      return counts.failed === 1 ? "1 upload failed" : counts.failed + " uploads failed";
+    }
+
+    return "";
+  }
+
+  function documentStatusLabel(documentItem) {
+    const lifecycle = resolveDocumentLifecycle(documentItem);
+
+    if (lifecycle === "uploading") {
+      return "Uploading";
+    }
+
+    if (lifecycle === "processing") {
+      const status = normalizeStatus(documentItem && documentItem.status);
+      const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
+
+      if (status === READY_STATUS && ocrStatus && ocrStatus !== READY_STATUS) {
+        return "OCR Processing";
+      }
+
+      return humanizeValue(status || ocrStatus || "processing") || "Processing";
+    }
+
+    if (lifecycle === "failed") {
+      return "Failed";
+    }
+
+    return "Ready";
+  }
+
+  function documentStatusDetail(documentItem, isSelected) {
+    const lifecycle = resolveDocumentLifecycle(documentItem);
+
+    if (lifecycle === "ready") {
+      return isSelected ? "Active assistant context" : "Ready to include as context";
+    }
+
+    if (lifecycle === "failed") {
+      return "This file is not available as assistant context.";
+    }
+
+    return "Preparing this PDF for assistant context.";
   }
 
   function buildLoginHref(auth) {
@@ -470,6 +730,31 @@
       return !!session.authenticated;
     }
 
+    function normalizePolledDocument(response, fallbackDocument) {
+      const normalized = normalizeDocument(
+        response,
+        Object.assign(
+          {
+            id: fallbackDocument.id,
+            title: fallbackDocument.title,
+            fileName: fallbackDocument.fileName,
+            status: fallbackDocument.status || "processing",
+            ocrStatus: fallbackDocument.ocrStatus || "pending",
+            lifecycle: "processing",
+          },
+          fallbackDocument || {}
+        )
+      );
+
+      if (!normalized) {
+        logNormalizationIssue("Poll response could not be normalized into a document record.", response);
+        return null;
+      }
+
+      normalized.lifecycle = resolveDocumentLifecycle(normalized);
+      return normalized;
+    }
+
     async function sendChatMessage(message, overrides) {
       const text = normalizeString(message);
       const endpoint = buildIdxUrl("/idx/assistant/chat");
@@ -542,37 +827,79 @@
       }
     }
 
-    async function pollDocument(documentId) {
-      const endpoint = buildIdxUrl("/idx/documents/" + encodeURIComponent(documentId));
+    async function pollDocument(documentItem, onProgress) {
+      const fallbackDocument = normalizeDocument(documentItem, documentItem);
+      const endpoint = buildIdxUrl("/idx/documents/" + encodeURIComponent(fallbackDocument.id));
       const deadline = Date.now() + POLL_TIMEOUT_MS;
 
       while (Date.now() < deadline) {
         const response = await fetchJson(endpoint, { method: "GET" });
-        const documentData = normalizeDocument(response) || normalizeDocument({ document_id: documentId });
-        const status = normalizeStatus(documentData.status);
-        const ocrStatus = normalizeStatus(documentData.ocrStatus);
+        const documentData = normalizePolledDocument(response, fallbackDocument);
 
-        if (status === READY_STATUS && ocrStatus === READY_STATUS) {
+        if (!documentData) {
+          const malformed = new Error("Document processing returned an unreadable response.");
+          malformed.document = normalizeDocument(
+            Object.assign({}, fallbackDocument, {
+              lifecycle: "failed",
+              error: "Document processing returned an unreadable response.",
+            }),
+            fallbackDocument
+          );
+          throw malformed;
+        }
+
+        if (onProgress) {
+          onProgress(documentData, response);
+        }
+
+        if (documentData.lifecycle === "ready") {
           return documentData;
         }
 
-        if (TERMINAL_FAILURE_STATUSES.has(status) || TERMINAL_FAILURE_STATUSES.has(ocrStatus)) {
-          throw new Error("Document processing failed.");
+        if (documentData.lifecycle === "failed") {
+          const failure = new Error(documentData.error || "Document processing failed.");
+          failure.document = documentData;
+          throw failure;
         }
 
         await delay(POLL_INTERVAL_MS);
       }
 
-      throw new Error("Timed out waiting for the uploaded document to finish processing.");
+      const timeoutError = new Error("Timed out waiting for the uploaded document to finish processing.");
+      timeoutError.document = normalizeDocument(
+        Object.assign({}, fallbackDocument, {
+          lifecycle: "failed",
+          error: "Timed out waiting for the uploaded document to finish processing.",
+        }),
+        fallbackDocument
+      );
+      throw timeoutError;
     }
 
     async function uploadFiles(files) {
       const endpoint = buildIdxUrl("/idx/documents/upload");
+      const incomingFiles = Array.from(files || []);
       const validFiles = (files || []).filter(function (file) {
         return file && ((file.type || "").toLowerCase() === "application/pdf" || /\.pdf$/i.test(file.name || ""));
       });
 
-      if (!validFiles.length || !endpoint || state.isUploading) return;
+      if (!incomingFiles.length) return;
+
+      if (!validFiles.length) {
+        patchState({
+          uploadError: "Only PDF files are supported.",
+        });
+        return;
+      }
+
+      if (!endpoint) {
+        patchState({
+          uploadError: "The upload endpoint is not configured.",
+        });
+        return;
+      }
+
+      if (state.isUploading) return;
 
       if (!(await ensureAuthenticated())) {
         render();
@@ -584,10 +911,13 @@
         uploadError: "",
       });
 
-      try {
-        const uploadedDocuments = [];
+      for (const file of validFiles) {
+        const pendingDocument = createPendingDocument(file);
+        patchState({
+          documents: [pendingDocument].concat(state.documents),
+        });
 
-        for (const file of validFiles) {
+        try {
           const formData = new FormData();
           formData.append("file", file, file.name);
 
@@ -597,56 +927,98 @@
             headers: {},
           });
 
-          const uploadIds = uniqueStrings(
-            []
-              .concat(
-                getDocumentId(uploadResponse.document_id),
-                getDocumentId(uploadResponse.id),
-                Array.isArray(uploadResponse.document_ids) ? uploadResponse.document_ids.map(getDocumentId) : [],
-                Array.isArray(uploadResponse.documents) ? uploadResponse.documents.map(getDocumentId) : []
-              )
-              .filter(Boolean)
+          const uploadDocuments = extractUploadDocumentRecords(uploadResponse, file);
+
+          if (!uploadDocuments.length) {
+            throw new Error("Upload completed but no document could be attached.");
+          }
+
+          patchState({
+            documents: replaceDocuments(state.documents, [pendingDocument.id], uploadDocuments),
+          });
+
+          for (const uploadDocument of uploadDocuments) {
+            try {
+              const readyDocument = await pollDocument(uploadDocument, function (progressDocument) {
+                patchState({
+                  documents: upsertDocument(state.documents, progressDocument, [uploadDocument.id]),
+                });
+              });
+
+              patchState({
+                documents: upsertDocument(
+                  state.documents,
+                  Object.assign({}, readyDocument, {
+                    lifecycle: "ready",
+                    error: "",
+                  }),
+                  [uploadDocument.id]
+                ),
+                documentIds: uniqueStrings(state.documentIds.concat(readyDocument.id)),
+                uploadError: "",
+              });
+            } catch (pollError) {
+              const failedDocument = normalizeDocument(
+                (pollError && pollError.document) ||
+                  Object.assign({}, uploadDocument, {
+                    lifecycle: "failed",
+                    error: (pollError && pollError.message) || "Document processing failed.",
+                  }),
+                {
+                  id: uploadDocument.id,
+                  title: uploadDocument.title,
+                  fileName: uploadDocument.fileName,
+                  lifecycle: "failed",
+                }
+              );
+
+              patchState({
+                documents: upsertDocument(state.documents, failedDocument, [uploadDocument.id]),
+                documentIds: state.documentIds.filter(function (id) {
+                  return id !== uploadDocument.id;
+                }),
+                uploadError: failedDocument.error || "Document processing failed.",
+              });
+            }
+          }
+        } catch (error) {
+          if (error && (error.status === 401 || error.status === 403)) {
+            authState = {
+              checked: true,
+              authenticated: false,
+              missingConfig: authState.missingConfig,
+            };
+          }
+
+          const failedPendingDocument = normalizeDocument(
+            Object.assign({}, pendingDocument, {
+              lifecycle: "failed",
+              status: "failed",
+              ocrStatus: "failed",
+              error: (error && error.message) || "Could not upload this PDF right now.",
+            }),
+            pendingDocument
           );
 
-          if (!uploadIds.length) {
-            throw new Error("Upload completed without a document identifier.");
-          }
-
-          for (const documentId of uploadIds) {
-            uploadedDocuments.push(await pollDocument(documentId));
-          }
+          patchState({
+            documents: replaceDocuments(state.documents, [pendingDocument.id], [failedPendingDocument]),
+            uploadError: failedPendingDocument.error || "Could not upload this PDF right now.",
+          });
         }
-
-        const mergedDocuments = mergeDocuments(state.documents, uploadedDocuments, uploadedDocuments.map(function (item) {
-          return item.id;
-        }));
-        const mergedDocumentIds = uniqueStrings(state.documentIds.concat(uploadedDocuments.map(function (item) {
-          return item.id;
-        })));
-
-        patchState({
-          documents: mergedDocuments,
-          documentIds: mergedDocumentIds,
-          isUploading: false,
-          uploadError: "",
-        });
-      } catch (error) {
-        if (error && (error.status === 401 || error.status === 403)) {
-          authState = {
-            checked: true,
-            authenticated: false,
-            missingConfig: authState.missingConfig,
-          };
-        }
-
-        patchState({
-          isUploading: false,
-          uploadError: (error && error.message) || "Could not upload documents right now.",
-        });
       }
+
+      patchState({
+        isUploading: false,
+      });
     }
 
     function toggleDocument(documentId) {
+      const documentItem = state.documents.find(function (item) {
+        return item.id === documentId;
+      });
+
+      if (!isReadyDocument(documentItem)) return;
+
       const nextDocumentIds = state.documentIds.includes(documentId)
         ? state.documentIds.filter(function (item) {
             return item !== documentId;
@@ -718,20 +1090,33 @@
 
       if (!state.messages.length) {
         const emptyState = document.createElement("div");
-        emptyState.className = "mdz-idx__empty";
-        emptyState.textContent = "Pick a starter prompt, upload a PDF, or ask a question to start the assistant workspace.";
+        emptyState.className = "mdz-idx__empty mdz-idx__empty--transcript";
+
+        const title = document.createElement("strong");
+        title.textContent = "Start with a prompt or a PDF";
+        emptyState.appendChild(title);
+
+        const copy = document.createElement("p");
+        copy.textContent = "Pick a starter prompt, upload a PDF, or ask a question to start the assistant workspace.";
+        emptyState.appendChild(copy);
+
         elements.transcript.appendChild(emptyState);
         return;
       }
 
       state.messages.forEach(function (message) {
-        const messageEl = document.createElement("div");
-        messageEl.className = "demo-chat__msg" + (message.role === "user" ? " demo-chat__msg--user" : "");
+        const messageEl = document.createElement("article");
+        messageEl.className = "mdz-idx__message mdz-idx__message--" + message.role;
+
+        const metaEl = document.createElement("div");
+        metaEl.className = "mdz-idx__message-meta";
+        metaEl.textContent = message.role === "user" ? "You" : "Assistant";
 
         const bubbleEl = document.createElement("div");
-        bubbleEl.className = "demo-chat__bubble";
+        bubbleEl.className = "mdz-idx__message-bubble";
         bubbleEl.textContent = message.text;
 
+        messageEl.appendChild(metaEl);
         messageEl.appendChild(bubbleEl);
         elements.transcript.appendChild(messageEl);
       });
@@ -809,15 +1194,62 @@
       }
 
       state.documents.forEach(function (documentItem) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "mdz-idx__doc-chip" + (state.documentIds.includes(documentItem.id) ? " is-active" : "");
-        button.textContent = documentItem.title;
-        button.setAttribute("aria-pressed", state.documentIds.includes(documentItem.id) ? "true" : "false");
-        button.addEventListener("click", function () {
-          toggleDocument(documentItem.id);
-        });
-        elements.documentContext.appendChild(button);
+        const normalized = normalizeDocument(documentItem, documentItem);
+        const lifecycle = resolveDocumentLifecycle(normalized);
+        const isSelected = lifecycle === "ready" && state.documentIds.includes(normalized.id);
+        const isSelectable = lifecycle === "ready";
+        const card = document.createElement(isSelectable ? "button" : "div");
+
+        if (isSelectable) {
+          card.type = "button";
+          card.setAttribute("aria-pressed", isSelected ? "true" : "false");
+          card.addEventListener("click", function () {
+            toggleDocument(normalized.id);
+          });
+        }
+
+        card.className =
+          "mdz-idx__document-card is-" + lifecycle + (isSelected ? " is-active" : "") + (isSelectable ? " is-selectable" : "");
+
+        const topRow = document.createElement("div");
+        topRow.className = "mdz-idx__document-top";
+
+        const copy = document.createElement("div");
+        copy.className = "mdz-idx__document-copy";
+
+        const title = document.createElement("strong");
+        title.className = "mdz-idx__document-title";
+        title.textContent = normalized.title;
+        copy.appendChild(title);
+
+        const detail = document.createElement("p");
+        detail.className = "mdz-idx__document-detail";
+        detail.textContent = documentStatusDetail(normalized, isSelected);
+        copy.appendChild(detail);
+
+        const badge = document.createElement("span");
+        badge.className = "mdz-idx__document-badge is-" + lifecycle;
+        badge.textContent = documentStatusLabel(normalized);
+
+        topRow.appendChild(copy);
+        topRow.appendChild(badge);
+        card.appendChild(topRow);
+
+        if (normalized.fileName && normalized.fileName !== normalized.title) {
+          const fileMeta = document.createElement("p");
+          fileMeta.className = "mdz-idx__document-meta";
+          fileMeta.textContent = normalized.fileName;
+          card.appendChild(fileMeta);
+        }
+
+        if (lifecycle === "failed" && normalized.error) {
+          const error = document.createElement("p");
+          error.className = "mdz-idx__document-error";
+          error.textContent = normalized.error;
+          card.appendChild(error);
+        }
+
+        elements.documentContext.appendChild(card);
       });
     }
 
@@ -915,24 +1347,24 @@
 
       if (elements.sendButton) {
         const inputValue = normalizeString(elements.input && elements.input.value);
-        elements.sendButton.disabled = !showPhase2 || !inputValue || state.isSending || !authState.authenticated;
+        elements.sendButton.disabled = !showPhase2 || !inputValue || state.isSending || authState.missingConfig;
       }
 
       if (elements.uploadButtons.length) {
         elements.uploadButtons.forEach(function (button) {
-          button.disabled = !showPhase2 || state.isUploading || !authState.authenticated;
+          button.disabled = !showPhase2 || state.isUploading || authState.missingConfig;
           button.classList.toggle("mdz-idx__upload-primary", !state.documentIds.length);
         });
       }
 
       if (elements.input) {
-        elements.input.disabled = !showPhase2 || state.isSending;
+        elements.input.disabled = !showPhase2 || state.isSending || authState.missingConfig;
       }
 
-      setText(elements.sendStatus, state.isSending ? "Sending prompt..." : "");
+      setText(elements.sendStatus, state.isSending ? "Sending to assistant..." : "");
 
       if (elements.uploadStatus) {
-        setText(elements.uploadStatus, state.isUploading ? "Uploading and polling..." : state.documentIds.length ? state.documentIds.length + " document(s) selected" : "");
+        setText(elements.uploadStatus, summarizeUploadStatus(state.documents, state.documentIds, state.isUploading));
       }
 
       if (elements.uploadError) {

@@ -47,7 +47,7 @@
     <div class="mdz-idx__workspace-grid">
       <div class="mdz-idx__main">
         <header class="mdz-idx__workspace-header">
-          <div>
+          <div class="mdz-idx__workspace-heading">
             <p class="mdz-idx__eyebrow">IDX Assistant</p>
             <h2 class="mdz-idx__workspace-title" data-idx-industry-title>Assistant Workspace</h2>
             <p class="mdz-idx__workspace-copy" data-idx-industry-copy></p>
@@ -65,17 +65,47 @@
 
         <section class="mdz-idx__panel mdz-idx__panel--transcript" aria-labelledby="idx-transcript-title">
           <div class="mdz-idx__panel-header">
-            <h3 id="idx-transcript-title">Assistant transcript</h3>
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Conversation</p>
+              <h3 id="idx-transcript-title">Assistant transcript</h3>
+            </div>
             <p class="mdz-idx__statusline" data-idx-send-status></p>
           </div>
           <div class="mdz-idx__transcript" data-idx-transcript></div>
         </section>
 
-        <section class="mdz-idx__panel" aria-labelledby="idx-composer-title">
+        <section class="mdz-idx__panel mdz-idx__panel--guidance" aria-labelledby="idx-guidance-title">
           <div class="mdz-idx__panel-header">
-            <h3 id="idx-composer-title">Composer</h3>
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Guidance</p>
+              <h3 id="idx-guidance-title">Contextual chip tray</h3>
+            </div>
+            <p class="mdz-idx__statusline">Server prompts and next-step actions</p>
           </div>
+          <div class="mdz-idx__tray-group" aria-labelledby="idx-starters-title">
+            <div class="mdz-idx__tray-copy">
+              <h4 id="idx-starters-title">Starter prompts</h4>
+              <p>Bootstrap prompts for the selected industry, replaced by server suggestions after the first response.</p>
+            </div>
+            <div class="mdz-idx__chip-row" data-idx-starter-prompts></div>
+          </div>
+          <div class="mdz-idx__tray-group" aria-labelledby="idx-actions-title">
+            <div class="mdz-idx__tray-copy">
+              <h4 id="idx-actions-title">Next actions</h4>
+              <p>Action chips returned by the server. Prompt chips prefill the composer; upload and tool actions dispatch through REST only.</p>
+            </div>
+            <div class="mdz-idx__chip-row" data-idx-next-actions></div>
+          </div>
+        </section>
 
+        <section class="mdz-idx__panel mdz-idx__panel--composer" aria-labelledby="idx-composer-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Composer</p>
+              <h3 id="idx-composer-title">Send the next prompt</h3>
+            </div>
+            <p class="mdz-idx__statusline">Press Ctrl/Cmd + Enter to send</p>
+          </div>
           <form class="mdz-idx__composer" data-idx-form>
             <label class="sr-only" for="idx-assistant-input">Message</label>
             <textarea
@@ -92,32 +122,21 @@
             <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
           </form>
         </section>
-
-        <section class="mdz-idx__panel" aria-labelledby="idx-starters-title">
-          <div class="mdz-idx__panel-header">
-            <h3 id="idx-starters-title">Starter prompts</h3>
-          </div>
-          <div class="mdz-idx__chip-row" data-idx-starter-prompts></div>
-        </section>
-
-        <section class="mdz-idx__panel" aria-labelledby="idx-actions-title">
-          <div class="mdz-idx__panel-header">
-            <h3 id="idx-actions-title">Next actions</h3>
-          </div>
-          <div class="mdz-idx__chip-row" data-idx-next-actions></div>
-        </section>
       </div>
 
       <aside class="mdz-idx__sidebar">
         <section class="mdz-idx__panel mdz-idx__panel--upload" aria-labelledby="idx-docs-title">
           <div class="mdz-idx__panel-header">
-            <h3 id="idx-docs-title">Documents</h3>
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Document Context</p>
+              <h3 id="idx-docs-title">Upload and select PDFs</h3>
+            </div>
             <p class="mdz-idx__statusline" data-idx-upload-status></p>
           </div>
-          <p class="mdz-idx__upload-copy">Upload PDF files, wait for IDX processing, then choose which documents to include as assistant context.</p>
+          <p class="mdz-idx__upload-copy">Upload PDF files, wait for IDX processing, and then toggle ready documents into the assistant context. Uploading, processing, ready, and failed states stay visible here.</p>
           <div class="mdz-idx__upload-actions">
             <button type="button" class="btn btn--small mdz-cta" data-idx-upload-entry>Upload PDF</button>
-            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-summarize-selected hidden>Summarize uploaded document</button>
+            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-summarize-selected hidden>Summarize selected document</button>
           </div>
           <p class="mdz-idx__error" data-idx-upload-error hidden></p>
           <div class="mdz-idx__document-context" data-idx-document-context></div>
@@ -125,7 +144,10 @@
 
         <section class="mdz-idx__panel mdz-idx__panel--references" aria-labelledby="idx-refs-title">
           <div class="mdz-idx__panel-header">
-            <h3 id="idx-refs-title">References</h3>
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Sources</p>
+              <h3 id="idx-refs-title">References</h3>
+            </div>
           </div>
           <div class="mdz-idx__references" data-idx-references></div>
         </section>
