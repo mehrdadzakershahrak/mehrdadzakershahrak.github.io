@@ -84,6 +84,12 @@
     return typeof value === "string" ? value.trim() : "";
   }
 
+  function extractErrorMessage(value) {
+    if (typeof value === "string") return normalizeString(value);
+    if (!value || typeof value !== "object") return "";
+    return normalizeString(value.message || value.error || value.detail || value.reason || "");
+  }
+
   function normalizeIndustry(value) {
     const key = normalizeString(value);
     return Object.prototype.hasOwnProperty.call(INDUSTRIES, key) ? key : null;
@@ -215,10 +221,16 @@
             fallbackValue.fileName ||
             id
         ) || id,
-      status: normalizeString((raw && raw.status) || fallbackValue.status || ""),
+      status: normalizeString((raw && (raw.document_status || raw.status)) || fallbackValue.status || ""),
+      jobStatus: normalizeString(
+        (raw && (raw.job_status || raw.jobStatus || (raw.document_status ? raw.status : ""))) || fallbackValue.jobStatus || ""
+      ),
       ocrStatus: normalizeString((raw && (raw.ocr_status || raw.ocrStatus)) || fallbackValue.ocrStatus || ""),
+      indexStatus: normalizeString((raw && (raw.index_status || raw.indexStatus)) || fallbackValue.indexStatus || ""),
       lifecycle: normalizeString((raw && raw.lifecycle) || fallbackValue.lifecycle || ""),
-      error: normalizeString((raw && (raw.error || raw.message)) || fallbackValue.error || ""),
+      error:
+        extractErrorMessage(raw && (raw.error || (raw.result && raw.result.error) || raw.message)) ||
+        normalizeString(fallbackValue.error || ""),
       fileName:
         normalizeString(
           (raw && (raw.filename || raw.file_name || raw.original_filename || raw.name)) || fallbackValue.fileName || ""
@@ -371,18 +383,26 @@
 
   function resolveDocumentLifecycle(documentItem) {
     const status = normalizeStatus(documentItem && documentItem.status);
+    const jobStatus = normalizeStatus(documentItem && documentItem.jobStatus);
     const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
+    const indexStatus = normalizeStatus(documentItem && documentItem.indexStatus);
     const error = normalizeString(documentItem && documentItem.error);
 
-    if (error || TERMINAL_FAILURE_STATUSES.has(status) || TERMINAL_FAILURE_STATUSES.has(ocrStatus)) {
+    if (
+      error ||
+      TERMINAL_FAILURE_STATUSES.has(status) ||
+      TERMINAL_FAILURE_STATUSES.has(jobStatus) ||
+      TERMINAL_FAILURE_STATUSES.has(ocrStatus) ||
+      TERMINAL_FAILURE_STATUSES.has(indexStatus)
+    ) {
       return "failed";
     }
 
-    if (status === READY_STATUS && ocrStatus === READY_STATUS) {
+    if (status === READY_STATUS && ocrStatus === READY_STATUS && indexStatus === READY_STATUS) {
       return "ready";
     }
 
-    if (status === "uploading") {
+    if (status === "uploading" || jobStatus === "uploading") {
       return "uploading";
     }
 
@@ -401,6 +421,7 @@
         title: title,
         status: "uploading",
         ocr_status: "pending",
+        index_status: "pending",
       },
       {
         title: title,
@@ -462,6 +483,7 @@
             lifecycle: "processing",
             status: "processing",
             ocrStatus: "pending",
+            indexStatus: "pending",
           },
           fallback || {}
         )
@@ -474,6 +496,7 @@
           Object.assign({}, normalized, {
             status: normalized.status || "processing",
             ocrStatus: normalized.ocrStatus || "pending",
+            indexStatus: normalized.indexStatus || "pending",
             lifecycle: "processing",
             error: "",
           }),
@@ -488,6 +511,12 @@
 
     if (Array.isArray(raw.documents)) {
       raw.documents.forEach(function (item) {
+        pushRecord(item);
+      });
+    }
+
+    if (Array.isArray(raw.items)) {
+      raw.items.forEach(function (item) {
         pushRecord(item);
       });
     }
@@ -554,12 +583,17 @@
     if (lifecycle === "processing") {
       const status = normalizeStatus(documentItem && documentItem.status);
       const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
+      const indexStatus = normalizeStatus(documentItem && documentItem.indexStatus);
+
+      if (status === READY_STATUS && ocrStatus === READY_STATUS && indexStatus && indexStatus !== READY_STATUS) {
+        return "Indexing";
+      }
 
       if (status === READY_STATUS && ocrStatus && ocrStatus !== READY_STATUS) {
         return "OCR Processing";
       }
 
-      return humanizeValue(status || ocrStatus || "processing") || "Processing";
+      return humanizeValue(indexStatus || status || ocrStatus || "processing") || "Processing";
     }
 
     if (lifecycle === "failed") {
@@ -571,6 +605,9 @@
 
   function documentStatusDetail(documentItem, isSelected) {
     const lifecycle = resolveDocumentLifecycle(documentItem);
+    const status = normalizeStatus(documentItem && documentItem.status);
+    const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
+    const indexStatus = normalizeStatus(documentItem && documentItem.indexStatus);
 
     if (lifecycle === "ready") {
       return isSelected ? "Active assistant context" : "Ready to include as context";
@@ -578,6 +615,14 @@
 
     if (lifecycle === "failed") {
       return "This file is not available as assistant context.";
+    }
+
+    if (status === READY_STATUS && ocrStatus === READY_STATUS && indexStatus && indexStatus !== READY_STATUS) {
+      return "Indexing this PDF for assistant context.";
+    }
+
+    if (status === READY_STATUS && ocrStatus && ocrStatus !== READY_STATUS) {
+      return "Extracting text from this PDF for assistant context.";
     }
 
     return "Preparing this PDF for assistant context.";
@@ -740,6 +785,7 @@
             fileName: fallbackDocument.fileName,
             status: fallbackDocument.status || "processing",
             ocrStatus: fallbackDocument.ocrStatus || "pending",
+            indexStatus: fallbackDocument.indexStatus || "pending",
             lifecycle: "processing",
           },
           fallbackDocument || {}
@@ -919,7 +965,7 @@
 
         try {
           const formData = new FormData();
-          formData.append("file", file, file.name);
+          formData.append("files", file, file.name);
 
           const uploadResponse = await fetchJson(endpoint, {
             method: "POST",
@@ -995,6 +1041,7 @@
               lifecycle: "failed",
               status: "failed",
               ocrStatus: "failed",
+              indexStatus: "failed",
               error: (error && error.message) || "Could not upload this PDF right now.",
             }),
             pendingDocument
@@ -1037,14 +1084,19 @@
       focusComposer();
     }
 
+    function actionRequestPayload(payload) {
+      return payload && payload.request && typeof payload.request === "object" ? payload.request : null;
+    }
+
     async function dispatchAction(action) {
       const kind = actionKind(action);
       const payload = actionPayload(action);
+      const request = actionRequestPayload(payload);
 
       if (!kind) return;
 
       if (kind === "prompt") {
-        const prompt = normalizeString(payload.prompt || payload.text || payload.message || "");
+        const prompt = normalizeString(payload.prompt || payload.text || payload.message || (request && request.message) || "");
         if (prompt) prefillComposer(prompt);
         return;
       }
@@ -1062,6 +1114,17 @@
 
       if (kind === "run_tool") {
         const toolName = normalizeString(payload.tool_name || payload.tool || action.tool_name || action.name || "");
+
+        if (request && normalizeString(request.message)) {
+          await sendChatMessage(request.message, {
+            documentIds: Array.isArray(request.document_ids) ? uniqueStrings(request.document_ids.map(getDocumentId)) : state.documentIds,
+            workspaceId:
+              Object.prototype.hasOwnProperty.call(request, "workspace_id") && request.workspace_id != null
+                ? request.workspace_id
+                : state.workspaceId,
+          });
+          return;
+        }
 
         if (toolName === "run_summarize") {
           const requestedDocumentIds = Array.isArray(payload.document_ids)
