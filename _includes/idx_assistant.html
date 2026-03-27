@@ -92,6 +92,8 @@
           <p data-idx-notice-copy></p>
         </div>
 
+        <div class="mdz-idx__scope-banner" data-idx-scope-status hidden></div>
+
         <section class="mdz-idx__panel mdz-idx__panel--transcript" aria-labelledby="idx-transcript-title">
           <div class="mdz-idx__panel-header">
             <div>
@@ -103,7 +105,7 @@
           <div class="mdz-idx__transcript" data-idx-transcript></div>
         </section>
 
-        <section class="mdz-idx__panel mdz-idx__panel--guidance" aria-labelledby="idx-guidance-title">
+        <section class="mdz-idx__panel mdz-idx__panel--guidance" aria-labelledby="idx-guidance-title" data-idx-guidance-panel hidden>
           <div class="mdz-idx__panel-header">
             <div>
               <p class="mdz-idx__panel-eyebrow">Guidance</p>
@@ -111,17 +113,17 @@
             </div>
             <p class="mdz-idx__statusline">Server prompts and next-step actions</p>
           </div>
-          <div class="mdz-idx__tray-group" aria-labelledby="idx-starters-title">
+          <div class="mdz-idx__tray-group" aria-labelledby="idx-starters-title" data-idx-starter-group hidden>
             <div class="mdz-idx__tray-copy">
               <h4 id="idx-starters-title">Starter prompts</h4>
-              <p>Bootstrap prompts for the selected industry, replaced by server suggestions after the first response.</p>
+              <p>Assistant-suggested prompts returned by the backend for the current scope.</p>
             </div>
             <div class="mdz-idx__chip-row" data-idx-starter-prompts></div>
           </div>
-          <div class="mdz-idx__tray-group" aria-labelledby="idx-actions-title">
+          <div class="mdz-idx__tray-group" aria-labelledby="idx-actions-title" data-idx-actions-group hidden>
             <div class="mdz-idx__tray-copy">
               <h4 id="idx-actions-title">Next actions</h4>
-              <p>Action chips returned by the server. Prompt chips prefill the composer; upload and tool actions dispatch through REST only.</p>
+              <p>Server-authored actions replay through the IDX assistant and upload APIs only.</p>
             </div>
             <div class="mdz-idx__chip-row" data-idx-next-actions></div>
           </div>
@@ -162,12 +164,10 @@
             </div>
             <p class="mdz-idx__statusline" data-idx-upload-status></p>
           </div>
-          <p class="mdz-idx__upload-copy">Upload PDF files, wait for IDX processing, and then toggle ready documents into the assistant context. Uploading, processing, ready, and failed states stay visible here.</p>
+          <p class="mdz-idx__upload-copy">Upload PDF files, wait for IDX job and document readiness, then keep ready documents in assistant scope.</p>
           <div class="mdz-idx__upload-actions">
             <button type="button" class="btn btn--small mdz-cta" data-idx-upload-entry>Upload PDF</button>
-            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-summarize-selected hidden>Summarize selected document</button>
           </div>
-          <p class="mdz-idx__error" data-idx-upload-error hidden></p>
           <div class="mdz-idx__document-context" data-idx-document-context></div>
         </section>
 

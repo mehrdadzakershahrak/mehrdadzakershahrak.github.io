@@ -4,58 +4,34 @@
       label: "Legal",
       title: "Legal AI",
       copy: "Summaries, drafting support, and document Q&A workflows.",
-      starterPrompts: [
-        "Summarize this clause in plain English and list potential risks: ...",
-        "Create a checklist of issues to review in this contract: ...",
-        "Extract dates, parties, and obligations from: ...",
-      ],
     },
     finance: {
       label: "Finance",
       title: "Finance AI",
       copy: "Analysis helpers, narrative summaries, and checklist-style guidance.",
-      starterPrompts: [
-        "Turn these notes into an investment memo: ...",
-        "Summarize these earnings highlights and risks: ...",
-        "List questions I should ask before making a decision about: ...",
-      ],
     },
     healthcare: {
       label: "Healthcare",
       title: "Healthcare AI",
       copy: "Intake summaries, care-plan drafts, and administrative workflow support.",
-      starterPrompts: [
-        "Summarize this visit note and list follow-up questions: ...",
-        "Draft a patient-friendly explanation for these findings: ...",
-        "Generate a discharge checklist from this context: ...",
-      ],
     },
     procurement: {
       label: "Procurement",
       title: "Procurement AI",
       copy: "RFP summaries, vendor comparison, and sourcing checklist workflows.",
-      starterPrompts: [
-        "Summarize this RFP and extract requirements, deadlines, and evaluation criteria: ...",
-        "Compare these vendor responses and identify major gaps, risks, and follow-up questions: ...",
-        "Create a sourcing checklist and next-step plan for this procurement request: ...",
-      ],
     },
     "real-estate": {
       label: "Real Estate",
       title: "Real Estate AI",
       copy: "Listing insights, comps reasoning, and deal memo generation.",
-      starterPrompts: [
-        "Create a due diligence checklist for buying a small multifamily property in Chicago.",
-        "Turn these property notes into a deal memo: ...",
-        "Summarize this listing and extract red flags: ...",
-      ],
     },
   };
 
   const READY_STATUS = "ready";
-  const POLL_INTERVAL_MS = 2000;
-  const POLL_TIMEOUT_MS = 120000;
-  const TERMINAL_FAILURE_STATUSES = new Set(["error", "failed", "cancelled", "canceled"]);
+  const FAST_POLL_INTERVAL_MS = 2000;
+  const SLOW_POLL_INTERVAL_MS = 10000;
+  const FAST_POLL_WINDOW_MS = 120000;
+  const FAILURE_STATUSES = new Set(["error", "failed", "cancelled", "canceled"]);
 
   function qs(root, selector) {
     return root.querySelector(selector);
@@ -63,6 +39,23 @@
 
   function qsa(root, selector) {
     return Array.from(root.querySelectorAll(selector));
+  }
+
+  function setText(el, value) {
+    if (!el) return;
+    el.textContent = value || "";
+  }
+
+  function ensureArray(value) {
+    return Array.isArray(value) ? value : [];
+  }
+
+  function normalizeString(value) {
+    return typeof value === "string" ? value.trim() : "";
+  }
+
+  function rawString(value) {
+    return typeof value === "string" ? value : "";
   }
 
   function currentRelativeUrl() {
@@ -73,25 +66,26 @@
     return window.location.origin.replace(/\/+$/, "");
   }
 
-  function delay(ms) {
-    return new Promise(function (resolve) {
-      window.setTimeout(resolve, ms);
+  function uniqueStrings(values) {
+    const seen = new Set();
+    const result = [];
+
+    ensureArray(values).forEach(function (value) {
+      const normalized = normalizeString(value);
+      if (!normalized || seen.has(normalized)) return;
+      seen.add(normalized);
+      result.push(normalized);
     });
+
+    return result;
   }
 
-  function setText(el, value) {
-    if (!el) return;
-    el.textContent = value || "";
-  }
-
-  function normalizeString(value) {
-    return typeof value === "string" ? value.trim() : "";
-  }
-
-  function extractErrorMessage(value) {
-    if (typeof value === "string") return normalizeString(value);
-    if (!value || typeof value !== "object") return "";
-    return normalizeString(value.message || value.error || value.detail || value.reason || "");
+  function humanizeValue(value) {
+    const text = normalizeString(value).replace(/[-_]+/g, " ");
+    if (!text) return "";
+    return text.replace(/\b\w/g, function (char) {
+      return char.toUpperCase();
+    });
   }
 
   function normalizeIndustry(value) {
@@ -112,18 +106,33 @@
     return error instanceof TypeError || /failed to fetch|load failed|networkerror|network request failed/.test(message);
   }
 
-  function buildRuntimeIssue(error, options) {
+  function extractErrorMessage(value) {
+    if (typeof value === "string") return normalizeString(value);
+    if (!value || typeof value !== "object") return "";
+    if (Array.isArray(value.detail)) {
+      return value.detail
+        .map(function (item) {
+          return extractErrorMessage(item);
+        })
+        .filter(Boolean)
+        .join(" ");
+    }
+    return normalizeString(value.message || value.error || value.detail || value.reason || "");
+  }
+
+  function buildUiNotice(error, options) {
     const endpoint = normalizeString(options && options.endpoint);
     const action = normalizeString((options && options.action) || "request");
     const endpointOrigin = urlOrigin(endpoint);
-    const message = extractErrorMessage(error) || normalizeString(error && error.message);
+    const message =
+      extractErrorMessage(error && error.data) ||
+      extractErrorMessage(error) ||
+      normalizeString(error && error.message);
 
     if (!endpoint) {
       return {
         title: "IDX API is not configured",
         body: "This workspace does not have a valid IDX API base URL yet, so browser requests cannot be sent.",
-        message: "The assistant workspace is missing its IDX API configuration.",
-        emphasize: true,
       };
     }
 
@@ -132,9 +141,7 @@
         title: "IDX session is not available",
         body:
           (endpointOrigin ? endpointOrigin + " rejected the browser request." : "The IDX API rejected the browser request.") +
-          " Sign in again, then verify that the IDX domain can read the same session.",
-        message: "The IDX API rejected this request. Sign in again and retry.",
-        emphasize: true,
+          " Sign in again, then verify that the IDX domain can read the same browser session.",
       };
     }
 
@@ -144,9 +151,9 @@
         body:
           "The website reached " +
           endpoint +
-          ", but that route returned 404. The IDX host is reachable, but the expected endpoint is not available there.",
-        message: "The configured IDX route for " + action + " is not available right now.",
-        emphasize: true,
+          ", but that route returned 404. The IDX host is reachable, but the expected endpoint for " +
+          action +
+          " is not available there.",
       };
     }
 
@@ -158,8 +165,6 @@
           " is not allowing browser requests from " +
           currentOrigin() +
           ". This is usually a CORS or cross-site cookie policy issue on the IDX service.",
-        message: "The browser could not complete this IDX request because the API is blocked from this website.",
-        emphasize: true,
       };
     }
 
@@ -172,16 +177,12 @@
           ", but the service returned " +
           error.status +
           ".",
-        message: "The IDX service returned a server error while handling this request.",
-        emphasize: true,
       };
     }
 
     return {
       title: "Request could not be completed",
       body: message || "The request did not complete successfully.",
-      message: message || "The request did not complete successfully.",
-      emphasize: false,
     };
   }
 
@@ -191,21 +192,24 @@
       selectedIndustry: "general",
       sessionId: null,
       messages: [],
-      references: [],
-      nextActions: [],
-      starterPrompts: [],
       documentIds: [],
       workspaceId: null,
       documents: [],
-      isSending: false,
-      isUploading: false,
-      uploadError: "",
+      pendingDocuments: [],
+      references: [],
+      nextActions: [],
+      starterPrompts: [],
+      scopeStatus: "",
+      uploadJobState: {},
     };
   }
 
-  function getBootstrapStarterPrompts(industry) {
-    const config = INDUSTRIES[industry];
-    return config ? config.starterPrompts.slice() : [];
+  function createMessage(role, text) {
+    return {
+      id: String(Date.now()) + Math.random().toString(16).slice(2),
+      role: role,
+      text: text,
+    };
   }
 
   function getIdxApiBaseUrl() {
@@ -257,7 +261,7 @@
     }
 
     if (!response.ok) {
-      const error = new Error((data && (data.error || data.message)) || "Request failed.");
+      const error = new Error(extractErrorMessage(data) || "Request failed.");
       error.status = response.status;
       error.data = data;
       throw error;
@@ -266,7 +270,7 @@
     return data || {};
   }
 
-  async function postJson(url, payload) {
+  function postJson(url, payload) {
     return fetchJson(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -277,466 +281,460 @@
   function getDocumentId(value) {
     if (!value) return "";
     if (typeof value === "string") return normalizeString(value);
-    if (typeof value === "object") {
-      if (value.document && typeof value.document === "object") {
-        return getDocumentId(value.document) || normalizeString(value.document_id || value.id || "");
-      }
-      return normalizeString(value.document_id || value.id || "");
+    if (typeof value !== "object" || Array.isArray(value)) return "";
+    if (value.document && typeof value.document === "object") {
+      return getDocumentId(value.document) || normalizeString(value.document_id || value.id || "");
     }
-    return "";
+    return normalizeString(value.document_id || value.id || "");
   }
 
-  function uniqueStrings(values) {
-    const seen = new Set();
-    const result = [];
-
-    (values || []).forEach(function (value) {
-      const normalized = normalizeString(value);
-      if (!normalized || seen.has(normalized)) return;
-      seen.add(normalized);
-      result.push(normalized);
-    });
-
-    return result;
+  function getJobId(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return "";
+    return normalizeString(value.job_id || value.jobId || "");
   }
 
-  function normalizeDocument(value, fallback) {
-    const fallbackValue = fallback && typeof fallback === "object" ? fallback : {};
-    const raw = unwrapDocumentPayload(value);
-    const id = getDocumentId(raw) || getDocumentId(fallbackValue);
-    if (!id) return null;
-
-    const normalized = {
-      id: id,
-      title:
-        normalizeString(
-          (raw && (raw.title || raw.name || raw.filename || raw.file_name || raw.original_filename)) ||
-            fallbackValue.title ||
-            fallbackValue.fileName ||
-            id
-        ) || id,
-      status: normalizeString((raw && (raw.document_status || raw.status)) || fallbackValue.status || ""),
-      jobStatus: normalizeString(
-        (raw && (raw.job_status || raw.jobStatus || (raw.document_status ? raw.status : ""))) || fallbackValue.jobStatus || ""
-      ),
-      ocrStatus: normalizeString((raw && (raw.ocr_status || raw.ocrStatus)) || fallbackValue.ocrStatus || ""),
-      indexStatus: normalizeString((raw && (raw.index_status || raw.indexStatus)) || fallbackValue.indexStatus || ""),
-      lifecycle: normalizeString((raw && raw.lifecycle) || fallbackValue.lifecycle || ""),
-      error:
-        extractErrorMessage(raw && (raw.error || (raw.result && raw.result.error) || raw.message)) ||
-        normalizeString(fallbackValue.error || ""),
-      fileName:
-        normalizeString(
-          (raw && (raw.filename || raw.file_name || raw.original_filename || raw.name)) || fallbackValue.fileName || ""
-        ) || "",
-      raw: raw || fallbackValue.raw || value || null,
-    };
-
-    normalized.lifecycle = normalized.lifecycle || resolveDocumentLifecycle(normalized);
-    return normalized;
+  function normalizePromptText(value) {
+    if (typeof value === "string") return value.trim();
+    if (!value || typeof value !== "object" || Array.isArray(value)) return "";
+    return normalizeString(value.prompt || value.message || value.text || value.label || value.title || "");
   }
 
-  function unwrapDocumentPayload(value) {
-    if (!value || typeof value !== "object" || Array.isArray(value)) return value;
-    if (!(value.document && typeof value.document === "object")) return value;
-
-    return Object.assign({}, value, value.document, {
-      document_id: getDocumentId(value.document) || value.document_id || value.id || "",
-    });
+  function normalizeAction(value) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return null;
+    const kind = normalizeString(value.kind || value.type || "");
+    return kind ? value : null;
   }
 
-  function mergeDocuments(existingDocuments, incomingDocuments, incomingDocumentIds) {
-    const byId = new Map();
-
-    (existingDocuments || []).forEach(function (item) {
-      const normalized = normalizeDocument(item, item);
-      if (normalized) byId.set(normalized.id, normalized);
-    });
-
-    (incomingDocuments || []).forEach(function (item) {
-      const normalized = normalizeDocument(item, item);
-      if (normalized) {
-        const previous = byId.get(normalized.id) || {};
-        byId.set(normalized.id, Object.assign({}, previous, normalized));
-      }
-    });
-
-    uniqueStrings((incomingDocumentIds || []).map(getDocumentId)).forEach(function (id) {
-      if (!byId.has(id)) {
-        byId.set(
-          id,
-          normalizeDocument(
-            {
-              id: id,
-              title: id,
-              status: "processing",
-              ocr_status: "pending",
-            },
-            {
-              lifecycle: "processing",
-            }
-          )
-        );
-      }
-    });
-
-    return Array.from(byId.values());
-  }
-
-  function normalizePrompts(values) {
-    return Array.isArray(values) ? values.filter(Boolean) : [];
-  }
-
-  function normalizeReferences(values) {
-    return Array.isArray(values) ? values.filter(Boolean) : [];
-  }
-
-  function normalizeActions(values) {
-    return Array.isArray(values) ? values.filter(Boolean) : [];
+  function normalizeReference(value) {
+    if (!value) return null;
+    if (typeof value === "string") {
+      const url = normalizeString(value);
+      return url ? { url: url, title: url } : null;
+    }
+    if (typeof value !== "object" || Array.isArray(value)) return null;
+    const url = normalizeString(value.url || value.href || value.link || "");
+    if (!url) return null;
+    return value;
   }
 
   function normalizeMessageText(value) {
-    if (value == null) return "";
-    if (typeof value === "string") return value;
-    if (typeof value === "object") {
-      return String(value.message || value.text || value.content || "").trim();
-    }
-    return String(value);
+    return typeof value === "string" ? value.trim() : normalizeString(value);
   }
 
-  function createMessage(role, text) {
+  function normalizeUploadJobStateEntry(value, fallback) {
+    const base = fallback && typeof fallback === "object" ? fallback : {};
+    const raw = value && typeof value === "object" ? value : {};
+
     return {
-      id: String(Date.now()) + Math.random().toString(16).slice(2),
-      role: role,
-      text: text,
+      jobId: normalizeString(raw.jobId || raw.job_id || base.jobId || ""),
+      latestJobPayload: raw.latestJobPayload || raw.latest_job_payload || base.latestJobPayload || null,
+      latestDocumentPayload: raw.latestDocumentPayload || raw.latest_document_payload || base.latestDocumentPayload || null,
+      isPolling: !!(Object.prototype.hasOwnProperty.call(raw, "isPolling") ? raw.isPolling : base.isPolling),
+      timedOut: !!(Object.prototype.hasOwnProperty.call(raw, "timedOut") ? raw.timedOut : base.timedOut),
+      lastPollAt: raw.lastPollAt || raw.last_poll_at || base.lastPollAt || null,
     };
   }
 
-  function promptLabel(prompt) {
-    if (typeof prompt === "string") return prompt;
-    return normalizeString(prompt.label || prompt.title || prompt.prompt || prompt.text || prompt.message || "");
+  function normalizeDocumentRecord(value, fallback) {
+    const base = fallback && typeof fallback === "object" ? fallback : {};
+    const raw = value && typeof value === "object" ? value : {};
+    const nestedDocument = raw.document && typeof raw.document === "object" ? raw.document : null;
+    const documentId = getDocumentId(raw) || getDocumentId(nestedDocument) || getDocumentId(base);
+    if (!documentId) return null;
+
+    const fileName =
+      normalizeString(
+        raw.file_name ||
+          raw.filename ||
+          raw.original_filename ||
+          raw.name ||
+          raw.title ||
+          (nestedDocument &&
+            (nestedDocument.file_name ||
+              nestedDocument.filename ||
+              nestedDocument.original_filename ||
+              nestedDocument.name ||
+              nestedDocument.title)) ||
+          base.file_name ||
+          base.filename ||
+          base.original_filename ||
+          base.name ||
+          base.title
+      ) || documentId;
+
+    const status = normalizeString(
+      raw.document_status || raw.status || (nestedDocument && nestedDocument.status) || base.document_status || base.status || ""
+    );
+
+    const jobStatus = normalizeString(
+      raw.job_status ||
+        raw.jobStatus ||
+        (raw.document_status ? raw.status : "") ||
+        base.job_status ||
+        base.jobStatus ||
+        ""
+    );
+
+    const progress =
+      typeof raw.progress === "number"
+        ? raw.progress
+        : typeof base.progress === "number"
+          ? base.progress
+          : null;
+
+    return {
+      document_id: documentId,
+      file_name: fileName,
+      status: status,
+      job_status: jobStatus,
+      ocr_status: normalizeString(raw.ocr_status || raw.ocrStatus || (nestedDocument && nestedDocument.ocr_status) || base.ocr_status || ""),
+      index_status: normalizeString(
+        raw.index_status || raw.indexStatus || (nestedDocument && nestedDocument.index_status) || base.index_status || ""
+      ),
+      job_id: getJobId(raw) || getJobId(base),
+      progress: progress,
+      timed_out: !!(raw.timed_out || base.timed_out),
+      error:
+        extractErrorMessage(raw.error || raw.detail || raw.reason || (raw.result && raw.result.error)) ||
+        extractErrorMessage(base.error) ||
+        "",
+      raw: raw || base.raw || null,
+    };
   }
 
-  function promptValue(prompt) {
-    if (typeof prompt === "string") return prompt;
-    return normalizeString(prompt.prompt || prompt.text || prompt.message || prompt.label || prompt.title || "");
+  function normalizeDocumentList(values) {
+    return ensureArray(values)
+      .map(function (value) {
+        return normalizeDocumentRecord(value, value);
+      })
+      .filter(Boolean);
   }
 
-  function actionKind(action) {
-    return normalizeString(action && (action.kind || action.type || ""));
+  function normalizeReferences(values) {
+    return ensureArray(values)
+      .map(normalizeReference)
+      .filter(Boolean);
   }
 
-  function actionPayload(action) {
-    if (!action || typeof action !== "object") return {};
-    return action.payload && typeof action.payload === "object" ? action.payload : {};
+  function normalizeActions(values) {
+    return ensureArray(values)
+      .map(normalizeAction)
+      .filter(Boolean);
   }
 
-  function actionLabel(action) {
-    const payload = actionPayload(action);
-    return normalizeString(action && (action.label || action.title || payload.label || payload.title || actionKind(action))) || "Action";
+  function normalizeStarterPrompts(values) {
+    return ensureArray(values)
+      .map(normalizePromptText)
+      .filter(Boolean);
   }
 
-  function referenceUrl(reference) {
-    if (!reference) return "";
-    if (typeof reference === "string") return normalizeString(reference);
-    return normalizeString(reference.url || reference.href || reference.link || "");
-  }
+  function documentLifecycle(document) {
+    const record = normalizeDocumentRecord(document, document);
+    if (!record) return "processing";
 
-  function referenceTitle(reference) {
-    if (!reference) return "";
-    if (typeof reference === "string") return normalizeString(reference);
-    return normalizeString(reference.title || reference.label || reference.name || referenceUrl(reference));
-  }
+    const status = normalizeString(record.status).toLowerCase();
+    const jobStatus = normalizeString(record.job_status).toLowerCase();
+    const ocrStatus = normalizeString(record.ocr_status).toLowerCase();
+    const indexStatus = normalizeString(record.index_status).toLowerCase();
 
-  function referenceMeta(reference) {
-    if (!reference || typeof reference !== "object") return "";
-    return normalizeString(reference.snippet || reference.description || reference.source || "");
-  }
-
-  function normalizeStatus(value) {
-    return normalizeString(value).toLowerCase();
-  }
-
-  function isDevelopmentEnvironment() {
-    const hostname = window.location.hostname || "";
-    return hostname === "127.0.0.1" || hostname === "localhost" || /\.local$/.test(hostname);
-  }
-
-  function logNormalizationIssue(label, payload) {
-    if (!isDevelopmentEnvironment()) return;
-    console.warn("[idx-assistant] " + label, payload);
-  }
-
-  function humanizeValue(value) {
-    const text = normalizeString(value).replace(/[-_]+/g, " ");
-    if (!text) return "";
-    return text.replace(/\b\w/g, function (char) {
-      return char.toUpperCase();
-    });
-  }
-
-  function resolveDocumentLifecycle(documentItem) {
-    const status = normalizeStatus(documentItem && documentItem.status);
-    const jobStatus = normalizeStatus(documentItem && documentItem.jobStatus);
-    const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
-    const indexStatus = normalizeStatus(documentItem && documentItem.indexStatus);
-    const error = normalizeString(documentItem && documentItem.error);
-
+    if (status === "uploading" || jobStatus === "uploading") return "uploading";
     if (
-      error ||
-      TERMINAL_FAILURE_STATUSES.has(status) ||
-      TERMINAL_FAILURE_STATUSES.has(jobStatus) ||
-      TERMINAL_FAILURE_STATUSES.has(ocrStatus) ||
-      TERMINAL_FAILURE_STATUSES.has(indexStatus)
+      record.error ||
+      FAILURE_STATUSES.has(status) ||
+      FAILURE_STATUSES.has(jobStatus) ||
+      FAILURE_STATUSES.has(ocrStatus) ||
+      FAILURE_STATUSES.has(indexStatus)
     ) {
       return "failed";
     }
-
     if (status === READY_STATUS && ocrStatus === READY_STATUS && indexStatus === READY_STATUS) {
       return "ready";
     }
-
-    if (status === "uploading" || jobStatus === "uploading") {
-      return "uploading";
-    }
-
     return "processing";
   }
 
-  function isReadyDocument(documentItem) {
-    return resolveDocumentLifecycle(documentItem) === "ready";
+  function isReadyDocument(document) {
+    return documentLifecycle(document) === "ready";
   }
 
-  function createPendingDocument(file) {
-    const title = normalizeString(file && file.name) || "Untitled PDF";
-    return normalizeDocument(
-      {
-        id: "local-upload-" + String(Date.now()) + "-" + Math.random().toString(16).slice(2),
-        title: title,
-        status: "uploading",
-        ocr_status: "pending",
-        index_status: "pending",
-      },
-      {
-        title: title,
-        fileName: title,
-        lifecycle: "uploading",
-      }
-    );
+  function documentStatusLabel(document) {
+    const record = normalizeDocumentRecord(document, document);
+    if (!record) return "Pending";
+
+    const lifecycle = documentLifecycle(record);
+    if (lifecycle === "uploading") return "Uploading";
+    if (lifecycle === "failed") return "Failed";
+    if (lifecycle === "ready") return "Ready";
+    if (record.timed_out) return "Still processing";
+    if (typeof record.progress === "number" && record.progress >= 0) {
+      return Math.round(record.progress) + "%";
+    }
+    if (normalizeString(record.status).toLowerCase() === READY_STATUS && normalizeString(record.ocr_status).toLowerCase() === READY_STATUS) {
+      return "Indexing";
+    }
+    if (normalizeString(record.status).toLowerCase() === READY_STATUS && normalizeString(record.ocr_status)) {
+      return "OCR";
+    }
+    return humanizeValue(record.status || record.job_status || "processing") || "Processing";
   }
 
-  function replaceDocuments(existingDocuments, matchIds, replacements) {
-    const matchSet = new Set(uniqueStrings(matchIds || []));
+  function documentStatusDetail(document, isSelected) {
+    const record = normalizeDocumentRecord(document, document);
+    if (!record) return "";
+
+    const lifecycle = documentLifecycle(record);
+
+    if (lifecycle === "ready") {
+      return isSelected ? "Included in the next assistant request." : "Ready to include in assistant scope.";
+    }
+
+    if (lifecycle === "failed") {
+      return record.error || "This file is not available as assistant context.";
+    }
+
+    if (record.timed_out) {
+      return "IDX is still processing this file. Background polling will keep checking.";
+    }
+
+    if (typeof record.progress === "number" && record.progress >= 0) {
+      return "IDX job progress: " + Math.round(record.progress) + "%";
+    }
+
+    return "Waiting for IDX job and document readiness.";
+  }
+
+  function scopeBannerText(status) {
+    const normalized = normalizeString(status).toLowerCase();
+    if (!normalized) return "";
+    if (normalized === "pending") {
+      return "Scope pending: selected documents are still processing, but the assistant remains usable.";
+    }
+    if (normalized === "partial_pending") {
+      return "Scope partially pending: some selected documents are ready now, while others are still processing.";
+    }
+    if (normalized === "ready") {
+      return "Scope ready: the current document context is available to the assistant.";
+    }
+    if (normalized === "empty") {
+      return "Scope empty: no current document context is active yet.";
+    }
+    return humanizeValue(normalized);
+  }
+
+  function upsertDocument(list, document) {
+    const nextDocument = normalizeDocumentRecord(document, document);
+    if (!nextDocument) return ensureArray(list);
+
     const next = [];
     let inserted = false;
 
-    (existingDocuments || []).forEach(function (item) {
-      if (matchSet.has(item.id)) {
+    ensureArray(list).forEach(function (item) {
+      const current = normalizeDocumentRecord(item, item);
+      if (!current) return;
+
+      if (current.document_id === nextDocument.document_id) {
         if (!inserted) {
-          (replacements || []).forEach(function (replacement) {
-            const normalized = normalizeDocument(replacement, replacement);
-            if (normalized) next.push(normalized);
+          next.push(Object.assign({}, current, nextDocument));
+          inserted = true;
+        }
+        return;
+      }
+
+      next.push(current);
+    });
+
+    if (!inserted) {
+      next.unshift(nextDocument);
+    }
+
+    return next;
+  }
+
+  function removeDocument(list, documentId) {
+    return ensureArray(list).filter(function (item) {
+      return getDocumentId(item) !== documentId;
+    });
+  }
+
+  function replaceDocuments(list, matchIds, replacements) {
+    const matchSet = new Set(ensureArray(matchIds).map(getDocumentId).filter(Boolean));
+    const normalizedReplacements = normalizeDocumentList(replacements);
+    const next = [];
+    let inserted = false;
+
+    ensureArray(list).forEach(function (item) {
+      const current = normalizeDocumentRecord(item, item);
+      if (!current) return;
+
+      if (matchSet.has(current.document_id)) {
+        if (!inserted) {
+          normalizedReplacements.forEach(function (replacement) {
+            next.push(replacement);
           });
           inserted = true;
         }
         return;
       }
 
-      next.push(item);
+      next.push(current);
     });
 
     if (!inserted) {
-      (replacements || []).forEach(function (replacement) {
-        const normalized = normalizeDocument(replacement, replacement);
-        if (normalized) next.unshift(normalized);
+      normalizedReplacements.forEach(function (replacement) {
+        next.unshift(replacement);
       });
     }
 
     return next;
   }
 
-  function upsertDocument(existingDocuments, documentItem, matchIds) {
-    const normalized = normalizeDocument(documentItem, documentItem);
-    if (!normalized) return existingDocuments || [];
-    return replaceDocuments(existingDocuments, uniqueStrings([normalized.id].concat(matchIds || [])), [normalized]);
+  function buildRequestPayload(action) {
+    if (!action || typeof action !== "object") return null;
+    const payload = action.payload && typeof action.payload === "object" ? action.payload : {};
+    return payload.request && typeof payload.request === "object" ? payload.request : null;
   }
 
-  function extractUploadDocumentRecords(response, file) {
+  function actionKind(action) {
+    return normalizeString(action && (action.kind || action.type || ""));
+  }
+
+  function actionLabel(action) {
+    const payload = action && action.payload && typeof action.payload === "object" ? action.payload : {};
+    return normalizeString(action && (action.label || action.title || payload.label || payload.title || actionKind(action))) || "Action";
+  }
+
+  function actionPrompt(action) {
+    const payload = action && action.payload && typeof action.payload === "object" ? action.payload : {};
+    return normalizePromptText(payload.prompt || payload.text || payload.message || (payload.request && payload.request.message));
+  }
+
+  function createLocalPendingDocument(file) {
+    return normalizeDocumentRecord(
+      {
+        document_id: "local-upload-" + String(Date.now()) + "-" + Math.random().toString(16).slice(2),
+        file_name: normalizeString(file && file.name) || "Uploaded PDF",
+        status: "uploading",
+        ocr_status: "pending",
+        index_status: "pending",
+      },
+      null
+    );
+  }
+
+  function extractUploadItems(response, file) {
     const raw = response && typeof response === "object" ? response : {};
-    const fallbackTitle = normalizeString(file && file.name) || "Uploaded PDF";
-    const records = [];
+    const fallbackName = normalizeString(file && file.name) || "Uploaded PDF";
+    const items = [];
     const seen = new Set();
 
     function pushRecord(value, fallback) {
-      const normalized = normalizeDocument(
+      const normalized = normalizeDocumentRecord(
         value,
         Object.assign(
           {
-            title: fallbackTitle,
-            fileName: fallbackTitle,
-            lifecycle: "processing",
+            file_name: fallbackName,
             status: "processing",
-            ocrStatus: "pending",
-            indexStatus: "pending",
+            ocr_status: "pending",
+            index_status: "pending",
           },
           fallback || {}
         )
       );
 
-      if (!normalized || seen.has(normalized.id)) return;
-      seen.add(normalized.id);
-      records.push(
-        normalizeDocument(
-          Object.assign({}, normalized, {
-            status: normalized.status || "processing",
-            ocrStatus: normalized.ocrStatus || "pending",
-            indexStatus: normalized.indexStatus || "pending",
-            lifecycle: "processing",
-            error: "",
-          }),
-          normalized
-        )
-      );
+      if (!normalized || seen.has(normalized.document_id)) return;
+      seen.add(normalized.document_id);
+      items.push(normalized);
     }
 
-    if (raw.document && typeof raw.document === "object") {
+    ensureArray(raw.items).forEach(function (item) {
+      pushRecord(item);
+    });
+
+    if (!items.length && raw.document && typeof raw.document === "object") {
       pushRecord(raw.document);
     }
 
-    if (Array.isArray(raw.documents)) {
-      raw.documents.forEach(function (item) {
+    if (!items.length) {
+      ensureArray(raw.documents).forEach(function (item) {
         pushRecord(item);
       });
     }
 
-    if (Array.isArray(raw.items)) {
-      raw.items.forEach(function (item) {
-        pushRecord(item);
-      });
+    if (!items.length) {
+      pushRecord(raw);
     }
 
-    pushRecord(raw);
-
-    uniqueStrings(
-      []
-        .concat(getDocumentId(raw.document_id))
-        .concat(getDocumentId(raw.id))
-        .concat(Array.isArray(raw.document_ids) ? raw.document_ids.map(getDocumentId) : [])
-    ).forEach(function (id) {
-      pushRecord({ id: id });
-    });
-
-    if (!records.length) {
-      logNormalizationIssue("Upload response could not be normalized into document records.", response);
-    }
-
-    return records;
+    return items;
   }
 
-  function summarizeUploadStatus(documents, selectedDocumentIds, isUploading) {
-    const counts = {
-      uploading: 0,
-      processing: 0,
-      ready: 0,
-      failed: 0,
+  function buildAssistantRequestBody(request, state) {
+    const raw = request && typeof request === "object" ? request : {};
+    const requestedIndustry = normalizeIndustry(raw.industry);
+    const fallbackIndustry = normalizeIndustry(state.selectedIndustry);
+
+    return {
+      industry: requestedIndustry || fallbackIndustry,
+      message: rawString(raw.message),
+      document_ids: Object.prototype.hasOwnProperty.call(raw, "document_ids")
+        ? uniqueStrings(ensureArray(raw.document_ids).map(getDocumentId))
+        : state.documentIds.slice(),
+      workspace_id: Object.prototype.hasOwnProperty.call(raw, "workspace_id")
+        ? normalizeString(raw.workspace_id) || null
+        : state.workspaceId,
+      session_id: Object.prototype.hasOwnProperty.call(raw, "session_id")
+        ? normalizeString(raw.session_id) || null
+        : state.sessionId,
     };
-
-    (documents || []).forEach(function (item) {
-      const lifecycle = resolveDocumentLifecycle(item);
-      if (Object.prototype.hasOwnProperty.call(counts, lifecycle)) {
-        counts[lifecycle] += 1;
-      }
-    });
-
-    if (counts.uploading > 0) {
-      return counts.uploading === 1 ? "Uploading 1 file" : "Uploading " + counts.uploading + " files";
-    }
-
-    if (counts.processing > 0) {
-      return counts.processing === 1 ? "Processing 1 document" : "Processing " + counts.processing + " documents";
-    }
-
-    if ((selectedDocumentIds || []).length > 0) {
-      return selectedDocumentIds.length === 1 ? "1 document selected" : selectedDocumentIds.length + " documents selected";
-    }
-
-    if (counts.failed > 0 && !isUploading) {
-      return counts.failed === 1 ? "1 upload failed" : counts.failed + " uploads failed";
-    }
-
-    return "";
   }
 
-  function documentStatusLabel(documentItem) {
-    const lifecycle = resolveDocumentLifecycle(documentItem);
+  function buildPolledDocument(documentId, entry, fallback) {
+    const jobPayload = entry && entry.latestJobPayload ? entry.latestJobPayload : null;
+    const documentPayload = entry && entry.latestDocumentPayload ? entry.latestDocumentPayload : null;
 
-    if (lifecycle === "uploading") {
-      return "Uploading";
-    }
-
-    if (lifecycle === "processing") {
-      const status = normalizeStatus(documentItem && documentItem.status);
-      const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
-      const indexStatus = normalizeStatus(documentItem && documentItem.indexStatus);
-
-      if (status === READY_STATUS && ocrStatus === READY_STATUS && indexStatus && indexStatus !== READY_STATUS) {
-        return "Indexing";
-      }
-
-      if (status === READY_STATUS && ocrStatus && ocrStatus !== READY_STATUS) {
-        return "OCR Processing";
-      }
-
-      return humanizeValue(indexStatus || status || ocrStatus || "processing") || "Processing";
-    }
-
-    if (lifecycle === "failed") {
-      return "Failed";
-    }
-
-    return "Ready";
-  }
-
-  function documentStatusDetail(documentItem, isSelected) {
-    const lifecycle = resolveDocumentLifecycle(documentItem);
-    const status = normalizeStatus(documentItem && documentItem.status);
-    const ocrStatus = normalizeStatus(documentItem && documentItem.ocrStatus);
-    const indexStatus = normalizeStatus(documentItem && documentItem.indexStatus);
-
-    if (lifecycle === "ready") {
-      return isSelected ? "Active assistant context" : "Ready to include as context";
-    }
-
-    if (lifecycle === "failed") {
-      return "This file is not available as assistant context.";
-    }
-
-    if (status === READY_STATUS && ocrStatus === READY_STATUS && indexStatus && indexStatus !== READY_STATUS) {
-      return "Indexing this PDF for assistant context.";
-    }
-
-    if (status === READY_STATUS && ocrStatus && ocrStatus !== READY_STATUS) {
-      return "Extracting text from this PDF for assistant context.";
-    }
-
-    return "Preparing this PDF for assistant context.";
-  }
-
-  function buildLoginHref(auth) {
-    if (!auth || !auth.buildLoginUrl) return "/login/";
-    return auth.buildLoginUrl(currentRelativeUrl());
-  }
-
-  function setIndustryQuery(industry) {
-    const url = new URL(window.location.href);
-
-    if (industry) {
-      url.searchParams.set("industry", industry);
-    } else {
-      url.searchParams.delete("industry");
-    }
-
-    window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+    return normalizeDocumentRecord(
+      {
+        document_id: documentId,
+        job_id: entry && entry.jobId ? entry.jobId : "",
+        file_name:
+          normalizeString(
+            (documentPayload && documentPayload.file_name) ||
+              (jobPayload && jobPayload.file_name) ||
+              (fallback && fallback.file_name) ||
+              ""
+          ) || documentId,
+        status: normalizeString(
+          (documentPayload && documentPayload.status) ||
+            (jobPayload && jobPayload.document_status) ||
+            (fallback && fallback.status) ||
+            ""
+        ),
+        job_status: normalizeString((jobPayload && jobPayload.status) || (fallback && fallback.job_status) || ""),
+        ocr_status: normalizeString(
+          (documentPayload && documentPayload.ocr_status) ||
+            (jobPayload && jobPayload.ocr_status) ||
+            (fallback && fallback.ocr_status) ||
+            ""
+        ),
+        index_status: normalizeString(
+          (documentPayload && documentPayload.index_status) ||
+            (jobPayload && jobPayload.index_status) ||
+            (fallback && fallback.index_status) ||
+            ""
+        ),
+        progress:
+          jobPayload && typeof jobPayload.progress === "number"
+            ? jobPayload.progress
+            : fallback && typeof fallback.progress === "number"
+              ? fallback.progress
+              : null,
+        timed_out: !!(entry && entry.timedOut),
+        error:
+          extractErrorMessage(documentPayload && documentPayload.error) ||
+          extractErrorMessage(jobPayload && jobPayload.error) ||
+          extractErrorMessage(fallback && fallback.error),
+      },
+      fallback
+    );
   }
 
   function initAssistant(root) {
@@ -755,20 +753,22 @@
       notice: qs(root, "[data-idx-notice]"),
       noticeTitle: qs(root, "[data-idx-notice-title]"),
       noticeCopy: qs(root, "[data-idx-notice-copy]"),
+      scopeStatus: qs(root, "[data-idx-scope-status]"),
       transcript: qs(root, "[data-idx-transcript]"),
       form: qs(root, "[data-idx-form]"),
       input: qs(root, "[data-idx-input]"),
       sendButton: qs(root, "[data-idx-send]"),
       uploadButtons: qsa(root, "[data-idx-upload-button], [data-idx-upload-entry]"),
       fileInput: qs(root, "[data-idx-file-input]"),
+      guidancePanel: qs(root, "[data-idx-guidance-panel]"),
+      starterGroup: qs(root, "[data-idx-starter-group]"),
+      actionsGroup: qs(root, "[data-idx-actions-group]"),
       starterPrompts: qs(root, "[data-idx-starter-prompts]"),
       nextActions: qs(root, "[data-idx-next-actions]"),
       documentContext: qs(root, "[data-idx-document-context]"),
       references: qs(root, "[data-idx-references]"),
       sendStatus: qs(root, "[data-idx-send-status]"),
       uploadStatus: qs(root, "[data-idx-upload-status]"),
-      uploadError: qs(root, "[data-idx-upload-error]"),
-      summarizeSelected: qs(root, "[data-idx-summarize-selected]"),
     };
 
     let state = createInitialState();
@@ -777,7 +777,16 @@
       authenticated: false,
       missingConfig: false,
     };
-    let workspaceNotice = null;
+
+    const ui = {
+      notice: null,
+      chatPending: false,
+      bootstrapPending: false,
+      uploadActiveCount: 0,
+    };
+
+    const pollTimers = Object.create(null);
+    const pollMeta = Object.create(null);
 
     function setState(next) {
       state = next;
@@ -788,12 +797,42 @@
       setState(Object.assign({}, state, patch));
     }
 
-    function setWorkspaceNotice(issue) {
-      workspaceNotice = issue || null;
+    function setNotice(notice) {
+      ui.notice = notice || null;
+    }
+
+    function clearNotice() {
+      ui.notice = null;
+    }
+
+    function cloneUploadJobState() {
+      return Object.assign({}, state.uploadJobState || {});
+    }
+
+    function setUploadJobStateEntry(documentId, patch) {
+      const current = normalizeUploadJobStateEntry((state.uploadJobState || {})[documentId], null);
+      const next = cloneUploadJobState();
+      next[documentId] = normalizeUploadJobStateEntry(patch, current);
+      patchState({ uploadJobState: next });
     }
 
     function industryConfig() {
       return INDUSTRIES[state.selectedIndustry] || null;
+    }
+
+    function setIndustryQuery(industry) {
+      const url = new URL(window.location.href);
+      if (industry) {
+        url.searchParams.set("industry", industry);
+      } else {
+        url.searchParams.delete("industry");
+      }
+      window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+    }
+
+    function buildLoginHref() {
+      if (!auth || !auth.buildLoginUrl) return "/login/";
+      return auth.buildLoginUrl(currentRelativeUrl());
     }
 
     async function refreshAuth(forceRefresh) {
@@ -826,6 +865,11 @@
       return authState;
     }
 
+    async function ensureAuthenticated() {
+      const session = authState.checked ? authState : await refreshAuth(true);
+      return !!session.authenticated;
+    }
+
     function focusComposer() {
       if (!elements.input) return;
       window.requestAnimationFrame(function () {
@@ -833,36 +877,198 @@
       });
     }
 
-    function resetAssistantState(industry) {
-      return {
+    function resetVisibleAssistantState(industry, preserved) {
+      patchState({
         phase: "phase_2",
         selectedIndustry: industry,
-        sessionId: null,
+        sessionId: preserved && Object.prototype.hasOwnProperty.call(preserved, "sessionId") ? preserved.sessionId : state.sessionId,
         messages: [],
+        documentIds: preserved && Array.isArray(preserved.documentIds) ? preserved.documentIds.slice() : state.documentIds.slice(),
+        workspaceId:
+          preserved && Object.prototype.hasOwnProperty.call(preserved, "workspaceId") ? preserved.workspaceId : state.workspaceId,
+        documents: [],
+        pendingDocuments: [],
         references: [],
         nextActions: [],
-        starterPrompts: getBootstrapStarterPrompts(industry),
-        documentIds: [],
-        workspaceId: null,
-        documents: [],
-        isSending: false,
-        isUploading: false,
-        uploadError: "",
-      };
+        starterPrompts: [],
+        scopeStatus: "",
+      });
     }
 
-    function enterIndustry(industry, options) {
+    function syncUploadStateFromAssistantResponse(documents, pendingDocuments) {
+      const nextUploadJobState = cloneUploadJobState();
+      let changed = false;
+
+      normalizeDocumentList(documents)
+        .concat(normalizeDocumentList(pendingDocuments))
+        .forEach(function (documentItem) {
+          const documentId = documentItem.document_id;
+          if (!documentId || !nextUploadJobState[documentId]) return;
+
+          nextUploadJobState[documentId] = normalizeUploadJobStateEntry(
+            {
+              latestDocumentPayload: documentItem.raw || documentItem,
+              isPolling: !isReadyDocument(documentItem) && documentLifecycle(documentItem) !== "failed" && !!pollTimers[documentId],
+              timedOut: nextUploadJobState[documentId].timedOut,
+            },
+            nextUploadJobState[documentId]
+          );
+          changed = true;
+
+          if (isReadyDocument(documentItem) || documentLifecycle(documentItem) === "failed") {
+            if (pollTimers[documentId]) {
+              window.clearTimeout(pollTimers[documentId]);
+              delete pollTimers[documentId];
+            }
+          }
+        });
+
+      return changed ? nextUploadJobState : state.uploadJobState;
+    }
+
+    function applyAssistantResponse(response, options) {
+      const phase = normalizeString(response && response.phase) === "phase_1" ? "phase_1" : "phase_2";
+      const selectedIndustry = normalizeIndustry(response && response.industry) || normalizeIndustry(options && options.industryFallback) || state.selectedIndustry;
+      const assistantText = normalizeMessageText(response && response.message);
+      const responseDocuments = normalizeDocumentList(response && response.documents);
+      const responsePendingDocuments = normalizeDocumentList(response && response.pending_documents);
+      const nextMessages = assistantText ? state.messages.concat(createMessage("assistant", assistantText)) : state.messages;
+
+      patchState({
+        phase: phase,
+        selectedIndustry: selectedIndustry,
+        sessionId: Object.prototype.hasOwnProperty.call(response || {}, "session_id") ? normalizeString(response && response.session_id) || null : state.sessionId,
+        messages: nextMessages,
+        documentIds: Object.prototype.hasOwnProperty.call(response || {}, "document_ids")
+          ? uniqueStrings(ensureArray(response && response.document_ids).map(getDocumentId))
+          : [],
+        workspaceId: Object.prototype.hasOwnProperty.call(response || {}, "workspace_id")
+          ? normalizeString(response && response.workspace_id) || null
+          : null,
+        documents: responseDocuments,
+        pendingDocuments: responsePendingDocuments,
+        references: normalizeReferences(response && response.references),
+        nextActions: normalizeActions(response && response.next_actions),
+        starterPrompts: normalizeStarterPrompts(response && response.starter_prompts),
+        scopeStatus: normalizeString(response && response.scope_status),
+        uploadJobState: syncUploadStateFromAssistantResponse(responseDocuments, responsePendingDocuments),
+      });
+    }
+
+    async function sendAssistantRequest(request, options) {
+      const endpoint = buildIdxUrl("/idx/assistant/chat");
+      const previousInput = elements.input ? elements.input.value : "";
+      const previousMessages = state.messages.slice();
+      const requestBody = buildAssistantRequestBody(request, state);
+      const messageText = normalizeString(requestBody.message);
+
+      if (!endpoint) {
+        setNotice(buildUiNotice(null, { action: "assistant chat", endpoint: "" }));
+        render();
+        return null;
+      }
+
+      if (!requestBody.industry) {
+        setNotice({
+          title: "Choose an industry first",
+          body: "Select one of the supported IDX assistant industries before sending a request.",
+        });
+        render();
+        return null;
+      }
+
+      if (!(await ensureAuthenticated())) {
+        render();
+        return null;
+      }
+
+      if (options && options.appendUser && messageText) {
+        patchState({
+          messages: previousMessages.concat(createMessage("user", requestBody.message)),
+        });
+      }
+
+      clearNotice();
+      ui.bootstrapPending = !!(options && options.bootstrap);
+      ui.chatPending = !ui.bootstrapPending;
+      render();
+
+      try {
+        const response = await postJson(endpoint, requestBody);
+        applyAssistantResponse(response, { industryFallback: requestBody.industry });
+        clearNotice();
+
+        if (elements.input && options && options.clearComposerOnSuccess) {
+          elements.input.value = "";
+        }
+
+        return response;
+      } catch (error) {
+        if (error && (error.status === 401 || error.status === 403)) {
+          authState = {
+            checked: true,
+            authenticated: false,
+            missingConfig: authState.missingConfig,
+          };
+        }
+
+        if (options && options.appendUser) {
+          patchState({ messages: previousMessages });
+        }
+
+        setNotice(
+          buildUiNotice(error, {
+            action: options && options.bootstrap ? "assistant bootstrap" : "assistant chat",
+            endpoint: endpoint,
+          })
+        );
+
+        if (elements.input && options && options.restoreComposerOnFailure) {
+          elements.input.value = previousInput || requestBody.message;
+        }
+
+        return null;
+      } finally {
+        ui.bootstrapPending = false;
+        ui.chatPending = false;
+        render();
+      }
+    }
+
+    async function enterIndustry(industry, options) {
       const normalized = normalizeIndustry(industry);
       if (!normalized) return;
 
-      setWorkspaceNotice(null);
+      const preservedContext = {
+        sessionId: state.sessionId,
+        documentIds: state.documentIds.slice(),
+        workspaceId: state.workspaceId,
+      };
+
       setIndustryQuery(normalized);
-      setState(resetAssistantState(normalized));
-      if (!(options && options.skipFocus)) focusComposer();
+      clearNotice();
+      resetVisibleAssistantState(normalized, preservedContext);
+
+      if (!(options && options.skipFocus)) {
+        focusComposer();
+      }
+
+      await sendAssistantRequest(
+        {
+          industry: normalized,
+          message: "",
+          session_id: preservedContext.sessionId,
+          document_ids: preservedContext.documentIds,
+          workspace_id: preservedContext.workspaceId,
+        },
+        {
+          bootstrap: true,
+        }
+      );
     }
 
     function returnToPhase1() {
-      setWorkspaceNotice(null);
+      clearNotice();
       patchState({
         phase: "phase_1",
         selectedIndustry: "general",
@@ -871,337 +1077,326 @@
     }
 
     function canSend() {
-      return state.phase === "phase_2" && state.selectedIndustry !== "general" && !state.isSending;
+      return state.phase === "phase_2" && !!normalizeIndustry(state.selectedIndustry);
     }
 
-    async function ensureAuthenticated() {
-      const session = authState.checked ? authState : await refreshAuth(true);
-      return !!session.authenticated;
-    }
+    async function dispatchAction(action) {
+      const kind = actionKind(action);
+      const payload = action && action.payload && typeof action.payload === "object" ? action.payload : {};
+      const request = buildRequestPayload(action);
 
-    function normalizePolledDocument(response, fallbackDocument) {
-      const normalized = normalizeDocument(
-        response,
-        Object.assign(
-          {
-            id: fallbackDocument.id,
-            title: fallbackDocument.title,
-            fileName: fallbackDocument.fileName,
-            status: fallbackDocument.status || "processing",
-            ocrStatus: fallbackDocument.ocrStatus || "pending",
-            indexStatus: fallbackDocument.indexStatus || "pending",
-            lifecycle: "processing",
-          },
-          fallbackDocument || {}
-        )
-      );
+      if (!kind) return;
 
-      if (!normalized) {
-        logNormalizationIssue("Poll response could not be normalized into a document record.", response);
-        return null;
-      }
-
-      normalized.lifecycle = resolveDocumentLifecycle(normalized);
-      return normalized;
-    }
-
-    async function sendChatMessage(message, overrides) {
-      const text = normalizeString(message);
-      const endpoint = buildIdxUrl("/idx/assistant/chat");
-
-      if (!text || !canSend()) return;
-      if (!endpoint) {
-        setWorkspaceNotice(buildRuntimeIssue(null, { action: "assistant chat", endpoint: "" }));
-        render();
+      if (kind === "upload") {
+        if (elements.fileInput) elements.fileInput.click();
         return;
       }
 
-      if (!(await ensureAuthenticated())) {
-        render();
+      if (kind === "open_reference") {
+        const url = normalizeString(payload.url || action.url || "");
+        if (url) window.open(url, "_blank", "noopener,noreferrer");
         return;
       }
 
-      setWorkspaceNotice(null);
-      const nextMessages = state.messages.concat(createMessage("user", text));
-      patchState({
-        messages: nextMessages,
-        isSending: true,
+      if (kind === "prompt" || kind === "run_tool") {
+        if (!request) {
+          setNotice({
+            title: "Server action is incomplete",
+            body: "The selected action did not include a valid assistant request payload.",
+          });
+          render();
+          return;
+        }
+
+        if (kind === "prompt" && elements.input) {
+          elements.input.value = actionPrompt(action) || rawString(request.message);
+        }
+
+        await sendAssistantRequest(request, {
+          appendUser: true,
+          clearComposerOnSuccess: kind === "prompt",
+          restoreComposerOnFailure: true,
+        });
+      }
+    }
+
+    function clearPollTimer(documentId) {
+      if (!pollTimers[documentId]) return;
+      window.clearTimeout(pollTimers[documentId]);
+      delete pollTimers[documentId];
+    }
+
+    function nextPollDelay(documentId) {
+      const entry = normalizeUploadJobStateEntry((state.uploadJobState || {})[documentId], null);
+      return entry.timedOut ? SLOW_POLL_INTERVAL_MS : FAST_POLL_INTERVAL_MS;
+    }
+
+    function schedulePoll(documentId, delayMs) {
+      clearPollTimer(documentId);
+      pollTimers[documentId] = window.setTimeout(function () {
+        runUploadPoll(documentId);
+      }, delayMs);
+    }
+
+    async function runUploadPoll(documentId) {
+      const currentEntry = normalizeUploadJobStateEntry((state.uploadJobState || {})[documentId], null);
+      if (!currentEntry || !currentEntry.jobId) return;
+
+      const jobUrl = buildIdxUrl("/idx/jobs/" + encodeURIComponent(currentEntry.jobId));
+      const documentUrl = buildIdxUrl("/idx/documents/" + encodeURIComponent(documentId));
+      const startedAt = pollMeta[documentId] && pollMeta[documentId].startedAt ? pollMeta[documentId].startedAt : Date.now();
+      const fallbackDocument =
+        state.pendingDocuments.find(function (item) {
+          return getDocumentId(item) === documentId;
+        }) ||
+        state.documents.find(function (item) {
+          return getDocumentId(item) === documentId;
+        }) ||
+        buildPolledDocument(documentId, currentEntry, null);
+
+      pollMeta[documentId] = { startedAt: startedAt };
+
+      setUploadJobStateEntry(documentId, {
+        isPolling: true,
+        lastPollAt: new Date().toISOString(),
       });
 
-      if (elements.input && (!overrides || !overrides.preserveInput)) {
-        elements.input.value = "";
-      }
+      const [jobResult, documentResult] = await Promise.allSettled([
+        fetchJson(jobUrl, { method: "GET" }),
+        fetchJson(documentUrl, { method: "GET" }),
+      ]);
 
-      const payload = {
-        industry: state.selectedIndustry,
-        message: text,
-        document_ids: overrides && overrides.documentIds ? overrides.documentIds : state.documentIds,
-        workspace_id: overrides && Object.prototype.hasOwnProperty.call(overrides, "workspaceId") ? overrides.workspaceId : state.workspaceId,
-        session_id: overrides && Object.prototype.hasOwnProperty.call(overrides, "sessionId") ? overrides.sessionId : state.sessionId,
-      };
+      const timedOut = Date.now() - startedAt >= FAST_POLL_WINDOW_MS;
+      const timestamp = new Date().toISOString();
 
-      try {
-        const response = await postJson(endpoint, payload);
-        const assistantText = normalizeMessageText(response.message) || "No response.";
-        const responseDocumentIds = uniqueStrings(
-          (Array.isArray(response.document_ids) ? response.document_ids.map(getDocumentId) : []).concat(
-            Array.isArray(response.documents) ? response.documents.map(getDocumentId) : []
-          )
-        );
-        const mergedDocuments = mergeDocuments(state.documents, response.documents, responseDocumentIds);
-        setWorkspaceNotice(null);
+      if (jobResult.status === "rejected" || documentResult.status === "rejected") {
+        const error = jobResult.status === "rejected" ? jobResult.reason : documentResult.reason;
+        const failedEndpoint = jobResult.status === "rejected" ? jobUrl : documentUrl;
 
-        patchState({
-          phase: normalizeString(response.phase) === "phase_1" ? "phase_1" : "phase_2",
-          sessionId: normalizeString(response.session_id) || state.sessionId,
-          messages: nextMessages.concat(createMessage("assistant", assistantText)),
-          references: normalizeReferences(response.references),
-          nextActions: normalizeActions(response.next_actions),
-          starterPrompts: normalizePrompts(response.starter_prompts),
-          documentIds: uniqueStrings(responseDocumentIds),
-          workspaceId: response.workspace_id == null ? null : response.workspace_id,
-          documents: mergedDocuments,
-          isSending: false,
-          uploadError: "",
-        });
-      } catch (error) {
-        const issue = buildRuntimeIssue(error, {
-          action: "assistant chat",
-          endpoint: endpoint,
-        });
         if (error && (error.status === 401 || error.status === 403)) {
           authState = {
             checked: true,
             authenticated: false,
             missingConfig: authState.missingConfig,
           };
-          setWorkspaceNotice(issue);
-          if (elements.input && (!overrides || !overrides.preserveInput)) {
-            elements.input.value = text;
-          }
-          patchState({
-            isSending: false,
-          });
-          return;
         }
 
-        setWorkspaceNotice(issue);
-        if (elements.input && (!overrides || !overrides.preserveInput)) {
-          elements.input.value = text;
-        }
+        const failedEntry = normalizeUploadJobStateEntry(
+          {
+            jobId: currentEntry.jobId,
+            latestJobPayload: jobResult.status === "fulfilled" ? jobResult.value : currentEntry.latestJobPayload,
+            latestDocumentPayload: documentResult.status === "fulfilled" ? documentResult.value : currentEntry.latestDocumentPayload,
+            isPolling: false,
+            timedOut: timedOut,
+            lastPollAt: timestamp,
+          },
+          currentEntry
+        );
+
         patchState({
-          messages: nextMessages.concat(createMessage("assistant", issue.message)),
-          isSending: false,
+          uploadJobState: Object.assign({}, state.uploadJobState, {
+            [documentId]: failedEntry,
+          }),
+          pendingDocuments: upsertDocument(state.pendingDocuments, buildPolledDocument(documentId, failedEntry, fallbackDocument)),
         });
+
+        setNotice(
+          buildUiNotice(error, {
+            action: "document polling",
+            endpoint: failedEndpoint,
+          })
+        );
+
+        schedulePoll(documentId, nextPollDelay(documentId));
+        return;
       }
+
+      const nextEntry = normalizeUploadJobStateEntry(
+        {
+          jobId: currentEntry.jobId,
+          latestJobPayload: jobResult.value,
+          latestDocumentPayload: documentResult.value,
+          isPolling: false,
+          timedOut: timedOut,
+          lastPollAt: timestamp,
+        },
+        currentEntry
+      );
+
+      const nextUploadJobState = cloneUploadJobState();
+      nextUploadJobState[documentId] = nextEntry;
+
+      const nextDocument = buildPolledDocument(documentId, nextEntry, fallbackDocument);
+      const lifecycle = documentLifecycle(nextDocument);
+
+      if (lifecycle === "ready") {
+        clearPollTimer(documentId);
+        patchState({
+          uploadJobState: nextUploadJobState,
+          pendingDocuments: removeDocument(state.pendingDocuments, documentId),
+          documents: upsertDocument(state.documents, nextDocument),
+          documentIds: uniqueStrings(state.documentIds.concat(documentId)),
+        });
+        return;
+      }
+
+      if (lifecycle === "failed") {
+        clearPollTimer(documentId);
+        patchState({
+          uploadJobState: nextUploadJobState,
+          pendingDocuments: upsertDocument(state.pendingDocuments, nextDocument),
+        });
+        return;
+      }
+
+      patchState({
+        uploadJobState: nextUploadJobState,
+        pendingDocuments: upsertDocument(state.pendingDocuments, nextDocument),
+      });
+
+      schedulePoll(documentId, nextEntry.timedOut ? SLOW_POLL_INTERVAL_MS : FAST_POLL_INTERVAL_MS);
     }
 
-    async function pollDocument(documentItem, onProgress) {
-      const fallbackDocument = normalizeDocument(documentItem, documentItem);
-      const endpoint = buildIdxUrl("/idx/documents/" + encodeURIComponent(fallbackDocument.id));
-      const deadline = Date.now() + POLL_TIMEOUT_MS;
+    async function uploadSingleFile(file) {
+      const endpoint = buildIdxUrl("/idx/documents/upload");
+      const tempDocument = createLocalPendingDocument(file);
 
-      while (Date.now() < deadline) {
-        const response = await fetchJson(endpoint, { method: "GET" });
-        const documentData = normalizePolledDocument(response, fallbackDocument);
+      patchState({
+        pendingDocuments: [tempDocument].concat(state.pendingDocuments),
+      });
 
-        if (!documentData) {
-          const malformed = new Error("Document processing returned an unreadable response.");
-          malformed.document = normalizeDocument(
-            Object.assign({}, fallbackDocument, {
-              lifecycle: "failed",
-              error: "Document processing returned an unreadable response.",
-            }),
-            fallbackDocument
+      try {
+        const formData = new FormData();
+        formData.append("files", file, file.name);
+
+        const response = await fetchJson(endpoint, {
+          method: "POST",
+          body: formData,
+          headers: {},
+        });
+
+        const uploadItems = extractUploadItems(response, file);
+        if (!uploadItems.length) {
+          throw new Error("Upload completed but returned no document records.");
+        }
+
+        const nextUploadJobState = cloneUploadJobState();
+        uploadItems.forEach(function (item) {
+          const latestDocumentPayload = {
+            document_id: item.document_id,
+            file_name: item.file_name,
+            status: item.status,
+            ocr_status: item.ocr_status,
+            index_status: item.index_status,
+          };
+
+          nextUploadJobState[item.document_id] = normalizeUploadJobStateEntry(
+            {
+              jobId: item.job_id,
+              latestJobPayload: item.raw || item,
+              latestDocumentPayload: latestDocumentPayload,
+              isPolling: false,
+              timedOut: false,
+              lastPollAt: null,
+            },
+            null
           );
-          throw malformed;
+
+          pollMeta[item.document_id] = { startedAt: Date.now() };
+        });
+
+        patchState({
+          uploadJobState: nextUploadJobState,
+          pendingDocuments: replaceDocuments(state.pendingDocuments, [tempDocument.document_id], uploadItems),
+        });
+
+        uploadItems.forEach(function (item) {
+          if (item.job_id) {
+            schedulePoll(item.document_id, 0);
+          } else if (isReadyDocument(item)) {
+            patchState({
+              pendingDocuments: removeDocument(state.pendingDocuments, item.document_id),
+              documents: upsertDocument(state.documents, item),
+              documentIds: uniqueStrings(state.documentIds.concat(item.document_id)),
+            });
+          }
+        });
+      } catch (error) {
+        if (error && (error.status === 401 || error.status === 403)) {
+          authState = {
+            checked: true,
+            authenticated: false,
+            missingConfig: authState.missingConfig,
+          };
         }
 
-        if (onProgress) {
-          onProgress(documentData, response);
-        }
+        patchState({
+          pendingDocuments: replaceDocuments(state.pendingDocuments, [tempDocument.document_id], [
+            normalizeDocumentRecord(
+              {
+                document_id: tempDocument.document_id,
+                file_name: tempDocument.file_name,
+                status: "failed",
+                error: extractErrorMessage(error && error.data) || extractErrorMessage(error) || "Could not upload this PDF right now.",
+              },
+              tempDocument
+            ),
+          ]),
+        });
 
-        if (documentData.lifecycle === "ready") {
-          return documentData;
-        }
-
-        if (documentData.lifecycle === "failed") {
-          const failure = new Error(documentData.error || "Document processing failed.");
-          failure.document = documentData;
-          throw failure;
-        }
-
-        await delay(POLL_INTERVAL_MS);
+        setNotice(
+          buildUiNotice(error, {
+            action: "document upload",
+            endpoint: endpoint,
+          })
+        );
       }
-
-      const timeoutError = new Error("Timed out waiting for the uploaded document to finish processing.");
-      timeoutError.document = normalizeDocument(
-        Object.assign({}, fallbackDocument, {
-          lifecycle: "failed",
-          error: "Timed out waiting for the uploaded document to finish processing.",
-        }),
-        fallbackDocument
-      );
-      throw timeoutError;
     }
 
     async function uploadFiles(files) {
       const endpoint = buildIdxUrl("/idx/documents/upload");
       const incomingFiles = Array.from(files || []);
-      const validFiles = (files || []).filter(function (file) {
+      const validFiles = incomingFiles.filter(function (file) {
         return file && ((file.type || "").toLowerCase() === "application/pdf" || /\.pdf$/i.test(file.name || ""));
       });
 
       if (!incomingFiles.length) return;
 
       if (!validFiles.length) {
-        patchState({
-          uploadError: "Only PDF files are supported.",
+        setNotice({
+          title: "Only PDF files are supported",
+          body: "Select one or more PDF files to upload into IDX.",
         });
+        render();
         return;
       }
 
       if (!endpoint) {
-        setWorkspaceNotice(buildRuntimeIssue(null, { action: "document upload", endpoint: "" }));
-        patchState({
-          uploadError: "The upload endpoint is not configured.",
-        });
+        setNotice(buildUiNotice(null, { action: "document upload", endpoint: "" }));
+        render();
         return;
       }
-
-      if (state.isUploading) return;
 
       if (!(await ensureAuthenticated())) {
         render();
         return;
       }
 
-      setWorkspaceNotice(null);
-      patchState({
-        isUploading: true,
-        uploadError: "",
-      });
+      clearNotice();
+      ui.uploadActiveCount += validFiles.length;
+      render();
 
       for (const file of validFiles) {
-        const pendingDocument = createPendingDocument(file);
-        patchState({
-          documents: [pendingDocument].concat(state.documents),
-        });
-
-        try {
-          const formData = new FormData();
-          formData.append("files", file, file.name);
-
-          const uploadResponse = await fetchJson(endpoint, {
-            method: "POST",
-            body: formData,
-            headers: {},
-          });
-
-          const uploadDocuments = extractUploadDocumentRecords(uploadResponse, file);
-
-          if (!uploadDocuments.length) {
-            throw new Error("Upload completed but no document could be attached.");
-          }
-
-          patchState({
-            documents: replaceDocuments(state.documents, [pendingDocument.id], uploadDocuments),
-          });
-
-          for (const uploadDocument of uploadDocuments) {
-            try {
-              const readyDocument = await pollDocument(uploadDocument, function (progressDocument) {
-                patchState({
-                  documents: upsertDocument(state.documents, progressDocument, [uploadDocument.id]),
-                });
-              });
-
-              setWorkspaceNotice(null);
-              patchState({
-                documents: upsertDocument(
-                  state.documents,
-                  Object.assign({}, readyDocument, {
-                    lifecycle: "ready",
-                    error: "",
-                  }),
-                  [uploadDocument.id]
-                ),
-                documentIds: uniqueStrings(state.documentIds.concat(readyDocument.id)),
-                uploadError: "",
-              });
-            } catch (pollError) {
-              const issue = buildRuntimeIssue(pollError, {
-                action: "document status check",
-                endpoint: buildIdxUrl("/idx/documents/" + encodeURIComponent(uploadDocument.id)),
-              });
-              const failedDocument = normalizeDocument(
-                (pollError && pollError.document) ||
-                  Object.assign({}, uploadDocument, {
-                    lifecycle: "failed",
-                    error: issue.message || (pollError && pollError.message) || "Document processing failed.",
-                  }),
-                {
-                  id: uploadDocument.id,
-                  title: uploadDocument.title,
-                  fileName: uploadDocument.fileName,
-                  lifecycle: "failed",
-                }
-              );
-
-              if (issue.emphasize) {
-                setWorkspaceNotice(issue);
-              }
-              patchState({
-                documents: upsertDocument(state.documents, failedDocument, [uploadDocument.id]),
-                documentIds: state.documentIds.filter(function (id) {
-                  return id !== uploadDocument.id;
-                }),
-                uploadError: failedDocument.error || "Document processing failed.",
-              });
-            }
-          }
-        } catch (error) {
-          const issue = buildRuntimeIssue(error, {
-            action: "document upload",
-            endpoint: endpoint,
-          });
-          if (error && (error.status === 401 || error.status === 403)) {
-            authState = {
-              checked: true,
-              authenticated: false,
-              missingConfig: authState.missingConfig,
-            };
-          }
-
-          if (issue.emphasize) {
-            setWorkspaceNotice(issue);
-          }
-          const failedPendingDocument = normalizeDocument(
-            Object.assign({}, pendingDocument, {
-              lifecycle: "failed",
-              status: "failed",
-              ocrStatus: "failed",
-              indexStatus: "failed",
-              error: issue.message || (error && error.message) || "Could not upload this PDF right now.",
-            }),
-            pendingDocument
-          );
-
-          patchState({
-            documents: replaceDocuments(state.documents, [pendingDocument.id], [failedPendingDocument]),
-            uploadError: failedPendingDocument.error || "Could not upload this PDF right now.",
-          });
-        }
+        await uploadSingleFile(file);
       }
 
-      patchState({
-        isUploading: false,
-      });
+      ui.uploadActiveCount = Math.max(0, ui.uploadActiveCount - validFiles.length);
+      render();
     }
 
     function toggleDocument(documentId) {
       const documentItem = state.documents.find(function (item) {
-        return item.id === documentId;
+        return getDocumentId(item) === documentId;
       });
 
       if (!isReadyDocument(documentItem)) return;
@@ -1217,142 +1412,60 @@
       });
     }
 
-    function prefillComposer(text) {
-      if (!elements.input) return;
-      elements.input.value = text;
-      render();
-      focusComposer();
-    }
-
-    function actionRequestPayload(payload) {
-      return payload && payload.request && typeof payload.request === "object" ? payload.request : null;
-    }
-
-    async function dispatchAction(action) {
-      const kind = actionKind(action);
-      const payload = actionPayload(action);
-      const request = actionRequestPayload(payload);
-
-      if (!kind) return;
-
-      if (kind === "prompt") {
-        const prompt = normalizeString(payload.prompt || payload.text || payload.message || (request && request.message) || "");
-        if (prompt) prefillComposer(prompt);
-        return;
-      }
-
-      if (kind === "upload") {
-        if (elements.fileInput) elements.fileInput.click();
-        return;
-      }
-
-      if (kind === "open_reference") {
-        const url = normalizeString(payload.url || action.url || "");
-        if (url) window.open(url, "_blank", "noopener,noreferrer");
-        return;
-      }
-
-      if (kind === "run_tool") {
-        const toolName = normalizeString(payload.tool_name || payload.tool || action.tool_name || action.name || "");
-
-        if (request && normalizeString(request.message)) {
-          await sendChatMessage(request.message, {
-            documentIds: Array.isArray(request.document_ids) ? uniqueStrings(request.document_ids.map(getDocumentId)) : state.documentIds,
-            workspaceId:
-              Object.prototype.hasOwnProperty.call(request, "workspace_id") && request.workspace_id != null
-                ? request.workspace_id
-                : state.workspaceId,
-          });
-          return;
-        }
-
-        if (toolName === "run_summarize") {
-          const requestedDocumentIds = Array.isArray(payload.document_ids)
-            ? payload.document_ids.map(getDocumentId)
-            : Array.isArray(payload.arguments && payload.arguments.document_ids)
-              ? payload.arguments.document_ids.map(getDocumentId)
-              : state.documentIds;
-          const requestedWorkspaceId =
-            payload.workspace_id ||
-            (payload.arguments && payload.arguments.workspace_id) ||
-            state.workspaceId ||
-            null;
-
-          await sendChatMessage("Summarize this document.", {
-            documentIds: uniqueStrings(requestedDocumentIds),
-            workspaceId: requestedWorkspaceId,
-          });
-        }
-      }
-    }
-
     function renderTranscript() {
       if (!elements.transcript) return;
-
       elements.transcript.innerHTML = "";
 
       if (!state.messages.length) {
-        const emptyState = document.createElement("div");
-        emptyState.className = "mdz-idx__empty mdz-idx__empty--transcript";
-
-        const title = document.createElement("strong");
-        title.textContent = state.documentIds.length ? "Ask about the selected documents" : "Start with a prompt or a PDF";
-        emptyState.appendChild(title);
-
-        const copy = document.createElement("p");
-        copy.textContent = state.documentIds.length
-          ? "Your selected PDFs are ready as assistant context. Ask a direct question, request a summary, or use a follow-up chip."
-          : "Pick a starter prompt, upload a PDF, or ask a question to start the assistant workspace.";
-        emptyState.appendChild(copy);
-
-        elements.transcript.appendChild(emptyState);
+        if (ui.bootstrapPending) {
+          const loading = document.createElement("p");
+          loading.className = "mdz-idx__empty-inline";
+          loading.textContent = "Loading assistant…";
+          elements.transcript.appendChild(loading);
+        }
         return;
       }
 
       state.messages.forEach(function (message) {
-        const messageEl = document.createElement("article");
-        messageEl.className = "mdz-idx__message mdz-idx__message--" + message.role;
+        const article = document.createElement("article");
+        article.className = "mdz-idx__message mdz-idx__message--" + message.role;
 
-        const metaEl = document.createElement("div");
-        metaEl.className = "mdz-idx__message-meta";
-        metaEl.textContent = message.role === "user" ? "You" : "Assistant";
+        const meta = document.createElement("div");
+        meta.className = "mdz-idx__message-meta";
+        meta.textContent = message.role === "user" ? "You" : "Assistant";
 
-        const bubbleEl = document.createElement("div");
-        bubbleEl.className = "mdz-idx__message-bubble";
-        bubbleEl.textContent = message.text;
+        const bubble = document.createElement("div");
+        bubble.className = "mdz-idx__message-bubble";
+        bubble.textContent = message.text;
 
-        messageEl.appendChild(metaEl);
-        messageEl.appendChild(bubbleEl);
-        elements.transcript.appendChild(messageEl);
+        article.appendChild(meta);
+        article.appendChild(bubble);
+        elements.transcript.appendChild(article);
       });
 
       elements.transcript.scrollTop = elements.transcript.scrollHeight;
     }
 
-    function renderPromptChips() {
+    function renderStarterPrompts() {
       if (!elements.starterPrompts) return;
-
       elements.starterPrompts.innerHTML = "";
 
-      if (!state.starterPrompts.length) {
-        const empty = document.createElement("p");
-        empty.className = "mdz-idx__empty-inline";
-        empty.textContent = "Starter prompts will appear here.";
-        elements.starterPrompts.appendChild(empty);
-        return;
+      const prompts = state.starterPrompts.filter(Boolean);
+      if (elements.starterGroup) {
+        elements.starterGroup.hidden = !prompts.length;
       }
 
-      state.starterPrompts.forEach(function (prompt) {
-        const text = promptValue(prompt);
-        const label = promptLabel(prompt) || text;
-        if (!text) return;
-
+      prompts.forEach(function (prompt) {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "mdz-idx__chip";
-        button.textContent = label;
+        button.textContent = prompt;
         button.addEventListener("click", function () {
-          prefillComposer(text);
+          if (elements.input) {
+            elements.input.value = prompt;
+            render();
+            focusComposer();
+          }
         });
         elements.starterPrompts.appendChild(button);
       });
@@ -1360,23 +1473,19 @@
 
     function renderActionChips() {
       if (!elements.nextActions) return;
-
       elements.nextActions.innerHTML = "";
 
-      if (!state.nextActions.length) {
-        const empty = document.createElement("p");
-        empty.className = "mdz-idx__empty-inline";
-        empty.textContent = "The server can return follow-up actions here.";
-        elements.nextActions.appendChild(empty);
-        return;
+      const actions = state.nextActions.filter(Boolean);
+      if (elements.actionsGroup) {
+        elements.actionsGroup.hidden = !actions.length;
       }
 
-      state.nextActions.forEach(function (action) {
+      actions.forEach(function (action) {
         const button = document.createElement("button");
         button.type = "button";
         button.className = "mdz-idx__chip";
         button.textContent = actionLabel(action);
-        button.disabled = state.isSending || state.isUploading;
+        button.disabled = ui.chatPending || ui.bootstrapPending;
         button.addEventListener("click", function () {
           dispatchAction(action);
         });
@@ -1384,123 +1493,153 @@
       });
     }
 
-    function renderDocumentContext() {
-      if (!elements.documentContext) return;
+    function renderDocumentGroup(title, documents, options) {
+      const group = document.createElement("section");
+      group.className = "mdz-idx__document-group";
 
-      elements.documentContext.innerHTML = "";
-      elements.documentContext.classList.toggle("mdz-idx__document-context--empty", !state.documents.length);
+      const heading = document.createElement("h4");
+      heading.className = "mdz-idx__document-group-title";
+      heading.textContent = title;
+      group.appendChild(heading);
 
-      if (!state.documents.length) {
-        const empty = document.createElement("p");
-        empty.className = "mdz-idx__empty-inline";
-        empty.textContent = "No documents selected yet. Upload is the primary next step.";
-        elements.documentContext.appendChild(empty);
-        return;
-      }
+      documents.forEach(function (documentItem) {
+        const record = normalizeDocumentRecord(documentItem, documentItem);
+        if (!record) return;
 
-      state.documents.forEach(function (documentItem) {
-        const normalized = normalizeDocument(documentItem, documentItem);
-        const lifecycle = resolveDocumentLifecycle(normalized);
-        const isSelected = lifecycle === "ready" && state.documentIds.includes(normalized.id);
-        const isSelectable = lifecycle === "ready";
+        const lifecycle = documentLifecycle(record);
+        const isSelectable = !!(options && options.selectable) && lifecycle === "ready";
+        const isSelected = lifecycle === "ready" && state.documentIds.includes(record.document_id);
         const card = document.createElement(isSelectable ? "button" : "div");
 
         if (isSelectable) {
           card.type = "button";
           card.setAttribute("aria-pressed", isSelected ? "true" : "false");
           card.addEventListener("click", function () {
-            toggleDocument(normalized.id);
+            toggleDocument(record.document_id);
           });
         }
 
         card.className =
-          "mdz-idx__document-card is-" + lifecycle + (isSelected ? " is-active" : "") + (isSelectable ? " is-selectable" : "");
+          "mdz-idx__document-card is-" + lifecycle + (isSelectable ? " is-selectable" : "") + (isSelected ? " is-active" : "");
 
-        const topRow = document.createElement("div");
-        topRow.className = "mdz-idx__document-top";
+        const top = document.createElement("div");
+        top.className = "mdz-idx__document-top";
 
         const copy = document.createElement("div");
         copy.className = "mdz-idx__document-copy";
 
-        const title = document.createElement("strong");
-        title.className = "mdz-idx__document-title";
-        title.textContent = normalized.title;
-        copy.appendChild(title);
+        const name = document.createElement("strong");
+        name.className = "mdz-idx__document-title";
+        name.textContent = record.file_name || record.document_id;
 
         const detail = document.createElement("p");
         detail.className = "mdz-idx__document-detail";
-        detail.textContent = documentStatusDetail(normalized, isSelected);
-        copy.appendChild(detail);
+        detail.textContent = documentStatusDetail(record, isSelected);
 
         const badge = document.createElement("span");
         badge.className = "mdz-idx__document-badge is-" + lifecycle;
-        badge.textContent = documentStatusLabel(normalized);
+        badge.textContent = documentStatusLabel(record);
 
-        topRow.appendChild(copy);
-        topRow.appendChild(badge);
-        card.appendChild(topRow);
+        copy.appendChild(name);
+        copy.appendChild(detail);
+        top.appendChild(copy);
+        top.appendChild(badge);
+        card.appendChild(top);
 
-        if (normalized.fileName && normalized.fileName !== normalized.title) {
-          const fileMeta = document.createElement("p");
-          fileMeta.className = "mdz-idx__document-meta";
-          fileMeta.textContent = normalized.fileName;
-          card.appendChild(fileMeta);
-        }
+        const metaParts = ["document_id " + record.document_id];
+        if (record.job_id) metaParts.push("job_id " + record.job_id);
 
-        if (lifecycle === "failed" && normalized.error) {
+        const meta = document.createElement("p");
+        meta.className = "mdz-idx__document-meta";
+        meta.textContent = metaParts.join(" | ");
+        card.appendChild(meta);
+
+        if (record.error) {
           const error = document.createElement("p");
           error.className = "mdz-idx__document-error";
-          error.textContent = normalized.error;
+          error.textContent = record.error;
           card.appendChild(error);
         }
 
-        elements.documentContext.appendChild(card);
+        group.appendChild(card);
       });
+
+      return group;
+    }
+
+    function renderDocumentContext() {
+      if (!elements.documentContext) return;
+      elements.documentContext.innerHTML = "";
+
+      const pendingDocuments = normalizeDocumentList(state.pendingDocuments);
+      const pendingIds = new Set(
+        pendingDocuments.map(function (documentItem) {
+          return documentItem.document_id;
+        })
+      );
+      const scopedDocuments = normalizeDocumentList(state.documents).filter(function (documentItem) {
+        return !pendingIds.has(documentItem.document_id);
+      });
+
+      if (!scopedDocuments.length && !pendingDocuments.length) {
+        const empty = document.createElement("p");
+        empty.className = "mdz-idx__empty-inline";
+        empty.textContent = "No documents are currently in assistant scope.";
+        elements.documentContext.appendChild(empty);
+        return;
+      }
+
+      if (scopedDocuments.length) {
+        elements.documentContext.appendChild(
+          renderDocumentGroup("Documents in scope", scopedDocuments, {
+            selectable: true,
+          })
+        );
+      }
+
+      if (pendingDocuments.length) {
+        elements.documentContext.appendChild(
+          renderDocumentGroup("Pending documents", pendingDocuments, {
+            selectable: false,
+          })
+        );
+      }
     }
 
     function renderReferences() {
       if (!elements.references) return;
-
       elements.references.innerHTML = "";
 
-      if (!state.references.length) {
-        const empty = document.createElement("p");
-        empty.className = "mdz-idx__empty-inline";
-        empty.textContent = "References returned by the assistant will appear here.";
-        elements.references.appendChild(empty);
-        return;
-      }
-
       state.references.forEach(function (reference) {
-        const url = referenceUrl(reference);
+        const url = normalizeString(reference && (reference.url || reference.href || reference.link));
         if (!url) return;
 
-        const item = document.createElement("a");
-        item.className = "mdz-idx__reference";
-        item.href = url;
-        item.target = "_blank";
-        item.rel = "noopener noreferrer";
+        const link = document.createElement("a");
+        link.className = "mdz-idx__reference";
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
 
         const title = document.createElement("strong");
-        title.textContent = referenceTitle(reference);
-        item.appendChild(title);
+        title.textContent = normalizeString(reference.title || reference.label || url) || url;
+        link.appendChild(title);
 
-        const meta = referenceMeta(reference);
-        if (meta) {
-          const metaEl = document.createElement("span");
-          metaEl.textContent = meta;
-          item.appendChild(metaEl);
+        const source = normalizeString(reference.document_id || reference.kind || "");
+        if (source) {
+          const sourceEl = document.createElement("span");
+          sourceEl.textContent = humanizeValue(source);
+          link.appendChild(sourceEl);
         }
 
-        elements.references.appendChild(item);
-      });
+        const excerpt = normalizeString(reference.excerpt || reference.snippet || reference.description || "");
+        if (excerpt) {
+          const excerptEl = document.createElement("span");
+          excerptEl.textContent = excerpt;
+          link.appendChild(excerptEl);
+        }
 
-      if (!elements.references.children.length) {
-        const empty = document.createElement("p");
-        empty.className = "mdz-idx__empty-inline";
-        empty.textContent = "References returned by the assistant will appear here.";
-        elements.references.appendChild(empty);
-      }
+        elements.references.appendChild(link);
+      });
     }
 
     function renderAuthGate() {
@@ -1519,29 +1658,59 @@
         setText(elements.authGateCopy, "The site auth configuration is missing, so the assistant workspace cannot authenticate requests yet.");
       } else {
         setText(elements.authGateTitle, "Sign in required");
-        setText(elements.authGateCopy, "Sign in with Google to send prompts or upload documents in the assistant workspace.");
+        setText(elements.authGateCopy, "Sign in with Google to use the assistant workspace.");
       }
 
       if (elements.authLogin) {
         elements.authLogin.hidden = !!authState.missingConfig;
-        elements.authLogin.href = buildLoginHref(auth);
+        elements.authLogin.href = buildLoginHref();
       }
     }
 
     function renderNotice() {
       if (!elements.notice) return;
-
-      const visible = !!(workspaceNotice && (workspaceNotice.title || workspaceNotice.body));
+      const visible = !!(ui.notice && (ui.notice.title || ui.notice.body));
       elements.notice.hidden = !visible;
       if (!visible) return;
+      setText(elements.noticeTitle, ui.notice.title);
+      setText(elements.noticeCopy, ui.notice.body);
+    }
 
-      setText(elements.noticeTitle, workspaceNotice.title);
-      setText(elements.noticeCopy, workspaceNotice.body);
+    function renderScopeStatus() {
+      if (!elements.scopeStatus) return;
+      const status = normalizeString(state.scopeStatus).toLowerCase();
+      const text = scopeBannerText(status);
+      elements.scopeStatus.hidden = !text;
+      elements.scopeStatus.className = "mdz-idx__scope-banner" + (status ? " is-" + status.replace(/_/g, "-") : "");
+      setText(elements.scopeStatus, text);
+    }
+
+    function renderGuidancePanel() {
+      if (!elements.guidancePanel) return;
+      const hasStarters = !!(elements.starterGroup && !elements.starterGroup.hidden);
+      const hasActions = !!(elements.actionsGroup && !elements.actionsGroup.hidden);
+      elements.guidancePanel.hidden = !(hasStarters || hasActions);
+    }
+
+    function summarizeUploadStatus() {
+      const pendingCount = normalizeDocumentList(state.pendingDocuments).length;
+      const selectedCount = state.documentIds.length;
+
+      if (ui.uploadActiveCount > 0) {
+        return ui.uploadActiveCount === 1 ? "Uploading 1 file" : "Uploading " + ui.uploadActiveCount + " files";
+      }
+      if (pendingCount > 0) {
+        return pendingCount === 1 ? "Tracking 1 pending document" : "Tracking " + pendingCount + " pending documents";
+      }
+      if (selectedCount > 0) {
+        return selectedCount === 1 ? "1 document selected" : selectedCount + " documents selected";
+      }
+      return "";
     }
 
     function render() {
       const config = industryConfig();
-      const showPhase2 = state.phase === "phase_2" && !!config;
+      const showPhase2 = state.phase === "phase_2" && !!normalizeIndustry(state.selectedIndustry);
       const authBlocked = !authState.checked || !authState.authenticated || !!authState.missingConfig;
 
       if (elements.phase1) elements.phase1.hidden = showPhase2;
@@ -1557,52 +1726,50 @@
 
       renderAuthGate();
       renderNotice();
+      renderScopeStatus();
       renderTranscript();
-      renderPromptChips();
+      renderStarterPrompts();
       renderActionChips();
+      renderGuidancePanel();
       renderDocumentContext();
       renderReferences();
 
       if (elements.sendButton) {
         const inputValue = normalizeString(elements.input && elements.input.value);
-        elements.sendButton.disabled = !showPhase2 || !inputValue || state.isSending || authBlocked;
-      }
-
-      if (elements.uploadButtons.length) {
-        elements.uploadButtons.forEach(function (button) {
-          button.disabled = !showPhase2 || state.isUploading || authBlocked;
-          button.classList.toggle("mdz-idx__upload-primary", !state.documentIds.length);
-        });
+        elements.sendButton.disabled = !showPhase2 || !inputValue || authBlocked || ui.chatPending || ui.bootstrapPending;
       }
 
       if (elements.input) {
-        elements.input.disabled = !showPhase2 || state.isSending || authBlocked;
+        elements.input.disabled = !showPhase2 || authBlocked || ui.chatPending || ui.bootstrapPending;
       }
 
-      setText(elements.sendStatus, state.isSending ? "Sending to assistant..." : "");
+      elements.uploadButtons.forEach(function (button) {
+        button.disabled = !showPhase2 || authBlocked || ui.bootstrapPending;
+        button.classList.toggle("mdz-idx__upload-primary", showPhase2 && !state.documentIds.length);
+      });
+
+      if (elements.sendStatus) {
+        if (ui.bootstrapPending) {
+          setText(elements.sendStatus, "Connecting to assistant…");
+        } else if (ui.chatPending) {
+          setText(elements.sendStatus, "Sending to assistant…");
+        } else {
+          setText(elements.sendStatus, "");
+        }
+      }
 
       if (elements.uploadStatus) {
-        setText(elements.uploadStatus, summarizeUploadStatus(state.documents, state.documentIds, state.isUploading));
-      }
-
-      if (elements.uploadError) {
-        const hasError = !!normalizeString(state.uploadError);
-        elements.uploadError.hidden = !hasError;
-        setText(elements.uploadError, state.uploadError);
-      }
-
-      if (elements.summarizeSelected) {
-        const hasSelectedDocuments = state.documentIds.length > 0;
-        elements.summarizeSelected.hidden = !hasSelectedDocuments;
-        elements.summarizeSelected.disabled = !showPhase2 || !hasSelectedDocuments || state.isSending || authBlocked;
+        setText(elements.uploadStatus, summarizeUploadStatus());
       }
     }
 
     elements.cards.forEach(function (card) {
       const industry = card.getAttribute("data-idx-enter-industry");
+
       card.addEventListener("click", function () {
         enterIndustry(industry);
       });
+
       card.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -1620,7 +1787,19 @@
     if (elements.form) {
       elements.form.addEventListener("submit", function (event) {
         event.preventDefault();
-        sendChatMessage(elements.input && elements.input.value);
+        if (!elements.input) return;
+        if (!normalizeString(elements.input.value) || !canSend()) return;
+
+        sendAssistantRequest(
+          {
+            message: elements.input.value,
+          },
+          {
+            appendUser: true,
+            clearComposerOnSuccess: true,
+            restoreComposerOnFailure: true,
+          }
+        );
       });
     }
 
@@ -1629,14 +1808,27 @@
       elements.input.addEventListener("keydown", function (event) {
         if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
           event.preventDefault();
-          sendChatMessage(elements.input.value);
+          if (!normalizeString(elements.input.value) || !canSend()) return;
+
+          sendAssistantRequest(
+            {
+              message: elements.input.value,
+            },
+            {
+              appendUser: true,
+              clearComposerOnSuccess: true,
+              restoreComposerOnFailure: true,
+            }
+          );
         }
       });
     }
 
     elements.uploadButtons.forEach(function (button) {
       button.addEventListener("click", function () {
-        if (elements.fileInput) elements.fileInput.click();
+        if (elements.fileInput) {
+          elements.fileInput.click();
+        }
       });
     });
 
@@ -1646,12 +1838,6 @@
         uploadFiles(files).finally(function () {
           elements.fileInput.value = "";
         });
-      });
-    }
-
-    if (elements.summarizeSelected) {
-      elements.summarizeSelected.addEventListener("click", function () {
-        prefillComposer("Summarize this document.");
       });
     }
 
