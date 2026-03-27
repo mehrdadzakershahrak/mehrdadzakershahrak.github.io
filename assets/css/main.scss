@@ -1208,9 +1208,76 @@ body.mdz-menu-lock {
   color: rgba(18, 24, 20, 0.78);
 }
 
+.mdz-idx__workflow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.mdz-idx__workflow-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  padding: 0.9rem 0.95rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
+  border-radius: 1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 243, 235, 0.92));
+  box-shadow: 0 12px 24px rgba(18, 24, 20, 0.04);
+}
+
+.mdz-idx__workflow-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: rgba(var(--highlight-rgb), 0.12);
+  color: var(--ui-blue);
+  font-size: 0.9rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.mdz-idx__workflow-copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.mdz-idx__workflow-copy strong {
+  font-size: 0.97rem;
+}
+
+.mdz-idx__workflow-copy p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(18, 24, 20, 0.7);
+}
+
 .mdz-idx__gate {
   border-radius: 1rem;
   border: 1px solid rgba(var(--highlight-rgb), 0.24);
+}
+
+.mdz-idx__notice {
+  display: grid;
+  gap: 0.32rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(138, 47, 32, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 250, 248, 0.96), rgba(255, 244, 240, 0.94));
+  box-shadow: 0 12px 26px rgba(138, 47, 32, 0.06);
+}
+
+.mdz-idx__notice strong,
+.mdz-idx__notice p {
+  margin: 0;
+}
+
+.mdz-idx__notice p {
+  color: rgba(112, 37, 24, 0.9);
 }
 
 .mdz-idx__panel {
@@ -1583,6 +1650,10 @@ body.mdz-menu-lock {
 
 @media (max-width: 1080px) {
   .mdz-idx__workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mdz-idx__workflow {
     grid-template-columns: 1fr;
   }
 

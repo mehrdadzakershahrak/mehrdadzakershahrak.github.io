@@ -55,12 +55,41 @@
           <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-back>Back to industries</button>
         </header>
 
+        <section class="mdz-idx__workflow" aria-label="How the workspace works">
+          <article class="mdz-idx__workflow-step">
+            <span class="mdz-idx__workflow-count">1</span>
+            <div class="mdz-idx__workflow-copy">
+              <strong>Frame the task</strong>
+              <p>Use a starter chip or write the exact question you want answered.</p>
+            </div>
+          </article>
+          <article class="mdz-idx__workflow-step">
+            <span class="mdz-idx__workflow-count">2</span>
+            <div class="mdz-idx__workflow-copy">
+              <strong>Add document context</strong>
+              <p>Upload PDFs, wait for IDX readiness, then toggle them into scope.</p>
+            </div>
+          </article>
+          <article class="mdz-idx__workflow-step">
+            <span class="mdz-idx__workflow-count">3</span>
+            <div class="mdz-idx__workflow-copy">
+              <strong>Review evidence</strong>
+              <p>Open returned references to inspect the source material directly.</p>
+            </div>
+          </article>
+        </section>
+
         <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
           <strong data-idx-auth-gate-title>Sign in required</strong>
           <p data-idx-auth-gate-copy>Sign in with Google to use the assistant workspace.</p>
           <div class="demo-chat__actions">
             <a class="btn btn--primary" href="{{ '/login/' | relative_url }}" data-idx-auth-login>Sign in with Google</a>
           </div>
+        </div>
+
+        <div class="mdz-idx__notice" data-idx-notice hidden>
+          <strong data-idx-notice-title></strong>
+          <p data-idx-notice-copy></p>
         </div>
 
         <section class="mdz-idx__panel mdz-idx__panel--transcript" aria-labelledby="idx-transcript-title">

@@ -69,6 +69,10 @@
     return window.location.pathname + window.location.search + window.location.hash;
   }
 
+  function currentOrigin() {
+    return window.location.origin.replace(/\/+$/, "");
+  }
+
   function delay(ms) {
     return new Promise(function (resolve) {
       window.setTimeout(resolve, ms);
@@ -93,6 +97,92 @@
   function normalizeIndustry(value) {
     const key = normalizeString(value);
     return Object.prototype.hasOwnProperty.call(INDUSTRIES, key) ? key : null;
+  }
+
+  function urlOrigin(value) {
+    try {
+      return new URL(value, window.location.origin).origin.replace(/\/+$/, "");
+    } catch (_error) {
+      return "";
+    }
+  }
+
+  function isNetworkStyleError(error) {
+    const message = normalizeString(error && error.message).toLowerCase();
+    return error instanceof TypeError || /failed to fetch|load failed|networkerror|network request failed/.test(message);
+  }
+
+  function buildRuntimeIssue(error, options) {
+    const endpoint = normalizeString(options && options.endpoint);
+    const action = normalizeString((options && options.action) || "request");
+    const endpointOrigin = urlOrigin(endpoint);
+    const message = extractErrorMessage(error) || normalizeString(error && error.message);
+
+    if (!endpoint) {
+      return {
+        title: "IDX API is not configured",
+        body: "This workspace does not have a valid IDX API base URL yet, so browser requests cannot be sent.",
+        message: "The assistant workspace is missing its IDX API configuration.",
+        emphasize: true,
+      };
+    }
+
+    if (error && (error.status === 401 || error.status === 403)) {
+      return {
+        title: "IDX session is not available",
+        body:
+          (endpointOrigin ? endpointOrigin + " rejected the browser request." : "The IDX API rejected the browser request.") +
+          " Sign in again, then verify that the IDX domain can read the same session.",
+        message: "The IDX API rejected this request. Sign in again and retry.",
+        emphasize: true,
+      };
+    }
+
+    if (error && error.status === 404) {
+      return {
+        title: "IDX route was not found",
+        body:
+          "The website reached " +
+          endpoint +
+          ", but that route returned 404. The IDX host is reachable, but the expected endpoint is not available there.",
+        message: "The configured IDX route for " + action + " is not available right now.",
+        emphasize: true,
+      };
+    }
+
+    if (isNetworkStyleError(error)) {
+      return {
+        title: "Browser access to IDX is blocked",
+        body:
+          (endpointOrigin || "The IDX API") +
+          " is not allowing browser requests from " +
+          currentOrigin() +
+          ". This is usually a CORS or cross-site cookie policy issue on the IDX service.",
+        message: "The browser could not complete this IDX request because the API is blocked from this website.",
+        emphasize: true,
+      };
+    }
+
+    if (error && error.status >= 500) {
+      return {
+        title: "IDX returned a server error",
+        body:
+          "The request reached " +
+          (endpointOrigin || "the IDX API") +
+          ", but the service returned " +
+          error.status +
+          ".",
+        message: "The IDX service returned a server error while handling this request.",
+        emphasize: true,
+      };
+    }
+
+    return {
+      title: "Request could not be completed",
+      body: message || "The request did not complete successfully.",
+      message: message || "The request did not complete successfully.",
+      emphasize: false,
+    };
   }
 
   function createInitialState() {
@@ -662,6 +752,9 @@
       authGateTitle: qs(root, "[data-idx-auth-gate-title]"),
       authGateCopy: qs(root, "[data-idx-auth-gate-copy]"),
       authLogin: qs(root, "[data-idx-auth-login]"),
+      notice: qs(root, "[data-idx-notice]"),
+      noticeTitle: qs(root, "[data-idx-notice-title]"),
+      noticeCopy: qs(root, "[data-idx-notice-copy]"),
       transcript: qs(root, "[data-idx-transcript]"),
       form: qs(root, "[data-idx-form]"),
       input: qs(root, "[data-idx-input]"),
@@ -684,6 +777,7 @@
       authenticated: false,
       missingConfig: false,
     };
+    let workspaceNotice = null;
 
     function setState(next) {
       state = next;
@@ -692,6 +786,10 @@
 
     function patchState(patch) {
       setState(Object.assign({}, state, patch));
+    }
+
+    function setWorkspaceNotice(issue) {
+      workspaceNotice = issue || null;
     }
 
     function industryConfig() {
@@ -757,12 +855,14 @@
       const normalized = normalizeIndustry(industry);
       if (!normalized) return;
 
+      setWorkspaceNotice(null);
       setIndustryQuery(normalized);
       setState(resetAssistantState(normalized));
       if (!(options && options.skipFocus)) focusComposer();
     }
 
     function returnToPhase1() {
+      setWorkspaceNotice(null);
       patchState({
         phase: "phase_1",
         selectedIndustry: "general",
@@ -809,13 +909,19 @@
       const text = normalizeString(message);
       const endpoint = buildIdxUrl("/idx/assistant/chat");
 
-      if (!text || !canSend() || !endpoint) return;
+      if (!text || !canSend()) return;
+      if (!endpoint) {
+        setWorkspaceNotice(buildRuntimeIssue(null, { action: "assistant chat", endpoint: "" }));
+        render();
+        return;
+      }
 
       if (!(await ensureAuthenticated())) {
         render();
         return;
       }
 
+      setWorkspaceNotice(null);
       const nextMessages = state.messages.concat(createMessage("user", text));
       patchState({
         messages: nextMessages,
@@ -843,6 +949,7 @@
           )
         );
         const mergedDocuments = mergeDocuments(state.documents, response.documents, responseDocumentIds);
+        setWorkspaceNotice(null);
 
         patchState({
           phase: normalizeString(response.phase) === "phase_1" ? "phase_1" : "phase_2",
@@ -858,20 +965,32 @@
           uploadError: "",
         });
       } catch (error) {
+        const issue = buildRuntimeIssue(error, {
+          action: "assistant chat",
+          endpoint: endpoint,
+        });
         if (error && (error.status === 401 || error.status === 403)) {
           authState = {
             checked: true,
             authenticated: false,
             missingConfig: authState.missingConfig,
           };
+          setWorkspaceNotice(issue);
+          if (elements.input && (!overrides || !overrides.preserveInput)) {
+            elements.input.value = text;
+          }
           patchState({
             isSending: false,
           });
           return;
         }
 
+        setWorkspaceNotice(issue);
+        if (elements.input && (!overrides || !overrides.preserveInput)) {
+          elements.input.value = text;
+        }
         patchState({
-          messages: nextMessages.concat(createMessage("assistant", "Sorry, something went wrong. Please try again.")),
+          messages: nextMessages.concat(createMessage("assistant", issue.message)),
           isSending: false,
         });
       }
@@ -943,6 +1062,7 @@
       }
 
       if (!endpoint) {
+        setWorkspaceNotice(buildRuntimeIssue(null, { action: "document upload", endpoint: "" }));
         patchState({
           uploadError: "The upload endpoint is not configured.",
         });
@@ -956,6 +1076,7 @@
         return;
       }
 
+      setWorkspaceNotice(null);
       patchState({
         isUploading: true,
         uploadError: "",
@@ -995,6 +1116,7 @@
                 });
               });
 
+              setWorkspaceNotice(null);
               patchState({
                 documents: upsertDocument(
                   state.documents,
@@ -1008,11 +1130,15 @@
                 uploadError: "",
               });
             } catch (pollError) {
+              const issue = buildRuntimeIssue(pollError, {
+                action: "document status check",
+                endpoint: buildIdxUrl("/idx/documents/" + encodeURIComponent(uploadDocument.id)),
+              });
               const failedDocument = normalizeDocument(
                 (pollError && pollError.document) ||
                   Object.assign({}, uploadDocument, {
                     lifecycle: "failed",
-                    error: (pollError && pollError.message) || "Document processing failed.",
+                    error: issue.message || (pollError && pollError.message) || "Document processing failed.",
                   }),
                 {
                   id: uploadDocument.id,
@@ -1022,6 +1148,9 @@
                 }
               );
 
+              if (issue.emphasize) {
+                setWorkspaceNotice(issue);
+              }
               patchState({
                 documents: upsertDocument(state.documents, failedDocument, [uploadDocument.id]),
                 documentIds: state.documentIds.filter(function (id) {
@@ -1032,6 +1161,10 @@
             }
           }
         } catch (error) {
+          const issue = buildRuntimeIssue(error, {
+            action: "document upload",
+            endpoint: endpoint,
+          });
           if (error && (error.status === 401 || error.status === 403)) {
             authState = {
               checked: true,
@@ -1040,13 +1173,16 @@
             };
           }
 
+          if (issue.emphasize) {
+            setWorkspaceNotice(issue);
+          }
           const failedPendingDocument = normalizeDocument(
             Object.assign({}, pendingDocument, {
               lifecycle: "failed",
               status: "failed",
               ocrStatus: "failed",
               indexStatus: "failed",
-              error: (error && error.message) || "Could not upload this PDF right now.",
+              error: issue.message || (error && error.message) || "Could not upload this PDF right now.",
             }),
             pendingDocument
           );
@@ -1160,11 +1296,13 @@
         emptyState.className = "mdz-idx__empty mdz-idx__empty--transcript";
 
         const title = document.createElement("strong");
-        title.textContent = "Start with a prompt or a PDF";
+        title.textContent = state.documentIds.length ? "Ask about the selected documents" : "Start with a prompt or a PDF";
         emptyState.appendChild(title);
 
         const copy = document.createElement("p");
-        copy.textContent = "Pick a starter prompt, upload a PDF, or ask a question to start the assistant workspace.";
+        copy.textContent = state.documentIds.length
+          ? "Your selected PDFs are ready as assistant context. Ask a direct question, request a summary, or use a follow-up chip."
+          : "Pick a starter prompt, upload a PDF, or ask a question to start the assistant workspace.";
         emptyState.appendChild(copy);
 
         elements.transcript.appendChild(emptyState);
@@ -1390,9 +1528,21 @@
       }
     }
 
+    function renderNotice() {
+      if (!elements.notice) return;
+
+      const visible = !!(workspaceNotice && (workspaceNotice.title || workspaceNotice.body));
+      elements.notice.hidden = !visible;
+      if (!visible) return;
+
+      setText(elements.noticeTitle, workspaceNotice.title);
+      setText(elements.noticeCopy, workspaceNotice.body);
+    }
+
     function render() {
       const config = industryConfig();
       const showPhase2 = state.phase === "phase_2" && !!config;
+      const authBlocked = !authState.checked || !authState.authenticated || !!authState.missingConfig;
 
       if (elements.phase1) elements.phase1.hidden = showPhase2;
       if (elements.phase2) elements.phase2.hidden = !showPhase2;
@@ -1406,6 +1556,7 @@
       }
 
       renderAuthGate();
+      renderNotice();
       renderTranscript();
       renderPromptChips();
       renderActionChips();
@@ -1414,18 +1565,18 @@
 
       if (elements.sendButton) {
         const inputValue = normalizeString(elements.input && elements.input.value);
-        elements.sendButton.disabled = !showPhase2 || !inputValue || state.isSending || authState.missingConfig;
+        elements.sendButton.disabled = !showPhase2 || !inputValue || state.isSending || authBlocked;
       }
 
       if (elements.uploadButtons.length) {
         elements.uploadButtons.forEach(function (button) {
-          button.disabled = !showPhase2 || state.isUploading || authState.missingConfig;
+          button.disabled = !showPhase2 || state.isUploading || authBlocked;
           button.classList.toggle("mdz-idx__upload-primary", !state.documentIds.length);
         });
       }
 
       if (elements.input) {
-        elements.input.disabled = !showPhase2 || state.isSending || authState.missingConfig;
+        elements.input.disabled = !showPhase2 || state.isSending || authBlocked;
       }
 
       setText(elements.sendStatus, state.isSending ? "Sending to assistant..." : "");
@@ -1443,7 +1594,7 @@
       if (elements.summarizeSelected) {
         const hasSelectedDocuments = state.documentIds.length > 0;
         elements.summarizeSelected.hidden = !hasSelectedDocuments;
-        elements.summarizeSelected.disabled = !showPhase2 || !hasSelectedDocuments || state.isSending;
+        elements.summarizeSelected.disabled = !showPhase2 || !hasSelectedDocuments || state.isSending || authBlocked;
       }
     }
 
