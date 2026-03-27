@@ -123,9 +123,13 @@
     const explicit = normalizeString(config.idxApiBaseUrl || "");
     if (explicit) return explicit.replace(/\/+$/, "");
 
-    const auth = window.MdzAuth;
-    if (auth && auth.getApiBaseUrl) {
-      return normalizeString(auth.getApiBaseUrl()).replace(/\/+$/, "");
+    const hostname = window.location.hostname || "";
+    if (hostname === "127.0.0.1" || hostname === "localhost") {
+      const auth = window.MdzAuth;
+      if (auth && auth.getApiBaseUrl) {
+        return normalizeString(auth.getApiBaseUrl()).replace(/\/+$/, "");
+      }
+      return window.location.origin.replace(/\/+$/, "");
     }
 
     return "";

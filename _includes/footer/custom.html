@@ -1,7 +1,7 @@
 <script>
   window.MDZ_AUTH_CONFIG = {
     authApiBaseUrl: {{ site.auth_api_base_url | jsonify }},
-    idxApiBaseUrl: {{ site.idx_api_base_url | default: site.auth_api_base_url | jsonify }},
+    idxApiBaseUrl: {{ site.idx_api_base_url | jsonify }},
     googleClientId: {{ site.google_client_id | jsonify }},
     loginUrl: {{ '/login/' | relative_url | jsonify }},
     defaultReturnTo: {{ '/idx/assistant/' | relative_url | jsonify }}

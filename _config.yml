@@ -36,7 +36,7 @@ contact_email: "mehrdadz@neuralint.io"
 logo_mark: "/assets/images/logo-mark.svg"
 google_client_id: "363122025709-tqi291fl6r2lnc9s89unlajemfajfmm4.apps.googleusercontent.com"
 auth_api_base_url: "https://auth.mehrdadzaker.com"
-idx_api_base_url: ""
+idx_api_base_url: "https://idx.mehrdadzaker.com"
 
 # Lead capture + demo chat (set these)
 leads_endpoint: ""
