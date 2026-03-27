@@ -7,9 +7,9 @@
   source: "Site"
 
 - title: "Industry AI Demos"
-  description: "Try Legal, Finance, Real Estate, Healthcare, Education, Research, and Revenue Ops."
+  description: "Try Legal, Finance, Real Estate, Healthcare, and Procurement."
   nav_key: "industry_ai"
-  url: "/industry-ai/"
+  url: "/idx/assistant/"
   image_url: "/assets/images/2.jpg"
   badge: "Demos"
   source: "Site"

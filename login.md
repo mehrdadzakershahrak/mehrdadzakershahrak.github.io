@@ -19,4 +19,4 @@ Use your Google account to sign in and unlock the demo chat across the site. Aft
   <p class="mdz-auth-panel__status" data-google-login-msg>Checking sign-in status…</p>
 </div>
 
-After you sign in, try the demos: [Industry AI]({{ '/industry-ai/' | relative_url }})
+After you sign in, try the demos: [Industry AI]({{ '/idx/assistant/' | relative_url }})

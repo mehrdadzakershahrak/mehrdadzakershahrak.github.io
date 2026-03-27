@@ -19,4 +19,4 @@ Get updates on new demos, deployments, and releases.
   <p><strong>TODO:</strong> Set <code>substack_subscribe_url</code> in <code>_config.yml</code>.</p>
 {% endif %}
 
-Prefer to try the demos first? Start here: [Industry AI]({{ '/industry-ai/' | relative_url }})
+Prefer to try the demos first? Start here: [Industry AI]({{ '/idx/assistant/' | relative_url }})

@@ -1,0 +1,135 @@
+<section class="mdz-idx" data-idx-assistant>
+  <div class="mdz-idx__phase mdz-idx__phase--landing" data-idx-phase="phase_1">
+    <p class="mdz-idx__intro">Practical AI demos designed around real workflows. Pick an industry to try:</p>
+
+    <div class="mdz-card-grid mdz-idx__card-grid">
+      <article class="mdz-card mdz-idx-card" data-idx-enter-industry="legal" role="button" tabindex="0" aria-label="Try Legal AI">
+        <h3 class="mdz-card__title">Legal AI</h3>
+        <p class="mdz-card__desc">Summaries, drafting support, and document Q&amp;A workflows (demo).</p>
+        <span class="btn btn--small mdz-cta">Try Legal AI</span>
+      </article>
+
+      <article class="mdz-card mdz-idx-card" data-idx-enter-industry="finance" role="button" tabindex="0" aria-label="Try Finance AI">
+        <h3 class="mdz-card__title">Finance AI</h3>
+        <p class="mdz-card__desc">Analysis helpers, narrative summaries, and checklist-style guidance (demo).</p>
+        <span class="btn btn--small mdz-cta">Try Finance AI</span>
+      </article>
+
+      <article class="mdz-card mdz-idx-card" data-idx-enter-industry="real-estate" role="button" tabindex="0" aria-label="Try Real Estate AI">
+        <h3 class="mdz-card__title">Real Estate AI</h3>
+        <p class="mdz-card__desc">Listing insights, comps reasoning, and deal memo generation (demo).</p>
+        <span class="btn btn--small mdz-cta">Try Real Estate AI</span>
+      </article>
+
+      <article class="mdz-card mdz-idx-card" data-idx-enter-industry="healthcare" role="button" tabindex="0" aria-label="Try Healthcare AI">
+        <h3 class="mdz-card__title">Healthcare AI</h3>
+        <p class="mdz-card__desc">Intake summaries, care-plan drafts, and administrative workflow support (demo).</p>
+        <span class="btn btn--small mdz-cta">Try Healthcare AI</span>
+      </article>
+
+      <article class="mdz-card mdz-idx-card" data-idx-enter-industry="procurement" role="button" tabindex="0" aria-label="Try Procurement AI">
+        <h3 class="mdz-card__title">Procurement AI</h3>
+        <p class="mdz-card__desc">RFP summaries, vendor comparison, and sourcing checklist workflows (demo).</p>
+        <span class="btn btn--small mdz-cta">Try Procurement AI</span>
+      </article>
+    </div>
+
+    <div class="mdz-idx__links">
+      <p>If you want a private deployment or a custom system, see:</p>
+      <ul>
+        <li><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></li>
+        <li><a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mdz-idx__phase mdz-idx__phase--workspace" data-idx-phase="phase_2" hidden>
+    <div class="mdz-idx__workspace-grid">
+      <div class="mdz-idx__main">
+        <header class="mdz-idx__workspace-header">
+          <div>
+            <p class="mdz-idx__eyebrow">IDX Assistant</p>
+            <h2 class="mdz-idx__workspace-title" data-idx-industry-title>Assistant Workspace</h2>
+            <p class="mdz-idx__workspace-copy" data-idx-industry-copy></p>
+          </div>
+          <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-back>Back to industries</button>
+        </header>
+
+        <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
+          <strong data-idx-auth-gate-title>Sign in required</strong>
+          <p data-idx-auth-gate-copy>Sign in with Google to use the assistant workspace.</p>
+          <div class="demo-chat__actions">
+            <a class="btn btn--primary" href="{{ '/login/' | relative_url }}" data-idx-auth-login>Sign in with Google</a>
+          </div>
+        </div>
+
+        <section class="mdz-idx__panel mdz-idx__panel--transcript" aria-labelledby="idx-transcript-title">
+          <div class="mdz-idx__panel-header">
+            <h3 id="idx-transcript-title">Assistant transcript</h3>
+            <p class="mdz-idx__statusline" data-idx-send-status></p>
+          </div>
+          <div class="mdz-idx__transcript" data-idx-transcript></div>
+        </section>
+
+        <section class="mdz-idx__panel" aria-labelledby="idx-composer-title">
+          <div class="mdz-idx__panel-header">
+            <h3 id="idx-composer-title">Composer</h3>
+          </div>
+
+          <form class="mdz-idx__composer" data-idx-form>
+            <label class="sr-only" for="idx-assistant-input">Message</label>
+            <textarea
+              id="idx-assistant-input"
+              class="mdz-idx__input"
+              rows="4"
+              placeholder="Ask a question, or upload a PDF to ground the assistant..."
+              data-idx-input
+            ></textarea>
+            <div class="mdz-idx__composer-actions">
+              <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Upload PDF</button>
+              <button type="submit" class="btn btn--primary mdz-cta" data-idx-send>Send</button>
+            </div>
+            <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
+          </form>
+        </section>
+
+        <section class="mdz-idx__panel" aria-labelledby="idx-starters-title">
+          <div class="mdz-idx__panel-header">
+            <h3 id="idx-starters-title">Starter prompts</h3>
+          </div>
+          <div class="mdz-idx__chip-row" data-idx-starter-prompts></div>
+        </section>
+
+        <section class="mdz-idx__panel" aria-labelledby="idx-actions-title">
+          <div class="mdz-idx__panel-header">
+            <h3 id="idx-actions-title">Next actions</h3>
+          </div>
+          <div class="mdz-idx__chip-row" data-idx-next-actions></div>
+        </section>
+      </div>
+
+      <aside class="mdz-idx__sidebar">
+        <section class="mdz-idx__panel mdz-idx__panel--upload" aria-labelledby="idx-docs-title">
+          <div class="mdz-idx__panel-header">
+            <h3 id="idx-docs-title">Documents</h3>
+            <p class="mdz-idx__statusline" data-idx-upload-status></p>
+          </div>
+          <p class="mdz-idx__upload-copy">Upload PDF files, wait for IDX processing, then choose which documents to include as assistant context.</p>
+          <div class="mdz-idx__upload-actions">
+            <button type="button" class="btn btn--small mdz-cta" data-idx-upload-entry>Upload PDF</button>
+            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-summarize-selected hidden>Summarize uploaded document</button>
+          </div>
+          <p class="mdz-idx__error" data-idx-upload-error hidden></p>
+          <div class="mdz-idx__document-context" data-idx-document-context></div>
+        </section>
+
+        <section class="mdz-idx__panel mdz-idx__panel--references" aria-labelledby="idx-refs-title">
+          <div class="mdz-idx__panel-header">
+            <h3 id="idx-refs-title">References</h3>
+          </div>
+          <div class="mdz-idx__references" data-idx-references></div>
+        </section>
+      </aside>
+    </div>
+  </div>
+</section>

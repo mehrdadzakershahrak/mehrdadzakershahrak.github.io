@@ -10,9 +10,9 @@ I build practical AI and robotics systems for real-world environments. That work
 ## AI
 <div class="mdz-card-grid">
   <div class="mdz-card">
-    <h3 class="mdz-card__title"><a href="{{ '/industry-ai/' | relative_url }}">Industry AI demos</a></h3>
-    <p class="mdz-card__desc">Try Legal AI, Finance AI, and Real Estate AI demos.</p>
-    <a class="btn btn--small" href="{{ '/industry-ai/' | relative_url }}">Explore demos</a>
+    <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Industry AI demos</a></h3>
+    <p class="mdz-card__desc">Try Legal AI, Finance AI, Real Estate AI, Healthcare AI, and Procurement AI demos.</p>
+    <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">Explore demos</a>
   </div>
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></h3>
@@ -26,7 +26,7 @@ I build practical AI and robotics systems for real-world environments. That work
   </div>
 </div>
 
-If you want to start by trying the demos, go to: [Industry AI]({{ '/industry-ai/' | relative_url }}).
+If you want to start by trying the demos, go to: [Industry AI]({{ '/idx/assistant/' | relative_url }}).
 
 ## Robotics
 <div class="mdz-card-grid">
@@ -48,10 +48,8 @@ If you want to start by trying the demos, go to: [Industry AI]({{ '/industry-ai/
 </div>
 
 ## Industry AI domains
-- [Legal AI]({{ '/industry-ai/legal/' | relative_url }})
-- [Finance AI]({{ '/industry-ai/finance/' | relative_url }})
-- [Real Estate AI]({{ '/industry-ai/real-estate/' | relative_url }})
-- [Healthcare AI]({{ '/industry-ai/healthcare/' | relative_url }})
-- [Education AI]({{ '/industry-ai/education/' | relative_url }})
-- [Research AI]({{ '/industry-ai/research/' | relative_url }})
-- [Revenue Operations AI]({{ '/industry-ai/revenue-operations/' | relative_url }})
+- [Legal AI]({{ '/idx/assistant/?industry=legal' | relative_url }})
+- [Finance AI]({{ '/idx/assistant/?industry=finance' | relative_url }})
+- [Real Estate AI]({{ '/idx/assistant/?industry=real-estate' | relative_url }})
+- [Healthcare AI]({{ '/idx/assistant/?industry=healthcare' | relative_url }})
+- [Procurement AI]({{ '/idx/assistant/?industry=procurement' | relative_url }})

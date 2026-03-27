@@ -8,7 +8,7 @@ main:
         children:
           - title: "Industry AI"
             key: industry_ai
-            url: /industry-ai/
+            url: /idx/assistant/
           - title: "Private AI Deployment"
             key: private_ai_deployment
             url: /private-ai-deployment/

@@ -1,9 +1,10 @@
 <script>
   window.MDZ_AUTH_CONFIG = {
     authApiBaseUrl: {{ site.auth_api_base_url | jsonify }},
+    idxApiBaseUrl: {{ site.idx_api_base_url | default: site.auth_api_base_url | jsonify }},
     googleClientId: {{ site.google_client_id | jsonify }},
     loginUrl: {{ '/login/' | relative_url | jsonify }},
-    defaultReturnTo: {{ '/industry-ai/' | relative_url | jsonify }}
+    defaultReturnTo: {{ '/idx/assistant/' | relative_url | jsonify }}
   };
 </script>
 
@@ -15,6 +16,10 @@
 
 {% if page.demo_id %}
   <script src="{{ '/assets/js/demo-chat.js' | relative_url }}" defer></script>
+{% endif %}
+
+{% if page.idx_assistant %}
+  <script src="{{ '/assets/js/idx-assistant.js' | relative_url }}" defer></script>
 {% endif %}
 
 {% if page.permalink == "/" or page.url == "/" or page.classes contains "home-page" %}

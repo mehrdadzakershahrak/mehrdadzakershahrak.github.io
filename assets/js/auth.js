@@ -3,7 +3,7 @@
   const configuredAuthApiBaseUrl = String(config.authApiBaseUrl || "").replace(/\/+$/, "");
   const googleClientId = String(config.googleClientId || "").trim();
   const loginUrl = String(config.loginUrl || "/login/");
-  const defaultReturnTo = String(config.defaultReturnTo || "/industry-ai/");
+  const defaultReturnTo = String(config.defaultReturnTo || "/idx/assistant/");
   const authApiBaseUrl = resolveAuthApiBaseUrl();
 
   let sessionPromise = null;

@@ -6,8 +6,8 @@
   source: "Site"
 
 - title: "Industry AI"
-  description: "Legal, Finance, Real Estate, Healthcare, Education, Research, and Revenue Ops demos."
-  url: "/industry-ai/"
+  description: "Legal, Finance, Real Estate, Healthcare, and Procurement demos."
+  url: "/idx/assistant/"
   image_url: "/assets/images/2.jpg"
   badge: "Demos"
   source: "Site"

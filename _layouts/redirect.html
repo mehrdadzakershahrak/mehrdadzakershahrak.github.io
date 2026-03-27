@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title | default: site.title | escape }}</title>
+    {% assign redirect_target = page.redirect_to | relative_url %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="0; url={{ redirect_target | escape }}">
+    <link rel="canonical" href="{{ page.redirect_to | absolute_url | escape }}">
+    <meta name="robots" content="noindex,follow">
+    <script>
+      window.location.replace({{ redirect_target | jsonify }});
+    </script>
+  </head>
+  <body>
+    <main>
+      <p>Redirecting to <a href="{{ redirect_target | escape }}">{{ redirect_target | escape }}</a>.</p>
+    </main>
+  </body>
+</html>

@@ -10,8 +10,8 @@
 
 - type: card
   title: "Industry AI demos"
-  description: "Try Legal AI, Finance AI, and Real Estate AI."
-  url: "/industry-ai/"
+  description: "Try Legal AI, Finance AI, Real Estate AI, Healthcare AI, and Procurement AI."
+  url: "/idx/assistant/"
   image_url: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1600&q=80"
   badge: "Demos"
 
