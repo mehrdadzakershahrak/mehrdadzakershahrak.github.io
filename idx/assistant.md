@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "IDX Assistant"
+title: "IDX Dashboard"
 permalink: /idx/assistant/
 classes: wide
 idx_assistant: true
