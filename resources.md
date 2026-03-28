@@ -13,6 +13,6 @@ A curated set of links and references.
 ## Tools / Projects
 - (add links)
 
-## Demo docs
-- How to use the Industry AI demos effectively
+## Guidance docs
+- How to use Industry Guidance effectively
 - Prompt patterns and examples

@@ -6,4 +6,4 @@ classes: wide
 idx_dashboard: true
 ---
 
-{% include idx_assistant.html %}
+{% include idx_dashboard.html %}

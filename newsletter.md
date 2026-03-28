@@ -5,7 +5,7 @@ permalink: /newsletter/
 classes: wide
 ---
 
-Get updates on new demos, deployments, and releases.
+Get updates on new guidance, dashboards, deployments, and releases.
 
 {% if site.substack_subscribe_url and site.substack_subscribe_url != "" %}
   <p><a class="btn btn--primary" href="{{ site.substack_subscribe_url }}" target="_blank" rel="noopener noreferrer">Subscribe on Substack</a></p>
@@ -19,4 +19,4 @@ Get updates on new demos, deployments, and releases.
   <p><strong>TODO:</strong> Set <code>substack_subscribe_url</code> in <code>_config.yml</code>.</p>
 {% endif %}
 
-Prefer to try the demos first? Start here: [Industry AI]({{ '/idx/assistant/' | relative_url }})
+Prefer to browse workflow guidance first? Start with [Industry Guidance]({{ '/idx/assistant/' | relative_url }}). Ready to operate on documents? Open the [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}).

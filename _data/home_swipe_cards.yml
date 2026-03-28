@@ -6,12 +6,12 @@
   badge: "Featured"
   source: "Site"
 
-- title: "Industry AI Demos"
-  description: "Try Legal, Finance, Real Estate, Healthcare, and Procurement."
+- title: "Industry Guidance"
+  description: "Browse legal, finance, real estate, healthcare, and procurement document workflows."
   nav_key: "industry_ai"
   url: "/idx/assistant/"
   image_url: "/assets/images/2.jpg"
-  badge: "Demos"
+  badge: "Guidance"
   source: "Site"
 
 - title: "Book (Coming Soon)"

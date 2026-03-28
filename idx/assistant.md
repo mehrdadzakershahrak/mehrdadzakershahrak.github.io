@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Industry AI"
+title: "Industry Guidance"
 permalink: /idx/assistant/
 classes: wide
 idx_guidance: true

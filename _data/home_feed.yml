@@ -9,11 +9,11 @@
   badge: "Featured"
 
 - type: card
-  title: "Industry AI demos"
-  description: "Try Legal AI, Finance AI, Real Estate AI, Healthcare AI, and Procurement AI."
+  title: "Industry Guidance"
+  description: "Browse industry-specific document workflows, then move into the IDX Dashboard for uploads and search."
   url: "/idx/assistant/"
   image_url: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1600&q=80"
-  badge: "Demos"
+  badge: "Guidance"
 
 - type: tweet
   embed_html: |-

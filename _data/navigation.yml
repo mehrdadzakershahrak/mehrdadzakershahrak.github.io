@@ -6,7 +6,7 @@ main:
       - title: "AI"
         url: /ai-robotics-solutions/#ai
         children:
-          - title: "Industry AI"
+          - title: "Industry Guidance"
             key: industry_ai
             url: /idx/assistant/
           - title: "IDX Dashboard"

@@ -22,7 +22,7 @@ columns:
     links:
       - label: "AI & Robotics Solutions"
         url: "/ai-robotics-solutions/"
-      - label: "Industry AI"
+      - label: "Industry Guidance"
         url: "/idx/assistant/"
       - label: "IDX Dashboard"
         url: "/idx/dashboard/"
@@ -52,21 +52,21 @@ columns:
 
   - title: "Featured Paths"
     links:
-      - label: "Legal AI Demo"
+      - label: "Legal Guidance"
         url: "/idx/assistant/?industry=legal"
-      - label: "Finance AI Demo"
+      - label: "Finance Guidance"
         url: "/idx/assistant/?industry=finance"
-      - label: "Real Estate AI Demo"
+      - label: "Real Estate Guidance"
         url: "/idx/assistant/?industry=real-estate"
-      - label: "Healthcare"
+      - label: "Healthcare Guidance"
         url: "/idx/assistant/?industry=healthcare"
-      - label: "Procurement"
+      - label: "Procurement Guidance"
         url: "/idx/assistant/?industry=procurement"
 
 cta_cards:
   - eyebrow: "Featured"
-    label: "Explore Demos"
-    url: "/ai-robotics-solutions/"
+    label: "Open IDX Dashboard"
+    url: "/idx/dashboard/"
     variant: "solid"
   - eyebrow: "Updates"
     label: "Read the Newsletter"

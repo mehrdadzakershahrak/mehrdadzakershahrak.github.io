@@ -4,7 +4,7 @@
     idxApiBaseUrl: {{ site.idx_api_base_url | jsonify }},
     googleClientId: {{ site.google_client_id | jsonify }},
     loginUrl: {{ '/login/' | relative_url | jsonify }},
-    defaultReturnTo: {{ '/idx/assistant/' | relative_url | jsonify }}
+    defaultReturnTo: {{ '/idx/dashboard/' | relative_url | jsonify }}
   };
 </script>
 
@@ -19,7 +19,7 @@
 {% endif %}
 
 {% if page.idx_guidance or page.idx_dashboard %}
-  <script src="{{ '/assets/js/idx-assistant.js' | relative_url }}" defer></script>
+  <script src="{{ '/assets/js/idx-dashboard.js' | relative_url }}" defer></script>
 {% endif %}
 
 {% if page.permalink == "/" or page.url == "/" or page.classes contains "home-page" %}

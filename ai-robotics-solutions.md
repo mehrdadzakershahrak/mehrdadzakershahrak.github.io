@@ -10,9 +10,14 @@ I build practical AI and robotics systems for real-world environments. That work
 ## AI
 <div class="mdz-card-grid">
   <div class="mdz-card">
-    <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Industry AI demos</a></h3>
-    <p class="mdz-card__desc">Try Legal AI, Finance AI, Real Estate AI, Healthcare AI, and Procurement AI demos.</p>
-    <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">Explore demos</a>
+    <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Industry Guidance</a></h3>
+    <p class="mdz-card__desc">Browse Legal, Finance, Real Estate, Healthcare, and Procurement workflow guidance.</p>
+    <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">Browse guidance</a>
+  </div>
+  <div class="mdz-card">
+    <h3 class="mdz-card__title"><a href="{{ '/idx/dashboard/' | relative_url }}">IDX Dashboard</a></h3>
+    <p class="mdz-card__desc">Upload PDFs, monitor indexing, search ready documents, open viewer links, and manage the library.</p>
+    <a class="btn btn--small" href="{{ '/idx/dashboard/' | relative_url }}">Open dashboard</a>
   </div>
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></h3>
@@ -26,7 +31,7 @@ I build practical AI and robotics systems for real-world environments. That work
   </div>
 </div>
 
-If you want to start by trying the demos, go to: [Industry AI]({{ '/idx/assistant/' | relative_url }}).
+Start with [Industry Guidance]({{ '/idx/assistant/' | relative_url }}) for workflow guidance, or go directly to the [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}) for uploads, search, and document operations.
 
 ## Robotics
 <div class="mdz-card-grid">
@@ -47,9 +52,9 @@ If you want to start by trying the demos, go to: [Industry AI]({{ '/idx/assistan
   </div>
 </div>
 
-## Industry AI domains
-- [Legal AI]({{ '/idx/assistant/?industry=legal' | relative_url }})
-- [Finance AI]({{ '/idx/assistant/?industry=finance' | relative_url }})
-- [Real Estate AI]({{ '/idx/assistant/?industry=real-estate' | relative_url }})
-- [Healthcare AI]({{ '/idx/assistant/?industry=healthcare' | relative_url }})
-- [Procurement AI]({{ '/idx/assistant/?industry=procurement' | relative_url }})
+## Industry guidance by domain
+- [Legal guidance]({{ '/idx/assistant/?industry=legal' | relative_url }})
+- [Finance guidance]({{ '/idx/assistant/?industry=finance' | relative_url }})
+- [Real estate guidance]({{ '/idx/assistant/?industry=real-estate' | relative_url }})
+- [Healthcare guidance]({{ '/idx/assistant/?industry=healthcare' | relative_url }})
+- [Procurement guidance]({{ '/idx/assistant/?industry=procurement' | relative_url }})

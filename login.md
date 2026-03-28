@@ -5,7 +5,7 @@ permalink: /login/
 classes: wide
 ---
 
-Use your Google account to sign in and unlock the demo chat across the site. After sign-in, you will be returned to the page you requested or sent to Industry AI.
+Use your Google account to sign in and unlock protected IDX pages across the site. After sign-in, you will be returned to the page you requested or sent to the IDX Dashboard.
 
 <div
   class="mdz-auth-panel"
@@ -19,4 +19,4 @@ Use your Google account to sign in and unlock the demo chat across the site. Aft
   <p class="mdz-auth-panel__status" data-google-login-msg>Checking sign-in status…</p>
 </div>
 
-After you sign in, try the demos: [Industry AI]({{ '/idx/assistant/' | relative_url }})
+After you sign in, open the [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}) or browse [Industry Guidance]({{ '/idx/assistant/' | relative_url }}).
