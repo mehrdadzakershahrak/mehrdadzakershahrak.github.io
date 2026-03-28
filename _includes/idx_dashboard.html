@@ -13,11 +13,34 @@
     </div>
   </header>
 
-  <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
-    <strong data-idx-auth-gate-title>Sign in required</strong>
-    <p data-idx-auth-gate-copy>Sign in with Google to use the IDX dashboard.</p>
-    <div class="demo-chat__actions">
-      <a class="btn btn--primary" href="{{ '/login/' | relative_url }}" data-idx-auth-login>Sign in with Google</a>
+  <div class="mdz-idx__preauth" data-idx-preauth hidden>
+    <section class="mdz-idx__panel mdz-idx__panel--instruction mdz-idx__preauth-panel" data-idx-preauth-summary hidden>
+      <div class="mdz-idx__panel-header">
+        <div>
+          <p class="mdz-idx__panel-eyebrow">Private document workflows</p>
+          <h2>Sign in to open your IDX workspace</h2>
+        </div>
+      </div>
+      <p class="mdz-idx__instruction-copy">
+        IDX is the operational surface for document-heavy work. Upload PDFs, monitor parsing and indexing, search ready source material, and open the viewer directly when you need source-backed review.
+      </p>
+      <ul class="mdz-idx__instruction-list">
+        <li>Upload contracts, filings, diligence packs, policies, and similar PDFs into one tracked workspace.</li>
+        <li>Search only ready documents and jump back into the source viewer from results and document rows.</li>
+        <li>Use Industry Guidance first if you need a domain-specific workflow and source strategy.</li>
+      </ul>
+      <div class="mdz-idx__header-actions">
+        <a class="btn btn--primary mdz-cta" href="{{ '/login/' | relative_url }}" data-idx-auth-login>Sign in with Google</a>
+        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">Industry guidance</a>
+      </div>
+      <p class="mdz-idx__instruction-copy">
+        Need a private deployment or a custom workflow? See <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a> and <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a>.
+      </p>
+    </section>
+
+    <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
+      <strong data-idx-auth-gate-title>Checking sign-in</strong>
+      <p data-idx-auth-gate-copy>Verifying your current session before enabling document dashboard requests.</p>
     </div>
   </div>
 
@@ -26,131 +49,133 @@
     <p data-idx-notice-copy></p>
   </div>
 
-  <section class="mdz-idx__stats-grid" aria-label="Document library stats">
-    <article class="mdz-idx__stat-card">
-      <p class="mdz-idx__stat-label">Total docs</p>
-      <strong class="mdz-idx__stat-value" data-idx-stat-total>0</strong>
-    </article>
-    <article class="mdz-idx__stat-card">
-      <p class="mdz-idx__stat-label">Ready docs</p>
-      <strong class="mdz-idx__stat-value" data-idx-stat-ready>0</strong>
-    </article>
-    <article class="mdz-idx__stat-card">
-      <p class="mdz-idx__stat-label">Processing docs</p>
-      <strong class="mdz-idx__stat-value" data-idx-stat-processing>0</strong>
-    </article>
-    <article class="mdz-idx__stat-card">
-      <p class="mdz-idx__stat-label">Failed docs</p>
-      <strong class="mdz-idx__stat-value" data-idx-stat-failed>0</strong>
-    </article>
-  </section>
+  <div class="mdz-idx__app" data-idx-dashboard-app hidden>
+    <section class="mdz-idx__stats-grid" aria-label="Document library stats">
+      <article class="mdz-idx__stat-card">
+        <p class="mdz-idx__stat-label">Total docs</p>
+        <strong class="mdz-idx__stat-value" data-idx-stat-total>0</strong>
+      </article>
+      <article class="mdz-idx__stat-card">
+        <p class="mdz-idx__stat-label">Ready docs</p>
+        <strong class="mdz-idx__stat-value" data-idx-stat-ready>0</strong>
+      </article>
+      <article class="mdz-idx__stat-card">
+        <p class="mdz-idx__stat-label">Processing docs</p>
+        <strong class="mdz-idx__stat-value" data-idx-stat-processing>0</strong>
+      </article>
+      <article class="mdz-idx__stat-card">
+        <p class="mdz-idx__stat-label">Failed docs</p>
+        <strong class="mdz-idx__stat-value" data-idx-stat-failed>0</strong>
+      </article>
+    </section>
 
-  <div class="mdz-idx__workspace-grid">
-    <div class="mdz-idx__main">
-      <section class="mdz-idx__panel" aria-labelledby="idx-search-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Document Search</p>
-            <h2 id="idx-search-title">Search ready documents</h2>
+    <div class="mdz-idx__workspace-grid">
+      <div class="mdz-idx__main">
+        <section class="mdz-idx__panel" aria-labelledby="idx-search-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Document Search</p>
+              <h2 id="idx-search-title">Search ready documents</h2>
+            </div>
+            <p class="mdz-idx__statusline" data-idx-search-status></p>
           </div>
-          <p class="mdz-idx__statusline" data-idx-search-status></p>
-        </div>
 
-        <form class="mdz-idx__search-form" data-idx-search-form>
-          <label class="sr-only" for="idx-dashboard-search">Search indexed documents</label>
-          <input
-            id="idx-dashboard-search"
-            class="mdz-idx__search-input"
-            type="search"
-            placeholder="Search indexed documents by keyword, clause, or source term..."
-            data-idx-search-input
-          >
-          <div class="mdz-idx__search-actions">
-            <button type="submit" class="btn btn--primary mdz-cta" data-idx-search-submit>Search</button>
-            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-search-clear>Clear</button>
+          <form class="mdz-idx__search-form" data-idx-search-form>
+            <label class="sr-only" for="idx-dashboard-search">Search indexed documents</label>
+            <input
+              id="idx-dashboard-search"
+              class="mdz-idx__search-input"
+              type="search"
+              placeholder="Search indexed documents by keyword, clause, or source term..."
+              data-idx-search-input
+            >
+            <div class="mdz-idx__search-actions">
+              <button type="submit" class="btn btn--primary mdz-cta" data-idx-search-submit>Search</button>
+              <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-search-clear>Clear</button>
+            </div>
+          </form>
+
+          <div class="mdz-idx__filters" data-idx-status-filters>
+            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="all">All</button>
+            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="ready">Ready</button>
+            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="processing">Processing</button>
+            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="queued">Queued</button>
+            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="failed">Failed</button>
           </div>
-        </form>
+        </section>
 
-        <div class="mdz-idx__filters" data-idx-status-filters>
-          <button type="button" class="mdz-idx__filter-chip" data-idx-filter="all">All</button>
-          <button type="button" class="mdz-idx__filter-chip" data-idx-filter="ready">Ready</button>
-          <button type="button" class="mdz-idx__filter-chip" data-idx-filter="processing">Processing</button>
-          <button type="button" class="mdz-idx__filter-chip" data-idx-filter="queued">Queued</button>
-          <button type="button" class="mdz-idx__filter-chip" data-idx-filter="failed">Failed</button>
-        </div>
-      </section>
-
-      <section class="mdz-idx__panel" aria-labelledby="idx-library-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Document Library</p>
-            <h2 id="idx-library-title">Documents</h2>
+        <section class="mdz-idx__panel" aria-labelledby="idx-library-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Document Library</p>
+              <h2 id="idx-library-title">Documents</h2>
+            </div>
+            <p class="mdz-idx__statusline" data-idx-documents-status></p>
           </div>
-          <p class="mdz-idx__statusline" data-idx-documents-status></p>
-        </div>
 
-        <div class="mdz-idx__empty-state" data-idx-empty-state hidden>
-          <strong data-idx-empty-title>Upload a PDF to start building your IDX document library.</strong>
-          <p data-idx-empty-copy>Processing files stay visible in the upload queue while IDX parses and indexes them.</p>
-        </div>
+          <div class="mdz-idx__empty-state" data-idx-empty-state hidden>
+            <strong data-idx-empty-title>Upload a PDF to start building your IDX document library.</strong>
+            <p data-idx-empty-copy>Processing files stay visible in the upload queue while IDX parses and indexes them.</p>
+          </div>
 
-        <div class="mdz-idx__table-wrap" data-idx-table-wrap>
-          <table class="mdz-idx__table">
-            <thead>
-              <tr>
-                <th scope="col">File name</th>
-                <th scope="col">Status</th>
-                <th scope="col">Tags / metadata</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody data-idx-document-rows></tbody>
-          </table>
-        </div>
-      </section>
+          <div class="mdz-idx__table-wrap" data-idx-table-wrap>
+            <table class="mdz-idx__table">
+              <thead>
+                <tr>
+                  <th scope="col">File name</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Tags / metadata</th>
+                  <th scope="col">Actions</th>
+                </tr>
+              </thead>
+              <tbody data-idx-document-rows></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <aside class="mdz-idx__sidebar">
+        <section class="mdz-idx__panel mdz-idx__panel--upload" aria-labelledby="idx-upload-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Upload Panel</p>
+              <h2 id="idx-upload-title">Upload PDFs</h2>
+            </div>
+            <p class="mdz-idx__statusline" data-idx-upload-status></p>
+          </div>
+
+          <div class="mdz-idx__dropzone" data-idx-dropzone tabindex="0" role="button" aria-label="Upload PDF files">
+            <div class="mdz-idx__dropzone-copy">
+              <strong>Drag and drop PDFs here</strong>
+              <p>Upload a PDF to start building your IDX document library.</p>
+            </div>
+            <div class="mdz-idx__upload-actions">
+              <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Choose PDF files</button>
+            </div>
+            <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
+          </div>
+
+          <div class="mdz-idx__queue" data-idx-upload-queue></div>
+        </section>
+
+        <section class="mdz-idx__panel mdz-idx__panel--results" aria-labelledby="idx-results-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Search Results</p>
+              <h2 id="idx-results-title">Viewer links</h2>
+            </div>
+          </div>
+          <div class="mdz-idx__search-results" data-idx-search-results></div>
+        </section>
+      </aside>
     </div>
 
-    <aside class="mdz-idx__sidebar">
-      <section class="mdz-idx__panel mdz-idx__panel--upload" aria-labelledby="idx-upload-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Upload Panel</p>
-            <h2 id="idx-upload-title">Upload PDFs</h2>
-          </div>
-          <p class="mdz-idx__statusline" data-idx-upload-status></p>
-        </div>
-
-        <div class="mdz-idx__dropzone" data-idx-dropzone tabindex="0" role="button" aria-label="Upload PDF files">
-          <div class="mdz-idx__dropzone-copy">
-            <strong>Drag and drop PDFs here</strong>
-            <p>Upload a PDF to start building your IDX document library.</p>
-          </div>
-          <div class="mdz-idx__upload-actions">
-            <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Choose PDF files</button>
-          </div>
-          <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
-        </div>
-
-        <div class="mdz-idx__queue" data-idx-upload-queue></div>
-      </section>
-
-      <section class="mdz-idx__panel mdz-idx__panel--results" aria-labelledby="idx-results-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Search Results</p>
-            <h2 id="idx-results-title">Viewer links</h2>
-          </div>
-        </div>
-        <div class="mdz-idx__search-results" data-idx-search-results></div>
-      </section>
-    </aside>
-  </div>
-
-  <div class="mdz-idx__links">
-    <p>If you want a private deployment or a custom system, see:</p>
-    <ul>
-      <li><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></li>
-      <li><a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a></li>
-    </ul>
+    <div class="mdz-idx__links">
+      <p>If you want a private deployment or a custom system, see:</p>
+      <ul>
+        <li><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></li>
+        <li><a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a></li>
+      </ul>
+    </div>
   </div>
 </section>

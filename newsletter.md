@@ -5,7 +5,7 @@ permalink: /newsletter/
 classes: wide
 ---
 
-Get updates on new guidance, dashboards, deployments, and releases.
+This page is reserved for future long-form updates on new guidance, deployments, and releases.
 
 {% if site.substack_subscribe_url and site.substack_subscribe_url != "" %}
   <p><a class="btn btn--primary" href="{{ site.substack_subscribe_url }}" target="_blank" rel="noopener noreferrer">Subscribe on Substack</a></p>
@@ -16,7 +16,9 @@ Get updates on new guidance, dashboards, deployments, and releases.
     style="border:1px solid rgba(0,0,0,0.12); border-radius: 12px;"
   ></iframe>
 {% else %}
-  <p><strong>TODO:</strong> Set <code>substack_subscribe_url</code> in <code>_config.yml</code>.</p>
+  <p>Public newsletter subscriptions are not open right now. In the meantime, the best public updates are on the <a href="{{ '/podcast/' | relative_url }}">podcast</a> and across the main solutions pages.</p>
+  <p>
+    <a class="btn btn--primary mdz-cta" href="{{ '/podcast/' | relative_url }}">Browse the podcast</a>
+    <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a>
+  </p>
 {% endif %}
-
-Prefer to browse workflow guidance first? Start with [Industry Guidance]({{ '/idx/assistant/' | relative_url }}). Ready to operate on documents? Open the [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}).

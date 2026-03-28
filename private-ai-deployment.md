@@ -5,7 +5,9 @@ permalink: /private-ai-deployment/
 classes: wide
 ---
 
-Deploy AI in your environment with practical security, compliance, and reliability.
+Deploy AI in your environment with practical security, compliance, and reliability. This work is for teams that need control over where data moves, how systems are evaluated, and what deployment discipline looks like after the prototype phase.
+
+If you are deciding between hosted, hybrid, and fully private approaches, or trying to harden an existing implementation, use [Contact]({{ '/contact/' | relative_url }}) to describe the environment and constraints.
 
 ## What you get
 - Architecture guidance for private / hybrid deployments
@@ -427,4 +429,4 @@ Reach out if you're working on:
 A well-designed setup can save weeks of iteration and significantly reduce infrastructure cost.
 
 ## Contact
-Email: <a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a>
+Use [Contact]({{ '/contact/' | relative_url }}) for project details, or email <a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a>.

@@ -9,27 +9,15 @@
   badge: "Featured"
 
 - type: card
+  title: "AI System Design Intro"
+  description: "A podcast episode on how AI ideas move from prototypes into systems that can survive real operational use."
+  url: "/podcast/ai-system-design-intro/"
+  image_url: "/assets/images/podcast-ai-system-design-intro.jpg"
+  badge: "Podcast"
+
+- type: card
   title: "Industry Guidance"
-  description: "Browse industry-specific document workflows, then move into the IDX Dashboard for uploads and search."
+  description: "Review legal, finance, real estate, healthcare, and procurement workflows before moving into the operational IDX dashboard."
   url: "/idx/assistant/"
-  image_url: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1600&q=80"
-  badge: "Guidance"
-
-- type: tweet
-  embed_html: |-
-    <blockquote class="twitter-tweet">
-      <a href="https://twitter.com/mehrdadhw/status/2029565789863309376"></a>
-    </blockquote>
-
-# Paste official embed HTML for tweets or Substack posts here.
-# Example tweet:
-# - type: tweet
-#   title: "Tweet"
-#   embed_html: |-
-#     <blockquote class="twitter-tweet"><p lang="en" dir="ltr">…</p>&mdash; …</blockquote>
-#
-# Example Substack:
-# - type: substack
-#   title: "Substack"
-#   embed_html: |-
-#     <iframe src="…" width="100%" height="320" style="border:1px solid rgba(0,0,0,0.12); border-radius: 12px;"></iframe>
+  image_url: "/assets/images/project8.png"
+  badge: "IDX"

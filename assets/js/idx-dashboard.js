@@ -893,6 +893,9 @@
     const auth = window.MdzAuth || null;
     const elements = {
       refreshDocs: qs(root, "[data-idx-refresh-docs]"),
+      preauth: qs(root, "[data-idx-preauth]"),
+      preauthSummary: qs(root, "[data-idx-preauth-summary]"),
+      app: qs(root, "[data-idx-dashboard-app]"),
       authGate: qs(root, "[data-idx-auth-gate]"),
       authGateTitle: qs(root, "[data-idx-auth-gate-title]"),
       authGateCopy: qs(root, "[data-idx-auth-gate-copy]"),
@@ -1408,27 +1411,40 @@
     }
 
     function renderAuthGate() {
+      if (elements.authLogin) {
+        elements.authLogin.href = buildLoginHref();
+      }
+
+      const appReady = authState.checked && authState.authenticated && !authState.missingConfig;
+
+      if (elements.app) {
+        elements.app.hidden = !appReady;
+      }
+
+      if (elements.preauth) {
+        elements.preauth.hidden = appReady;
+      }
+
+      if (elements.preauthSummary) {
+        if (!authState.checked || authState.missingConfig) {
+          elements.preauthSummary.hidden = true;
+        } else {
+          elements.preauthSummary.hidden = !!authState.authenticated;
+        }
+      }
+
       if (!elements.authGate) return;
 
-      const shouldShow = !authState.checked || !authState.authenticated;
-      elements.authGate.hidden = !shouldShow;
-
-      if (!shouldShow) return;
-
       if (!authState.checked) {
+        elements.authGate.hidden = false;
         setText(elements.authGateTitle, "Checking sign-in");
         setText(elements.authGateCopy, "Verifying your current session before enabling document dashboard requests.");
       } else if (authState.missingConfig) {
+        elements.authGate.hidden = false;
         setText(elements.authGateTitle, "Sign-in unavailable");
         setText(elements.authGateCopy, "The site auth configuration is missing, so the IDX dashboard cannot authenticate requests yet.");
       } else {
-        setText(elements.authGateTitle, "Sign in required");
-        setText(elements.authGateCopy, "Sign in with Google to use the IDX dashboard.");
-      }
-
-      if (elements.authLogin) {
-        elements.authLogin.hidden = !!authState.missingConfig;
-        elements.authLogin.href = buildLoginHref();
+        elements.authGate.hidden = true;
       }
     }
 

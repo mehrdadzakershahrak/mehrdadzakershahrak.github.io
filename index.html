@@ -4,44 +4,110 @@ title: "Mehrdad Zaker"
 permalink: /
 classes: wide home-page
 ---
-<section class="mdz-band mdz-band--carousel">
-  <div class="mdz-band__inner mdz-band__inner--top">
-    {% include home_thumbnails.html mode="carousel" autoplay_ms=3000 %}
+<section class="mdz-band mdz-band--hero">
+  <div class="mdz-band__inner">
+    <div class="mdz-home-hero">
+      <div class="mdz-home-hero__copy">
+        <p class="mdz-home-hero__eyebrow">Consulting and technical leadership</p>
+        <h1 class="mdz-home-hero__title">Mehrdad Zaker helps teams design and deliver AI systems that hold up in production.</h1>
+        <p class="mdz-home-hero__lede">
+          Work across private AI deployment, retrieval and evaluation systems, agentic workflows, and robotics-adjacent automation for teams that need more than a demo.
+        </p>
+        <div class="mdz-home-hero__actions">
+          <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a>
+          <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
+        </div>
+        <div class="mdz-home-hero__focus">
+          <span>Private deployment</span>
+          <span>Agentic workflows</span>
+          <span>Retrieval and evaluation</span>
+          <span>Robotics systems</span>
+        </div>
+      </div>
+
+      <div class="mdz-home-hero__media">
+        <div class="mdz-home-hero__portrait">
+          <img src="{{ '/assets/images/about-profile-2026.jpg' | relative_url }}" alt="Mehrdad Zaker portrait outdoors">
+        </div>
+        <div class="mdz-home-hero__media-card">
+          <p class="mdz-home-hero__media-label">Best fit</p>
+          <strong>Teams building AI for real operational workflows</strong>
+          <p>Especially where privacy, reliability, deployment discipline, and source-backed reasoning matter.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mdz-band mdz-band--proof">
+  <div class="mdz-band__inner">
+    <div class="mdz-home-proof-grid" aria-label="Professional background highlights">
+      <article class="mdz-home-proof-card">
+        <p class="mdz-home-proof-card__eyebrow">Current role</p>
+        <strong>Founding AI Engineer</strong>
+        <p>Architecture and technical direction for automated reasoning platforms built on foundation models.</p>
+      </article>
+      <article class="mdz-home-proof-card">
+        <p class="mdz-home-proof-card__eyebrow">Production experience</p>
+        <strong>ML leadership at Grainger</strong>
+        <p>Search, ranking, and recommendation systems at scale for real commercial workflows.</p>
+      </article>
+      <article class="mdz-home-proof-card">
+        <p class="mdz-home-proof-card__eyebrow">Academic depth</p>
+        <strong>Ph.D. in Computer Science</strong>
+        <p>Systems thinking across models, interfaces, evaluation, and operational constraints.</p>
+      </article>
+      <article class="mdz-home-proof-card">
+        <p class="mdz-home-proof-card__eyebrow">Focus areas</p>
+        <strong>LLMs, RAG, robotics, platforms</strong>
+        <p>Applied AI systems that are secure, trustworthy, and useful under real pressure.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="mdz-band mdz-band--offers">
+  <div class="mdz-band__inner">
+    <div class="mdz-home-section-head">
+      <p class="mdz-home-section-head__eyebrow">Core engagements</p>
+      <h2>Three practical paths into the work</h2>
+      <p class="mdz-muted">Start with the engagement model that best matches your team, constraints, and deployment surface.</p>
+    </div>
+    <div class="mdz-card-grid">
+      <div class="mdz-card">
+        <p class="mdz-card__eyebrow">Private AI Deployment</p>
+        <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Deploy AI in controlled environments</a></h3>
+        <p class="mdz-card__desc">Architecture and implementation guidance for private, hybrid, and security-sensitive AI systems.</p>
+        <a class="btn btn--small mdz-cta" href="{{ '/private-ai-deployment/' | relative_url }}">Private deployment</a>
+      </div>
+      <div class="mdz-card">
+        <p class="mdz-card__eyebrow">Custom AI Systems</p>
+        <h3 class="mdz-card__title"><a href="{{ '/custom-ai-systems/' | relative_url }}">Build systems around a concrete workflow</a></h3>
+        <p class="mdz-card__desc">Design and delivery for agentic workflows, retrieval-backed assistants, and production-oriented AI interfaces.</p>
+        <a class="btn btn--small mdz-cta" href="{{ '/custom-ai-systems/' | relative_url }}">Custom systems</a>
+      </div>
+      <div class="mdz-card">
+        <p class="mdz-card__eyebrow">IDX and workflow design</p>
+        <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Operational guidance for document-heavy work</a></h3>
+        <p class="mdz-card__desc">Use Industry Guidance to frame the workflow, then move into IDX for uploads, search, and source review.</p>
+        <a class="btn btn--small mdz-cta" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
+      </div>
+    </div>
+    <div class="mdz-demos-cta">
+      <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}">Start a conversation</a>
+      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/ai-robotics-solutions/' | relative_url }}">View all solutions</a>
+    </div>
   </div>
 </section>
 
 <section class="mdz-band mdz-band--content">
   <div class="mdz-band__inner">
-    <h2>Featured content</h2>
-    <p class="mdz-muted">Curated links, embeds, and highlights from around the web.</p>
+    <div class="mdz-home-section-head">
+      <p class="mdz-home-section-head__eyebrow">Selected insights</p>
+      <h2>Writing and podcast work grounded in implementation</h2>
+      <p class="mdz-muted">A concise starting point for the thinking behind the systems work.</p>
+    </div>
     {% include home_feed.html %}
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--demos">
-  <div class="mdz-band__inner">
-    <h2>Industry Guidance</h2>
-    <div class="mdz-card-grid">
-      <div class="mdz-card">
-        <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/?industry=legal' | relative_url }}">Legal guidance</a></h3>
-        <p class="mdz-card__desc">Workflow guidance for agreements, policies, diligence files, and source review.</p>
-        <a class="btn btn--small mdz-cta" href="{{ '/idx/assistant/?industry=legal' | relative_url }}">Open guidance</a>
-      </div>
-      <div class="mdz-card">
-        <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/?industry=finance' | relative_url }}">Finance guidance</a></h3>
-        <p class="mdz-card__desc">Guidance for filings, reporting packs, finance memos, and supporting source documents.</p>
-        <a class="btn btn--small mdz-cta" href="{{ '/idx/assistant/?industry=finance' | relative_url }}">Open guidance</a>
-      </div>
-      <div class="mdz-card">
-        <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/?industry=real-estate' | relative_url }}">Real estate guidance</a></h3>
-        <p class="mdz-card__desc">Guidance for leases, listings, diligence files, and property-level source review.</p>
-        <a class="btn btn--small mdz-cta" href="{{ '/idx/assistant/?industry=real-estate' | relative_url }}">Open guidance</a>
-      </div>
-    </div>
-    <div class="mdz-demos-cta">
-      <a class="btn btn--primary mdz-cta" href="{{ '/idx/assistant/' | relative_url }}">Explore Industry Guidance</a>
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX Dashboard</a>
-    </div>
   </div>
 </section>
 
@@ -50,7 +116,7 @@ classes: wide home-page
     <section class="mdz-search-promo" aria-labelledby="home-search-title">
       <div class="mdz-search-promo__copy">
         <h2 id="home-search-title">Looking for something specific?</h2>
-        <p>Search the full Mehrdad Zaker site library across demos, articles, pages, and resources.</p>
+        <p>Search the full site library across solutions, IDX workflows, podcast entries, and reference pages.</p>
       </div>
 
       <form class="mdz-search-promo__form" action="{{ '/search/' | relative_url }}" method="get" role="search">
@@ -81,29 +147,20 @@ classes: wide home-page
   <div class="mdz-horizontal-stack__inner">
     <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--about" href="{{ '/about/' | relative_url }}">
       <div class="mdz-horizontal-card__body">
-        <h3>About</h3>
-        <p>Read the story behind Mehrdad Zaker's work on streamlined reasoning systems across AI, robotics, and production platforms.</p>
-        <span class="mdz-horizontal-card__cta mdz-cta">Read About</span>
+        <h3>About Mehrdad</h3>
+        <p>Read the background behind the systems perspective, research depth, and production experience shaping the work.</p>
+        <span class="mdz-horizontal-card__cta mdz-cta">Read the full background</span>
       </div>
       <div class="mdz-horizontal-card__media" style="background-image:url('{{ '/assets/images/about-profile-2026.jpg' | relative_url }}');"></div>
     </a>
 
-    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--book" href="{{ '/book/' | relative_url }}">
+    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--book" href="{{ '/contact/' | relative_url }}">
       <div class="mdz-horizontal-card__body">
-        <h3>Book</h3>
-        <p>I am writing a practical guide for building secure, production-ready AI systems.</p>
-        <span class="mdz-horizontal-card__cta mdz-cta">View Book Page</span>
+        <h3>Work Together</h3>
+        <p>Bring a concrete problem, a deployment constraint, or a workflow that needs to become a real system.</p>
+        <span class="mdz-horizontal-card__cta mdz-cta">Open contact page</span>
       </div>
       <div class="mdz-horizontal-card__media" style="background-image:url('{{ '/assets/images/project8.png' | relative_url }}');"></div>
-    </a>
-
-    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--reverse mdz-horizontal-card--newsletter" href="{{ '/newsletter/' | relative_url }}">
-      <div class="mdz-horizontal-card__media" style="background-image:url('{{ '/assets/images/1.jpg' | relative_url }}');"></div>
-      <div class="mdz-horizontal-card__body">
-        <h3>Newsletter</h3>
-        <p>Get updates on demos, releases, and practical AI deployment insights.</p>
-        <span class="mdz-horizontal-card__cta mdz-cta">Go to Newsletter</span>
-      </div>
     </a>
   </div>
 </div>

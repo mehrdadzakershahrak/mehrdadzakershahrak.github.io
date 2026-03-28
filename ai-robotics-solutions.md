@@ -1,37 +1,39 @@
 ---
 layout: single
-title: "AI & Robotics"
+title: "Solutions"
 permalink: /ai-robotics-solutions/
 classes: wide
 ---
 
-I build practical AI and robotics systems for real-world environments. That work spans industry-specific AI applications, private deployment infrastructure, autonomous systems, and robotics platforms that combine intelligence with physical automation.
+This page groups the main consulting and delivery paths across AI systems, private deployment infrastructure, document-heavy workflows, and robotics-adjacent automation. The common thread is practical system design for environments where reliability, source integrity, and operational fit matter.
 
-## AI
+If you already have a concrete problem in mind, start with [Contact]({{ '/contact/' | relative_url }}). If you want to explore the document workflow path first, go directly to [Industry Guidance]({{ '/idx/assistant/' | relative_url }}).
+
+## AI Systems
 <div class="mdz-card-grid">
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Industry Guidance</a></h3>
-    <p class="mdz-card__desc">Browse Legal, Finance, Real Estate, Healthcare, and Procurement workflow guidance.</p>
+    <p class="mdz-card__desc">Workflow guidance across legal, finance, real estate, healthcare, and procurement document review.</p>
     <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">Browse guidance</a>
   </div>
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/idx/dashboard/' | relative_url }}">IDX Dashboard</a></h3>
-    <p class="mdz-card__desc">Upload PDFs, monitor indexing, search ready documents, open viewer links, and manage the library.</p>
+    <p class="mdz-card__desc">Operational dashboard for uploads, indexing, ready-state search, viewer links, and document management.</p>
     <a class="btn btn--small" href="{{ '/idx/dashboard/' | relative_url }}">Open dashboard</a>
   </div>
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></h3>
-    <p class="mdz-card__desc">Deploy AI in your environment with security, compliance, and reliability in mind.</p>
+    <p class="mdz-card__desc">Architecture and delivery guidance for secure, private, and hybrid deployment environments.</p>
     <a class="btn btn--small" href="{{ '/private-ai-deployment/' | relative_url }}">Learn more</a>
   </div>
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a></h3>
-    <p class="mdz-card__desc">End-to-end AI systems built for outcomes—not just a chat box.</p>
+    <p class="mdz-card__desc">End-to-end systems built around a measurable workflow, not just a generic chatbot surface.</p>
     <a class="btn btn--small" href="{{ '/custom-ai-systems/' | relative_url }}">Learn more</a>
   </div>
 </div>
 
-Start with [Industry Guidance]({{ '/idx/assistant/' | relative_url }}) for workflow guidance, or go directly to the [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}) for uploads, search, and document operations.
+These paths fit teams evaluating private AI architecture, trying to operationalize document-heavy work, or moving from prototype ideas into real production systems.
 
 ## Robotics
 <div class="mdz-card-grid">
@@ -52,9 +54,4 @@ Start with [Industry Guidance]({{ '/idx/assistant/' | relative_url }}) for workf
   </div>
 </div>
 
-## Industry guidance by domain
-- [Legal guidance]({{ '/idx/assistant/?industry=legal' | relative_url }})
-- [Finance guidance]({{ '/idx/assistant/?industry=finance' | relative_url }})
-- [Real estate guidance]({{ '/idx/assistant/?industry=real-estate' | relative_url }})
-- [Healthcare guidance]({{ '/idx/assistant/?industry=healthcare' | relative_url }})
-- [Procurement guidance]({{ '/idx/assistant/?industry=procurement' | relative_url }})
+If you need help choosing the right starting path, use [Contact]({{ '/contact/' | relative_url }}) and include the workflow, constraints, and desired outcome.

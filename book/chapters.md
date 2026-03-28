@@ -5,9 +5,9 @@ permalink: /book/chapters/
 classes: wide
 ---
 
-Browse the planned chapter structure for the book as it develops.
+Chapter previews will be published here as the manuscript takes final shape.
 
 ## Chapters
-Chapter outlines, summaries, and updates will live here.
+The book is still in development, so public chapter excerpts are not posted yet.
 
 To return to the main book page, go to [Book]({{ '/book/' | relative_url }}).

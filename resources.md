@@ -5,14 +5,11 @@ permalink: /resources/
 classes: wide
 ---
 
-A curated set of links and references.
+This archive is being consolidated into the main site sections so the most useful material is easier to find.
 
-## Talks / Interviews
-- (add links)
-
-## Tools / Projects
-- (add links)
-
-## Guidance docs
-- How to use Industry Guidance effectively
-- Prompt patterns and examples
+## Best starting points
+- [Solutions]({{ '/ai-robotics-solutions/' | relative_url }}) for consulting and delivery paths
+- [Industry Guidance]({{ '/idx/assistant/' | relative_url }}) for document-heavy workflow guidance
+- [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}) for operational document search and review
+- [Podcast]({{ '/podcast/' | relative_url }}) for applied AI and system-design discussions
+- [Contact]({{ '/contact/' | relative_url }}) for direct inquiries

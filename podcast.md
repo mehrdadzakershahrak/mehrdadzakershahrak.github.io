@@ -5,12 +5,7 @@ permalink: /podcast/
 classes: wide podcast-page
 ---
 
-The podcast index is a clean front door into the episode library. Each entry opens into its own page, where the full notes, related material, and supporting context can grow over time.
-
-## Subscribe
-- Spotify: (add link)
-- Apple Podcasts: (add link)
-- RSS: (add link)
+The podcast focuses on applied AI, system design, and the engineering tradeoffs behind production systems. Episodes are intended as concise entry points into the same deployment, workflow, and reasoning problems that show up throughout the consulting work.
 
 ## Latest episodes
 Start with the latest entries below.
@@ -20,3 +15,5 @@ Start with the latest entries below.
 ## Explore the library
 - [Browse All Episodes]({{ '/podcast/episodes/' | relative_url }})
 - [Browse by Topic]({{ '/podcast/topics/' | relative_url }})
+
+If an episode connects directly to a problem you are working on, continue with the relevant [Solutions]({{ '/ai-robotics-solutions/' | relative_url }}) page or reach out through [Contact]({{ '/contact/' | relative_url }}).
