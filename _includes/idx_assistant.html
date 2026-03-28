@@ -8,54 +8,10 @@
       </p>
     </div>
     <div class="mdz-idx__header-actions">
+      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">Industry guidance</a>
       <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-docs>Refresh library</button>
     </div>
   </header>
-
-  <p class="mdz-idx__intro">Choose an industry preset to swap the guidance panel. These cards no longer start chat sessions.</p>
-
-  <div class="mdz-card-grid mdz-idx__card-grid">
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="legal" role="button" tabindex="0" aria-label="Legal workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Legal AI</h3>
-      <p class="mdz-card__desc">Use-case guidance for agreements, policies, diligence files, and source review workflows.</p>
-      <span class="btn btn--small mdz-cta">Legal workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="finance" role="button" tabindex="0" aria-label="Finance workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Finance AI</h3>
-      <p class="mdz-card__desc">Operational guidance for filings, reporting packs, memos, and supporting source documents.</p>
-      <span class="btn btn--small mdz-cta">Finance workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="real-estate" role="button" tabindex="0" aria-label="Real estate workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Real Estate AI</h3>
-      <p class="mdz-card__desc">Guidance for leases, listings, due diligence files, and property-level source review.</p>
-      <span class="btn btn--small mdz-cta">Real estate workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="healthcare" role="button" tabindex="0" aria-label="Healthcare workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Healthcare AI</h3>
-      <p class="mdz-card__desc">Use-case guidance for intake forms, care documents, policy packs, and administrative review.</p>
-      <span class="btn btn--small mdz-cta">Healthcare workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="procurement" role="button" tabindex="0" aria-label="Procurement workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Procurement AI</h3>
-      <p class="mdz-card__desc">Guidance for RFQs, vendor packets, sourcing files, and requirements review workflows.</p>
-      <span class="btn btn--small mdz-cta">Procurement workflows</span>
-    </article>
-  </div>
-
-  <section class="mdz-idx__panel mdz-idx__panel--instruction" aria-labelledby="idx-industry-guidance-title">
-    <div class="mdz-idx__panel-header">
-      <div>
-        <p class="mdz-idx__panel-eyebrow">Industry Guidance</p>
-        <h2 id="idx-industry-guidance-title" data-idx-industry-title>IDX dashboard guidance</h2>
-      </div>
-    </div>
-    <p class="mdz-idx__instruction-copy" data-idx-industry-copy></p>
-    <ul class="mdz-idx__instruction-list" data-idx-industry-points></ul>
-  </section>
 
   <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
     <strong data-idx-auth-gate-title>Sign in required</strong>

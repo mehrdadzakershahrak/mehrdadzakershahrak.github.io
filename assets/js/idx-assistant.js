@@ -485,7 +485,7 @@
     return counts;
   }
 
-  function createInitialState(selectedIndustryPreset) {
+  function createInitialState() {
     const documents = [];
     const uploadQueue = [];
     return {
@@ -499,7 +499,6 @@
         results: [],
       },
       selectedStatusFilter: "all",
-      selectedIndustryPreset: normalizeIndustryPreset(selectedIndustryPreset),
       deletingDocumentIds: [],
       loadingStates: createLoadingStates(),
       errors: createErrors(),
@@ -823,15 +822,77 @@
     };
   }
 
-  function initDashboard(root) {
-    const auth = window.MdzAuth || null;
+  function initGuidance(root) {
     const initialPreset = normalizeIndustryPreset(new URL(window.location.href).searchParams.get("industry"));
     const elements = {
       cards: qsa(root, "[data-idx-industry-preset]"),
-      refreshDocs: qs(root, "[data-idx-refresh-docs]"),
       presetTitle: qs(root, "[data-idx-industry-title]"),
       presetCopy: qs(root, "[data-idx-industry-copy]"),
       presetPoints: qs(root, "[data-idx-industry-points]"),
+    };
+
+    let selectedIndustryPreset = initialPreset;
+
+    function setIndustryQuery(preset) {
+      const url = new URL(window.location.href);
+      const normalized = normalizeIndustryPreset(preset);
+      if (normalized && normalized !== "general") {
+        url.searchParams.set("industry", normalized);
+      } else {
+        url.searchParams.delete("industry");
+      }
+      window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+    }
+
+    function renderIndustryPreset() {
+      const preset = INDUSTRY_PRESETS[selectedIndustryPreset] || INDUSTRY_PRESETS.general;
+
+      setText(elements.presetTitle, preset.title);
+      setText(elements.presetCopy, preset.copy);
+
+      if (elements.presetPoints) {
+        elements.presetPoints.innerHTML = "";
+        preset.points.forEach(function (point) {
+          const item = document.createElement("li");
+          item.textContent = point;
+          elements.presetPoints.appendChild(item);
+        });
+      }
+
+      elements.cards.forEach(function (card) {
+        const key = normalizeIndustryPreset(card.getAttribute("data-idx-industry-preset"));
+        const isActive = key === selectedIndustryPreset;
+        card.classList.toggle("is-active", isActive);
+        card.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+    }
+
+    elements.cards.forEach(function (card) {
+      const preset = normalizeIndustryPreset(card.getAttribute("data-idx-industry-preset"));
+
+      card.addEventListener("click", function () {
+        selectedIndustryPreset = preset;
+        setIndustryQuery(preset);
+        renderIndustryPreset();
+      });
+
+      card.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectedIndustryPreset = preset;
+          setIndustryQuery(preset);
+          renderIndustryPreset();
+        }
+      });
+    });
+
+    renderIndustryPreset();
+  }
+
+  function initDashboard(root) {
+    const auth = window.MdzAuth || null;
+    const elements = {
+      refreshDocs: qs(root, "[data-idx-refresh-docs]"),
       authGate: qs(root, "[data-idx-auth-gate]"),
       authGateTitle: qs(root, "[data-idx-auth-gate-title]"),
       authGateCopy: qs(root, "[data-idx-auth-gate-copy]"),
@@ -863,7 +924,7 @@
       searchResults: qs(root, "[data-idx-search-results]"),
     };
 
-    let state = createInitialState(initialPreset);
+    let state = createInitialState();
     let authState = {
       checked: false,
       authenticated: false,
@@ -922,17 +983,6 @@
           missingConfig: authState.missingConfig,
         };
       }
-    }
-
-    function setIndustryQuery(preset) {
-      const url = new URL(window.location.href);
-      const normalized = normalizeIndustryPreset(preset);
-      if (normalized && normalized !== "general") {
-        url.searchParams.set("industry", normalized);
-      } else {
-        url.searchParams.delete("industry");
-      }
-      window.history.replaceState({}, "", url.pathname + url.search + url.hash);
     }
 
     function buildLoginHref() {
@@ -1354,29 +1404,6 @@
 
       updateLoading({
         uploadCount: Math.max(0, state.loadingStates.uploadCount - validFiles.length),
-      });
-    }
-
-    function renderIndustryPreset() {
-      const preset = INDUSTRY_PRESETS[state.selectedIndustryPreset] || INDUSTRY_PRESETS.general;
-
-      setText(elements.presetTitle, preset.title);
-      setText(elements.presetCopy, preset.copy);
-
-      if (elements.presetPoints) {
-        elements.presetPoints.innerHTML = "";
-        preset.points.forEach(function (point) {
-          const item = document.createElement("li");
-          item.textContent = point;
-          elements.presetPoints.appendChild(item);
-        });
-      }
-
-      elements.cards.forEach(function (card) {
-        const key = normalizeIndustryPreset(card.getAttribute("data-idx-industry-preset"));
-        const isActive = key === state.selectedIndustryPreset;
-        card.classList.toggle("is-active", isActive);
-        card.setAttribute("aria-pressed", isActive ? "true" : "false");
       });
     }
 
@@ -1817,7 +1844,6 @@
     function render() {
       const authBlocked = !authState.checked || !authState.authenticated || !!authState.missingConfig;
 
-      renderIndustryPreset();
       renderAuthGate();
       renderNotice();
       renderStats();
@@ -1856,27 +1882,6 @@
         elements.fileInput.disabled = authBlocked || state.loadingStates.uploadCount > 0;
       }
     }
-
-    elements.cards.forEach(function (card) {
-      const preset = normalizeIndustryPreset(card.getAttribute("data-idx-industry-preset"));
-
-      card.addEventListener("click", function () {
-        patchState({
-          selectedIndustryPreset: preset,
-        });
-        setIndustryQuery(preset);
-      });
-
-      card.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          patchState({
-            selectedIndustryPreset: preset,
-          });
-          setIndustryQuery(preset);
-        }
-      });
-    });
 
     if (elements.refreshDocs) {
       elements.refreshDocs.addEventListener("click", function () {
@@ -2003,6 +2008,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    qsa(document, "[data-idx-guidance]").forEach(initGuidance);
     qsa(document, "[data-idx-dashboard]").forEach(initDashboard);
   });
 })();

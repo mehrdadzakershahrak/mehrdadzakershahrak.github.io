@@ -24,6 +24,8 @@ columns:
         url: "/ai-robotics-solutions/"
       - label: "Industry AI"
         url: "/idx/assistant/"
+      - label: "IDX Dashboard"
+        url: "/idx/dashboard/"
       - label: "Private AI Deployment"
         url: "/private-ai-deployment/"
       - label: "Custom AI Systems"

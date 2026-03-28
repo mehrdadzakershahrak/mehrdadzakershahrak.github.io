@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "IDX Dashboard"
+title: "Industry AI"
 permalink: /idx/assistant/
 classes: wide
-idx_assistant: true
+idx_guidance: true
 ---
 
-{% include idx_assistant.html %}
+{% include idx_industry_guidance.html %}

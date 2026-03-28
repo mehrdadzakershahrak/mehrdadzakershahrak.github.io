@@ -1,0 +1,119 @@
+<section class="mdz-idx" data-idx-guidance>
+  <header class="mdz-idx__workspace-header">
+    <div class="mdz-idx__workspace-heading">
+      <p class="mdz-idx__eyebrow">Industry Guidance</p>
+      <h1 class="mdz-idx__workspace-title">Industry AI workflows</h1>
+      <p class="mdz-idx__workspace-copy">
+        Review document workflows by industry, then move into the operational IDX dashboard when you are ready to upload, search, and manage files.
+      </p>
+    </div>
+    <div class="mdz-idx__header-actions">
+      <a class="btn btn--primary mdz-cta" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX Dashboard</a>
+    </div>
+  </header>
+
+  <section class="mdz-idx__workflow" aria-label="How to use Industry AI guidance">
+    <article class="mdz-idx__workflow-step">
+      <span class="mdz-idx__workflow-count">1</span>
+      <div class="mdz-idx__workflow-copy">
+        <strong>Pick an industry</strong>
+        <p>Switch the guidance panel below to see the workflows, sources, and operational focus for that domain.</p>
+      </div>
+    </article>
+    <article class="mdz-idx__workflow-step">
+      <span class="mdz-idx__workflow-count">2</span>
+      <div class="mdz-idx__workflow-copy">
+        <strong>Review the source strategy</strong>
+        <p>Use the guidance panel to understand which PDFs belong in the IDX library and how search and viewer review should be used.</p>
+      </div>
+    </article>
+    <article class="mdz-idx__workflow-step">
+      <span class="mdz-idx__workflow-count">3</span>
+      <div class="mdz-idx__workflow-copy">
+        <strong>Open the dashboard</strong>
+        <p>The dashboard is a separate page for uploads, queue monitoring, search, viewer access, and document deletion.</p>
+      </div>
+    </article>
+  </section>
+
+  <p class="mdz-idx__intro">Choose an industry to swap the guidance panel. This page does not run uploads or dashboard actions.</p>
+
+  <div class="mdz-card-grid mdz-idx__card-grid">
+    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="legal" role="button" tabindex="0" aria-label="Legal workflows" aria-pressed="false">
+      <h3 class="mdz-card__title">Legal AI</h3>
+      <p class="mdz-card__desc">Use-case guidance for agreements, policies, diligence files, and source review workflows.</p>
+      <span class="btn btn--small mdz-cta">Legal workflows</span>
+    </article>
+
+    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="finance" role="button" tabindex="0" aria-label="Finance workflows" aria-pressed="false">
+      <h3 class="mdz-card__title">Finance AI</h3>
+      <p class="mdz-card__desc">Operational guidance for filings, reporting packs, memos, and supporting source documents.</p>
+      <span class="btn btn--small mdz-cta">Finance workflows</span>
+    </article>
+
+    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="real-estate" role="button" tabindex="0" aria-label="Real estate workflows" aria-pressed="false">
+      <h3 class="mdz-card__title">Real Estate AI</h3>
+      <p class="mdz-card__desc">Guidance for leases, listings, due diligence files, and property-level source review.</p>
+      <span class="btn btn--small mdz-cta">Real estate workflows</span>
+    </article>
+
+    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="healthcare" role="button" tabindex="0" aria-label="Healthcare workflows" aria-pressed="false">
+      <h3 class="mdz-card__title">Healthcare AI</h3>
+      <p class="mdz-card__desc">Use-case guidance for intake forms, care documents, policy packs, and administrative review.</p>
+      <span class="btn btn--small mdz-cta">Healthcare workflows</span>
+    </article>
+
+    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="procurement" role="button" tabindex="0" aria-label="Procurement workflows" aria-pressed="false">
+      <h3 class="mdz-card__title">Procurement AI</h3>
+      <p class="mdz-card__desc">Guidance for RFQs, vendor packets, sourcing files, and requirements review workflows.</p>
+      <span class="btn btn--small mdz-cta">Procurement workflows</span>
+    </article>
+  </div>
+
+  <div class="mdz-idx__workspace-grid">
+    <div class="mdz-idx__main">
+      <section class="mdz-idx__panel mdz-idx__panel--instruction" aria-labelledby="idx-guidance-title">
+        <div class="mdz-idx__panel-header">
+          <div>
+            <p class="mdz-idx__panel-eyebrow">Industry Guidance</p>
+            <h2 id="idx-guidance-title" data-idx-industry-title>Operational IDX guidance</h2>
+          </div>
+        </div>
+        <p class="mdz-idx__instruction-copy" data-idx-industry-copy></p>
+        <ul class="mdz-idx__instruction-list" data-idx-industry-points></ul>
+      </section>
+    </div>
+
+    <aside class="mdz-idx__sidebar">
+      <section class="mdz-idx__panel" aria-labelledby="idx-dashboard-handoff-title">
+        <div class="mdz-idx__panel-header">
+          <div>
+            <p class="mdz-idx__panel-eyebrow">Operational Handoff</p>
+            <h2 id="idx-dashboard-handoff-title">Dashboard lives separately</h2>
+          </div>
+        </div>
+        <p class="mdz-idx__instruction-copy">
+          Use the dashboard for the operational surface: uploads, queue monitoring, search, viewer access, and document deletion.
+        </p>
+        <div class="mdz-idx__header-actions">
+          <a class="btn btn--primary mdz-cta" href="{{ '/idx/dashboard/' | relative_url }}">Go to dashboard</a>
+          <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/private-ai-deployment/' | relative_url }}">Private deployment</a>
+        </div>
+      </section>
+
+      <section class="mdz-idx__panel" aria-labelledby="idx-guidance-notes-title">
+        <div class="mdz-idx__panel-header">
+          <div>
+            <p class="mdz-idx__panel-eyebrow">Use Notes</p>
+            <h2 id="idx-guidance-notes-title">What stays on this page</h2>
+          </div>
+        </div>
+        <ul class="mdz-idx__instruction-list">
+          <li>Industry-specific workflow guidance and source-document recommendations.</li>
+          <li>Preset selection through the existing <code>?industry=</code> deep links.</li>
+          <li>Direct handoff into the separate IDX dashboard when you are ready to operate on documents.</li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+</section>

@@ -9,6 +9,9 @@ main:
           - title: "Industry AI"
             key: industry_ai
             url: /idx/assistant/
+          - title: "IDX Dashboard"
+            key: idx_dashboard
+            url: /idx/dashboard/
           - title: "Private AI Deployment"
             key: private_ai_deployment
             url: /private-ai-deployment/
