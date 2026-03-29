@@ -2,63 +2,129 @@
   const INDUSTRY_PRESETS = {
     general: {
       label: "All workflows",
-      title: "Operational IDX dashboard",
-      copy: "Use this dashboard to ingest PDFs, monitor queue health, search ready documents, and open source files directly in IDX Viewer.",
-      points: [
-        "Upload PDFs and keep an eye on queued or processing jobs in the upload panel.",
-        "Search only after documents are fully ready for search and viewer access.",
-        "Open viewer links directly from document rows and search results to inspect source material.",
+      title: "Chat with uploaded PDFs across document-heavy workflows",
+      intro:
+        "IDX is useful when the work starts with a document, not a blank chat box. Upload a focused set of PDFs, ask practical questions once the files are ready, and keep the source page attached to every answer.",
+      documents_title: "Good documents to upload",
+      documents: [
+        "Contracts, policy manuals, diligence files, filings, vendor packets, and similar PDFs tied to one workflow.",
+        "Document sets where the answer may be spread across exhibits, appendices, attachments, or supporting files.",
+        "Source files that need faster review without losing page-level traceability.",
       ],
+      prompts_title: "Example prompts",
+      prompts: [
+        "What deadlines, obligations, or exceptions are mentioned across these documents? Include the source pages.",
+        "Summarize the parts of this PDF set that affect the decision I need to make today, with citations.",
+        "Compare these documents and show where the terms, numbers, or requirements do not match.",
+      ],
+      value_title: "Why source-backed answers matter here",
+      value_summary:
+        "The value is not just speed. IDX turns a PDF set into searchable working context so answers can be checked against the original page before they are shared, escalated, or used in a decision.",
     },
     legal: {
       label: "Legal AI",
-      title: "Legal document workflows",
-      copy: "Use IDX to ingest agreements, policies, diligence files, and supporting exhibits, then search ready source material directly.",
-      points: [
-        "Upload contracts, NDAs, and policy files, then wait for parsing and indexing to finish.",
-        "Use keyword search to find clauses, dates, or obligations once documents are ready.",
-        "Open the IDX viewer before sharing findings so the source page stays attached to the workflow.",
+      title: "Legal document review with uploaded PDFs",
+      intro:
+        "Upload contracts and related PDFs when you need faster clause review without losing the exact language on the page. IDX helps legal teams ask focused questions across agreements, exhibits, and policy files, then verify the answer against the cited source before sharing it.",
+      documents_title: "Good documents to upload",
+      documents: [
+        "MSAs, NDAs, order forms, statements of work, policy documents, and exhibit packs.",
+        "Diligence files that combine core agreements with amendments, schedules, and supporting attachments.",
+        "Internal policy or compliance PDFs that need clause-level comparison against contract language.",
       ],
+      prompts_title: "Example prompts",
+      prompts: [
+        "What renewal dates, notice periods, and termination triggers appear in these agreements? Include the source pages.",
+        "Show me the liability caps, indemnity language, and any carve-outs across this document set.",
+        "Which required clauses are missing or inconsistent between the MSA, SOW, and order form?",
+      ],
+      value_title: "Why source-backed answers matter here",
+      value_summary:
+        "Legal review depends on exact wording. Source-backed answers help teams move faster on first-pass analysis while keeping the clause and page reference visible for review.",
     },
     finance: {
       label: "Finance AI",
-      title: "Finance document workflows",
-      copy: "Use the dashboard to operationalize filings, reporting packs, memos, and supporting reference documents.",
-      points: [
-        "Upload quarterly packs, board materials, and analyst notes into one indexed library.",
-        "Track processing closely so only ready documents are used for search and review.",
-        "Use viewer links to jump from search results back into the original source file.",
+      title: "Finance document review with uploaded PDFs",
+      intro:
+        "Use IDX when the answer is buried in filings, reporting packs, lender materials, or investment memos. It helps finance teams pull fast answers from uploaded PDFs while keeping the supporting page attached to the result.",
+      documents_title: "Good documents to upload",
+      documents: [
+        "10-Ks, 10-Qs, board decks, investment committee memos, and quarterly reporting packs.",
+        "Lender packages, covenant schedules, audit support PDFs, and supporting reference documents.",
+        "Mixed document sets where narrative, numbers, and footnotes need to be checked together.",
       ],
+      prompts_title: "Example prompts",
+      prompts: [
+        "What risks, covenant terms, or liquidity constraints are mentioned in these PDFs? Cite the source pages.",
+        "Where do the revenue, margin, or cash-flow assumptions change between the board deck and the memo?",
+        "Find the passages that support this number and show me the original page references.",
+      ],
+      value_title: "Why source-backed answers matter here",
+      value_summary:
+        "Finance workflows need traceable support, not just a summary. IDX helps tie each answer back to the source file so teams can validate numbers and narrative before they circulate.",
     },
     healthcare: {
       label: "Healthcare AI",
-      title: "Healthcare document workflows",
-      copy: "Use IDX for intake packets, policy documents, care plans, and administrative files that need structured source review.",
-      points: [
-        "Upload PDFs for intake, policy, and care documentation into the same operational queue.",
-        "Keep processing documents visible until indexing completes, then search ready records directly.",
-        "Open viewer links to confirm the exact source page before downstream handoff or review.",
+      title: "Healthcare administrative review with uploaded PDFs",
+      intro:
+        "Healthcare administrative work often involves intake packets, policies, consent forms, and care-related PDFs that must be reviewed carefully. IDX helps teams ask document-specific questions and keep the answer tied to the original page for administrative review.",
+      documents_title: "Good documents to upload",
+      documents: [
+        "Intake packets, payer forms, consent documents, and administrative policy binders.",
+        "Care-plan paperwork, discharge instructions, and supporting PDFs used in administrative handoffs.",
+        "Document sets where missing fields, required forms, or policy requirements need to be checked quickly.",
       ],
+      prompts_title: "Example prompts",
+      prompts: [
+        "Which required fields, signatures, or attachments are missing from these intake or consent PDFs?",
+        "What does this policy packet say about the documentation required for this administrative workflow?",
+        "Show me the source passages that answer this operational question so I can review the underlying page.",
+      ],
+      value_title: "Why source-backed answers matter here",
+      value_summary:
+        "In healthcare operations, answers need to stay grounded in the document set. IDX helps teams review faster while keeping citations visible for administrative confirmation.",
     },
     procurement: {
       label: "Procurement AI",
-      title: "Procurement document workflows",
-      copy: "Use the dashboard for RFQs, vendor packets, sourcing documents, and requirements review workflows.",
-      points: [
-        "Upload RFQs, vendor responses, and attachments as soon as they arrive.",
-        "Use ready-state search to locate requirements, deadlines, and source passages quickly.",
-        "Open the viewer from search results to inspect the original clause or source page.",
+      title: "Procurement review with uploaded PDFs",
+      intro:
+        "Procurement work is full of RFQs, vendor submissions, statements of work, and pricing sheets that need side-by-side review. IDX helps teams upload the document set, ask targeted questions, and trace every answer back to the source page.",
+      documents_title: "Good documents to upload",
+      documents: [
+        "RFPs, RFQs, vendor proposals, statements of work, and requirements matrices.",
+        "Pricing attachments, compliance documents, and supporting vendor response PDFs.",
+        "Procurement packets where deadlines, deliverables, and non-compliance risks need to be compared quickly.",
       ],
+      prompts_title: "Example prompts",
+      prompts: [
+        "What submission deadlines, mandatory requirements, and evaluation criteria appear across these procurement PDFs?",
+        "Which vendor response items look non-compliant, incomplete, or unsupported by the requested document?",
+        "Compare the pricing sheets and statements of work and show where the terms or deliverables differ.",
+      ],
+      value_title: "Why source-backed answers matter here",
+      value_summary:
+        "Procurement decisions depend on comparing source material quickly and defensibly. Source-backed answers help teams move faster while preserving the document trail behind each finding.",
     },
     "real-estate": {
       label: "Real Estate AI",
-      title: "Real estate document workflows",
-      copy: "Use IDX for leases, diligence packages, property reports, listings, and other transaction support files.",
-      points: [
-        "Upload leases, diligence PDFs, and listing packets into a single searchable dashboard.",
-        "Track parsing and indexing progress before relying on search across the document library.",
-        "Use viewer links to return to the underlying source page during review and deal coordination.",
+      title: "Real estate document review with uploaded PDFs",
+      intro:
+        "Real estate review often spans leases, diligence reports, listing packets, and operating documents. IDX helps you ask focused questions across the uploaded PDFs and jump back to the cited page before the answer moves into a deal conversation.",
+      documents_title: "Good documents to upload",
+      documents: [
+        "Leases, estoppels, property condition reports, diligence binders, and listing packets.",
+        "Inspection reports, title-related PDFs, and supporting transaction documents that need cross-reference review.",
+        "Deal files where obligations, deadlines, and property risks are spread across multiple PDFs.",
       ],
+      prompts_title: "Example prompts",
+      prompts: [
+        "What rent escalations, renewal options, and notice deadlines appear in these lease documents?",
+        "Summarize the property risks or deferred maintenance items mentioned in the inspection and diligence reports.",
+        "Where do these documents disagree on obligations, dates, or property details? Include sources.",
+      ],
+      value_title: "Why source-backed answers matter here",
+      value_summary:
+        "Deals move across many PDFs and small details matter. Source-backed answers make it easier to review faster without losing the exact page where the obligation, date, or risk appears.",
     },
   };
 
@@ -825,13 +891,50 @@
   function initGuidance(root) {
     const initialPreset = normalizeIndustryPreset(new URL(window.location.href).searchParams.get("industry"));
     const elements = {
-      cards: qsa(root, "[data-idx-industry-preset]"),
+      tabs: qsa(root, "[data-idx-industry-tab]"),
+      panel: qs(root, "#idx-guidance-panel"),
       presetTitle: qs(root, "[data-idx-industry-title]"),
-      presetCopy: qs(root, "[data-idx-industry-copy]"),
-      presetPoints: qs(root, "[data-idx-industry-points]"),
+      presetIntro: qs(root, "[data-idx-industry-intro]"),
+      presetDocumentsTitle: qs(root, "[data-idx-industry-documents-title]"),
+      presetDocuments: qs(root, "[data-idx-industry-documents]"),
+      presetPromptsTitle: qs(root, "[data-idx-industry-prompts-title]"),
+      presetPrompts: qs(root, "[data-idx-industry-prompts]"),
+      presetValueTitle: qs(root, "[data-idx-industry-value-title]"),
+      presetValueSummary: qs(root, "[data-idx-industry-value-summary]"),
     };
 
-    let selectedIndustryPreset = initialPreset;
+    let selectedIndustryPreset = initialPreset === "general" ? "legal" : initialPreset;
+
+    function renderList(list, items, className) {
+      if (!list) return;
+      list.innerHTML = "";
+
+      ensureArray(items).forEach(function (itemText) {
+        const text = normalizeString(itemText);
+        if (!text) return;
+
+        const item = document.createElement("li");
+        if (className) item.className = className;
+        item.textContent = text;
+        list.appendChild(item);
+      });
+    }
+
+    function selectPreset(preset, shouldFocus) {
+      selectedIndustryPreset = normalizeIndustryPreset(preset);
+      if (selectedIndustryPreset === "general") {
+        selectedIndustryPreset = "legal";
+      }
+      setIndustryQuery(selectedIndustryPreset);
+      renderIndustryPreset();
+
+      if (shouldFocus) {
+        const selectedTab = elements.tabs.find(function (tab) {
+          return normalizeIndustryPreset(tab.getAttribute("data-idx-industry-tab")) === selectedIndustryPreset;
+        });
+        if (selectedTab) selectedTab.focus();
+      }
+    }
 
     function setIndustryQuery(preset) {
       const url = new URL(window.location.href);
@@ -848,41 +951,63 @@
       const preset = INDUSTRY_PRESETS[selectedIndustryPreset] || INDUSTRY_PRESETS.general;
 
       setText(elements.presetTitle, preset.title);
-      setText(elements.presetCopy, preset.copy);
+      setText(elements.presetIntro, preset.intro);
+      setText(elements.presetDocumentsTitle, preset.documents_title);
+      renderList(elements.presetDocuments, preset.documents, "mdz-idx__detail-item");
+      setText(elements.presetPromptsTitle, preset.prompts_title);
+      renderList(elements.presetPrompts, ensureArray(preset.prompts).slice(0, 3), "mdz-idx__prompt-item");
+      setText(elements.presetValueTitle, preset.value_title);
+      setText(elements.presetValueSummary, preset.value_summary);
 
-      if (elements.presetPoints) {
-        elements.presetPoints.innerHTML = "";
-        preset.points.forEach(function (point) {
-          const item = document.createElement("li");
-          item.textContent = point;
-          elements.presetPoints.appendChild(item);
-        });
-      }
-
-      elements.cards.forEach(function (card) {
-        const key = normalizeIndustryPreset(card.getAttribute("data-idx-industry-preset"));
+      elements.tabs.forEach(function (tab) {
+        const key = normalizeIndustryPreset(tab.getAttribute("data-idx-industry-tab"));
         const isActive = key === selectedIndustryPreset;
-        card.classList.toggle("is-active", isActive);
-        card.setAttribute("aria-pressed", isActive ? "true" : "false");
+        tab.classList.toggle("is-active", isActive);
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+        tab.tabIndex = isActive ? 0 : -1;
+
+        if (isActive && elements.panel) {
+          const labelledBy = normalizeString(tab.id);
+          if (labelledBy) {
+            elements.panel.setAttribute("aria-labelledby", labelledBy);
+          }
+        }
       });
     }
 
-    elements.cards.forEach(function (card) {
-      const preset = normalizeIndustryPreset(card.getAttribute("data-idx-industry-preset"));
+    elements.tabs.forEach(function (tab, index) {
+      const preset = normalizeIndustryPreset(tab.getAttribute("data-idx-industry-tab"));
 
-      card.addEventListener("click", function () {
-        selectedIndustryPreset = preset;
-        setIndustryQuery(preset);
-        renderIndustryPreset();
+      tab.addEventListener("click", function () {
+        selectPreset(preset, false);
       });
 
-      card.addEventListener("keydown", function (event) {
+      tab.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
-          selectedIndustryPreset = preset;
-          setIndustryQuery(preset);
-          renderIndustryPreset();
+          selectPreset(preset, true);
+          return;
         }
+
+        if (!elements.tabs.length) return;
+
+        let nextIndex = index;
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+          nextIndex = (index + 1) % elements.tabs.length;
+        } else if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+          nextIndex = (index - 1 + elements.tabs.length) % elements.tabs.length;
+        } else if (event.key === "Home") {
+          nextIndex = 0;
+        } else if (event.key === "End") {
+          nextIndex = elements.tabs.length - 1;
+        } else {
+          return;
+        }
+
+        event.preventDefault();
+        const nextTab = elements.tabs[nextIndex];
+        if (!nextTab) return;
+        selectPreset(nextTab.getAttribute("data-idx-industry-tab"), true);
       });
     });
 

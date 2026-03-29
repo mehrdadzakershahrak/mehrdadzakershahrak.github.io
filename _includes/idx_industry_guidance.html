@@ -1,10 +1,10 @@
-<section class="mdz-idx" data-idx-guidance>
+<section class="mdz-idx mdz-idx--guidance" data-idx-guidance>
   <header class="mdz-idx__workspace-header">
     <div class="mdz-idx__workspace-heading">
       <p class="mdz-idx__eyebrow">Industry Guidance</p>
       <h1 class="mdz-idx__workspace-title">Industry Guidance</h1>
       <p class="mdz-idx__workspace-copy">
-        Review document workflows by industry, then move into the operational IDX dashboard when you are ready to upload, search, and manage files.
+        Use this page to understand how IDX supports document-heavy workflows by industry, then move into the dashboard when you are ready to work with uploaded PDFs.
       </p>
     </div>
     <div class="mdz-idx__header-actions">
@@ -12,108 +12,92 @@
     </div>
   </header>
 
-  <section class="mdz-idx__workflow" aria-label="How to use Industry Guidance">
-    <article class="mdz-idx__workflow-step">
-      <span class="mdz-idx__workflow-count">1</span>
-      <div class="mdz-idx__workflow-copy">
-        <strong>Pick an industry</strong>
-        <p>Switch the guidance panel below to see the workflows, sources, and operational focus for that domain.</p>
-      </div>
-    </article>
-    <article class="mdz-idx__workflow-step">
-      <span class="mdz-idx__workflow-count">2</span>
-      <div class="mdz-idx__workflow-copy">
-        <strong>Review the source strategy</strong>
-        <p>Use the guidance panel to understand which PDFs belong in the IDX library and how search and viewer review should be used.</p>
-      </div>
-    </article>
-    <article class="mdz-idx__workflow-step">
-      <span class="mdz-idx__workflow-count">3</span>
-      <div class="mdz-idx__workflow-copy">
-        <strong>Open the dashboard</strong>
-        <p>The dashboard is a separate page for uploads, queue monitoring, search, viewer access, and document deletion.</p>
-      </div>
-    </article>
+  <section class="mdz-idx__process" aria-labelledby="idx-how-it-works-title">
+    <div class="mdz-idx__process-heading">
+      <p class="mdz-idx__panel-eyebrow">How IDX Works</p>
+      <h2 id="idx-how-it-works-title">How IDX works</h2>
+    </div>
+    <ol class="mdz-idx__process-list">
+      <li class="mdz-idx__process-step">
+        <span class="mdz-idx__process-label">Step 1</span>
+        <strong>Upload PDFs</strong>
+        <p>Start with the documents tied to one workflow, review task, or decision.</p>
+      </li>
+      <li class="mdz-idx__process-step">
+        <span class="mdz-idx__process-label">Step 2</span>
+        <strong>Ask focused questions</strong>
+        <p>Search for obligations, dates, gaps, risks, or inconsistencies once files are ready.</p>
+      </li>
+      <li class="mdz-idx__process-step">
+        <span class="mdz-idx__process-label">Step 3</span>
+        <strong>Review answers with sources</strong>
+        <p>Use citations and viewer links to confirm the underlying page before sharing findings.</p>
+      </li>
+    </ol>
   </section>
 
-  <p class="mdz-idx__intro">Choose an industry to swap the guidance panel. This page is for workflow guidance only and does not run dashboard actions.</p>
+  <p class="mdz-idx__intro">Select an industry to update the guidance below. The content stays on this page and shows which PDFs to upload, what to ask, and why source-backed answers matter in that workflow.</p>
 
-  <div class="mdz-card-grid mdz-idx__card-grid">
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="legal" role="button" tabindex="0" aria-label="Legal workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Legal AI</h3>
-      <p class="mdz-card__desc">Use-case guidance for agreements, policies, diligence files, and source review workflows.</p>
-      <span class="btn btn--small mdz-cta">Legal workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="finance" role="button" tabindex="0" aria-label="Finance workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Finance AI</h3>
-      <p class="mdz-card__desc">Operational guidance for filings, reporting packs, memos, and supporting source documents.</p>
-      <span class="btn btn--small mdz-cta">Finance workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="real-estate" role="button" tabindex="0" aria-label="Real estate workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Real Estate AI</h3>
-      <p class="mdz-card__desc">Guidance for leases, listings, due diligence files, and property-level source review.</p>
-      <span class="btn btn--small mdz-cta">Real estate workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="healthcare" role="button" tabindex="0" aria-label="Healthcare workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Healthcare AI</h3>
-      <p class="mdz-card__desc">Use-case guidance for intake forms, care documents, policy packs, and administrative review.</p>
-      <span class="btn btn--small mdz-cta">Healthcare workflows</span>
-    </article>
-
-    <article class="mdz-card mdz-idx-card" data-idx-industry-preset="procurement" role="button" tabindex="0" aria-label="Procurement workflows" aria-pressed="false">
-      <h3 class="mdz-card__title">Procurement AI</h3>
-      <p class="mdz-card__desc">Guidance for RFQs, vendor packets, sourcing files, and requirements review workflows.</p>
-      <span class="btn btn--small mdz-cta">Procurement workflows</span>
-    </article>
-  </div>
-
-  <div class="mdz-idx__workspace-grid">
-    <div class="mdz-idx__main">
-      <section class="mdz-idx__panel mdz-idx__panel--instruction" aria-labelledby="idx-guidance-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Industry Guidance</p>
-            <h2 id="idx-guidance-title" data-idx-industry-title>Operational IDX guidance</h2>
-          </div>
-        </div>
-        <p class="mdz-idx__instruction-copy" data-idx-industry-copy></p>
-        <ul class="mdz-idx__instruction-list" data-idx-industry-points></ul>
-      </section>
+  <section class="mdz-idx__selector" aria-labelledby="idx-industry-selector-title">
+    <div class="mdz-idx__selector-header">
+      <p class="mdz-idx__panel-eyebrow">Industry Selector</p>
+      <h2 id="idx-industry-selector-title">Choose an industry</h2>
     </div>
+    <div class="mdz-idx__tablist" role="tablist" aria-label="Industry guidance">
+      <button class="mdz-idx__tab" id="idx-tab-legal" type="button" data-idx-industry-tab="legal" role="tab" aria-selected="true" aria-controls="idx-guidance-panel" tabindex="0">Legal</button>
+      <button class="mdz-idx__tab" id="idx-tab-finance" type="button" data-idx-industry-tab="finance" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Finance</button>
+      <button class="mdz-idx__tab" id="idx-tab-real-estate" type="button" data-idx-industry-tab="real-estate" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Real Estate</button>
+      <button class="mdz-idx__tab" id="idx-tab-healthcare" type="button" data-idx-industry-tab="healthcare" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Healthcare</button>
+      <button class="mdz-idx__tab" id="idx-tab-procurement" type="button" data-idx-industry-tab="procurement" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Procurement</button>
+    </div>
+  </section>
 
-    <aside class="mdz-idx__sidebar">
-      <section class="mdz-idx__panel" aria-labelledby="idx-dashboard-handoff-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Operational Handoff</p>
-            <h2 id="idx-dashboard-handoff-title">Dashboard lives separately</h2>
-          </div>
+  <div class="mdz-idx__guidance-flow">
+    <section class="mdz-idx__panel mdz-idx__panel--instruction mdz-idx__guidance-panel" id="idx-guidance-panel" role="tabpanel" aria-labelledby="idx-tab-legal">
+      <div class="mdz-idx__panel-header">
+        <div>
+          <p class="mdz-idx__panel-eyebrow">Industry Guidance</p>
+          <h2 id="idx-guidance-title" data-idx-industry-title>Operational IDX guidance</h2>
         </div>
-        <p class="mdz-idx__instruction-copy">
-          Use the dashboard for the operational surface: uploads, queue monitoring, search, viewer access, and document deletion.
-        </p>
-        <div class="mdz-idx__header-actions">
-          <a class="btn btn--primary mdz-cta" href="{{ '/idx/dashboard/' | relative_url }}">Go to dashboard</a>
-          <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/private-ai-deployment/' | relative_url }}">Private deployment</a>
-        </div>
-      </section>
+      </div>
+      <p class="mdz-idx__instruction-copy" data-idx-industry-intro></p>
 
-      <section class="mdz-idx__panel" aria-labelledby="idx-guidance-notes-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Use Notes</p>
-            <h2 id="idx-guidance-notes-title">What stays on this page</h2>
-          </div>
-        </div>
-        <ul class="mdz-idx__instruction-list">
-          <li>Industry-specific workflow guidance and source-document recommendations.</li>
-          <li>Preset selection through the existing <code>?industry=</code> deep links.</li>
-          <li>Direct handoff into the separate IDX dashboard when you are ready to operate on documents.</li>
-        </ul>
+      <div class="mdz-idx__content-grid">
+        <section class="mdz-idx__content-section" aria-labelledby="idx-guidance-documents-title">
+          <h3 id="idx-guidance-documents-title" data-idx-industry-documents-title>Good documents to upload</h3>
+          <ul class="mdz-idx__instruction-list mdz-idx__instruction-list--documents" data-idx-industry-documents></ul>
+        </section>
+
+        <section class="mdz-idx__content-section" aria-labelledby="idx-guidance-prompts-title">
+          <h3 id="idx-guidance-prompts-title" data-idx-industry-prompts-title>Example prompts</h3>
+          <ul class="mdz-idx__prompt-list" data-idx-industry-prompts></ul>
+        </section>
+      </div>
+
+      <section class="mdz-idx__content-section mdz-idx__content-section--value" aria-labelledby="idx-guidance-value-title">
+        <h3 id="idx-guidance-value-title" data-idx-industry-value-title>Why source-backed answers matter here</h3>
+        <p class="mdz-idx__instruction-copy mdz-idx__instruction-copy--value" data-idx-industry-value-summary></p>
       </section>
-    </aside>
+    </section>
+
+    <section class="mdz-idx__panel mdz-idx__guidance-handoff" aria-labelledby="idx-dashboard-handoff-title">
+      <div class="mdz-idx__panel-header">
+        <div>
+          <p class="mdz-idx__panel-eyebrow">Next Step</p>
+          <h2 id="idx-dashboard-handoff-title">Open the dashboard when you are ready</h2>
+        </div>
+      </div>
+      <p class="mdz-idx__instruction-copy">
+        Use the dashboard to upload files, search across ready documents, and open cited source pages in IDX Viewer once you are ready to work with the PDFs directly.
+      </p>
+      <div class="mdz-idx__header-actions">
+        <a class="btn btn--primary mdz-cta" href="{{ '/idx/dashboard/' | relative_url }}">Go to dashboard</a>
+        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/private-ai-deployment/' | relative_url }}">Private deployment</a>
+      </div>
+    </section>
+
+    <section class="mdz-idx__guidance-note" aria-label="Usage note">
+      <p><strong>Use note:</strong> Start with a focused document set, ask about obligations, dates, risks, or inconsistencies, and verify the cited page before sharing findings. These examples are for source-backed document analysis, not regulated professional advice.</p>
+    </section>
   </div>
 </section>
