@@ -1152,6 +1152,37 @@ body.mdz-menu-lock {
   color: rgba(18, 24, 20, 0.74);
 }
 
+.mdz-idx__what-is {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(var(--accent-rgb), 0.14);
+  border-radius: 1rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(247, 243, 236, 0.94));
+  box-shadow: 0 12px 24px rgba(18, 24, 20, 0.05);
+}
+
+.mdz-idx__what-is-copy {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.mdz-idx__what-is h2 {
+  margin: 0;
+  font-size: 1.08rem;
+  color: var(--ui-blue);
+}
+
+.mdz-idx__what-is p {
+  margin: 0;
+  color: rgba(18, 24, 20, 0.76);
+}
+
+.mdz-idx__what-is-note {
+  font-size: 0.92rem;
+}
+
 .mdz-idx__process {
   display: grid;
   gap: 0.75rem;
@@ -2278,6 +2309,7 @@ body.mdz-menu-lock {
   }
 
   .mdz-idx__process,
+  .mdz-idx__what-is,
   .mdz-idx__guidance-note {
     padding: 0.9rem;
   }

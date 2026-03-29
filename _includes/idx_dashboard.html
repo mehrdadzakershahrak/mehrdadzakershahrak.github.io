@@ -2,45 +2,54 @@
   <header class="mdz-idx__workspace-header">
     <div class="mdz-idx__workspace-heading">
       <p class="mdz-idx__eyebrow">IDX Dashboard</p>
-      <h1 class="mdz-idx__workspace-title">IDX Document Dashboard</h1>
+      <h1 class="mdz-idx__workspace-title">IDX Web Dashboard</h1>
       <p class="mdz-idx__workspace-copy">
-        Upload PDFs, monitor parsing and indexing jobs, search ready documents, and open source material directly in IDX Viewer.
+        This is the authenticated web interface for IDX: upload PDFs, monitor parsing and indexing jobs, search ready documents, and open source material directly in IDX Viewer.
       </p>
     </div>
     <div class="mdz-idx__header-actions">
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">Industry guidance</a>
+      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
       <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-docs>Refresh library</button>
     </div>
   </header>
+
+  <section class="mdz-idx__what-is" aria-labelledby="idx-dashboard-what-is-title">
+    <div class="mdz-idx__what-is-copy">
+      <p class="mdz-idx__panel-eyebrow">What Is IDX?</p>
+      <h2 id="idx-dashboard-what-is-title">The dashboard is the web surface for IDX</h2>
+      <p>IDX helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages. Under the hood, IDX can connect document workflows to ChatGPT through MCP.</p>
+      <p class="mdz-idx__what-is-note">On this site, you are using the authenticated web dashboard. <a href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a> if you want IDX beyond the dashboard or connected to your ChatGPT workflow.</p>
+    </div>
+  </section>
 
   <div class="mdz-idx__preauth" data-idx-preauth hidden>
     <section class="mdz-idx__panel mdz-idx__panel--instruction mdz-idx__preauth-panel" data-idx-preauth-summary hidden>
       <div class="mdz-idx__panel-header">
         <div>
           <p class="mdz-idx__panel-eyebrow">Private document workflows</p>
-          <h2>Sign in to open your IDX workspace</h2>
+          <h2>Sign in to open the IDX web dashboard</h2>
         </div>
       </div>
       <p class="mdz-idx__instruction-copy">
-        IDX is the operational surface for document-heavy work. Upload PDFs, monitor parsing and indexing, search ready source material, and open the viewer directly when you need source-backed review.
+        IDX is broader than the dashboard: it is a source-grounded PDF workflow capability that can connect to ChatGPT through MCP. This page is the secure web interface for uploads, search, and viewer-based review.
       </p>
       <ul class="mdz-idx__instruction-list">
         <li>Upload contracts, filings, diligence packs, policies, and similar PDFs into one tracked workspace.</li>
         <li>Search only ready documents and jump back into the source viewer from results and document rows.</li>
-        <li>Use Industry Guidance first if you need a domain-specific workflow and source strategy.</li>
+        <li>Use Industry Guidance first if you need to understand where IDX fits into a domain workflow.</li>
       </ul>
       <div class="mdz-idx__header-actions">
         <a class="btn btn--primary mdz-cta" href="{{ '/login/' | relative_url }}" data-idx-auth-login>Sign in with Google</a>
-        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">Industry guidance</a>
+        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
       </div>
       <p class="mdz-idx__instruction-copy">
-        Need a private deployment or a custom workflow? See <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a> and <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a>.
+        Already using ChatGPT for document-heavy work? IDX adds a dedicated operational layer for uploads, search, citations, and viewer-based review. See <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a>, <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a>, or <a href="{{ '/contact/' | relative_url }}">Contact</a>.
       </p>
     </section>
 
     <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
       <strong data-idx-auth-gate-title>Checking sign-in</strong>
-      <p data-idx-auth-gate-copy>Verifying your current session before enabling document dashboard requests.</p>
+      <p data-idx-auth-gate-copy>Verifying sign-in for the IDX web dashboard.</p>
     </div>
   </div>
 

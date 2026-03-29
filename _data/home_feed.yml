@@ -17,7 +17,7 @@
 
 - type: card
   title: "Industry Guidance"
-  description: "Review legal, finance, real estate, healthcare, and procurement workflows before moving into the operational IDX dashboard."
+  description: "See how IDX helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages, with ChatGPT integration available through MCP."
   url: "/idx/assistant/"
   image_url: "/assets/images/project8.png"
   badge: "IDX"

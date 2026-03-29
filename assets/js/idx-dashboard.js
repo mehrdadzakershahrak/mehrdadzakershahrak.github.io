@@ -1563,11 +1563,11 @@
       if (!authState.checked) {
         elements.authGate.hidden = false;
         setText(elements.authGateTitle, "Checking sign-in");
-        setText(elements.authGateCopy, "Verifying your current session before enabling document dashboard requests.");
+        setText(elements.authGateCopy, "Verifying sign-in for the IDX web dashboard.");
       } else if (authState.missingConfig) {
         elements.authGate.hidden = false;
         setText(elements.authGateTitle, "Sign-in unavailable");
-        setText(elements.authGateCopy, "The site auth configuration is missing, so the IDX dashboard cannot authenticate requests yet.");
+        setText(elements.authGateCopy, "The site auth configuration is missing, so the IDX web dashboard cannot authenticate requests yet.");
       } else {
         elements.authGate.hidden = true;
       }

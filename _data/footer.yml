@@ -2,7 +2,7 @@ brand:
   home_url: "/"
   logo: "/assets/images/logo-mark.svg"
   name: "Mehrdad Zaker"
-  tagline: "AI systems, private deployment, and robotics consulting for real-world operations."
+  tagline: "AI systems, IDX document workflows, private deployment, and robotics consulting for real-world operations."
 
 columns:
   - title: "Solutions"
@@ -22,9 +22,9 @@ columns:
         url: "/idx/assistant/"
       - label: "IDX Dashboard"
         url: "/idx/dashboard/"
-      - label: "Legal Guidance"
+      - label: "Legal Workflow"
         url: "/idx/assistant/?industry=legal"
-      - label: "Finance Guidance"
+      - label: "Finance Workflow"
         url: "/idx/assistant/?industry=finance"
 
   - title: "Explore"

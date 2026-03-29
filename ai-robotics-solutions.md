@@ -9,17 +9,19 @@ This page groups the main consulting and delivery paths across AI systems, priva
 
 If you already have a concrete problem in mind, start with [Contact]({{ '/contact/' | relative_url }}). If you want to explore the document workflow path first, go directly to [Industry Guidance]({{ '/idx/assistant/' | relative_url }}).
 
+IDX is the document-workflow capability in this stack. It helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages. Under the hood, IDX can connect to ChatGPT through MCP; on this site, Industry Guidance and the IDX Dashboard are the two public entry points.
+
 ## AI Systems
 <div class="mdz-card-grid">
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Industry Guidance</a></h3>
-    <p class="mdz-card__desc">Workflow guidance across legal, finance, real estate, healthcare, and procurement document review.</p>
-    <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">Browse guidance</a>
+    <p class="mdz-card__desc">Workflow entry point into IDX for legal, finance, real estate, healthcare, and procurement document review.</p>
+    <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
   </div>
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/idx/dashboard/' | relative_url }}">IDX Dashboard</a></h3>
-    <p class="mdz-card__desc">Operational dashboard for uploads, indexing, ready-state search, viewer links, and document management.</p>
-    <a class="btn btn--small" href="{{ '/idx/dashboard/' | relative_url }}">Open dashboard</a>
+    <p class="mdz-card__desc">Authenticated web interface for IDX on this site: uploads, indexing, ready-state search, viewer links, and document management.</p>
+    <a class="btn btn--small" href="{{ '/idx/dashboard/' | relative_url }}">Open web dashboard</a>
   </div>
   <div class="mdz-card">
     <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></h3>
