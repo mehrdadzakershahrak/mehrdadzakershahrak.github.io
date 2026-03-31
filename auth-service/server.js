@@ -21,6 +21,7 @@ const ALLOWED_ORIGINS = splitCsv(
     "http://127.0.0.1:4000,http://localhost:4000,https://www.mehrdadzaker.com,https://mehrdadzaker.com"
 );
 const DEMO_CHAT_ENDPOINTS = parseJsonObject(process.env.DEMO_CHAT_ENDPOINTS_JSON || "{}");
+const DEMO_CHAT_INCLUDE_USER = parseBoolean(process.env.DEMO_CHAT_INCLUDE_USER, false);
 const GOOGLE_ISSUERS = new Set(["accounts.google.com", "https://accounts.google.com"]);
 const oauthClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 
@@ -46,13 +47,10 @@ app.get("/health", function (_req, res) {
 app.get("/auth/session", function (req, res) {
   const session = readSession(req);
   if (!session) {
-    return res.json({ authenticated: false, user: null });
+    return res.json({ authenticated: false });
   }
 
-  return res.json({
-    authenticated: true,
-    user: session.user,
-  });
+  return res.json({ authenticated: true });
 });
 
 app.post("/auth/google", async function (req, res) {
@@ -70,7 +68,7 @@ app.post("/auth/google", async function (req, res) {
     const sessionCookie = createSignedSession(user);
 
     setSessionCookie(res, sessionCookie);
-    return res.json({ authenticated: true, user: user });
+    return res.json({ authenticated: true });
   } catch (error) {
     return res.status(401).json({ error: error.message || "Could not verify Google sign-in." });
   }
@@ -78,7 +76,7 @@ app.post("/auth/google", async function (req, res) {
 
 app.post("/auth/logout", function (_req, res) {
   clearSessionCookie(res);
-  res.json({ authenticated: false, user: null });
+  res.json({ authenticated: false });
 });
 
 app.post("/api/demo-chat", async function (req, res) {
@@ -112,18 +110,21 @@ app.post("/api/demo-chat", async function (req, res) {
   }
 
   try {
+    const upstreamPayload = {
+      demo_id: demoId,
+      message: message,
+      pageContext: pageContext,
+    };
+    if (DEMO_CHAT_INCLUDE_USER) {
+      upstreamPayload.user = session.user;
+    }
     const upstreamRes = await fetch(upstreamUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json, text/plain;q=0.9, */*;q=0.8",
       },
-      body: JSON.stringify({
-        demo_id: demoId,
-        message: message,
-        pageContext: pageContext,
-        user: session.user,
-      }),
+      body: JSON.stringify(upstreamPayload),
     });
 
     const contentType = upstreamRes.headers.get("content-type") || "";

@@ -101,13 +101,12 @@
     sessionPromise = fetchJson(authApiBaseUrl + "/auth/session", { method: "GET" })
       .then((data) => ({
         authenticated: !!data.authenticated,
-        user: data.user || null,
       }))
       .catch((err) => {
         if (err && (err.status === 401 || err.status === 403)) {
-          return { authenticated: false, user: null };
+          return { authenticated: false };
         }
-        return { authenticated: false, user: null, error: err };
+        return { authenticated: false, error: err };
       });
 
     return sessionPromise;
@@ -120,9 +119,9 @@
     } catch {
       /* ignore logout errors on the client */
     } finally {
-      sessionPromise = Promise.resolve({ authenticated: false, user: null });
+      sessionPromise = Promise.resolve({ authenticated: false });
     }
-    return { authenticated: false, user: null };
+    return { authenticated: false };
   }
 
   async function exchangeGoogleCredential(credential) {
@@ -220,7 +219,6 @@
           const result = await exchangeGoogleCredential(response.credential);
           sessionPromise = Promise.resolve({
             authenticated: !!result.authenticated,
-            user: result.user || null,
           });
           refreshAuthLinks(await sessionPromise);
           window.location.assign(returnTo);

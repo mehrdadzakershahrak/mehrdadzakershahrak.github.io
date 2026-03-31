@@ -375,23 +375,6 @@
     return normalizeString(value.job_id || value.jobId || "");
   }
 
-  function normalizeTags(value) {
-    if (Array.isArray(value)) {
-      return uniqueStrings(
-        value.map(function (item) {
-          return typeof item === "string" ? item : "";
-        })
-      );
-    }
-
-    const single = normalizeString(value);
-    return single ? [single] : [];
-  }
-
-  function normalizeMetadata(value) {
-    return isPlainObject(value) ? value : {};
-  }
-
   function extractViewerUrl(value) {
     if (!isPlainObject(value)) return "";
     return normalizeString(value.url || value.viewer_url || value.viewerUrl || "");
@@ -442,8 +425,6 @@
           : typeof base.progress === "number"
             ? base.progress
             : null,
-      tags: normalizeTags(raw.tags || (nestedDocument && nestedDocument.tags) || base.tags),
-      metadata: normalizeMetadata(raw.metadata || raw.metadata_json || (nestedDocument && nestedDocument.metadata) || base.metadata),
       url: extractViewerUrl(raw) || extractViewerUrl(nestedDocument) || extractViewerUrl(base),
       created_at: normalizeString(raw.created_at || base.created_at || ""),
       error:
@@ -662,22 +643,6 @@
     return classifyDocumentStatus(value) === normalizedFilter;
   }
 
-  function previewMetadata(metadata) {
-    return Object.entries(normalizeMetadata(metadata))
-      .slice(0, 3)
-      .map(function (entry) {
-        const key = normalizeString(entry[0]);
-        const value = entry[1];
-        if (!key) return "";
-        if (value == null) return key;
-        if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-          return key + ": " + String(value);
-        }
-        return key;
-      })
-      .filter(Boolean);
-  }
-
   function createLocalQueueItem(file) {
     return normalizeDocumentRecord(
       {
@@ -867,8 +832,6 @@
         ocr_status: normalizeString(document.ocr_status || job.ocr_status || base.ocr_status),
         index_status: normalizeString(document.index_status || job.index_status || base.index_status),
         progress: typeof job.progress === "number" ? job.progress : base.progress,
-        tags: document.tags || base.tags,
-        metadata: document.metadata || base.metadata,
         url: extractViewerUrl(document) || extractViewerUrl(job) || base.url,
         error: extractErrorMessage(document.error || job.error) || base.error,
         timed_out: timedOut,
@@ -1674,35 +1637,6 @@
       setText(elements.searchStatus, label);
     }
 
-    function createMetadataPills(item) {
-      const fragment = document.createDocumentFragment();
-      const tags = normalizeTags(item.tags);
-      const metadata = previewMetadata(item.metadata);
-
-      tags.forEach(function (tag) {
-        const pill = document.createElement("span");
-        pill.className = "mdz-idx__pill";
-        pill.textContent = tag;
-        fragment.appendChild(pill);
-      });
-
-      metadata.forEach(function (entry) {
-        const pill = document.createElement("span");
-        pill.className = "mdz-idx__pill mdz-idx__pill--muted";
-        pill.textContent = entry;
-        fragment.appendChild(pill);
-      });
-
-      if (!fragment.childNodes.length) {
-        const empty = document.createElement("span");
-        empty.className = "mdz-idx__helper";
-        empty.textContent = "No tags or metadata";
-        fragment.appendChild(empty);
-      }
-
-      return fragment;
-    }
-
     function renderDocumentRows() {
       if (!elements.documentRows) return;
       elements.documentRows.innerHTML = "";
@@ -1738,12 +1672,6 @@
         meta.textContent = statusDetail(item);
         statusCell.appendChild(meta);
 
-        const contextCell = document.createElement("td");
-        const pills = document.createElement("div");
-        pills.className = "mdz-idx__pills";
-        pills.appendChild(createMetadataPills(item));
-        contextCell.appendChild(pills);
-
         const actionsCell = document.createElement("td");
         const actions = document.createElement("div");
         actions.className = "mdz-idx__row-actions";
@@ -1771,7 +1699,6 @@
 
         row.appendChild(fileCell);
         row.appendChild(statusCell);
-        row.appendChild(contextCell);
         row.appendChild(actionsCell);
         elements.documentRows.appendChild(row);
       });
