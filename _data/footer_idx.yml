@@ -1,0 +1,58 @@
+brand:
+  home_url: "/"
+  logo: "/assets/images/logo-mark.svg"
+  name: "Mehrdad Zaker"
+  tagline: "AI systems, IDX document workflows, private deployment, and robotics consulting for real-world operations."
+
+columns:
+  - title: "IDX"
+    links:
+      - label: "Industry Guidance"
+        url: "/idx/assistant/"
+      - label: "IDX Dashboard"
+        url: "/idx/dashboard/"
+      - label: "Legal Workflow"
+        url: "/idx/assistant/#legal"
+      - label: "Finance Workflow"
+        url: "/idx/assistant/#finance"
+
+  - title: "Support"
+    links:
+      - label: "Support"
+        url: "/idx/support/"
+      - label: "Privacy"
+        url: "/idx/privacy/"
+      - label: "Terms"
+        url: "/idx/terms/"
+
+  - title: "Related"
+    links:
+      - label: "Private AI Deployment"
+        url: "/private-ai-deployment/"
+      - label: "Custom AI Systems"
+        url: "/custom-ai-systems/"
+      - label: "About"
+        url: "/about/"
+
+cta_cards:
+  - eyebrow: "IDX Support"
+    label: "Get Help"
+    url: "/idx/support/"
+    variant: "solid"
+  - eyebrow: "IDX"
+    label: "Open IDX Dashboard"
+    url: "/idx/dashboard/"
+    variant: "outline"
+  - eyebrow: "Guidance"
+    label: "How IDX Works"
+    url: "/idx/assistant/"
+    variant: "outline"
+
+social_links:
+  - label: "Email"
+    url: "mailto:mehrdadz@neuralint.io"
+    icon_key: "email"
+
+legal:
+  copyright: "Mehrdad Zaker. All rights reserved."
+  secondary_text: "Use of IDX is subject to the published support, privacy, and terms pages."

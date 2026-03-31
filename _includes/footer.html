@@ -1,4 +1,9 @@
-{% assign footer_data = site.data.footer %}
+{% assign footer_variant = include.variant | default: page.footer_variant | default: 'default' %}
+{% if footer_variant == 'idx' %}
+  {% assign footer_data = site.data.footer_idx %}
+{% else %}
+  {% assign footer_data = site.data.footer %}
+{% endif %}
 {% assign footer_brand = footer_data.brand %}
 {% assign footer_columns = footer_data.columns %}
 {% assign footer_cards = footer_data.cta_cards %}
