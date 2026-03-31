@@ -889,7 +889,12 @@
   }
 
   function initGuidance(root) {
-    const initialPreset = normalizeIndustryPreset(new URL(window.location.href).searchParams.get("industry"));
+    function industryPresetFromHash(value) {
+      const normalized = normalizeString(value || "").replace(/^#/, "");
+      return normalizeIndustryPreset(normalized);
+    }
+
+    const initialPreset = industryPresetFromHash(window.location.hash);
     const elements = {
       tabs: qsa(root, "[data-idx-industry-tab]"),
       panel: qs(root, "#idx-guidance-panel"),
@@ -925,7 +930,7 @@
       if (selectedIndustryPreset === "general") {
         selectedIndustryPreset = "legal";
       }
-      setIndustryQuery(selectedIndustryPreset);
+      setIndustryHash(selectedIndustryPreset);
       renderIndustryPreset();
 
       if (shouldFocus) {
@@ -936,13 +941,13 @@
       }
     }
 
-    function setIndustryQuery(preset) {
+    function setIndustryHash(preset) {
       const url = new URL(window.location.href);
       const normalized = normalizeIndustryPreset(preset);
       if (normalized && normalized !== "general") {
-        url.searchParams.set("industry", normalized);
+        url.hash = normalized;
       } else {
-        url.searchParams.delete("industry");
+        url.hash = "";
       }
       window.history.replaceState({}, "", url.pathname + url.search + url.hash);
     }
@@ -1011,7 +1016,17 @@
       });
     });
 
+    window.addEventListener("hashchange", function () {
+      const nextPreset = industryPresetFromHash(window.location.hash);
+      const normalizedPreset = nextPreset === "general" ? "legal" : nextPreset;
+
+      if (normalizedPreset !== selectedIndustryPreset) {
+        selectPreset(normalizedPreset, false);
+      }
+    });
+
     renderIndustryPreset();
+    setIndustryHash(selectedIndustryPreset);
   }
 
   function initDashboard(root) {

@@ -23,9 +23,9 @@ columns:
       - label: "IDX Dashboard"
         url: "/idx/dashboard/"
       - label: "Legal Workflow"
-        url: "/idx/assistant/?industry=legal"
+        url: "/idx/assistant/#legal"
       - label: "Finance Workflow"
-        url: "/idx/assistant/?industry=finance"
+        url: "/idx/assistant/#finance"
 
   - title: "Explore"
     links:

@@ -14,6 +14,18 @@ remote_theme: "mmistakes/minimal-mistakes@4.27.3"
 minimal_mistakes_skin: "default"
 plugins:
   - jekyll-include-cache
+  - jekyll-sitemap
+
+exclude:
+  - .bundle/
+  - auth-service/
+  - Gemfile
+  - Gemfile.lock
+  - gemfiles/
+  - MythosBridge/
+  - node_modules/
+  - README.md
+  - vendor/
 
 collections:
   podcast_entries:
