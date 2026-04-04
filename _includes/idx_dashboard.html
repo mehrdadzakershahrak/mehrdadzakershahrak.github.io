@@ -27,20 +27,20 @@
         </div>
       </div>
       <p class="mdz-idx__instruction-copy">
-        IDX now centers the workflow on the workspace: create one workspace per deal, property, opportunity, or review packet, upload PDFs into that room, and let IDX build the summary, extracted facts, and compare surface around it.
+        Sign in to review files, upload PDFs, and open the latest work in one place.
       </p>
       <div class="mdz-idx__content-grid mdz-idx__content-grid--dashboard">
         <section class="mdz-idx__content-section mdz-idx__content-section--value">
-          <h3>Create the workspace first</h3>
-          <p class="mdz-idx__instruction-copy">Name the packet, choose its operating context, and keep uploads, review status, and analysis in one place.</p>
+          <h3>Create</h3>
+          <p class="mdz-idx__instruction-copy">Start a review, name it clearly, and keep files and notes together.</p>
         </section>
         <section class="mdz-idx__content-section">
-          <h3>Upload inside the workspace</h3>
-          <p class="mdz-idx__instruction-copy">PDFs attach directly to the workspace so recent files, summary jobs, facts, and compare all stay scoped to the same packet.</p>
+          <h3>Upload</h3>
+          <p class="mdz-idx__instruction-copy">Add PDFs directly to the current review and track file readiness.</p>
         </section>
         <section class="mdz-idx__content-section">
-          <h3>Review what matters first</h3>
-          <p class="mdz-idx__instruction-copy">Workspace pages surface the latest summary, extracted facts, compare output, decisions, and activity without falling back to a generic document library.</p>
+          <h3>Review</h3>
+          <p class="mdz-idx__instruction-copy">Keep summary, facts, compare, decisions, and activity on the same screen.</p>
         </section>
       </div>
       <div class="mdz-idx__header-actions">
@@ -68,35 +68,21 @@
       <section class="mdz-idx__hero-shell" aria-labelledby="idx-dashboard-title">
         <div class="mdz-idx__hero-copy">
           <p class="mdz-idx__eyebrow">IDX Dashboard</p>
-          <h1 id="idx-dashboard-title" class="mdz-idx__hero-title">Keep every packet in its own workspace.</h1>
+          <h1 id="idx-dashboard-title" class="mdz-idx__hero-title">Review documents in one place.</h1>
           <p class="mdz-idx__hero-lede">
-            Create the workspace, upload the PDFs into that room, and let IDX keep the latest files, summary, facts, compare output, decision state, and viewer links tied to the same operational context.
+            Create a review, upload PDFs, and keep the latest files, summary, facts, compare output, and activity together.
           </p>
-          <div class="mdz-idx__hero-signals">
-            <article class="mdz-idx__signal">
-              <strong>Recent workspaces</strong>
-              <span>Open the packet that matters now without scanning a generic jobs view.</span>
-            </article>
-            <article class="mdz-idx__signal">
-              <strong>Recent files</strong>
-              <span>Track the newest PDFs and their readiness while OCR and indexing finish.</span>
-            </article>
-            <article class="mdz-idx__signal">
-              <strong>Workspace pages</strong>
-              <span>Jump into summary, facts, compare, decisions, and activity from one surface.</span>
-            </article>
-          </div>
         </div>
 
         <section class="mdz-idx__panel mdz-idx__panel--hero-form" aria-labelledby="idx-create-workspace-title">
           <div class="mdz-idx__panel-header">
             <div>
               <p class="mdz-idx__panel-eyebrow">Create Workspace</p>
-              <h2 id="idx-create-workspace-title">Start with the packet that matters now</h2>
+              <h2 id="idx-create-workspace-title">Start a new review</h2>
             </div>
           </div>
           <p class="mdz-idx__instruction-copy">
-            Keep the v1 flow narrow: name the workspace, choose the operating context, then upload PDFs once you land inside.
+            Add a name, pick a type, and open the review.
           </p>
           <form class="mdz-idx__form-grid" data-idx-create-workspace-form>
             <label class="sr-only" for="idx-workspace-name">Workspace name</label>
@@ -145,7 +131,7 @@
           <div class="mdz-idx__panel-header">
             <div>
               <p class="mdz-idx__panel-eyebrow">Recent Workspaces</p>
-              <h2 id="idx-workspaces-title">Open the packet that matters now</h2>
+              <h2 id="idx-workspaces-title">Recent work</h2>
             </div>
             <p class="mdz-idx__statusline" data-idx-workspaces-status></p>
           </div>
@@ -156,46 +142,11 @@
           <div class="mdz-idx__panel-header">
             <div>
               <p class="mdz-idx__panel-eyebrow">Recent Files</p>
-              <h2 id="idx-recent-files-title">Latest uploads across your IDX corpus</h2>
+              <h2 id="idx-recent-files-title">Latest uploads</h2>
             </div>
             <p class="mdz-idx__statusline" data-idx-files-status></p>
           </div>
           <div class="mdz-idx__file-stream" data-idx-recent-files></div>
-        </section>
-
-        <section class="mdz-idx__panel" aria-labelledby="idx-flow-title">
-          <div class="mdz-idx__panel-header">
-            <div>
-              <p class="mdz-idx__panel-eyebrow">Upload Flow</p>
-              <h2 id="idx-flow-title">How the current product is shaped</h2>
-            </div>
-          </div>
-          <div class="mdz-idx__flow-list">
-            <article class="mdz-idx__flow-item">
-              <span class="mdz-idx__workflow-count">1</span>
-              <div class="mdz-idx__workflow-copy">
-                <strong>Create a workspace</strong>
-                <p>Each packet gets its own room, status, notes, and review state.</p>
-              </div>
-            </article>
-            <article class="mdz-idx__flow-item">
-              <span class="mdz-idx__workflow-count">2</span>
-              <div class="mdz-idx__workflow-copy">
-                <strong>Upload PDFs inside the workspace</strong>
-                <p>Recent files, OCR state, and index readiness stay attached to that packet.</p>
-              </div>
-            </article>
-            <article class="mdz-idx__flow-item">
-              <span class="mdz-idx__workflow-count">3</span>
-              <div class="mdz-idx__workflow-copy">
-                <strong>Review the workspace page</strong>
-                <p>Summary, facts, compare, decisions, and activity update as the packet becomes ready.</p>
-              </div>
-            </article>
-          </div>
-          <div class="mdz-idx__row-actions">
-            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-open-latest-workspace>Open latest workspace</button>
-          </div>
         </section>
       </div>
     </section>
@@ -204,9 +155,8 @@
       <header class="mdz-idx__workspace-page-header">
         <div class="mdz-idx__workspace-page-heading">
           <div class="mdz-idx__row-actions">
-            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-back-home>All workspaces</button>
+            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-back-home>Back</button>
           </div>
-          <p class="mdz-idx__eyebrow">Workspace Page</p>
           <h2 class="mdz-idx__workspace-page-title" data-idx-workspace-title>Loading workspace…</h2>
           <p class="mdz-idx__workspace-page-copy" data-idx-current-workspace-notes></p>
         </div>
@@ -223,8 +173,8 @@
               <section class="mdz-idx__workspace-subsection">
                 <div class="mdz-idx__panel-header">
                   <div>
-                    <p class="mdz-idx__panel-eyebrow">Workspace Summary</p>
-                    <h3 id="idx-summary-panel-title">What matters first</h3>
+                    <p class="mdz-idx__panel-eyebrow">Summary</p>
+                    <h3 id="idx-summary-panel-title">Summary</h3>
                   </div>
                   <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-summary>Refresh summary</button>
                 </div>
@@ -234,8 +184,8 @@
               <section class="mdz-idx__workspace-subsection">
                 <div class="mdz-idx__panel-header">
                   <div>
-                    <p class="mdz-idx__panel-eyebrow">Extracted Facts</p>
-                    <h3>Structured signal</h3>
+                    <p class="mdz-idx__panel-eyebrow">Facts</p>
+                    <h3>Facts</h3>
                   </div>
                   <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-facts>Refresh facts</button>
                 </div>
@@ -247,16 +197,16 @@
           <section class="mdz-idx__panel" aria-labelledby="idx-workspace-files-title">
             <div class="mdz-idx__panel-header">
               <div>
-                <p class="mdz-idx__panel-eyebrow">Upload Flow</p>
-                <h3 id="idx-workspace-files-title">Add PDFs to this workspace</h3>
+                <p class="mdz-idx__panel-eyebrow">Files</p>
+                <h3 id="idx-workspace-files-title">Files</h3>
               </div>
               <p class="mdz-idx__statusline" data-idx-upload-status></p>
             </div>
 
             <div class="mdz-idx__dropzone mdz-idx__dropzone--workspace" data-idx-dropzone tabindex="0" role="button" aria-label="Upload PDF files into this workspace">
               <div class="mdz-idx__dropzone-copy">
-                <strong>Drop PDFs into this workspace</strong>
-                <p>Uploads stay tied to the current workspace so summary, facts, compare, and recent activity all follow the same packet.</p>
+                <strong>Drop PDFs here</strong>
+                <p>Add files to this review.</p>
               </div>
               <div class="mdz-idx__upload-actions">
                 <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Choose PDF files</button>
@@ -271,7 +221,7 @@
             <div class="mdz-idx__panel-header">
               <div>
                 <p class="mdz-idx__panel-eyebrow">Compare</p>
-                <h3 id="idx-compare-title">Manual document comparison</h3>
+                <h3 id="idx-compare-title">Compare</h3>
               </div>
               <p class="mdz-idx__statusline" data-idx-compare-status></p>
             </div>
@@ -295,7 +245,7 @@
             <div class="mdz-idx__panel-header">
               <div>
                 <p class="mdz-idx__panel-eyebrow">Decision</p>
-                <h3 id="idx-decision-title">Current review state</h3>
+                <h3 id="idx-decision-title">Decision</h3>
               </div>
             </div>
             <div class="mdz-idx__decision-summary" data-idx-decision-summary></div>
@@ -317,7 +267,7 @@
             <div class="mdz-idx__panel-header">
               <div>
                 <p class="mdz-idx__panel-eyebrow">Activity</p>
-                <h3 id="idx-activity-title">Recent review work</h3>
+                <h3 id="idx-activity-title">Activity</h3>
               </div>
             </div>
             <form class="mdz-idx__form-grid" data-idx-comment-form>

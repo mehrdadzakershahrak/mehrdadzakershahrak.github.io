@@ -1,10 +1,14 @@
 (function () {
   const config = window.MDZ_AUTH_CONFIG || {};
   const configuredAuthApiBaseUrl = String(config.authApiBaseUrl || "").replace(/\/+$/, "");
+  const configuredIdxApiBaseUrl = String(config.idxApiBaseUrl || "").replace(/\/+$/, "");
   const googleClientId = String(config.googleClientId || "").trim();
   const loginUrl = String(config.loginUrl || "/login/");
   const defaultReturnTo = String(config.defaultReturnTo || "/idx/dashboard/");
+  const LOCAL_PREVIEW_STORAGE_KEY = "mdz_idx_local_preview_session_v1";
+  const localDev = isLocalHostname(window.location.hostname);
   const authApiBaseUrl = resolveAuthApiBaseUrl();
+  const idxApiBaseUrl = resolveIdxApiBaseUrl();
 
   let sessionPromise = null;
 
@@ -29,11 +33,18 @@
     return hostname === "127.0.0.1" || hostname === "localhost";
   }
 
+  function resolveLocalServiceBaseUrl(port) {
+    return `${window.location.protocol}//${window.location.hostname}:${port}`;
+  }
+
   function resolveAuthApiBaseUrl() {
-    if (isLocalHostname(window.location.hostname)) {
-      return `${window.location.protocol}//${window.location.hostname}:8787`;
-    }
+    if (localDev) return resolveLocalServiceBaseUrl(8787);
     return configuredAuthApiBaseUrl;
+  }
+
+  function resolveIdxApiBaseUrl() {
+    if (localDev) return resolveLocalServiceBaseUrl(8000);
+    return configuredIdxApiBaseUrl;
   }
 
   function currentRelativeUrl() {
@@ -94,15 +105,85 @@
     return data || {};
   }
 
+  function isNetworkStyleError(error) {
+    const message = String((error && error.message) || "").toLowerCase();
+    return error instanceof TypeError || /failed to fetch|load failed|networkerror|network request failed/.test(message);
+  }
+
+  function readLocalPreviewSession() {
+    if (!localDev) return null;
+    try {
+      const raw = window.localStorage.getItem(LOCAL_PREVIEW_STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      return parsed && parsed.enabled ? parsed : null;
+    } catch (_error) {
+      return null;
+    }
+  }
+
+  function isLocalPreviewEnabled() {
+    return !!readLocalPreviewSession();
+  }
+
+  function enableLocalPreview() {
+    if (!localDev) return { authenticated: false };
+    try {
+      window.localStorage.setItem(
+        LOCAL_PREVIEW_STORAGE_KEY,
+        JSON.stringify({
+          enabled: true,
+          activatedAt: new Date().toISOString(),
+        })
+      );
+    } catch (_error) {
+      /* ignore storage failures */
+    }
+
+    sessionPromise = Promise.resolve({
+      authenticated: true,
+      previewMode: true,
+    });
+
+    return {
+      authenticated: true,
+      previewMode: true,
+    };
+  }
+
+  function clearLocalPreview() {
+    if (!localDev) return;
+    try {
+      window.localStorage.removeItem(LOCAL_PREVIEW_STORAGE_KEY);
+    } catch (_error) {
+      /* ignore storage failures */
+    }
+  }
+
   async function getSession(forceRefresh) {
+    if (isLocalPreviewEnabled()) {
+      return {
+        authenticated: true,
+        previewMode: true,
+      };
+    }
     if (!isConfigured()) return { authenticated: false, missingConfig: true };
     if (sessionPromise && !forceRefresh) return sessionPromise;
 
     sessionPromise = fetchJson(authApiBaseUrl + "/auth/session", { method: "GET" })
       .then((data) => ({
         authenticated: !!data.authenticated,
+        previewMode: false,
       }))
       .catch((err) => {
+        if (localDev && isNetworkStyleError(err)) {
+          return {
+            authenticated: false,
+            error: err,
+            localPreviewAvailable: true,
+            localServiceUnavailable: true,
+          };
+        }
         if (err && (err.status === 401 || err.status === 403)) {
           return { authenticated: false };
         }
@@ -113,6 +194,7 @@
   }
 
   async function logout() {
+    clearLocalPreview();
     if (!isConfigured()) return { authenticated: false };
     try {
       await fetchJson(authApiBaseUrl + "/auth/logout", { method: "POST" });
@@ -130,6 +212,25 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ credential: credential }),
     });
+  }
+
+  function ensureLocalPreviewButton(root, returnTo) {
+    if (!localDev || !root) return null;
+
+    let button = qs(root, "[data-local-preview-button]");
+    if (button) return button;
+
+    button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn--primary mdz-cta";
+    button.setAttribute("data-local-preview-button", "true");
+    button.textContent = "Continue in local preview";
+    button.addEventListener("click", function () {
+      enableLocalPreview();
+      window.location.assign(returnTo);
+    });
+    root.appendChild(button);
+    return button;
   }
 
   function setAuthLinkLabel(link, label) {
@@ -172,6 +273,7 @@
     const buttonEl = qs(root, "[data-google-login-button]");
     const params = new URLSearchParams(window.location.search);
     const returnTo = sanitizeReturnTo(params.get("returnTo"));
+    const previewButton = ensureLocalPreviewButton(root, returnTo);
 
     if (params.get("logout") === "1") {
       setText(msgEl, "Signing out…");
@@ -182,7 +284,12 @@
     }
 
     if (!isConfigured()) {
-      setText(msgEl, "Auth service is not configured yet. Set auth_api_base_url to enable Google sign-in.");
+      setText(
+        msgEl,
+        localDev
+          ? "Local auth is not available. Continue in local preview or start the auth and IDX services."
+          : "Auth service is not configured yet. Set auth_api_base_url to enable Google sign-in."
+      );
       return;
     }
 
@@ -195,13 +302,29 @@
       return;
     }
 
+    if (session.localServiceUnavailable && localDev) {
+      setText(msgEl, "Local auth is not running. Continue in local preview or start the auth and IDX services.");
+      if (previewButton) previewButton.hidden = false;
+      return;
+    }
+
     if (!googleClientId) {
-      setText(msgEl, "Google sign-in is not configured yet. Set google_client_id to render the sign-in button.");
+      setText(
+        msgEl,
+        localDev
+          ? "Google sign-in is not configured for the local auth service. Continue in local preview or configure the service."
+          : "Google sign-in is not configured yet. Set google_client_id to render the sign-in button."
+      );
       return;
     }
 
     if (!(window.google && window.google.accounts && window.google.accounts.id)) {
-      setText(msgEl, "Google sign-in could not load. Refresh and try again.");
+      setText(
+        msgEl,
+        localDev
+          ? "Google sign-in could not load locally. Continue in local preview or refresh and try again."
+          : "Google sign-in could not load. Refresh and try again."
+      );
       return;
     }
 
@@ -252,10 +375,18 @@
 
   window.MdzAuth = {
     buildLoginUrl: buildLoginUrl,
+    enableLocalPreview: enableLocalPreview,
     getApiBaseUrl: function () {
       return authApiBaseUrl;
     },
+    getIdxApiBaseUrl: function () {
+      return idxApiBaseUrl;
+    },
     getSession: getSession,
+    isLocalDev: function () {
+      return localDev;
+    },
+    isLocalPreview: isLocalPreviewEnabled,
     isConfigured: isConfigured,
     logout: logout,
   };

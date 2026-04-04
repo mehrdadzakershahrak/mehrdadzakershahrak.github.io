@@ -13,7 +13,7 @@ Use your Google account to sign in to the IDX website dashboard on this site. Af
 >
   <h2>Sign in with Google</h2>
   <p class="mdz-auth-panel__copy">
-    This sign-in is for the secure website dashboard surface of IDX on this site. Use this page and `/idx/dashboard/` when testing the credentialed website flow.
+    This sign-in is for the secure website dashboard surface of IDX on this site. On localhost, the page also offers a local preview path when the auth or IDX services are not running.
   </p>
   <div class="mdz-auth-panel__button" data-google-login-button></div>
   <p class="mdz-auth-panel__status" data-google-login-msg>Checking sign-in status…</p>

@@ -4659,10 +4659,8 @@ h6,
   padding: 0.95rem 1rem;
   border: 1px solid rgba(var(--accent-rgb), 0.16);
   border-radius: 1.05rem;
-  background:
-    radial-gradient(circle at top left, rgba(var(--highlight-rgb), 0.16), transparent 34%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(246, 240, 232, 0.98));
-  box-shadow: 0 16px 34px rgba(18, 24, 20, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 28px rgba(18, 24, 20, 0.06);
 }
 
 .mdz-idx__product-brand {
@@ -4742,10 +4740,8 @@ h6,
   padding: clamp(1.15rem, 2.2vw, 1.5rem);
   border: 1px solid rgba(var(--accent-rgb), 0.16);
   border-radius: 1.2rem;
-  background:
-    radial-gradient(circle at top right, rgba(var(--highlight-rgb), 0.16), transparent 35%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(245, 239, 231, 0.98));
-  box-shadow: 0 16px 34px rgba(18, 24, 20, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 28px rgba(18, 24, 20, 0.06);
 }
 
 .mdz-idx__hero-title {
@@ -4802,7 +4798,7 @@ h6,
 
 .mdz-idx__home-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr) minmax(18rem, 0.88fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
 }
@@ -4876,10 +4872,8 @@ h6,
   padding: 1.05rem 1.1rem;
   border: 1px solid rgba(var(--accent-rgb), 0.16);
   border-radius: 1.05rem;
-  background:
-    radial-gradient(circle at top right, rgba(var(--highlight-rgb), 0.14), transparent 34%),
-    linear-gradient(135deg, #fffdf8 0%, #f5efe3 100%);
-  box-shadow: 0 16px 34px rgba(18, 24, 20, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 14px 28px rgba(18, 24, 20, 0.06);
 }
 
 .mdz-idx__workspace-page-heading {

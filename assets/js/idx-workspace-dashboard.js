@@ -51,6 +51,14 @@
     return window.location.origin.replace(/\/+$/, "");
   }
 
+  function isLocalHostname(hostname) {
+    return hostname === "127.0.0.1" || hostname === "localhost";
+  }
+
+  function isLocalDev() {
+    return isLocalHostname(window.location.hostname);
+  }
+
   function urlOrigin(value) {
     try {
       return new URL(value, window.location.origin).origin.replace(/\/+$/, "");
@@ -99,7 +107,9 @@
         title: "IDX session is not available",
         body:
           (endpointOrigin ? endpointOrigin + " rejected the browser request." : "The IDX API rejected the browser request.") +
-          " Sign in again, then verify that the IDX domain can read the same browser session.",
+          (isLocalDev()
+            ? " Start the local IDX backend or use local preview on the login page."
+            : " Sign in again, then verify that the IDX domain can read the same browser session."),
       };
     }
 
@@ -117,12 +127,16 @@
 
     if (isNetworkStyleError(error)) {
       return {
-        title: "Browser access to IDX is blocked",
+        title: isLocalDev() ? "Local IDX is unavailable" : "Browser access to IDX is blocked",
         body:
-          (endpointOrigin || "The IDX API") +
-          " is not allowing browser requests from " +
-          currentOrigin() +
-          ". This is usually a CORS or cross-site cookie policy issue on the IDX service.",
+          isLocalDev()
+            ? "The dashboard is trying to reach " +
+              (endpointOrigin || "the local IDX service") +
+              ". Start the local IDX backend on port 8000 or continue in local preview."
+            : (endpointOrigin || "The IDX API") +
+              " is not allowing browser requests from " +
+              currentOrigin() +
+              ". This is usually a CORS or cross-site cookie policy issue on the IDX service.",
       };
     }
 
@@ -145,7 +159,14 @@
   }
 
   function getIdxApiBaseUrl() {
+    const auth = window.MdzAuth || null;
+    if (auth && auth.getIdxApiBaseUrl) {
+      return normalizeString(auth.getIdxApiBaseUrl()).replace(/\/+$/, "");
+    }
     const config = window.MDZ_AUTH_CONFIG || {};
+    if (isLocalDev()) {
+      return (window.location.protocol + "//" + window.location.hostname + ":8000").replace(/\/+$/, "");
+    }
     return normalizeString(config.idxApiBaseUrl || "").replace(/\/+$/, "");
   }
 
@@ -392,11 +413,326 @@
       authenticated: false,
       missingConfig: false,
     };
+    let idxAuthState = {
+      checked: false,
+      authenticated: false,
+    };
     let dragDepth = 0;
     let workspacePollTimer = null;
+    const LOCAL_PREVIEW_WORKSPACE_KEY = "mdz_idx_workspace_preview_v1";
 
     function currentWorkspaceIdFromUrl() {
       return normalizeString(new URLSearchParams(window.location.search).get("workspace_id"));
+    }
+
+    function isLocalPreviewMode() {
+      return !!(auth && auth.isLocalPreview && auth.isLocalPreview());
+    }
+
+    function cloneJson(value) {
+      return JSON.parse(JSON.stringify(value));
+    }
+
+    function previewNow() {
+      return new Date().toISOString();
+    }
+
+    function previewId(prefix) {
+      return prefix + "_" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+    }
+
+    function previewSortByUpdated(items, field) {
+      return ensureArray(items)
+        .slice()
+        .sort(function (left, right) {
+          const leftTime = Date.parse((left && left[field]) || "") || 0;
+          const rightTime = Date.parse((right && right[field]) || "") || 0;
+          return rightTime - leftTime;
+        });
+    }
+
+    function readPreviewStore() {
+      const fallback = {
+        workspaces: [],
+        documents: [],
+        activity: [],
+      };
+
+      if (!isLocalPreviewMode()) return fallback;
+
+      try {
+        const raw = window.localStorage.getItem(LOCAL_PREVIEW_WORKSPACE_KEY);
+        if (!raw) return fallback;
+        const parsed = JSON.parse(raw);
+        if (!isPlainObject(parsed)) return fallback;
+        return {
+          workspaces: ensureArray(parsed.workspaces),
+          documents: ensureArray(parsed.documents),
+          activity: ensureArray(parsed.activity),
+        };
+      } catch (_error) {
+        return fallback;
+      }
+    }
+
+    function writePreviewStore(store) {
+      if (!isLocalPreviewMode()) return;
+      window.localStorage.setItem(
+        LOCAL_PREVIEW_WORKSPACE_KEY,
+        JSON.stringify({
+          workspaces: ensureArray(store && store.workspaces),
+          documents: ensureArray(store && store.documents),
+          activity: ensureArray(store && store.activity),
+        })
+      );
+    }
+
+    function previewWorkspaceSummaryText(workspace, documents) {
+      if (!documents.length) return "";
+      const names = documents.slice(0, 3).map(function (item) {
+        return item.file_name || "Document";
+      });
+      return (
+        "Reviewing " +
+        documents.length +
+        " document" +
+        (documents.length === 1 ? "" : "s") +
+        ": " +
+        names.join(", ") +
+        (documents.length > 3 ? ", and more." : ".")
+      );
+    }
+
+    function previewWorkspaceFacts(workspace, documents) {
+      const readyCount = documents.filter(function (item) {
+        return classifyDocumentStatus(item) === "ready";
+      }).length;
+      return [
+        {
+          field: "documents",
+          value: String(documents.length),
+          citations: [],
+        },
+        {
+          field: "ready_files",
+          value: String(readyCount),
+          citations: [],
+        },
+        {
+          field: "type",
+          value: workspaceTypeLabel(workspace.workspace_type),
+          citations: [],
+        },
+      ];
+    }
+
+    function previewHydrateWorkspace(store, workspaceId) {
+      const workspace = ensureArray(store.workspaces).find(function (item) {
+        return normalizeString(item && item.workspace_id) === normalizeString(workspaceId);
+      });
+      if (!workspace) {
+        const error = createClientError("Workspace not found.");
+        error.status = 404;
+        throw error;
+      }
+
+      const documents = previewSortByUpdated(
+        ensureArray(store.documents).filter(function (item) {
+          return normalizeString(item && item.workspace_id) === normalizeString(workspaceId);
+        }),
+        "updated_at"
+      );
+
+      workspace.document_count = documents.length;
+      workspace.updated_at = workspace.updated_at || previewNow();
+      workspace.summary = workspace.summary || { summary: "", citations: [] };
+      workspace.facts = workspace.facts || { fields: [] };
+      workspace.latest_analysis_jobs = workspace.latest_analysis_jobs || {};
+      workspace.summary_preview = normalizeString(workspace.summary && workspace.summary.summary) || previewWorkspaceSummaryText(workspace, documents);
+      workspace.access_role = workspace.access_role || "owner";
+
+      return {
+        workspace: workspace,
+        documents: documents,
+        activity: previewSortByUpdated(
+          ensureArray(store.activity).filter(function (item) {
+            return normalizeString(item && item.workspace_id) === normalizeString(workspaceId);
+          }),
+          "created_at"
+        ),
+      };
+    }
+
+    function previewHomePayload() {
+      const store = readPreviewStore();
+      store.workspaces = ensureArray(store.workspaces).map(function (item) {
+        return previewHydrateWorkspace(store, item.workspace_id).workspace;
+      });
+      writePreviewStore(store);
+      return {
+        workspaces: previewSortByUpdated(store.workspaces, "updated_at").slice(0, 12),
+        documents: previewSortByUpdated(store.documents, "updated_at").slice(0, 12),
+      };
+    }
+
+    function previewWorkspacePayload(workspaceId) {
+      const store = readPreviewStore();
+      const payload = previewHydrateWorkspace(store, workspaceId);
+      writePreviewStore(store);
+      return payload;
+    }
+
+    function previewCreateWorkspace(payload) {
+      const store = readPreviewStore();
+      const now = previewNow();
+      const workspace = {
+        workspace_id: previewId("ws_local"),
+        name: normalizeString(payload && payload.name) || "Workspace",
+        notes: normalizeString(payload && payload.notes),
+        workspace_type: normalizeString(payload && payload.workspace_type) || "general",
+        workspace_status: "active",
+        document_count: 0,
+        summary_preview: "",
+        summary: { summary: "", citations: [] },
+        facts: { fields: [] },
+        latest_analysis_jobs: {},
+        access_role: "owner",
+        updated_at: now,
+        created_at: now,
+      };
+      store.workspaces.unshift(workspace);
+      writePreviewStore(store);
+      return cloneJson(workspace);
+    }
+
+    function previewUploadFiles(workspaceId, files) {
+      const store = readPreviewStore();
+      const payload = previewHydrateWorkspace(store, workspaceId);
+      const now = previewNow();
+
+      Array.from(files || []).forEach(function (file) {
+        store.documents.unshift({
+          document_id: previewId("doc_local"),
+          workspace_id: workspaceId,
+          file_name: normalizeString(file && file.name) || "Document.pdf",
+          status: "ready",
+          ocr_status: "ready",
+          index_status: "ready",
+          created_at: now,
+          updated_at: now,
+        });
+      });
+
+      payload.workspace.updated_at = now;
+      payload.workspace.summary.summary = previewWorkspaceSummaryText(payload.workspace, store.documents.filter(function (item) {
+        return item.workspace_id === workspaceId;
+      }));
+      payload.workspace.summary_preview = payload.workspace.summary.summary;
+      payload.workspace.summary_updated_at = now;
+      payload.workspace.facts = {
+        fields: previewWorkspaceFacts(
+          payload.workspace,
+          store.documents.filter(function (item) {
+            return item.workspace_id === workspaceId;
+          })
+        ),
+      };
+      payload.workspace.facts_updated_at = now;
+      writePreviewStore(store);
+    }
+
+    function previewRefreshSummary(workspaceId) {
+      const store = readPreviewStore();
+      const payload = previewHydrateWorkspace(store, workspaceId);
+      const now = previewNow();
+      payload.workspace.summary = {
+        summary: previewWorkspaceSummaryText(payload.workspace, payload.documents) || "Add a PDF to generate a summary.",
+        citations: [],
+      };
+      payload.workspace.summary_preview = payload.workspace.summary.summary;
+      payload.workspace.summary_updated_at = now;
+      payload.workspace.updated_at = now;
+      writePreviewStore(store);
+    }
+
+    function previewRefreshFacts(workspaceId) {
+      const store = readPreviewStore();
+      const payload = previewHydrateWorkspace(store, workspaceId);
+      const now = previewNow();
+      payload.workspace.facts = {
+        fields: previewWorkspaceFacts(payload.workspace, payload.documents),
+      };
+      payload.workspace.facts_updated_at = now;
+      payload.workspace.updated_at = now;
+      writePreviewStore(store);
+    }
+
+    function previewCompare(workspaceId, leftId, rightId) {
+      const payload = previewWorkspacePayload(workspaceId);
+      const left = payload.documents.find(function (item) {
+        return item.document_id === leftId;
+      });
+      const right = payload.documents.find(function (item) {
+        return item.document_id === rightId;
+      });
+      return {
+        result: {
+          overlap_count: 1,
+          shared_examples: [
+            {
+              text: "Both files are attached to this workspace and ready for review.",
+            },
+          ],
+          left_only: left
+            ? [
+                {
+                  text: (left.file_name || "Left document") + " is selected on the left.",
+                },
+              ]
+            : [],
+          right_only: right
+            ? [
+                {
+                  text: (right.file_name || "Right document") + " is selected on the right.",
+                },
+              ]
+            : [],
+        },
+      };
+    }
+
+    function previewSaveDecision(workspaceId, decision, summary) {
+      const store = readPreviewStore();
+      const payload = previewHydrateWorkspace(store, workspaceId);
+      const now = previewNow();
+      payload.workspace.workspace_status = decision === "approved" ? "approved" : "needs_follow_up";
+      payload.workspace.updated_at = now;
+      store.activity.unshift({
+        workspace_id: workspaceId,
+        id: previewId("activity"),
+        kind: "decision",
+        decision: decision,
+        summary: normalizeString(summary) || "Decision recorded.",
+        principal_id: "local-user",
+        created_at: now,
+      });
+      writePreviewStore(store);
+    }
+
+    function previewPostComment(workspaceId, body) {
+      const store = readPreviewStore();
+      const payload = previewHydrateWorkspace(store, workspaceId);
+      const now = previewNow();
+      payload.workspace.updated_at = now;
+      store.activity.unshift({
+        workspace_id: workspaceId,
+        id: previewId("activity"),
+        kind: "comment",
+        body: normalizeString(body),
+        principal_id: "local-user",
+        created_at: now,
+      });
+      writePreviewStore(store);
     }
 
     function setFeedback(key, message, isError) {
@@ -424,10 +760,10 @@
 
     function handleAuthFailure(error) {
       if (error && (error.status === 401 || error.status === 403)) {
-        authState = {
+        if (isLocalPreviewMode()) return;
+        idxAuthState = {
           checked: true,
           authenticated: false,
-          missingConfig: authState.missingConfig,
         };
       }
     }
@@ -469,16 +805,71 @@
       return authState;
     }
 
-    async function ensureAuthenticated() {
-      const session = authState.checked ? authState : await refreshAuth(true);
-      return !!session.authenticated;
+    async function refreshIdxAuth(forceRefresh) {
+      if (isLocalPreviewMode()) {
+        idxAuthState = {
+          checked: true,
+          authenticated: true,
+        };
+        return idxAuthState;
+      }
+
+      const endpoint = buildIdxUrl("/idx/auth/me");
+      if (!endpoint) {
+        idxAuthState = {
+          checked: true,
+          authenticated: false,
+        };
+        return idxAuthState;
+      }
+
+      if (idxAuthState.checked && !forceRefresh) {
+        return idxAuthState;
+      }
+
+      try {
+        const payload = await request(endpoint, { method: "GET" });
+        idxAuthState = {
+          checked: true,
+          authenticated: !!(payload && payload.authenticated),
+        };
+      } catch (error) {
+        idxAuthState = {
+          checked: true,
+          authenticated: false,
+        };
+        if (!(error && (error.status === 401 || error.status === 403))) {
+          throw error;
+        }
+      }
+
+      return idxAuthState;
+    }
+
+    async function ensureAuthenticated(forceRefresh) {
+      const session = authState.checked && !forceRefresh ? authState : await refreshAuth(!!forceRefresh);
+      if (!session.authenticated) return false;
+      if (isLocalPreviewMode()) return true;
+
+      try {
+        const idxSession = await refreshIdxAuth(!!forceRefresh);
+        return !!idxSession.authenticated;
+      } catch (error) {
+        setNotice(
+          buildUiNotice(error, {
+            action: "IDX session check",
+            endpoint: buildIdxUrl("/idx/auth/me"),
+          })
+        );
+        return false;
+      }
     }
 
     async function loadHome(options) {
       const workspacesEndpoint = buildIdxUrl("/idx/workspaces/?limit=12");
       const documentsEndpoint = buildIdxUrl("/idx/documents/?limit=12");
 
-      if (!workspacesEndpoint || !documentsEndpoint) {
+      if (!isLocalPreviewMode() && (!workspacesEndpoint || !documentsEndpoint)) {
         setNotice(buildUiNotice(null, { action: "dashboard home", endpoint: "" }));
         return null;
       }
@@ -491,12 +882,18 @@
       updateLoading({ home: true });
 
       try {
-        const responses = await Promise.all([
-          request(workspacesEndpoint, { method: "GET" }),
-          request(documentsEndpoint, { method: "GET" }),
-        ]);
-        state.home.workspaces = ensureArray(responses[0] && responses[0].workspaces);
-        state.home.documents = ensureArray(responses[1] && responses[1].documents);
+        if (isLocalPreviewMode()) {
+          const preview = previewHomePayload();
+          state.home.workspaces = ensureArray(preview && preview.workspaces);
+          state.home.documents = ensureArray(preview && preview.documents);
+        } else {
+          const responses = await Promise.all([
+            request(workspacesEndpoint, { method: "GET" }),
+            request(documentsEndpoint, { method: "GET" }),
+          ]);
+          state.home.workspaces = ensureArray(responses[0] && responses[0].workspaces);
+          state.home.documents = ensureArray(responses[1] && responses[1].documents);
+        }
 
         if (!(options && options.preserveNotice)) {
           clearNotice();
@@ -534,7 +931,7 @@
       const documentsEndpoint = buildIdxUrl("/idx/workspaces/" + encodeURIComponent(normalizedId) + "/documents");
       const activityEndpoint = buildIdxUrl("/idx/workspaces/" + encodeURIComponent(normalizedId) + "/activity?limit=16");
 
-      if (!workspaceEndpoint || !documentsEndpoint || !activityEndpoint) {
+      if (!isLocalPreviewMode() && (!workspaceEndpoint || !documentsEndpoint || !activityEndpoint)) {
         setNotice(buildUiNotice(null, { action: "workspace page", endpoint: "" }));
         return null;
       }
@@ -548,14 +945,21 @@
       state.workspaceError = "";
 
       try {
-        const responses = await Promise.all([
-          request(workspaceEndpoint, { method: "GET" }),
-          request(documentsEndpoint, { method: "GET" }),
-          request(activityEndpoint, { method: "GET" }),
-        ]);
-        state.workspace = responses[0] || null;
-        state.workspaceDocuments = ensureArray(responses[1] && responses[1].documents);
-        state.activity = ensureArray(responses[2] && responses[2].activity);
+        if (isLocalPreviewMode()) {
+          const preview = previewWorkspacePayload(normalizedId);
+          state.workspace = preview.workspace || null;
+          state.workspaceDocuments = ensureArray(preview && preview.documents);
+          state.activity = ensureArray(preview && preview.activity);
+        } else {
+          const responses = await Promise.all([
+            request(workspaceEndpoint, { method: "GET" }),
+            request(documentsEndpoint, { method: "GET" }),
+            request(activityEndpoint, { method: "GET" }),
+          ]);
+          state.workspace = responses[0] || null;
+          state.workspaceDocuments = ensureArray(responses[1] && responses[1].documents);
+          state.activity = ensureArray(responses[2] && responses[2].activity);
+        }
 
         const availableIds = state.workspaceDocuments.map(function (item) {
           return item.document_id;
@@ -748,7 +1152,7 @@
         return;
       }
 
-      if (!endpoint) {
+      if (!isLocalPreviewMode() && !endpoint) {
         setFeedback("create", "IDX API is not configured for workspace requests.", true);
         setNotice(buildUiNotice(null, { action: "workspace create", endpoint: "" }));
         return;
@@ -759,16 +1163,19 @@
       setFeedback("create", "Creating workspace…", false);
 
       try {
-        const payload = await request(endpoint, {
-          method: "POST",
-          body: JSON.stringify({
-            name: name,
-            workspace_type: elements.workspaceType ? elements.workspaceType.value : "general",
-            notes: elements.workspaceNotesInput ? elements.workspaceNotesInput.value : "",
-            document_ids: [],
-            collection_ids: [],
-          }),
-        });
+        const requestPayload = {
+          name: name,
+          workspace_type: elements.workspaceType ? elements.workspaceType.value : "general",
+          notes: elements.workspaceNotesInput ? elements.workspaceNotesInput.value : "",
+          document_ids: [],
+          collection_ids: [],
+        };
+        const payload = isLocalPreviewMode()
+          ? previewCreateWorkspace(requestPayload)
+          : await request(endpoint, {
+              method: "POST",
+              body: JSON.stringify(requestPayload),
+            });
 
         if (!normalizeString(payload && payload.workspace_id)) {
           throw createClientError("IDX returned an invalid workspace create response.");
@@ -814,7 +1221,7 @@
         return;
       }
 
-      if (!endpoint) {
+      if (!isLocalPreviewMode() && !endpoint) {
         setNotice(buildUiNotice(null, { action: "workspace upload", endpoint: "" }));
         return;
       }
@@ -827,19 +1234,24 @@
       );
 
       try {
-        const formData = new FormData();
-        validFiles.forEach(function (file) {
-          formData.append("files", file, file.name);
-        });
-        formData.append("workspace_id", state.routeWorkspaceId);
-        await request(endpoint, {
-          method: "POST",
-          body: formData,
-          headers: {
-            Accept: "application/json",
-          },
-        });
-        setFeedback("upload", "Upload queued. IDX will refresh the workspace as processing completes.", false);
+        if (isLocalPreviewMode()) {
+          previewUploadFiles(state.routeWorkspaceId, validFiles);
+          setFeedback("upload", "Files added to the local preview workspace.", false);
+        } else {
+          const formData = new FormData();
+          validFiles.forEach(function (file) {
+            formData.append("files", file, file.name);
+          });
+          formData.append("workspace_id", state.routeWorkspaceId);
+          await request(endpoint, {
+            method: "POST",
+            body: formData,
+            headers: {
+              Accept: "application/json",
+            },
+          });
+          setFeedback("upload", "Upload queued. IDX will refresh the workspace as processing completes.", false);
+        }
         await Promise.all([
           loadWorkspace(state.routeWorkspaceId, { preserveNotice: true }),
           loadHome({ preserveNotice: true }),
@@ -870,10 +1282,14 @@
       updateLoading({ summary: true });
 
       try {
-        await runAnalysis("summarize", {
-          workspace_id: state.routeWorkspaceId,
-          document_ids: [],
-        });
+        if (isLocalPreviewMode()) {
+          previewRefreshSummary(state.routeWorkspaceId);
+        } else {
+          await runAnalysis("summarize", {
+            workspace_id: state.routeWorkspaceId,
+            document_ids: [],
+          });
+        }
         await Promise.all([
           loadWorkspace(state.routeWorkspaceId, { preserveNotice: true }),
           loadHome({ preserveNotice: true }),
@@ -896,11 +1312,15 @@
       updateLoading({ facts: true });
 
       try {
-        await runAnalysis("extract", {
-          workspace_id: state.routeWorkspaceId,
-          document_ids: [],
-          fields: [],
-        });
+        if (isLocalPreviewMode()) {
+          previewRefreshFacts(state.routeWorkspaceId);
+        } else {
+          await runAnalysis("extract", {
+            workspace_id: state.routeWorkspaceId,
+            document_ids: [],
+            fields: [],
+          });
+        }
         await Promise.all([
           loadWorkspace(state.routeWorkspaceId, { preserveNotice: true }),
           loadHome({ preserveNotice: true }),
@@ -931,10 +1351,12 @@
       render();
 
       try {
-        const job = await runAnalysis("compare", {
-          workspace_id: state.routeWorkspaceId,
-          document_ids: [state.compare.left, state.compare.right],
-        });
+        const job = isLocalPreviewMode()
+          ? previewCompare(state.routeWorkspaceId, state.compare.left, state.compare.right)
+          : await runAnalysis("compare", {
+              workspace_id: state.routeWorkspaceId,
+              document_ids: [state.compare.left, state.compare.right],
+            });
         state.compare.result = isPlainObject(job && job.result) ? job.result : {};
         setFeedback("compare", "Compare complete.", false);
       } catch (error) {
@@ -965,15 +1387,23 @@
       setFeedback("decision", "Saving decision…", false);
 
       try {
-        await request(endpoint, {
-          method: "POST",
-          body: JSON.stringify({
-            decision: elements.decisionKind ? elements.decisionKind.value : "approved",
-            summary: elements.decisionNote ? elements.decisionNote.value : "",
-            citation_ids: [],
-            metadata: {},
-          }),
-        });
+        if (isLocalPreviewMode()) {
+          previewSaveDecision(
+            state.routeWorkspaceId,
+            elements.decisionKind ? elements.decisionKind.value : "approved",
+            elements.decisionNote ? elements.decisionNote.value : ""
+          );
+        } else {
+          await request(endpoint, {
+            method: "POST",
+            body: JSON.stringify({
+              decision: elements.decisionKind ? elements.decisionKind.value : "approved",
+              summary: elements.decisionNote ? elements.decisionNote.value : "",
+              citation_ids: [],
+              metadata: {},
+            }),
+          });
+        }
         if (elements.decisionNote) {
           elements.decisionNote.value = "";
         }
@@ -1015,13 +1445,17 @@
       setFeedback("comment", "Posting comment…", false);
 
       try {
-        await request(endpoint, {
-          method: "POST",
-          body: JSON.stringify({
-            body: body,
-            metadata: {},
-          }),
-        });
+        if (isLocalPreviewMode()) {
+          previewPostComment(state.routeWorkspaceId, body);
+        } else {
+          await request(endpoint, {
+            method: "POST",
+            body: JSON.stringify({
+              body: body,
+              metadata: {},
+            }),
+          });
+        }
         if (elements.commentBody) {
           elements.commentBody.value = "";
         }
@@ -1050,7 +1484,12 @@
         elements.authLogin.href = buildLoginHref();
       }
 
-      const appReady = authState.checked && authState.authenticated && !authState.missingConfig;
+      const previewMode = isLocalPreviewMode();
+      const appReady =
+        authState.checked &&
+        authState.authenticated &&
+        !authState.missingConfig &&
+        (previewMode || (idxAuthState.checked && idxAuthState.authenticated));
 
       if (elements.app) {
         elements.app.hidden = !appReady;
@@ -1074,10 +1513,25 @@
         elements.authGate.hidden = false;
         setText(elements.authGateTitle, "Checking sign-in");
         setText(elements.authGateCopy, "Verifying sign-in for the IDX workspace dashboard.");
+      } else if (previewMode) {
+        elements.authGate.hidden = true;
       } else if (authState.missingConfig) {
         elements.authGate.hidden = false;
         setText(elements.authGateTitle, "Sign-in unavailable");
         setText(elements.authGateCopy, "The site auth configuration is missing, so the IDX workspace dashboard cannot authenticate requests yet.");
+      } else if (authState.authenticated && !idxAuthState.checked) {
+        elements.authGate.hidden = false;
+        setText(elements.authGateTitle, "Checking IDX");
+        setText(elements.authGateCopy, "Verifying access to the IDX workspace service.");
+      } else if (authState.authenticated && !idxAuthState.authenticated) {
+        elements.authGate.hidden = false;
+        setText(elements.authGateTitle, isLocalDev() ? "Start local IDX or use preview" : "IDX access unavailable");
+        setText(
+          elements.authGateCopy,
+          isLocalDev()
+            ? "The local auth session is ready, but the local IDX backend is not available. Start the backend on port 8000 or continue in local preview."
+            : "The website session is valid, but IDX rejected the dashboard request."
+        );
       } else {
         elements.authGate.hidden = true;
       }
@@ -1087,7 +1541,7 @@
       if (!elements.notice) return;
       const notice =
         state.notice ||
-        (authState.checked && authState.authenticated && !hasIdxApiBaseUrl()
+        (authState.checked && authState.authenticated && !isLocalPreviewMode() && !hasIdxApiBaseUrl()
           ? buildUiNotice(null, { action: "IDX dashboard", endpoint: "" })
           : null);
       const visible = !!(notice && (notice.title || notice.body));
@@ -1151,7 +1605,7 @@
       }
 
       if (!workspaces.length) {
-        elements.workspaceStream.innerHTML = '<div class="mdz-idx__empty-state"><strong>No workspaces yet.</strong><p>Create one to start the review flow.</p></div>';
+        elements.workspaceStream.innerHTML = '<div class="mdz-idx__empty-state"><strong>No workspaces yet.</strong><p>Create a review to get started.</p></div>';
         return;
       }
 
@@ -1220,12 +1674,15 @@
       elements.recentFiles.innerHTML = documents
         .map(function (documentItem) {
           const status = classifyDocumentStatus(documentItem);
+          const previewMode = isLocalPreviewMode();
           const action =
-            status === "ready"
+            status === "ready" && !previewMode
               ? '<a class="btn btn--small mdz-cta mdz-cta--outline" href="' +
                 escapeHtml(buildDocumentViewerUrl(documentItem.document_id)) +
                 '" target="_blank" rel="noopener noreferrer">Open viewer</a>'
-              : '<span class="mdz-idx__helper">Viewer opens when the file is ready.</span>';
+              : '<span class="mdz-idx__helper">' +
+                escapeHtml(previewMode ? "Viewer is unavailable in local preview." : "Viewer opens when the file is ready.") +
+                "</span>";
 
           return (
             '<article class="mdz-idx__file-row">' +
@@ -1394,13 +1851,14 @@
       }
 
       if (!state.workspaceDocuments.length) {
-        elements.workspaceDocuments.innerHTML = '<div class="mdz-idx__empty-state"><strong>No documents yet.</strong><p>Drop a PDF into this workspace to start the review flow.</p></div>';
+        elements.workspaceDocuments.innerHTML = '<div class="mdz-idx__empty-state"><strong>No documents yet.</strong><p>Add a PDF to begin.</p></div>';
         return;
       }
 
       elements.workspaceDocuments.innerHTML = state.workspaceDocuments
         .map(function (item) {
           const status = classifyDocumentStatus(item);
+          const previewMode = isLocalPreviewMode();
           return (
             '<article class="mdz-idx__document-card">' +
             '<div class="mdz-idx__document-top">' +
@@ -1419,9 +1877,11 @@
             "</span>" +
             "</div>" +
             '<div class="mdz-idx__row-actions">' +
-            '<a class="btn btn--small mdz-cta mdz-cta--outline" href="' +
-            escapeHtml(buildDocumentViewerUrl(item.document_id)) +
-            '" target="_blank" rel="noopener noreferrer">Open viewer</a>' +
+            (previewMode
+              ? '<span class="mdz-idx__helper">Viewer is unavailable in local preview.</span>'
+              : '<a class="btn btn--small mdz-cta mdz-cta--outline" href="' +
+                escapeHtml(buildDocumentViewerUrl(item.document_id)) +
+                '" target="_blank" rel="noopener noreferrer">Open viewer</a>') +
             "</div>" +
             "</article>"
           );
@@ -1713,8 +2173,13 @@
 
     function renderDropzone() {
       if (!elements.dropzone) return;
-      const authBlocked = !authState.checked || !authState.authenticated || !!authState.missingConfig;
-      const blocked = authBlocked || !hasIdxApiBaseUrl() || state.loading.upload || !state.routeWorkspaceId;
+      const previewMode = isLocalPreviewMode();
+      const authBlocked =
+        !authState.checked ||
+        !authState.authenticated ||
+        !!authState.missingConfig ||
+        (!previewMode && (!idxAuthState.checked || !idxAuthState.authenticated));
+      const blocked = authBlocked || (!previewMode && !hasIdxApiBaseUrl()) || state.loading.upload || !state.routeWorkspaceId;
       elements.dropzone.classList.toggle("is-disabled", blocked);
       elements.dropzone.classList.toggle("is-busy", state.loading.upload);
       elements.dropzone.setAttribute("aria-disabled", blocked ? "true" : "false");
@@ -1727,8 +2192,13 @@
     }
 
     function renderControls() {
-      const authBlocked = !authState.checked || !authState.authenticated || !!authState.missingConfig;
-      const apiBlocked = authBlocked || !hasIdxApiBaseUrl();
+      const previewMode = isLocalPreviewMode();
+      const authBlocked =
+        !authState.checked ||
+        !authState.authenticated ||
+        !!authState.missingConfig ||
+        (!previewMode && (!idxAuthState.checked || !idxAuthState.authenticated));
+      const apiBlocked = authBlocked || (!previewMode && !hasIdxApiBaseUrl());
 
       if (elements.refreshHome) {
         elements.refreshHome.disabled = apiBlocked || state.loading.home || state.loading.workspace;
@@ -1918,11 +2388,22 @@
     render();
     refreshAuth(false).then(function (session) {
       if (!session || !session.authenticated) return;
-      loadHome().then(function () {
-        if (state.routeWorkspaceId) {
-          loadWorkspace(state.routeWorkspaceId, { preserveNotice: true });
-        }
-      });
+      refreshIdxAuth(false)
+        .catch(function (error) {
+          setNotice(
+            buildUiNotice(error, {
+              action: "IDX session check",
+              endpoint: buildIdxUrl("/idx/auth/me"),
+            })
+          );
+        })
+        .finally(function () {
+          loadHome().then(function () {
+            if (state.routeWorkspaceId) {
+              loadWorkspace(state.routeWorkspaceId, { preserveNotice: true });
+            }
+          });
+        });
     });
   }
 
