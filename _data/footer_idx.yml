@@ -1,5 +1,5 @@
 brand:
-  home_url: "/idx/dashboard/"
+  home_url: "https://idx.mehrdadzaker.com/assistant/dashboard"
   logo: "/assets/images/logo-mark.svg"
   name: "Neuralint IDX"
   tagline: "Workspace doc review for PDF-heavy teams."
@@ -8,13 +8,13 @@ columns:
   - title: "Dashboard"
     links:
       - label: "IDX Dashboard"
-        url: "/idx/dashboard/"
+        url: "https://idx.mehrdadzaker.com/assistant/dashboard"
       - label: "How IDX Works"
         url: "/idx/assistant/"
       - label: "Support"
         url: "/idx/support/"
       - label: "IDX"
-        url: "/idx/dashboard/"
+        url: "https://idx.mehrdadzaker.com/assistant/dashboard"
 
   - title: "Policies"
     links:
@@ -37,7 +37,7 @@ columns:
 cta_cards:
   - eyebrow: "Dashboard"
     label: "Open Workspace Dashboard"
-    url: "/idx/dashboard/"
+    url: "https://idx.mehrdadzaker.com/assistant/dashboard"
     variant: "solid"
   - eyebrow: "Guidance"
     label: "How IDX Works"

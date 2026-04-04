@@ -18,11 +18,11 @@ main:
         url: /robotics/ai-powered-robotics/
   - title: "IDX"
     key: idx
-    url: /idx/dashboard/
+    url: https://idx.mehrdadzaker.com/assistant/dashboard
     children:
       - title: "IDX Dashboard"
         key: idx_dashboard
-        url: /idx/dashboard/
+        url: https://idx.mehrdadzaker.com/assistant/dashboard
       - title: "How IDX Works"
         key: industry_ai
         url: /idx/assistant/
