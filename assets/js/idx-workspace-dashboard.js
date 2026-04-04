@@ -184,6 +184,41 @@
     return base ? base + path : path;
   }
 
+  function currentWorkspaceIdFromLocation() {
+    return normalizeString(new URLSearchParams(window.location.search).get("workspace_id"));
+  }
+
+  function prefersLegacyWorkspaceDashboard() {
+    const params = new URLSearchParams(window.location.search);
+    const legacy = normalizeString(params.get("legacy")).toLowerCase();
+    return legacy === "1" || legacy === "true" || legacy === "yes";
+  }
+
+  function buildAssistantWorkspaceUrl() {
+    const workspaceId = currentWorkspaceIdFromLocation();
+    if (workspaceId) {
+      return buildIdxAppUrl("/assistant/portal?workspace_id=" + encodeURIComponent(workspaceId));
+    }
+    return buildIdxAppUrl("/assistant/dashboard");
+  }
+
+  function shouldRedirectToAssistantWorkspace() {
+    if (isLocalDev()) return false;
+    if (prefersLegacyWorkspaceDashboard()) return false;
+    if (!hasIdxApiBaseUrl()) return false;
+    return true;
+  }
+
+  function redirectToAssistantWorkspace() {
+    const target = buildAssistantWorkspaceUrl();
+    if (!target) return false;
+    const resolvedTarget = new URL(target, window.location.origin).toString();
+    const currentUrl = new URL(window.location.href).toString();
+    if (resolvedTarget === currentUrl) return false;
+    window.location.replace(resolvedTarget);
+    return true;
+  }
+
   async function request(url, options) {
     const requestOptions = Object.assign(
       {
@@ -423,7 +458,7 @@
     const LOCAL_PREVIEW_WORKSPACE_KEY = "mdz_idx_workspace_preview_v1";
 
     function currentWorkspaceIdFromUrl() {
-      return normalizeString(new URLSearchParams(window.location.search).get("workspace_id"));
+      return currentWorkspaceIdFromLocation();
     }
 
     function isLocalPreviewMode() {
@@ -2403,6 +2438,11 @@
         navigateHome(true);
       }
     });
+
+    if (shouldRedirectToAssistantWorkspace()) {
+      redirectToAssistantWorkspace();
+      return;
+    }
 
     render();
     refreshAuth(false).then(function (session) {
