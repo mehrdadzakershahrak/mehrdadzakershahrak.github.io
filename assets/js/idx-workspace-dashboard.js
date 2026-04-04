@@ -322,6 +322,7 @@
       authGateTitle: qs(root, "[data-idx-auth-gate-title]"),
       authGateCopy: qs(root, "[data-idx-auth-gate-copy]"),
       authLogin: qs(root, "[data-idx-auth-login]"),
+      localPreviewButtons: qsa(root, "[data-idx-local-preview]"),
       notice: qs(root, "[data-idx-notice]"),
       noticeTitle: qs(root, "[data-idx-notice-title]"),
       noticeCopy: qs(root, "[data-idx-notice-copy]"),
@@ -771,6 +772,16 @@
     function buildLoginHref() {
       if (!auth || !auth.buildLoginUrl) return "/login/";
       return auth.buildLoginUrl(currentRelativeUrl());
+    }
+
+    function canUseLocalPreview() {
+      return !!(isLocalDev() && auth && auth.enableLocalPreview);
+    }
+
+    function openLocalPreview() {
+      if (!canUseLocalPreview()) return;
+      auth.enableLocalPreview();
+      window.location.assign(currentRelativeUrl());
     }
 
     async function refreshAuth(forceRefresh) {
@@ -1483,6 +1494,10 @@
       if (elements.authLogin) {
         elements.authLogin.href = buildLoginHref();
       }
+
+      elements.localPreviewButtons.forEach(function (button) {
+        button.hidden = !canUseLocalPreview();
+      });
 
       const previewMode = isLocalPreviewMode();
       const appReady =
@@ -2262,6 +2277,10 @@
     if (elements.createForm) {
       elements.createForm.addEventListener("submit", createWorkspace);
     }
+
+    elements.localPreviewButtons.forEach(function (button) {
+      button.addEventListener("click", openLocalPreview);
+    });
 
     if (elements.openLatestWorkspace) {
       elements.openLatestWorkspace.addEventListener("click", function () {

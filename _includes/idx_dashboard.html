@@ -13,7 +13,7 @@
       <a class="mdz-idx__product-link" href="{{ '/idx/support/' | relative_url }}">Support</a>
     </nav>
     <div class="mdz-idx__header-actions">
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="https://idx.mehrdadzaker.com" target="_blank" rel="noopener noreferrer">IDX</a>
+      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/dashboard/' | relative_url }}">IDX</a>
       <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-home>Refresh</button>
     </div>
   </header>
@@ -45,6 +45,7 @@
       </div>
       <div class="mdz-idx__header-actions">
         <a class="btn btn--primary mdz-cta" href="{{ '/login/' | relative_url }}" data-idx-auth-login>Sign in with Google</a>
+        <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-local-preview hidden>Open local preview</button>
         <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
       </div>
       <p class="mdz-idx__instruction-copy">
@@ -55,6 +56,9 @@
     <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
       <strong data-idx-auth-gate-title>Checking sign-in</strong>
       <p data-idx-auth-gate-copy>Verifying sign-in for the IDX workspace dashboard.</p>
+      <div class="mdz-idx__row-actions">
+        <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-local-preview hidden>Open local preview</button>
+      </div>
     </div>
   </div>
 
@@ -65,15 +69,15 @@
 
   <div class="mdz-idx__app" data-idx-dashboard-app hidden>
     <section class="mdz-idx__home-view" data-idx-home-view>
-      <section class="mdz-idx__hero-shell" aria-labelledby="idx-dashboard-title">
-        <div class="mdz-idx__hero-copy">
-          <p class="mdz-idx__eyebrow">IDX Dashboard</p>
-          <h1 id="idx-dashboard-title" class="mdz-idx__hero-title">Review documents in one place.</h1>
-          <p class="mdz-idx__hero-lede">
-            Create a review, upload PDFs, and keep the latest files, summary, facts, compare output, and activity together.
-          </p>
+      <header class="mdz-idx__home-header" aria-labelledby="idx-dashboard-title">
+        <div>
+          <p class="mdz-idx__eyebrow">Dashboard</p>
+          <h1 id="idx-dashboard-title" class="mdz-idx__home-title">Recent work</h1>
+          <p class="mdz-idx__home-copy">Create a review or open an existing one.</p>
         </div>
+      </header>
 
+      <div class="mdz-idx__home-grid">
         <section class="mdz-idx__panel mdz-idx__panel--hero-form" aria-labelledby="idx-create-workspace-title">
           <div class="mdz-idx__panel-header">
             <div>
@@ -105,7 +109,18 @@
           </form>
           <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-create-status></p>
         </section>
-      </section>
+
+        <section class="mdz-idx__panel" aria-labelledby="idx-workspaces-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Recent Workspaces</p>
+              <h2 id="idx-workspaces-title">Recent work</h2>
+            </div>
+            <p class="mdz-idx__statusline" data-idx-workspaces-status></p>
+          </div>
+          <div class="mdz-idx__workspace-stream" data-idx-workspace-stream></div>
+        </section>
+      </div>
 
       <section class="mdz-idx__stats-grid" aria-label="IDX dashboard stats">
         <article class="mdz-idx__stat-card">
@@ -126,29 +141,21 @@
         </article>
       </section>
 
-      <div class="mdz-idx__home-grid">
-        <section class="mdz-idx__panel" aria-labelledby="idx-workspaces-title">
-          <div class="mdz-idx__panel-header">
-            <div>
-              <p class="mdz-idx__panel-eyebrow">Recent Workspaces</p>
-              <h2 id="idx-workspaces-title">Recent work</h2>
-            </div>
-            <p class="mdz-idx__statusline" data-idx-workspaces-status></p>
+      <section class="mdz-idx__panel" aria-labelledby="idx-recent-files-title">
+        <div class="mdz-idx__panel-header">
+          <div>
+            <p class="mdz-idx__panel-eyebrow">Recent Files</p>
+            <h2 id="idx-recent-files-title">Latest uploads</h2>
           </div>
-          <div class="mdz-idx__workspace-stream" data-idx-workspace-stream></div>
-        </section>
+          <p class="mdz-idx__statusline" data-idx-files-status></p>
+        </div>
+        <div class="mdz-idx__file-stream" data-idx-recent-files></div>
+      </section>
 
-        <section class="mdz-idx__panel" aria-labelledby="idx-recent-files-title">
-          <div class="mdz-idx__panel-header">
-            <div>
-              <p class="mdz-idx__panel-eyebrow">Recent Files</p>
-              <h2 id="idx-recent-files-title">Latest uploads</h2>
-            </div>
-            <p class="mdz-idx__statusline" data-idx-files-status></p>
-          </div>
-          <div class="mdz-idx__file-stream" data-idx-recent-files></div>
-        </section>
+      <div class="mdz-idx__workspace-footer-actions">
+        <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-open-latest-workspace>Open latest review</button>
       </div>
+
     </section>
 
     <section class="mdz-idx__workspace-view" data-idx-workspace-view hidden>

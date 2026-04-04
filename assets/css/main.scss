@@ -4728,58 +4728,24 @@ h6,
   gap: 1rem;
 }
 
-.mdz-idx__hero-shell {
+.mdz-idx__home-header {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(21rem, 0.9fr);
-  gap: 1rem;
+  gap: 0.35rem;
+  padding: 0.25rem 0;
 }
 
-.mdz-idx__hero-copy {
-  display: grid;
-  gap: 0.95rem;
-  padding: clamp(1.15rem, 2.2vw, 1.5rem);
-  border: 1px solid rgba(var(--accent-rgb), 0.16);
-  border-radius: 1.2rem;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 14px 28px rgba(18, 24, 20, 0.06);
-}
-
-.mdz-idx__hero-title {
+.mdz-idx__home-title {
   margin: 0;
-  max-width: 12ch;
-  font-size: clamp(2.35rem, 5vw, 4.25rem);
-  line-height: 0.94;
+  font-size: clamp(1.9rem, 3vw, 2.7rem);
+  line-height: 1;
   color: var(--ui-blue);
 }
 
-.mdz-idx__hero-lede {
+.mdz-idx__home-copy {
   margin: 0;
-  max-width: 60ch;
+  max-width: 42rem;
   color: rgba(18, 24, 20, 0.76);
-  font-size: 1.02rem;
-  line-height: 1.7;
-}
-
-.mdz-idx__hero-signals {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0.75rem;
-}
-
-.mdz-idx__signal {
-  display: grid;
-  gap: 0.28rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid rgba(var(--accent-rgb), 0.1);
-}
-
-.mdz-idx__signal strong {
-  color: var(--ui-blue);
-}
-
-.mdz-idx__signal span {
-  color: rgba(18, 24, 20, 0.72);
-  line-height: 1.58;
+  line-height: 1.55;
 }
 
 .mdz-idx__panel--hero-form {
@@ -4801,6 +4767,11 @@ h6,
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 1rem;
   align-items: start;
+}
+
+.mdz-idx__workspace-footer-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .mdz-idx__workspace-stream,
@@ -5022,11 +4993,9 @@ h6,
 
 @media (max-width: 980px) {
   .mdz-idx__product-bar,
-  .mdz-idx__hero-shell,
   .mdz-idx__workspace-page-header,
   .mdz-idx__workspace-two-up,
   .mdz-idx__content-grid--dashboard,
-  .mdz-idx__hero-signals,
   .mdz-idx__compare-grid {
     grid-template-columns: 1fr;
   }
@@ -5042,7 +5011,6 @@ h6,
 
 @media (max-width: 720px) {
   .mdz-idx__product-bar,
-  .mdz-idx__hero-copy,
   .mdz-idx__workspace-page-header {
     padding: 0.95rem;
   }
@@ -5050,7 +5018,8 @@ h6,
   .mdz-idx__product-nav,
   .mdz-idx__header-actions,
   .mdz-idx__workspace-row-top,
-  .mdz-idx__row-actions {
+  .mdz-idx__row-actions,
+  .mdz-idx__workspace-footer-actions {
     width: 100%;
   }
 
@@ -5063,6 +5032,7 @@ h6,
   .mdz-idx__product-nav,
   .mdz-idx__header-actions,
   .mdz-idx__row-actions,
+  .mdz-idx__workspace-footer-actions,
   .mdz-idx__chip-row {
     justify-content: flex-start;
   }

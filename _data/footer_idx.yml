@@ -13,8 +13,8 @@ columns:
         url: "/idx/assistant/"
       - label: "Support"
         url: "/idx/support/"
-      - label: "Open Backend"
-        url: "https://idx.mehrdadzaker.com"
+      - label: "IDX"
+        url: "/idx/dashboard/"
 
   - title: "Policies"
     links:
