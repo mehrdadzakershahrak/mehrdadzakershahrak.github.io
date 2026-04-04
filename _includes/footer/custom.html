@@ -18,8 +18,12 @@
   <script src="{{ '/assets/js/demo-chat.js' | relative_url }}" defer></script>
 {% endif %}
 
-{% if page.idx_guidance or page.idx_dashboard %}
+{% if page.idx_guidance %}
   <script src="{{ '/assets/js/idx-dashboard.js' | relative_url }}" defer></script>
+{% endif %}
+
+{% if page.idx_dashboard %}
+  <script src="{{ '/assets/js/idx-workspace-dashboard.js' | relative_url }}" defer></script>
 {% endif %}
 
 {% if page.permalink == "/" or page.url == "/" or page.classes contains "home-page" %}

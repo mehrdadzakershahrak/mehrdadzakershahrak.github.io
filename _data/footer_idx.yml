@@ -1,29 +1,29 @@
 brand:
-  home_url: "/"
+  home_url: "/idx/dashboard/"
   logo: "/assets/images/logo-mark.svg"
-  name: "Mehrdad Zaker"
-  tagline: "AI systems, IDX document workflows, private deployment, and robotics consulting for real-world operations."
+  name: "Neuralint IDX"
+  tagline: "Workspace-first document review for PDF-heavy teams."
 
 columns:
-  - title: "IDX"
+  - title: "Dashboard"
     links:
-      - label: "Industry Guidance"
-        url: "/idx/assistant/"
       - label: "IDX Dashboard"
         url: "/idx/dashboard/"
-      - label: "Legal Workflow"
-        url: "/idx/assistant/#legal"
-      - label: "Finance Workflow"
-        url: "/idx/assistant/#finance"
-
-  - title: "Support"
-    links:
+      - label: "How IDX Works"
+        url: "/idx/assistant/"
       - label: "Support"
         url: "/idx/support/"
+      - label: "Open Backend"
+        url: "https://idx.mehrdadzaker.com"
+
+  - title: "Policies"
+    links:
       - label: "Privacy"
         url: "/idx/privacy/"
       - label: "Terms"
         url: "/idx/terms/"
+      - label: "Support"
+        url: "/idx/support/"
 
   - title: "Related"
     links:
@@ -35,17 +35,17 @@ columns:
         url: "/about/"
 
 cta_cards:
-  - eyebrow: "IDX Support"
-    label: "Get Help"
-    url: "/idx/support/"
-    variant: "solid"
-  - eyebrow: "IDX"
-    label: "Open IDX Dashboard"
+  - eyebrow: "Dashboard"
+    label: "Open Workspace Dashboard"
     url: "/idx/dashboard/"
-    variant: "outline"
+    variant: "solid"
   - eyebrow: "Guidance"
     label: "How IDX Works"
     url: "/idx/assistant/"
+    variant: "outline"
+  - eyebrow: "Support"
+    label: "Contact IDX Support"
+    url: "/idx/support/"
     variant: "outline"
 
 social_links:
@@ -54,5 +54,5 @@ social_links:
     icon_key: "email"
 
 legal:
-  copyright: "Mehrdad Zaker. All rights reserved."
+  copyright: "Neuralint IDX. All rights reserved."
   secondary_text: "Use of IDX is subject to the published support, privacy, and terms pages."

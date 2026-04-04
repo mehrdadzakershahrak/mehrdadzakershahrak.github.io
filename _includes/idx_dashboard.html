@@ -1,56 +1,60 @@
-<section class="mdz-idx" data-idx-dashboard>
-  <header class="mdz-idx__workspace-header">
-    <div class="mdz-idx__workspace-heading">
-      <p class="mdz-idx__eyebrow">IDX Dashboard</p>
-      <h1 class="mdz-idx__workspace-title">IDX Web Dashboard</h1>
-      <p class="mdz-idx__workspace-copy">
-        This is the credentialed website interface for IDX: upload PDFs, monitor parsing and indexing jobs, search ready documents, and open source material directly in IDX Viewer.
-      </p>
+<section class="mdz-idx mdz-idx--workspace-dashboard" data-idx-dashboard>
+  <header class="mdz-idx__product-bar">
+    <div class="mdz-idx__product-brand">
+      <span class="mdz-idx__brand-mark">IDX</span>
+      <div class="mdz-idx__brand-copy">
+        <p class="mdz-idx__panel-eyebrow">Neuralint Platform</p>
+        <strong>Workspace-first document review</strong>
+      </div>
     </div>
+    <nav class="mdz-idx__product-nav" aria-label="IDX navigation">
+      <a class="mdz-idx__product-link" href="{{ '/idx/dashboard/' | relative_url }}">Dashboard</a>
+      <a class="mdz-idx__product-link" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
+      <a class="mdz-idx__product-link" href="{{ '/idx/support/' | relative_url }}">Support</a>
+    </nav>
     <div class="mdz-idx__header-actions">
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
-      <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-docs>Refresh library</button>
+      <a class="btn btn--small mdz-cta mdz-cta--outline" href="https://idx.mehrdadzaker.com" target="_blank" rel="noopener noreferrer">Open backend</a>
+      <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-home>Refresh</button>
     </div>
   </header>
-
-  <section class="mdz-idx__what-is" aria-labelledby="idx-dashboard-what-is-title">
-    <div class="mdz-idx__what-is-copy">
-      <p class="mdz-idx__panel-eyebrow">What Is IDX?</p>
-      <h2 id="idx-dashboard-what-is-title">The dashboard is the web surface for IDX</h2>
-      <p>IDX helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages. Under the hood, IDX can connect document workflows to ChatGPT through MCP.</p>
-      <p class="mdz-idx__what-is-note">On this site, <code>/login/</code> and <code>/idx/dashboard/</code> are the credentialed website surface. <code>/idx/assistant/</code> is the public guidance page, and ChatGPT-connected MCP testing belongs on <a href="https://idx.mehrdadzaker.com"><code>https://idx.mehrdadzaker.com</code></a>, the separate IDX backend surface. <a href="{{ '/idx/support/' | relative_url }}">Contact IDX support</a> if you need help with the dashboard or want to discuss a ChatGPT-connected IDX workflow.</p>
-    </div>
-  </section>
 
   <div class="mdz-idx__preauth" data-idx-preauth hidden>
     <section class="mdz-idx__panel mdz-idx__panel--instruction mdz-idx__preauth-panel" data-idx-preauth-summary hidden>
       <div class="mdz-idx__panel-header">
         <div>
           <p class="mdz-idx__panel-eyebrow">Private document workflows</p>
-          <h2>Sign in to open the IDX web dashboard</h2>
+          <h2>Sign in to open the IDX workspace dashboard</h2>
         </div>
       </div>
       <p class="mdz-idx__instruction-copy">
-        IDX is broader than the dashboard: it is a source-grounded PDF workflow capability that can connect to ChatGPT through MCP. This page is the secure website interface for uploads, search, and viewer-based review.
+        IDX now centers the workflow on the workspace: create one workspace per deal, property, opportunity, or review packet, upload PDFs into that room, and let IDX build the summary, extracted facts, and compare surface around it.
       </p>
-      <ul class="mdz-idx__instruction-list">
-        <li>Upload contracts, filings, diligence packs, policies, and similar PDFs into one tracked workspace.</li>
-        <li>Search only ready documents and jump back into the source viewer from results and document rows.</li>
-        <li>Use Industry Guidance first if you need to understand where IDX fits into a domain workflow.</li>
-        <li>Use <a href="https://idx.mehrdadzaker.com"><code>https://idx.mehrdadzaker.com</code></a> if you are testing ChatGPT-connected MCP behavior rather than the website dashboard.</li>
-      </ul>
+      <div class="mdz-idx__content-grid mdz-idx__content-grid--dashboard">
+        <section class="mdz-idx__content-section mdz-idx__content-section--value">
+          <h3>Create the workspace first</h3>
+          <p class="mdz-idx__instruction-copy">Name the packet, choose its operating context, and keep uploads, review status, and analysis in one place.</p>
+        </section>
+        <section class="mdz-idx__content-section">
+          <h3>Upload inside the workspace</h3>
+          <p class="mdz-idx__instruction-copy">PDFs attach directly to the workspace so recent files, summary jobs, facts, and compare all stay scoped to the same packet.</p>
+        </section>
+        <section class="mdz-idx__content-section">
+          <h3>Review what matters first</h3>
+          <p class="mdz-idx__instruction-copy">Workspace pages surface the latest summary, extracted facts, compare output, decisions, and activity without falling back to a generic document library.</p>
+        </section>
+      </div>
       <div class="mdz-idx__header-actions">
         <a class="btn btn--primary mdz-cta" href="{{ '/login/' | relative_url }}" data-idx-auth-login>Sign in with Google</a>
         <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
       </div>
       <p class="mdz-idx__instruction-copy">
-        Already using ChatGPT for document-heavy work? IDX adds a dedicated operational layer for uploads, search, citations, and viewer-based review. This dashboard is the website surface; MCP testing is separate. See <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a>, <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a>, or <a href="{{ '/idx/support/' | relative_url }}">IDX support</a>.
+        The credentialed website surface lives on this domain. For MCP and backend validation work, use <a href="https://idx.mehrdadzaker.com"><code>idx.mehrdadzaker.com</code></a>.
       </p>
     </section>
 
     <div class="demo-chat__gate mdz-idx__gate" data-idx-auth-gate hidden>
       <strong data-idx-auth-gate-title>Checking sign-in</strong>
-      <p data-idx-auth-gate-copy>Verifying sign-in for the IDX web dashboard.</p>
+      <p data-idx-auth-gate-copy>Verifying sign-in for the IDX workspace dashboard.</p>
     </div>
   </div>
 
@@ -60,131 +64,273 @@
   </div>
 
   <div class="mdz-idx__app" data-idx-dashboard-app hidden>
-    <section class="mdz-idx__stats-grid" aria-label="Document library stats">
-      <article class="mdz-idx__stat-card">
-        <p class="mdz-idx__stat-label">Total docs</p>
-        <strong class="mdz-idx__stat-value" data-idx-stat-total>0</strong>
-      </article>
-      <article class="mdz-idx__stat-card">
-        <p class="mdz-idx__stat-label">Ready docs</p>
-        <strong class="mdz-idx__stat-value" data-idx-stat-ready>0</strong>
-      </article>
-      <article class="mdz-idx__stat-card">
-        <p class="mdz-idx__stat-label">Processing docs</p>
-        <strong class="mdz-idx__stat-value" data-idx-stat-processing>0</strong>
-      </article>
-      <article class="mdz-idx__stat-card">
-        <p class="mdz-idx__stat-label">Failed docs</p>
-        <strong class="mdz-idx__stat-value" data-idx-stat-failed>0</strong>
-      </article>
-    </section>
+    <section class="mdz-idx__home-view" data-idx-home-view>
+      <section class="mdz-idx__hero-shell" aria-labelledby="idx-dashboard-title">
+        <div class="mdz-idx__hero-copy">
+          <p class="mdz-idx__eyebrow">IDX Dashboard</p>
+          <h1 id="idx-dashboard-title" class="mdz-idx__hero-title">Keep every packet in its own workspace.</h1>
+          <p class="mdz-idx__hero-lede">
+            Create the workspace, upload the PDFs into that room, and let IDX keep the latest files, summary, facts, compare output, decision state, and viewer links tied to the same operational context.
+          </p>
+          <div class="mdz-idx__hero-signals">
+            <article class="mdz-idx__signal">
+              <strong>Recent workspaces</strong>
+              <span>Open the packet that matters now without scanning a generic jobs view.</span>
+            </article>
+            <article class="mdz-idx__signal">
+              <strong>Recent files</strong>
+              <span>Track the newest PDFs and their readiness while OCR and indexing finish.</span>
+            </article>
+            <article class="mdz-idx__signal">
+              <strong>Workspace pages</strong>
+              <span>Jump into summary, facts, compare, decisions, and activity from one surface.</span>
+            </article>
+          </div>
+        </div>
 
-    <div class="mdz-idx__workspace-grid">
-      <div class="mdz-idx__main">
-        <section class="mdz-idx__panel" aria-labelledby="idx-search-title">
+        <section class="mdz-idx__panel mdz-idx__panel--hero-form" aria-labelledby="idx-create-workspace-title">
           <div class="mdz-idx__panel-header">
             <div>
-              <p class="mdz-idx__panel-eyebrow">Document Search</p>
-              <h2 id="idx-search-title">Search ready documents</h2>
+              <p class="mdz-idx__panel-eyebrow">Create Workspace</p>
+              <h2 id="idx-create-workspace-title">Start with the packet that matters now</h2>
             </div>
-            <p class="mdz-idx__statusline" data-idx-search-status></p>
           </div>
+          <p class="mdz-idx__instruction-copy">
+            Keep the v1 flow narrow: name the workspace, choose the operating context, then upload PDFs once you land inside.
+          </p>
+          <form class="mdz-idx__form-grid" data-idx-create-workspace-form>
+            <label class="sr-only" for="idx-workspace-name">Workspace name</label>
+            <input id="idx-workspace-name" type="text" placeholder="Acme diligence review" data-idx-workspace-name>
 
-          <form class="mdz-idx__search-form" data-idx-search-form>
-            <label class="sr-only" for="idx-dashboard-search">Search indexed documents</label>
-            <input
-              id="idx-dashboard-search"
-              class="mdz-idx__search-input"
-              type="search"
-              placeholder="Search indexed documents by keyword, clause, or source term..."
-              data-idx-search-input
-            >
-            <div class="mdz-idx__search-actions">
-              <button type="submit" class="btn btn--primary mdz-cta" data-idx-search-submit>Search</button>
-              <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-search-clear>Clear</button>
+            <label class="sr-only" for="idx-workspace-type">Workspace type</label>
+            <select id="idx-workspace-type" data-idx-workspace-type>
+              <option value="pe">PE</option>
+              <option value="real_estate">Real Estate</option>
+              <option value="sales">Sales</option>
+              <option value="general">General</option>
+            </select>
+
+            <label class="sr-only" for="idx-workspace-notes">Workspace notes</label>
+            <textarea id="idx-workspace-notes" rows="4" placeholder="Optional notes for teammates" data-idx-workspace-create-notes></textarea>
+
+            <div class="mdz-idx__row-actions">
+              <button type="submit" class="btn btn--primary mdz-cta">Create workspace</button>
             </div>
           </form>
-
-          <div class="mdz-idx__filters" data-idx-status-filters>
-            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="all">All</button>
-            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="ready">Ready</button>
-            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="processing">Processing</button>
-            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="queued">Queued</button>
-            <button type="button" class="mdz-idx__filter-chip" data-idx-filter="failed">Failed</button>
-          </div>
+          <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-create-status></p>
         </section>
+      </section>
 
-        <section class="mdz-idx__panel" aria-labelledby="idx-library-title">
+      <section class="mdz-idx__stats-grid" aria-label="IDX dashboard stats">
+        <article class="mdz-idx__stat-card">
+          <p class="mdz-idx__stat-label">Workspaces</p>
+          <strong class="mdz-idx__stat-value" data-idx-stat-workspaces>0</strong>
+        </article>
+        <article class="mdz-idx__stat-card">
+          <p class="mdz-idx__stat-label">Needs Follow-Up</p>
+          <strong class="mdz-idx__stat-value" data-idx-stat-follow-up>0</strong>
+        </article>
+        <article class="mdz-idx__stat-card">
+          <p class="mdz-idx__stat-label">Ready Files</p>
+          <strong class="mdz-idx__stat-value" data-idx-stat-ready-files>0</strong>
+        </article>
+        <article class="mdz-idx__stat-card">
+          <p class="mdz-idx__stat-label">Files Processing</p>
+          <strong class="mdz-idx__stat-value" data-idx-stat-processing-files>0</strong>
+        </article>
+      </section>
+
+      <div class="mdz-idx__home-grid">
+        <section class="mdz-idx__panel" aria-labelledby="idx-workspaces-title">
           <div class="mdz-idx__panel-header">
             <div>
-              <p class="mdz-idx__panel-eyebrow">Document Library</p>
-              <h2 id="idx-library-title">Documents</h2>
+              <p class="mdz-idx__panel-eyebrow">Recent Workspaces</p>
+              <h2 id="idx-workspaces-title">Open the packet that matters now</h2>
             </div>
-            <p class="mdz-idx__statusline" data-idx-documents-status></p>
+            <p class="mdz-idx__statusline" data-idx-workspaces-status></p>
           </div>
+          <div class="mdz-idx__workspace-stream" data-idx-workspace-stream></div>
+        </section>
 
-          <div class="mdz-idx__empty-state" data-idx-empty-state hidden>
-            <strong data-idx-empty-title>Upload a PDF to start building your IDX document library.</strong>
-            <p data-idx-empty-copy>Processing files stay visible in the upload queue while IDX parses and indexes them.</p>
+        <section class="mdz-idx__panel" aria-labelledby="idx-recent-files-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Recent Files</p>
+              <h2 id="idx-recent-files-title">Latest uploads across your IDX corpus</h2>
+            </div>
+            <p class="mdz-idx__statusline" data-idx-files-status></p>
           </div>
+          <div class="mdz-idx__file-stream" data-idx-recent-files></div>
+        </section>
 
-          <div class="mdz-idx__table-wrap" data-idx-table-wrap>
-            <table class="mdz-idx__table">
-              <thead>
-                <tr>
-                  <th scope="col">File name</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Actions</th>
-                </tr>
-              </thead>
-              <tbody data-idx-document-rows></tbody>
-            </table>
+        <section class="mdz-idx__panel" aria-labelledby="idx-flow-title">
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Upload Flow</p>
+              <h2 id="idx-flow-title">How the current product is shaped</h2>
+            </div>
+          </div>
+          <div class="mdz-idx__flow-list">
+            <article class="mdz-idx__flow-item">
+              <span class="mdz-idx__workflow-count">1</span>
+              <div class="mdz-idx__workflow-copy">
+                <strong>Create a workspace</strong>
+                <p>Each packet gets its own room, status, notes, and review state.</p>
+              </div>
+            </article>
+            <article class="mdz-idx__flow-item">
+              <span class="mdz-idx__workflow-count">2</span>
+              <div class="mdz-idx__workflow-copy">
+                <strong>Upload PDFs inside the workspace</strong>
+                <p>Recent files, OCR state, and index readiness stay attached to that packet.</p>
+              </div>
+            </article>
+            <article class="mdz-idx__flow-item">
+              <span class="mdz-idx__workflow-count">3</span>
+              <div class="mdz-idx__workflow-copy">
+                <strong>Review the workspace page</strong>
+                <p>Summary, facts, compare, decisions, and activity update as the packet becomes ready.</p>
+              </div>
+            </article>
+          </div>
+          <div class="mdz-idx__row-actions">
+            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-open-latest-workspace>Open latest workspace</button>
           </div>
         </section>
       </div>
+    </section>
 
-      <aside class="mdz-idx__sidebar">
-        <section class="mdz-idx__panel mdz-idx__panel--upload" aria-labelledby="idx-upload-title">
-          <div class="mdz-idx__panel-header">
-            <div>
-              <p class="mdz-idx__panel-eyebrow">Upload Panel</p>
-              <h2 id="idx-upload-title">Upload PDFs</h2>
-            </div>
-            <p class="mdz-idx__statusline" data-idx-upload-status></p>
+    <section class="mdz-idx__workspace-view" data-idx-workspace-view hidden>
+      <header class="mdz-idx__workspace-page-header">
+        <div class="mdz-idx__workspace-page-heading">
+          <div class="mdz-idx__row-actions">
+            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-back-home>All workspaces</button>
           </div>
+          <p class="mdz-idx__eyebrow">Workspace Page</p>
+          <h2 class="mdz-idx__workspace-page-title" data-idx-workspace-title>Loading workspace…</h2>
+          <p class="mdz-idx__workspace-page-copy" data-idx-current-workspace-notes></p>
+        </div>
+        <div class="mdz-idx__workspace-meta">
+          <div class="mdz-idx__pills" data-idx-workspace-pills></div>
+          <p class="mdz-idx__statusline" data-idx-workspace-status></p>
+        </div>
+      </header>
 
-          <div class="mdz-idx__dropzone" data-idx-dropzone tabindex="0" role="button" aria-label="Upload PDF files">
-            <div class="mdz-idx__dropzone-copy">
-              <strong>Drag and drop PDFs here</strong>
-              <p>Upload a PDF to start building your IDX document library.</p>
+      <div class="mdz-idx__workspace-layout">
+        <div class="mdz-idx__workspace-main">
+          <section class="mdz-idx__panel" aria-labelledby="idx-summary-panel-title">
+            <div class="mdz-idx__workspace-two-up">
+              <section class="mdz-idx__workspace-subsection">
+                <div class="mdz-idx__panel-header">
+                  <div>
+                    <p class="mdz-idx__panel-eyebrow">Workspace Summary</p>
+                    <h3 id="idx-summary-panel-title">What matters first</h3>
+                  </div>
+                  <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-summary>Refresh summary</button>
+                </div>
+                <div class="mdz-idx__analysis-card" data-idx-summary-card></div>
+              </section>
+
+              <section class="mdz-idx__workspace-subsection">
+                <div class="mdz-idx__panel-header">
+                  <div>
+                    <p class="mdz-idx__panel-eyebrow">Extracted Facts</p>
+                    <h3>Structured signal</h3>
+                  </div>
+                  <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-facts>Refresh facts</button>
+                </div>
+                <div class="mdz-idx__analysis-card" data-idx-facts-card></div>
+              </section>
             </div>
-            <div class="mdz-idx__upload-actions">
-              <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Choose PDF files</button>
+          </section>
+
+          <section class="mdz-idx__panel" aria-labelledby="idx-workspace-files-title">
+            <div class="mdz-idx__panel-header">
+              <div>
+                <p class="mdz-idx__panel-eyebrow">Upload Flow</p>
+                <h3 id="idx-workspace-files-title">Add PDFs to this workspace</h3>
+              </div>
+              <p class="mdz-idx__statusline" data-idx-upload-status></p>
             </div>
-            <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
-          </div>
 
-          <div class="mdz-idx__queue" data-idx-upload-queue></div>
-        </section>
-
-        <section class="mdz-idx__panel mdz-idx__panel--results" aria-labelledby="idx-results-title">
-          <div class="mdz-idx__panel-header">
-            <div>
-              <p class="mdz-idx__panel-eyebrow">Search Results</p>
-              <h2 id="idx-results-title">Viewer links</h2>
+            <div class="mdz-idx__dropzone mdz-idx__dropzone--workspace" data-idx-dropzone tabindex="0" role="button" aria-label="Upload PDF files into this workspace">
+              <div class="mdz-idx__dropzone-copy">
+                <strong>Drop PDFs into this workspace</strong>
+                <p>Uploads stay tied to the current workspace so summary, facts, compare, and recent activity all follow the same packet.</p>
+              </div>
+              <div class="mdz-idx__upload-actions">
+                <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Choose PDF files</button>
+              </div>
+              <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
             </div>
-          </div>
-          <div class="mdz-idx__search-results" data-idx-search-results></div>
-        </section>
-      </aside>
-    </div>
 
-    <div class="mdz-idx__links">
-      <p>If you want a private deployment or a custom system, see:</p>
-      <ul>
-        <li><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></li>
-        <li><a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a></li>
-      </ul>
-    </div>
+            <div class="mdz-idx__workspace-files" data-idx-workspace-documents></div>
+          </section>
+
+          <section class="mdz-idx__panel" aria-labelledby="idx-compare-title">
+            <div class="mdz-idx__panel-header">
+              <div>
+                <p class="mdz-idx__panel-eyebrow">Compare</p>
+                <h3 id="idx-compare-title">Manual document comparison</h3>
+              </div>
+              <p class="mdz-idx__statusline" data-idx-compare-status></p>
+            </div>
+            <div class="mdz-idx__compare-grid">
+              <select data-idx-compare-left>
+                <option value="">Select document</option>
+              </select>
+              <select data-idx-compare-right>
+                <option value="">Select document</option>
+              </select>
+            </div>
+            <div class="mdz-idx__row-actions">
+              <button type="button" class="btn btn--primary mdz-cta" data-idx-run-compare>Run compare</button>
+            </div>
+            <div class="mdz-idx__compare-result" data-idx-compare-result></div>
+          </section>
+        </div>
+
+        <aside class="mdz-idx__workspace-sidebar">
+          <section class="mdz-idx__panel" aria-labelledby="idx-decision-title">
+            <div class="mdz-idx__panel-header">
+              <div>
+                <p class="mdz-idx__panel-eyebrow">Decision</p>
+                <h3 id="idx-decision-title">Current review state</h3>
+              </div>
+            </div>
+            <div class="mdz-idx__decision-summary" data-idx-decision-summary></div>
+            <form class="mdz-idx__form-grid" data-idx-decision-form>
+              <select data-idx-decision-kind>
+                <option value="approved">Approved</option>
+                <option value="needs_changes">Needs Follow-Up</option>
+                <option value="rejected">Rejected</option>
+              </select>
+              <textarea rows="4" placeholder="Short decision note" data-idx-decision-note></textarea>
+              <div class="mdz-idx__row-actions">
+                <button type="submit" class="btn btn--small mdz-cta mdz-cta--outline">Save decision</button>
+              </div>
+            </form>
+            <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-decision-status></p>
+          </section>
+
+          <section class="mdz-idx__panel" aria-labelledby="idx-activity-title">
+            <div class="mdz-idx__panel-header">
+              <div>
+                <p class="mdz-idx__panel-eyebrow">Activity</p>
+                <h3 id="idx-activity-title">Recent review work</h3>
+              </div>
+            </div>
+            <form class="mdz-idx__form-grid" data-idx-comment-form>
+              <textarea rows="4" placeholder="Leave a note for teammates" data-idx-comment-body></textarea>
+              <div class="mdz-idx__row-actions">
+                <button type="submit" class="btn btn--small mdz-cta mdz-cta--outline">Post comment</button>
+              </div>
+            </form>
+            <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-comment-status></p>
+            <div class="mdz-idx__activity-list" data-idx-activity-list></div>
+          </section>
+        </aside>
+      </div>
+    </section>
   </div>
 </section>

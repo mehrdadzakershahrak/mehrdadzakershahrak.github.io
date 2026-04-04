@@ -18,14 +18,16 @@ main:
         url: /robotics/ai-powered-robotics/
   - title: "IDX"
     key: idx
-    url: /idx/assistant/
+    url: /idx/dashboard/
     children:
-      - title: "Industry Guidance"
-        key: industry_ai
-        url: /idx/assistant/
       - title: "IDX Dashboard"
         key: idx_dashboard
         url: /idx/dashboard/
+      - title: "How IDX Works"
+        key: industry_ai
+        url: /idx/assistant/
+      - title: "Support"
+        url: /idx/support/
   - title: "Podcast"
     key: podcast
     url: /podcast/
