@@ -24,6 +24,12 @@
     return !!value && typeof value === "object" && !Array.isArray(value);
   }
 
+  function createClientError(message) {
+    const error = new Error(normalizeString(message) || "Request could not be completed.");
+    error.data = { message: error.message };
+    return error;
+  }
+
   function escapeHtml(value) {
     return String(value == null ? "" : value).replace(/[&<>"]/g, function (character) {
       return (
@@ -140,19 +146,11 @@
 
   function getIdxApiBaseUrl() {
     const config = window.MDZ_AUTH_CONFIG || {};
-    const explicit = normalizeString(config.idxApiBaseUrl || "");
-    if (explicit) return explicit.replace(/\/+$/, "");
+    return normalizeString(config.idxApiBaseUrl || "").replace(/\/+$/, "");
+  }
 
-    const hostname = window.location.hostname || "";
-    if (hostname === "127.0.0.1" || hostname === "localhost") {
-      const auth = window.MdzAuth;
-      if (auth && auth.getApiBaseUrl) {
-        return normalizeString(auth.getApiBaseUrl()).replace(/\/+$/, "");
-      }
-      return window.location.origin.replace(/\/+$/, "");
-    }
-
-    return "";
+  function hasIdxApiBaseUrl() {
+    return !!getIdxApiBaseUrl();
   }
 
   function buildIdxUrl(path) {
@@ -482,12 +480,12 @@
 
       if (!workspacesEndpoint || !documentsEndpoint) {
         setNotice(buildUiNotice(null, { action: "dashboard home", endpoint: "" }));
-        return;
+        return null;
       }
 
       if (!(await ensureAuthenticated())) {
         render();
-        return;
+        return null;
       }
 
       updateLoading({ home: true });
@@ -503,6 +501,10 @@
         if (!(options && options.preserveNotice)) {
           clearNotice();
         }
+        return {
+          workspaces: state.home.workspaces,
+          documents: state.home.documents,
+        };
       } catch (error) {
         handleAuthFailure(error);
         setNotice(
@@ -511,6 +513,7 @@
             endpoint: workspacesEndpoint,
           })
         );
+        return null;
       } finally {
         updateLoading({ home: false });
       }
@@ -533,12 +536,12 @@
 
       if (!workspaceEndpoint || !documentsEndpoint || !activityEndpoint) {
         setNotice(buildUiNotice(null, { action: "workspace page", endpoint: "" }));
-        return;
+        return null;
       }
 
       if (!(await ensureAuthenticated())) {
         render();
-        return;
+        return null;
       }
 
       updateLoading({ workspace: true });
@@ -572,8 +575,12 @@
           clearNotice();
         }
         scheduleWorkspacePoll();
+        return state.workspace;
       } catch (error) {
         handleAuthFailure(error);
+        state.workspace = null;
+        state.workspaceDocuments = [];
+        state.activity = [];
         state.workspaceError = extractErrorMessage(error && error.data) || extractErrorMessage(error) || "Workspace could not be loaded.";
         setNotice(
           buildUiNotice(error, {
@@ -581,6 +588,7 @@
             endpoint: workspaceEndpoint,
           })
         );
+        return null;
       } finally {
         updateLoading({ workspace: false });
       }
@@ -679,8 +687,9 @@
 
     async function navigateToWorkspace(workspaceId, replace) {
       updateRouteWorkspaceId(workspaceId, replace);
-      await loadWorkspace(state.routeWorkspaceId, { preserveNotice: true });
+      const workspace = await loadWorkspace(state.routeWorkspaceId, { preserveNotice: true });
       await loadHome({ preserveNotice: true });
+      return workspace;
     }
 
     async function navigateHome(replace) {
@@ -696,11 +705,41 @@
         result: null,
       };
       render();
-      await loadHome({ preserveNotice: true });
+      return loadHome({ preserveNotice: true });
+    }
+
+    async function openCreatedWorkspace(workspaceId) {
+      const normalizedId = normalizeString(workspaceId);
+
+      if (!normalizedId) {
+        throw createClientError("IDX returned an invalid workspace create response.");
+      }
+
+      setFeedback("create", "Opening workspace…", false);
+      const workspace = await navigateToWorkspace(normalizedId);
+
+      if (workspace) {
+        setFeedback("create", "Workspace created.", false);
+        return true;
+      }
+
+      await navigateHome(true);
+      setFeedback(
+        "create",
+        "Workspace created, but IDX could not open it right away. Open it from Recent Workspaces.",
+        false
+      );
+      setNotice({
+        title: "Workspace created",
+        body: "The workspace was created, but the workspace page could not be loaded right away. Refresh and open it from Recent Workspaces.",
+      });
+      return false;
     }
 
     async function createWorkspace(event) {
       event.preventDefault();
+      if (state.loading.create) return;
+
       const endpoint = buildIdxUrl("/idx/workspaces/");
       const name = normalizeString(elements.workspaceName && elements.workspaceName.value);
 
@@ -710,10 +749,12 @@
       }
 
       if (!endpoint) {
+        setFeedback("create", "IDX API is not configured for workspace requests.", true);
         setNotice(buildUiNotice(null, { action: "workspace create", endpoint: "" }));
         return;
       }
 
+      clearNotice();
       updateLoading({ create: true });
       setFeedback("create", "Creating workspace…", false);
 
@@ -728,11 +769,15 @@
             collection_ids: [],
           }),
         });
+
+        if (!normalizeString(payload && payload.workspace_id)) {
+          throw createClientError("IDX returned an invalid workspace create response.");
+        }
+
         if (elements.createForm) {
           elements.createForm.reset();
         }
-        setFeedback("create", "Workspace created.", false);
-        await navigateToWorkspace(payload.workspace_id);
+        await openCreatedWorkspace(payload.workspace_id);
       } catch (error) {
         handleAuthFailure(error);
         setFeedback(
@@ -1040,7 +1085,11 @@
 
     function renderNotice() {
       if (!elements.notice) return;
-      const notice = state.notice;
+      const notice =
+        state.notice ||
+        (authState.checked && authState.authenticated && !hasIdxApiBaseUrl()
+          ? buildUiNotice(null, { action: "IDX dashboard", endpoint: "" })
+          : null);
       const visible = !!(notice && (notice.title || notice.body));
       elements.notice.hidden = !visible;
       if (!visible) return;
@@ -1650,11 +1699,6 @@
       renderHomeStats();
       renderWorkspaceStream();
       renderRecentFiles();
-
-      if (elements.openLatestWorkspace) {
-        const disabled = !state.home.workspaces.length || state.loading.home;
-        elements.openLatestWorkspace.disabled = disabled;
-      }
     }
 
     function renderRoute() {
@@ -1670,7 +1714,7 @@
     function renderDropzone() {
       if (!elements.dropzone) return;
       const authBlocked = !authState.checked || !authState.authenticated || !!authState.missingConfig;
-      const blocked = authBlocked || state.loading.upload || !state.routeWorkspaceId;
+      const blocked = authBlocked || !hasIdxApiBaseUrl() || state.loading.upload || !state.routeWorkspaceId;
       elements.dropzone.classList.toggle("is-disabled", blocked);
       elements.dropzone.classList.toggle("is-busy", state.loading.upload);
       elements.dropzone.setAttribute("aria-disabled", blocked ? "true" : "false");
@@ -1684,38 +1728,42 @@
 
     function renderControls() {
       const authBlocked = !authState.checked || !authState.authenticated || !!authState.missingConfig;
+      const apiBlocked = authBlocked || !hasIdxApiBaseUrl();
 
       if (elements.refreshHome) {
-        elements.refreshHome.disabled = authBlocked || state.loading.home || state.loading.workspace;
+        elements.refreshHome.disabled = apiBlocked || state.loading.home || state.loading.workspace;
       }
       if (elements.refreshSummary) {
-        elements.refreshSummary.disabled = authBlocked || state.loading.summary || !state.routeWorkspaceId;
+        elements.refreshSummary.disabled = apiBlocked || state.loading.summary || !state.routeWorkspaceId;
         elements.refreshSummary.textContent = state.loading.summary ? "Refreshing…" : "Refresh summary";
       }
       if (elements.refreshFacts) {
-        elements.refreshFacts.disabled = authBlocked || state.loading.facts || !state.routeWorkspaceId;
+        elements.refreshFacts.disabled = apiBlocked || state.loading.facts || !state.routeWorkspaceId;
         elements.refreshFacts.textContent = state.loading.facts ? "Refreshing…" : "Refresh facts";
       }
       if (elements.compareButton) {
-        elements.compareButton.disabled = authBlocked || state.loading.compare || state.workspaceDocuments.length < 2;
+        elements.compareButton.disabled = apiBlocked || state.loading.compare || state.workspaceDocuments.length < 2;
         elements.compareButton.textContent = state.loading.compare ? "Running compare…" : "Run compare";
+      }
+      if (elements.openLatestWorkspace) {
+        elements.openLatestWorkspace.disabled = apiBlocked || !state.home.workspaces.length || state.loading.home;
       }
       if (elements.backHome) {
         elements.backHome.disabled = state.loading.workspace;
       }
       if (elements.createForm) {
         qsa(elements.createForm, "input, select, textarea, button").forEach(function (element) {
-          element.disabled = authBlocked || state.loading.create;
+          element.disabled = apiBlocked || state.loading.create;
         });
       }
       if (elements.decisionForm) {
         qsa(elements.decisionForm, "select, textarea, button").forEach(function (element) {
-          element.disabled = authBlocked || state.loading.decision || !state.routeWorkspaceId;
+          element.disabled = apiBlocked || state.loading.decision || !state.routeWorkspaceId;
         });
       }
       if (elements.commentForm) {
         qsa(elements.commentForm, "textarea, button").forEach(function (element) {
-          element.disabled = authBlocked || state.loading.comment || !state.routeWorkspaceId;
+          element.disabled = apiBlocked || state.loading.comment || !state.routeWorkspaceId;
         });
       }
     }

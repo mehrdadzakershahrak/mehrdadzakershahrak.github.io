@@ -2,7 +2,7 @@ brand:
   home_url: "/idx/dashboard/"
   logo: "/assets/images/logo-mark.svg"
   name: "Neuralint IDX"
-  tagline: "Workspace-first document review for PDF-heavy teams."
+  tagline: "Workspace doc review for PDF-heavy teams."
 
 columns:
   - title: "Dashboard"
