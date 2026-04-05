@@ -3,6 +3,14 @@ const http = require("http");
 const host = "127.0.0.1";
 const port = 8787;
 
+function requestHasAuthenticatedSession(req) {
+  const cookieHeader = req.headers.cookie || "";
+  return cookieHeader
+    .split(";")
+    .map((part) => part.trim())
+    .some((part) => part === "mdz_session=authenticated");
+}
+
 function writeJson(res, statusCode, payload, origin = "") {
   const body = JSON.stringify(payload);
   if (origin) {
@@ -32,7 +40,7 @@ const server = http.createServer((req, res) => {
   }
 
   if (req.url === "/auth/session") {
-    writeJson(res, 200, { authenticated: false }, origin);
+    writeJson(res, 200, { authenticated: requestHasAuthenticatedSession(req) }, origin);
     return;
   }
 

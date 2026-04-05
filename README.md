@@ -15,7 +15,7 @@ Edit `_config.yml`:
 2. Google returns an ID token (`credential`) to the browser.
 3. The browser posts that credential to `POST {auth_api_base_url}/auth/google`.
 4. The auth service verifies the token with Google and sets an `mdz_session` cookie.
-5. Demo pages call `GET {auth_api_base_url}/auth/session` to decide whether to unlock chat.
+5. The `/idx/dashboard/` wrapper calls `GET {auth_api_base_url}/auth/session` to decide whether to hand the user off to the live IDX v2 app.
 6. Demo chat posts to `POST {auth_api_base_url}/api/demo-chat` with `credentials: include`.
 
 ### Auth backend contract
@@ -178,7 +178,7 @@ If you see `[GSI_LOGGER]: The given origin is not allowed for the given client I
 If you see `ERR_NAME_NOT_RESOLVED` for `auth.mehrdadzaker.com` during local development, the auth service is not running locally yet or you opened an old build before the local auth fallback JavaScript was loaded.
 
 ## Website E2E
-The website Playwright suite validates the rendered `/idx/dashboard/` workspace UI, the local IDX navigation links, and the deterministic local `/login/` shell.
+The website Playwright suite validates the `/idx/dashboard/` wrapper contract, the redirect into the live IDX v2 portal, and the deterministic local `/login/` shell.
 
 Install the test dependency:
 
