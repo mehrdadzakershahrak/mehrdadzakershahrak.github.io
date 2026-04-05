@@ -1,6 +1,10 @@
 ---
-layout: redirect
+layout: single
 title: "IDX Dashboard"
 permalink: /idx/dashboard/
-redirect_to: "https://idx.mehrdadzaker.com/v2/portal"
+classes: wide
+idx_dashboard: true
+footer_variant: idx
 ---
+
+{% include idx_dashboard.html %}

@@ -188,6 +188,10 @@
     return normalizeString(new URLSearchParams(window.location.search).get("workspace_id"));
   }
 
+  function currentDocumentIdFromLocation() {
+    return normalizeString(new URLSearchParams(window.location.search).get("document_id"));
+  }
+
   function prefersLegacyWorkspaceDashboard() {
     const params = new URLSearchParams(window.location.search);
     const legacy = normalizeString(params.get("legacy")).toLowerCase();
@@ -203,10 +207,7 @@
   }
 
   function shouldRedirectToAssistantWorkspace() {
-    if (isLocalDev()) return false;
-    if (prefersLegacyWorkspaceDashboard()) return false;
-    if (!hasIdxApiBaseUrl()) return false;
-    return true;
+    return false;
   }
 
   function redirectToAssistantWorkspace() {
@@ -361,6 +362,20 @@
       notice: qs(root, "[data-idx-notice]"),
       noticeTitle: qs(root, "[data-idx-notice-title]"),
       noticeCopy: qs(root, "[data-idx-notice-copy]"),
+      createToggle: qs(root, "[data-idx-create-toggle]"),
+      createPanel: qs(root, "[data-idx-create-panel]"),
+      documentsToggle: qs(root, "[data-idx-documents-toggle]"),
+      inspectorToggle: qs(root, "[data-idx-inspector-toggle]"),
+      workspaceSwitcher: qs(root, "[data-idx-workspace-switcher]"),
+      documentRail: qs(root, "[data-idx-document-rail]"),
+      inspectorRail: qs(root, "[data-idx-inspector]"),
+      selectedDocumentTitle: qs(root, "[data-idx-selected-document-title]"),
+      selectedDocumentMeta: qs(root, "[data-idx-selected-document-meta]"),
+      selectedDocumentBadge: qs(root, "[data-idx-selected-document-badge]"),
+      openViewerLink: qs(root, "[data-idx-open-viewer-link]"),
+      viewerPane: qs(root, "[data-idx-viewer-pane]"),
+      inspectorTabs: qsa(root, "[data-idx-inspector-tab]"),
+      inspectorPanels: qsa(root, "[data-idx-inspector-panel]"),
       homeView: qs(root, "[data-idx-home-view]"),
       workspaceView: qs(root, "[data-idx-workspace-view]"),
       createForm: qs(root, "[data-idx-create-workspace-form]"),
@@ -391,6 +406,7 @@
       uploadButtons: qsa(root, "[data-idx-upload-button]"),
       fileInput: qs(root, "[data-idx-file-input]"),
       workspaceDocuments: qs(root, "[data-idx-workspace-documents]"),
+      compareLeftLabel: qs(root, "[data-idx-compare-left-label]"),
       compareLeft: qs(root, "[data-idx-compare-left]"),
       compareRight: qs(root, "[data-idx-compare-right]"),
       compareStatus: qs(root, "[data-idx-compare-status]"),
@@ -413,10 +429,16 @@
         documents: [],
       },
       routeWorkspaceId: currentWorkspaceIdFromUrl(),
+      routeDocumentId: currentDocumentIdFromUrl(),
+      selectedDocumentId: "",
       workspace: null,
       workspaceDocuments: [],
       activity: [],
       workspaceError: "",
+      inspectorTab: "summary",
+      createPanelOpen: false,
+      documentRailOpen: false,
+      inspectorOpen: false,
       compare: {
         left: "",
         right: "",
@@ -459,6 +481,10 @@
 
     function currentWorkspaceIdFromUrl() {
       return currentWorkspaceIdFromLocation();
+    }
+
+    function currentDocumentIdFromUrl() {
+      return currentDocumentIdFromLocation();
     }
 
     function isLocalPreviewMode() {
@@ -794,6 +820,108 @@
       render();
     }
 
+    function workspaceById(workspaceId) {
+      const normalizedId = normalizeString(workspaceId);
+      return (
+        state.home.workspaces.find(function (item) {
+          return normalizeString(item && item.workspace_id) === normalizedId;
+        }) || null
+      );
+    }
+
+    function documentStatusRank(item) {
+      const status = classifyDocumentStatus(item);
+      if (status === "ready") return 0;
+      if (status === "failed") return 2;
+      return 1;
+    }
+
+    function sortedWorkspaceDocuments() {
+      return state.workspaceDocuments.slice().sort(function (left, right) {
+        const rankDiff = documentStatusRank(left) - documentStatusRank(right);
+        if (rankDiff) return rankDiff;
+
+        const leftTime = Date.parse((left && left.updated_at) || (left && left.created_at) || "") || 0;
+        const rightTime = Date.parse((right && right.updated_at) || (right && right.created_at) || "") || 0;
+        if (rightTime !== leftTime) return rightTime - leftTime;
+
+        return normalizeString(left && left.file_name).localeCompare(normalizeString(right && right.file_name));
+      });
+    }
+
+    function selectedDocumentRecord() {
+      return (
+        state.workspaceDocuments.find(function (item) {
+          return normalizeString(item && item.document_id) === normalizeString(state.selectedDocumentId);
+        }) || null
+      );
+    }
+
+    function preferredDocumentId(documentId) {
+      const normalizedId = normalizeString(documentId);
+      const documents = sortedWorkspaceDocuments();
+
+      if (!documents.length) return "";
+
+      if (normalizedId) {
+        const explicitDocument = documents.find(function (item) {
+          return normalizeString(item && item.document_id) === normalizedId;
+        });
+        if (explicitDocument) return explicitDocument.document_id;
+      }
+
+      const readyDocument = documents.find(function (item) {
+        return classifyDocumentStatus(item) === "ready";
+      });
+      return (readyDocument || documents[0]).document_id || "";
+    }
+
+    function syncCompareSelection() {
+      const availableIds = sortedWorkspaceDocuments()
+        .map(function (item) {
+          return normalizeString(item && item.document_id);
+        })
+        .filter(Boolean);
+
+      state.compare.left = normalizeString(state.selectedDocumentId);
+
+      if (!availableIds.length || !state.compare.left) {
+        state.compare.right = "";
+        state.compare.result = null;
+        return;
+      }
+
+      if (!state.compare.right || state.compare.right === state.compare.left || availableIds.indexOf(state.compare.right) === -1) {
+        state.compare.right =
+          availableIds.find(function (documentId) {
+            return documentId !== state.compare.left;
+          }) || "";
+      }
+    }
+
+    function syncSelectedDocument(documentId, replace) {
+      const nextDocumentId = preferredDocumentId(documentId);
+      const previousDocumentId = state.selectedDocumentId;
+      state.selectedDocumentId = nextDocumentId;
+
+      if (nextDocumentId !== previousDocumentId) {
+        state.compare.result = null;
+      }
+
+      if (nextDocumentId !== state.routeDocumentId) {
+        updateRouteState(state.routeWorkspaceId, nextDocumentId, replace !== false, true);
+      } else {
+        syncCompareSelection();
+      }
+    }
+
+    function setInspectorTab(nextTab) {
+      const allowedTabs = ["summary", "facts", "compare", "decision", "activity"];
+      if (allowedTabs.indexOf(normalizeString(nextTab)) === -1) return;
+      state.inspectorTab = normalizeString(nextTab);
+      render();
+    }
+
     function handleAuthFailure(error) {
       if (error && (error.status === 401 || error.status === 403)) {
         if (isLocalPreviewMode()) return;
@@ -944,6 +1072,18 @@
         if (!(options && options.preserveNotice)) {
           clearNotice();
         }
+
+        if (!state.routeWorkspaceId) {
+          if (state.home.workspaces.length) {
+            updateRouteState(state.home.workspaces[0].workspace_id, state.routeDocumentId, true, true);
+            await loadWorkspace(state.routeWorkspaceId, { preserveNotice: true });
+          } else {
+            state.createPanelOpen = true;
+            state.selectedDocumentId = "";
+            state.routeDocumentId = "";
+          }
+        }
+
         return {
           workspaces: state.home.workspaces,
           documents: state.home.documents,
@@ -969,6 +1109,11 @@
         state.workspaceDocuments = [];
         state.activity = [];
         state.workspaceError = "";
+        state.selectedDocumentId = "";
+        state.routeDocumentId = "";
+        state.compare.left = "";
+        state.compare.right = "";
+        state.compare.result = null;
         render();
         return;
       }
@@ -1007,19 +1152,9 @@
           state.activity = ensureArray(responses[2] && responses[2].activity);
         }
 
-        const availableIds = state.workspaceDocuments.map(function (item) {
-          return item.document_id;
-        });
-
-        if (availableIds.indexOf(state.compare.left) === -1) {
-          state.compare.left = availableIds[0] || "";
-        }
-        if (availableIds.indexOf(state.compare.right) === -1 || state.compare.right === state.compare.left) {
-          state.compare.right = availableIds[1] || "";
-        }
-        if (state.compare.right === state.compare.left && availableIds.length > 1) {
-          state.compare.right = availableIds[1];
-        }
+        state.createPanelOpen = false;
+        syncSelectedDocument((options && options.documentId) || state.routeDocumentId, true);
+        syncCompareSelection();
 
         if (!(options && options.preserveNotice)) {
           clearNotice();
@@ -1031,6 +1166,7 @@
         state.workspace = null;
         state.workspaceDocuments = [];
         state.activity = [];
+        state.selectedDocumentId = "";
         state.workspaceError = extractErrorMessage(error && error.data) || extractErrorMessage(error) || "Workspace could not be loaded.";
         setNotice(
           buildUiNotice(error, {
@@ -1116,13 +1252,19 @@
       return waitForJob(response.job_id, jobType);
     }
 
-    function updateRouteWorkspaceId(workspaceId, replace) {
-      const normalizedId = normalizeString(workspaceId);
+    function updateRouteState(workspaceId, documentId, replace, silent) {
+      const normalizedWorkspaceId = normalizeString(workspaceId);
+      const normalizedDocumentId = normalizeString(documentId);
       const url = new URL(window.location.href);
-      if (normalizedId) {
-        url.searchParams.set("workspace_id", normalizedId);
+      if (normalizedWorkspaceId) {
+        url.searchParams.set("workspace_id", normalizedWorkspaceId);
       } else {
         url.searchParams.delete("workspace_id");
+      }
+      if (normalizedWorkspaceId && normalizedDocumentId) {
+        url.searchParams.set("document_id", normalizedDocumentId);
+      } else {
+        url.searchParams.delete("document_id");
       }
       const nextUrl = url.pathname + url.search + url.hash;
       if (replace) {
@@ -1130,25 +1272,35 @@
       } else {
         window.history.pushState({}, "", nextUrl);
       }
-      state.routeWorkspaceId = normalizedId;
-      state.compare.result = null;
-      render();
+      state.routeWorkspaceId = normalizedWorkspaceId;
+      state.routeDocumentId = normalizedWorkspaceId ? normalizedDocumentId : "";
+      if (!silent) {
+        state.compare.result = null;
+        render();
+      } else {
+        syncCompareSelection();
+      }
     }
 
-    async function navigateToWorkspace(workspaceId, replace) {
-      updateRouteWorkspaceId(workspaceId, replace);
-      const workspace = await loadWorkspace(state.routeWorkspaceId, { preserveNotice: true });
+    async function navigateToWorkspace(workspaceId, replace, documentId) {
+      clearWorkspacePoll();
+      updateRouteState(workspaceId, documentId || "", replace);
+      const workspace = await loadWorkspace(state.routeWorkspaceId, {
+        preserveNotice: true,
+        documentId: documentId || "",
+      });
       await loadHome({ preserveNotice: true });
       return workspace;
     }
 
     async function navigateHome(replace) {
       clearWorkspacePoll();
-      updateRouteWorkspaceId("", replace);
+      updateRouteState("", "", replace);
       state.workspace = null;
       state.workspaceDocuments = [];
       state.activity = [];
       state.workspaceError = "";
+      state.selectedDocumentId = "";
       state.compare = {
         left: "",
         right: "",
@@ -1176,12 +1328,12 @@
       await navigateHome(true);
       setFeedback(
         "create",
-        "Workspace created, but IDX could not open it right away. Open it from Recent Workspaces.",
+        "Workspace created, but IDX could not open it right away. Refresh and select it from the workspace switcher.",
         false
       );
       setNotice({
         title: "Workspace created",
-        body: "The workspace was created, but the workspace page could not be loaded right away. Refresh and open it from Recent Workspaces.",
+        body: "The workspace was created, but the workspace page could not be loaded right away. Refresh and select it from the workspace switcher.",
       });
       return false;
     }
@@ -1608,156 +1760,39 @@
       element.classList.toggle("is-error", !!status.isError);
     }
 
-    function renderHomeStats() {
+    function renderWorkspaceSwitcher() {
+      if (!elements.workspaceSwitcher) return;
+
       const workspaces = state.home.workspaces;
-      const documents = state.home.documents;
-      const followUpCount = workspaces.filter(function (item) {
-        return normalizeString(item && item.workspace_status) === "needs_follow_up";
-      }).length;
-      const readyFiles = documents.filter(function (item) {
-        return classifyDocumentStatus(item) === "ready";
-      }).length;
-      const processingFiles = documents.filter(function (item) {
-        const status = classifyDocumentStatus(item);
-        return status === "queued" || status === "processing";
-      }).length;
-
-      setText(elements.statWorkspaces, String(workspaces.length));
-      setText(elements.statFollowUp, String(followUpCount));
-      setText(elements.statReadyFiles, String(readyFiles));
-      setText(elements.statProcessingFiles, String(processingFiles));
-
-      setText(
-        elements.workspacesStatus,
-        state.loading.home
-          ? "Refreshing workspaces…"
-          : workspaces.length
-          ? workspaces.length + " workspace" + (workspaces.length === 1 ? "" : "s")
-          : ""
-      );
-      setText(
-        elements.filesStatus,
-        state.loading.home
-          ? "Refreshing files…"
-          : documents.length
-          ? documents.length + " file" + (documents.length === 1 ? "" : "s")
-          : ""
-      );
-    }
-
-    function renderWorkspaceStream() {
-      if (!elements.workspaceStream) return;
-      const workspaces = state.home.workspaces;
-
-      if (state.loading.home && !workspaces.length) {
-        elements.workspaceStream.innerHTML = '<div class="mdz-idx__empty-state"><strong>Loading workspaces…</strong><p>IDX is fetching your latest workspaces.</p></div>';
-        return;
-      }
+      const currentWorkspace = normalizeString(state.routeWorkspaceId);
 
       if (!workspaces.length) {
-        elements.workspaceStream.innerHTML = '<div class="mdz-idx__empty-state"><strong>No workspaces yet.</strong><p>Create a review to get started.</p></div>';
+        elements.workspaceSwitcher.innerHTML = '<option value="">No workspaces yet</option>';
+        elements.workspaceSwitcher.disabled = true;
         return;
       }
 
-      elements.workspaceStream.innerHTML = workspaces
+      elements.workspaceSwitcher.innerHTML = workspaces
         .map(function (workspace) {
+          const workspaceId = normalizeString(workspace && workspace.workspace_id);
           return (
-            '<article class="mdz-idx__workspace-row">' +
-            '<div class="mdz-idx__workspace-row-top">' +
-            '<div>' +
-            '<h3 class="mdz-idx__workspace-row-title">' +
-            escapeHtml(workspace.name || "Workspace") +
-            "</h3>" +
-            '<p class="mdz-idx__workspace-row-copy">' +
-            escapeHtml(workspace.notes || "No notes yet.") +
-            "</p>" +
-            "</div>" +
-            '<button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-open-workspace="' +
-            escapeHtml(workspace.workspace_id) +
-            '">Open workspace</button>' +
-            "</div>" +
-            '<div class="mdz-idx__pills">' +
-            '<span class="mdz-idx__pill">' +
-            escapeHtml(workspaceTypeLabel(workspace.workspace_type)) +
-            "</span>" +
-            '<span class="mdz-idx__pill mdz-idx__pill--status is-' +
-            escapeHtml(workspace.workspace_status || "active") +
-            '">' +
-            escapeHtml(workspaceStatusLabel(workspace.workspace_status)) +
-            "</span>" +
-            '<span class="mdz-idx__pill mdz-idx__pill--muted">' +
-            escapeHtml(String(workspace.document_count || 0)) +
-            " document(s)</span>" +
-            "</div>" +
-            '<p class="mdz-idx__summary-preview">' +
-            escapeHtml(workspace.summary_preview || "No summary yet. Upload documents to generate one.") +
-            "</p>" +
-            '<p class="mdz-idx__helper">Updated ' +
-            escapeHtml(formatTimestamp(workspace.updated_at)) +
-            ".</p>" +
-            "</article>"
+            '<option value="' +
+            escapeHtml(workspaceId) +
+            '"' +
+            (workspaceId === currentWorkspace ? " selected" : "") +
+            ">" +
+            escapeHtml(workspace && workspace.name ? workspace.name : "Workspace") +
+            "</option>"
           );
         })
         .join("");
-
-      qsa(elements.workspaceStream, "[data-idx-open-workspace]").forEach(function (button) {
-        button.addEventListener("click", function () {
-          navigateToWorkspace(button.getAttribute("data-idx-open-workspace"));
-        });
-      });
+      elements.workspaceSwitcher.disabled = state.loading.home || state.loading.workspace;
     }
 
-    function renderRecentFiles() {
-      if (!elements.recentFiles) return;
-      const documents = state.home.documents;
-
-      if (state.loading.home && !documents.length) {
-        elements.recentFiles.innerHTML = '<div class="mdz-idx__empty-state"><strong>Loading files…</strong><p>IDX is fetching the most recent files in your corpus.</p></div>';
-        return;
-      }
-
-      if (!documents.length) {
-        elements.recentFiles.innerHTML = '<div class="mdz-idx__empty-state"><strong>No recent files yet.</strong><p>Upload PDFs inside a workspace and they will appear here as OCR and indexing progress.</p></div>';
-        return;
-      }
-
-      elements.recentFiles.innerHTML = documents
-        .map(function (documentItem) {
-          const status = classifyDocumentStatus(documentItem);
-          const previewMode = isLocalPreviewMode();
-          const action =
-            status === "ready" && !previewMode
-              ? '<a class="btn btn--small mdz-cta mdz-cta--outline" href="' +
-                escapeHtml(buildDocumentViewerUrl(documentItem.document_id)) +
-                '" target="_blank" rel="noopener noreferrer">Open viewer</a>'
-              : '<span class="mdz-idx__helper">' +
-                escapeHtml(previewMode ? "Viewer is unavailable in local preview." : "Viewer opens when the file is ready.") +
-                "</span>";
-
-          return (
-            '<article class="mdz-idx__file-row">' +
-            '<div class="mdz-idx__document-top">' +
-            '<div class="mdz-idx__document-copy">' +
-            '<strong class="mdz-idx__document-title">' +
-            escapeHtml(documentItem.file_name || "Document") +
-            "</strong>" +
-            '<p class="mdz-idx__document-detail">' +
-            escapeHtml(documentStatusDetail(documentItem)) +
-            "</p>" +
-            "</div>" +
-            '<span class="mdz-idx__document-badge is-' +
-            escapeHtml(status) +
-            '">' +
-            escapeHtml(documentStatusLabel(documentItem)) +
-            "</span>" +
-            "</div>" +
-            '<div class="mdz-idx__row-actions">' +
-            action +
-            "</div>" +
-            "</article>"
-          );
-        })
-        .join("");
+    function renderCreatePanel() {
+      if (!elements.createPanel) return;
+      const noWorkspaces = !state.home.workspaces.length && !state.loading.home;
+      elements.createPanel.hidden = !(state.createPanelOpen || noWorkspaces);
     }
 
     function renderSummaryCard() {
@@ -1890,6 +1925,16 @@
     function renderWorkspaceDocuments() {
       if (!elements.workspaceDocuments) return;
 
+      if (!state.routeWorkspaceId && state.loading.home) {
+        elements.workspaceDocuments.innerHTML = '<div class="mdz-idx__empty-state"><strong>Loading workspaces…</strong><p>IDX is fetching the latest workspace.</p></div>';
+        return;
+      }
+
+      if (!state.routeWorkspaceId && !state.home.workspaces.length) {
+        elements.workspaceDocuments.innerHTML = '<div class="mdz-idx__empty-state"><strong>No workspace yet.</strong><p>Create a workspace to start building the document list.</p></div>';
+        return;
+      }
+
       if (state.loading.workspace && !state.workspaceDocuments.length && !state.workspaceError) {
         elements.workspaceDocuments.innerHTML = '<div class="mdz-idx__empty-state"><strong>Loading workspace files…</strong><p>IDX is pulling the current packet.</p></div>';
         return;
@@ -1905,12 +1950,15 @@
         return;
       }
 
-      elements.workspaceDocuments.innerHTML = state.workspaceDocuments
+      elements.workspaceDocuments.innerHTML = sortedWorkspaceDocuments()
         .map(function (item) {
           const status = classifyDocumentStatus(item);
-          const previewMode = isLocalPreviewMode();
           return (
-            '<article class="mdz-idx__document-card">' +
+            '<button type="button" class="mdz-idx__document-row' +
+            (normalizeString(item.document_id) === normalizeString(state.selectedDocumentId) ? " is-active" : "") +
+            '" data-idx-select-document="' +
+            escapeHtml(item.document_id) +
+            '">' +
             '<div class="mdz-idx__document-top">' +
             '<div class="mdz-idx__document-copy">' +
             '<strong class="mdz-idx__document-title">' +
@@ -1926,22 +1974,30 @@
             escapeHtml(documentStatusLabel(item)) +
             "</span>" +
             "</div>" +
-            '<div class="mdz-idx__row-actions">' +
-            (previewMode
-              ? '<span class="mdz-idx__helper">Viewer is unavailable in local preview.</span>'
-              : '<a class="btn btn--small mdz-cta mdz-cta--outline" href="' +
-                escapeHtml(buildDocumentViewerUrl(item.document_id)) +
-                '" target="_blank" rel="noopener noreferrer">Open viewer</a>') +
-            "</div>" +
-            "</article>"
+            "</button>"
           );
         })
         .join("");
+
+      qsa(elements.workspaceDocuments, "[data-idx-select-document]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          const documentId = button.getAttribute("data-idx-select-document");
+          if (normalizeString(documentId) === normalizeString(state.selectedDocumentId)) return;
+          state.compare.result = null;
+          state.selectedDocumentId = normalizeString(documentId);
+          updateRouteState(state.routeWorkspaceId, state.selectedDocumentId, false, true);
+          render();
+        });
+      });
     }
 
     function compareOptionMarkup(selectedValue) {
       const options = ['<option value="">Select document</option>'].concat(
-        state.workspaceDocuments.map(function (item) {
+        sortedWorkspaceDocuments()
+          .filter(function (item) {
+            return normalizeString(item && item.document_id) !== normalizeString(state.compare.left);
+          })
+          .map(function (item) {
           return (
             '<option value="' +
             escapeHtml(item.document_id) +
@@ -1951,14 +2007,15 @@
             escapeHtml(item.file_name || item.document_id) +
             "</option>"
           );
-        })
+          })
       );
       return options.join("");
     }
 
     function renderCompareControls() {
-      if (elements.compareLeft) {
-        elements.compareLeft.innerHTML = compareOptionMarkup(state.compare.left);
+      const leftDocument = selectedDocumentRecord();
+      if (elements.compareLeftLabel) {
+        elements.compareLeftLabel.textContent = leftDocument ? leftDocument.file_name || leftDocument.document_id : "Select a document from the left rail.";
       }
       if (elements.compareRight) {
         elements.compareRight.innerHTML = compareOptionMarkup(state.compare.right);
@@ -1967,8 +2024,18 @@
 
       if (!elements.compareResult) return;
 
+      if (!state.compare.left || !leftDocument) {
+        elements.compareResult.innerHTML = '<p class="mdz-idx__helper">Select a primary document from the left rail to begin.</p>';
+        return;
+      }
+
+      if (sortedWorkspaceDocuments().length < 2) {
+        elements.compareResult.innerHTML = '<p class="mdz-idx__helper">Upload at least one more document to run a compare.</p>';
+        return;
+      }
+
       if (!state.compare.result) {
-        elements.compareResult.innerHTML = '<p class="mdz-idx__helper">Select two documents from this workspace to compare shared passages and unique excerpts.</p>';
+        elements.compareResult.innerHTML = '<p class="mdz-idx__helper">Choose a second document to compare against the selected file.</p>';
         return;
       }
 
@@ -2022,6 +2089,109 @@
           );
         })
         .join("");
+    }
+
+    function renderViewerPane() {
+      if (!elements.viewerPane) return;
+
+      const previewMode = isLocalPreviewMode();
+      const documentItem = selectedDocumentRecord();
+      const workspace = state.workspace;
+      const status = classifyDocumentStatus(documentItem);
+      const hasViewer = !!(documentItem && documentItem.document_id && !previewMode && status === "ready");
+
+      if (elements.selectedDocumentBadge) {
+        elements.selectedDocumentBadge.hidden = !documentItem;
+      }
+      if (elements.openViewerLink) {
+        elements.openViewerLink.hidden = !hasViewer;
+        if (hasViewer) {
+          elements.openViewerLink.href = buildDocumentViewerUrl(documentItem.document_id);
+        } else {
+          elements.openViewerLink.removeAttribute("href");
+        }
+      }
+
+      if (state.loading.workspace && !workspace) {
+        setText(elements.selectedDocumentTitle, "Loading workspace…");
+        setText(elements.selectedDocumentMeta, "IDX is pulling the current packet.");
+        elements.viewerPane.innerHTML = '<div class="mdz-idx__viewer-empty"><strong>Loading workspace…</strong><p>Preparing the document view.</p></div>';
+        return;
+      }
+
+      if (!state.routeWorkspaceId && !state.home.workspaces.length) {
+        setText(elements.selectedDocumentTitle, "Create your first workspace");
+        setText(elements.selectedDocumentMeta, "Start a review, then upload PDFs into the document rail.");
+        elements.viewerPane.innerHTML = '<div class="mdz-idx__viewer-empty"><strong>No workspace selected.</strong><p>Create a workspace to begin reviewing documents.</p></div>';
+        return;
+      }
+
+      if (state.workspaceError) {
+        setText(elements.selectedDocumentTitle, "Workspace unavailable");
+        setText(elements.selectedDocumentMeta, state.workspaceError);
+        elements.viewerPane.innerHTML = '<div class="mdz-idx__viewer-empty"><strong>Workspace unavailable.</strong><p>' + escapeHtml(state.workspaceError) + "</p></div>";
+        return;
+      }
+
+      if (!workspace) {
+        setText(elements.selectedDocumentTitle, "Choose a workspace");
+        setText(elements.selectedDocumentMeta, "Use the workspace switcher to open a packet.");
+        elements.viewerPane.innerHTML = '<div class="mdz-idx__viewer-empty"><strong>Select a workspace.</strong><p>IDX will load the document list for the active packet.</p></div>';
+        return;
+      }
+
+      if (!documentItem) {
+        setText(elements.selectedDocumentTitle, "No document selected");
+        setText(elements.selectedDocumentMeta, "Choose a document from the left rail.");
+        elements.viewerPane.innerHTML = '<div class="mdz-idx__viewer-empty"><strong>No documents yet.</strong><p>Upload a PDF or select a document to open it here.</p></div>';
+        return;
+      }
+
+      setText(elements.selectedDocumentTitle, documentItem.file_name || "Document");
+      setText(elements.selectedDocumentMeta, documentStatusDetail(documentItem) || "Document ready for review.");
+
+      if (elements.selectedDocumentBadge) {
+        elements.selectedDocumentBadge.textContent = documentStatusLabel(documentItem);
+        elements.selectedDocumentBadge.className = "mdz-idx__document-badge is-" + status;
+        elements.selectedDocumentBadge.hidden = false;
+      }
+
+      if (previewMode) {
+        elements.viewerPane.innerHTML = '<div class="mdz-idx__viewer-empty"><strong>Viewer unavailable in local preview.</strong><p>Use the document rail and inspector to validate selection behavior locally.</p></div>';
+        return;
+      }
+
+      if (status !== "ready") {
+        elements.viewerPane.innerHTML =
+          '<div class="mdz-idx__viewer-empty"><strong>' +
+          escapeHtml(documentStatusLabel(documentItem)) +
+          '.</strong><p>' +
+          escapeHtml(documentStatusDetail(documentItem) || "IDX is still preparing this document.") +
+          "</p></div>";
+        return;
+      }
+
+      elements.viewerPane.innerHTML =
+        '<iframe class="mdz-idx__viewer-frame" src="' +
+        escapeHtml(buildDocumentViewerUrl(documentItem.document_id)) +
+        '" title="' +
+        escapeHtml(documentItem.file_name || "Selected document") +
+        '" loading="lazy"></iframe>' +
+        '<p class="mdz-idx__viewer-fallback">If the viewer does not render inside this page, use <strong>Open viewer</strong>.</p>';
+    }
+
+    function renderInspectorTabs() {
+      elements.inspectorTabs.forEach(function (tab) {
+        const tabName = normalizeString(tab.getAttribute("data-idx-inspector-tab"));
+        const isActive = tabName === state.inspectorTab;
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+        tab.classList.toggle("is-active", isActive);
+      });
+
+      elements.inspectorPanels.forEach(function (panel) {
+        const panelName = normalizeString(panel.getAttribute("data-idx-inspector-panel"));
+        panel.hidden = panelName !== state.inspectorTab;
+      });
     }
 
     function sortedActivityItems() {
@@ -2138,6 +2308,12 @@
     }
 
     function renderWorkspaceHeader() {
+      renderWorkspaceSwitcher();
+      renderCreatePanel();
+
+      root.classList.toggle("is-document-rail-open", !!state.documentRailOpen);
+      root.classList.toggle("is-inspector-open", !!state.inspectorOpen);
+
       if (!elements.workspaceTitle) return;
 
       if (state.loading.workspace && !state.workspace) {
@@ -2162,8 +2338,13 @@
 
       const workspace = state.workspace;
       if (!workspace) {
-        setText(elements.workspaceTitle, "Choose a workspace");
-        setText(elements.workspaceNotes, "");
+        if (state.home.workspaces.length) {
+          setText(elements.workspaceTitle, "Opening the latest workspace…");
+          setText(elements.workspaceNotes, "IDX is selecting the most recently updated packet.");
+        } else {
+          setText(elements.workspaceTitle, "Create your first workspace");
+          setText(elements.workspaceNotes, "Start a review, then upload PDFs into the document rail.");
+        }
         if (elements.workspacePills) {
           elements.workspacePills.innerHTML = "";
         }
@@ -2195,6 +2376,8 @@
 
     function renderWorkspaceView() {
       renderWorkspaceHeader();
+      renderViewerPane();
+      renderInspectorTabs();
       renderSummaryCard();
       renderFactsCard();
       renderWorkspaceDocuments();
@@ -2206,18 +2389,14 @@
 
     function renderHomeView() {
       renderStatusLine(elements.createStatus, state.feedback.create);
-      renderHomeStats();
-      renderWorkspaceStream();
-      renderRecentFiles();
     }
 
     function renderRoute() {
-      const showingWorkspace = !!state.routeWorkspaceId;
       if (elements.homeView) {
-        elements.homeView.hidden = showingWorkspace;
+        elements.homeView.hidden = true;
       }
       if (elements.workspaceView) {
-        elements.workspaceView.hidden = !showingWorkspace;
+        elements.workspaceView.hidden = false;
       }
     }
 
@@ -2262,14 +2441,16 @@
         elements.refreshFacts.textContent = state.loading.facts ? "Refreshing…" : "Refresh facts";
       }
       if (elements.compareButton) {
-        elements.compareButton.disabled = apiBlocked || state.loading.compare || state.workspaceDocuments.length < 2;
+        elements.compareButton.disabled =
+          apiBlocked || state.loading.compare || sortedWorkspaceDocuments().length < 2 || !state.compare.left || !state.compare.right;
         elements.compareButton.textContent = state.loading.compare ? "Running compare…" : "Run compare";
       }
-      if (elements.openLatestWorkspace) {
-        elements.openLatestWorkspace.disabled = apiBlocked || !state.home.workspaces.length || state.loading.home;
+      if (elements.createToggle) {
+        elements.createToggle.disabled = apiBlocked || state.loading.create;
+        elements.createToggle.textContent = state.createPanelOpen || (!state.home.workspaces.length && !state.loading.home) ? "Hide form" : "New workspace";
       }
-      if (elements.backHome) {
-        elements.backHome.disabled = state.loading.workspace;
+      if (elements.workspaceSwitcher) {
+        elements.workspaceSwitcher.disabled = apiBlocked || state.loading.home || state.loading.workspace || !state.home.workspaces.length;
       }
       if (elements.createForm) {
         qsa(elements.createForm, "input, select, textarea, button").forEach(function (element) {
@@ -2302,7 +2483,7 @@
       if (state.routeWorkspaceId) {
         await Promise.all([
           loadHome({ preserveNotice: true }),
-          loadWorkspace(state.routeWorkspaceId, { preserveNotice: true }),
+          loadWorkspace(state.routeWorkspaceId, { preserveNotice: true, documentId: state.routeDocumentId }),
         ]);
       } else {
         await loadHome();
@@ -2313,14 +2494,22 @@
       elements.createForm.addEventListener("submit", createWorkspace);
     }
 
+    if (elements.createToggle) {
+      elements.createToggle.addEventListener("click", function () {
+        state.createPanelOpen = !state.createPanelOpen;
+        render();
+      });
+    }
+
     elements.localPreviewButtons.forEach(function (button) {
       button.addEventListener("click", openLocalPreview);
     });
 
-    if (elements.openLatestWorkspace) {
-      elements.openLatestWorkspace.addEventListener("click", function () {
-        if (!state.home.workspaces.length) return;
-        navigateToWorkspace(state.home.workspaces[0].workspace_id);
+    if (elements.workspaceSwitcher) {
+      elements.workspaceSwitcher.addEventListener("change", function (event) {
+        const nextWorkspaceId = normalizeString(event.target && event.target.value);
+        if (!nextWorkspaceId || nextWorkspaceId === state.routeWorkspaceId) return;
+        navigateToWorkspace(nextWorkspaceId, false);
       });
     }
 
@@ -2330,9 +2519,17 @@
       });
     }
 
-    if (elements.backHome) {
-      elements.backHome.addEventListener("click", function () {
-        navigateHome();
+    if (elements.documentsToggle) {
+      elements.documentsToggle.addEventListener("click", function () {
+        state.documentRailOpen = !state.documentRailOpen;
+        render();
+      });
+    }
+
+    if (elements.inspectorToggle) {
+      elements.inspectorToggle.addEventListener("click", function () {
+        state.inspectorOpen = !state.inspectorOpen;
+        render();
       });
     }
 
@@ -2344,15 +2541,10 @@
       elements.refreshFacts.addEventListener("click", refreshWorkspaceFacts);
     }
 
-    if (elements.compareLeft) {
-      elements.compareLeft.addEventListener("change", function (event) {
-        state.compare.left = normalizeString(event.target && event.target.value);
-      });
-    }
-
     if (elements.compareRight) {
       elements.compareRight.addEventListener("change", function (event) {
         state.compare.right = normalizeString(event.target && event.target.value);
+        state.compare.result = null;
       });
     }
 
@@ -2367,6 +2559,12 @@
     if (elements.commentForm) {
       elements.commentForm.addEventListener("submit", postComment);
     }
+
+    elements.inspectorTabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        setInspectorTab(tab.getAttribute("data-idx-inspector-tab"));
+      });
+    });
 
     elements.uploadButtons.forEach(function (button) {
       button.addEventListener("click", function () {
@@ -2432,8 +2630,9 @@
 
     window.addEventListener("popstate", function () {
       const nextWorkspaceId = currentWorkspaceIdFromUrl();
+      const nextDocumentId = currentDocumentIdFromUrl();
       if (nextWorkspaceId) {
-        navigateToWorkspace(nextWorkspaceId, true);
+        navigateToWorkspace(nextWorkspaceId, true, nextDocumentId);
       } else {
         navigateHome(true);
       }
@@ -2458,8 +2657,11 @@
         })
         .finally(function () {
           loadHome().then(function () {
-            if (state.routeWorkspaceId) {
-              loadWorkspace(state.routeWorkspaceId, { preserveNotice: true });
+            if (state.routeWorkspaceId && !state.workspace) {
+              loadWorkspace(state.routeWorkspaceId, {
+                preserveNotice: true,
+                documentId: state.routeDocumentId,
+              });
             }
           });
         });

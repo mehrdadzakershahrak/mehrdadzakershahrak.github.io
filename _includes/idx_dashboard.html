@@ -8,12 +8,17 @@
       </div>
     </div>
     <nav class="mdz-idx__product-nav" aria-label="IDX navigation">
-      <a class="mdz-idx__product-link" href="https://idx.mehrdadzaker.com/v2/portal">Dashboard</a>
+      <a class="mdz-idx__product-link" href="{{ '/idx/dashboard/' | relative_url }}">Dashboard</a>
       <a class="mdz-idx__product-link" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
       <a class="mdz-idx__product-link" href="{{ '/idx/support/' | relative_url }}">Support</a>
     </nav>
     <div class="mdz-idx__header-actions">
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="https://idx.mehrdadzaker.com/v2/portal">IDX</a>
+      <button type="button" class="btn btn--small mdz-cta mdz-cta--outline mdz-idx__shell-toggle" data-idx-documents-toggle>
+        Documents
+      </button>
+      <button type="button" class="btn btn--small mdz-cta mdz-cta--outline mdz-idx__shell-toggle" data-idx-inspector-toggle>
+        Inspector
+      </button>
       <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-home>Refresh</button>
     </div>
   </header>
@@ -27,20 +32,20 @@
         </div>
       </div>
       <p class="mdz-idx__instruction-copy">
-        Sign in to review files, upload PDFs, and open the latest work in one place.
+        Open one workspace at a time, keep the document list on the left, and review the selected file without leaving the dashboard.
       </p>
       <div class="mdz-idx__content-grid mdz-idx__content-grid--dashboard">
         <section class="mdz-idx__content-section mdz-idx__content-section--value">
-          <h3>Create</h3>
-          <p class="mdz-idx__instruction-copy">Start a review, name it clearly, and keep files and notes together.</p>
+          <h3>Focus</h3>
+          <p class="mdz-idx__instruction-copy">Stay on one active workspace and one selected document instead of juggling multiple dashboard panels.</p>
         </section>
         <section class="mdz-idx__content-section">
           <h3>Upload</h3>
-          <p class="mdz-idx__instruction-copy">Add PDFs directly to the current review and track file readiness.</p>
+          <p class="mdz-idx__instruction-copy">Add PDFs from the document rail and let IDX keep status, summary, and facts in sync.</p>
         </section>
         <section class="mdz-idx__content-section">
-          <h3>Review</h3>
-          <p class="mdz-idx__instruction-copy">Keep summary, facts, compare, decisions, and activity on the same screen.</p>
+          <h3>Inspect</h3>
+          <p class="mdz-idx__instruction-copy">Open summary, facts, compare, decision, and activity as secondary utilities in the inspector.</p>
         </section>
       </div>
       <div class="mdz-idx__header-actions">
@@ -49,7 +54,7 @@
         <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
       </div>
       <p class="mdz-idx__instruction-copy">
-        The credentialed website surface lives on this domain. For MCP and backend validation work, use <a href="https://idx.mehrdadzaker.com"><code>idx.mehrdadzaker.com</code></a>.
+        For MCP and backend validation work, use <a href="https://idx.mehrdadzaker.com"><code>idx.mehrdadzaker.com</code></a>.
       </p>
     </section>
 
@@ -68,226 +73,230 @@
   </div>
 
   <div class="mdz-idx__app" data-idx-dashboard-app hidden>
-    <section class="mdz-idx__home-view" data-idx-home-view>
-      <header class="mdz-idx__home-header" aria-labelledby="idx-dashboard-title">
-        <div>
-          <p class="mdz-idx__eyebrow">Dashboard</p>
-          <h1 id="idx-dashboard-title" class="mdz-idx__home-title">Recent work</h1>
-          <p class="mdz-idx__home-copy">Create a review or open an existing one.</p>
-        </div>
-      </header>
+    <header class="mdz-idx__workspace-shell-header">
+      <div class="mdz-idx__workspace-shell-copy">
+        <p class="mdz-idx__eyebrow">Workspace</p>
+        <h1 class="mdz-idx__workspace-shell-title" data-idx-workspace-title>Loading workspace…</h1>
+        <p class="mdz-idx__workspace-shell-note" data-idx-current-workspace-notes></p>
+      </div>
 
-      <div class="mdz-idx__home-grid">
-        <section class="mdz-idx__panel mdz-idx__panel--hero-form" aria-labelledby="idx-create-workspace-title">
+      <div class="mdz-idx__workspace-shell-controls">
+        <label class="mdz-idx__workspace-switcher" for="idx-workspace-switcher">
+          <span class="sr-only">Choose workspace</span>
+          <select id="idx-workspace-switcher" data-idx-workspace-switcher aria-label="Choose workspace">
+            <option value="">Loading workspaces…</option>
+          </select>
+        </label>
+        <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-create-toggle>New workspace</button>
+        <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Upload PDF</button>
+      </div>
+    </header>
+
+    <section class="mdz-idx__workspace-create-panel" data-idx-create-panel hidden aria-labelledby="idx-create-workspace-title">
+      <div class="mdz-idx__panel-header">
+        <div>
+          <p class="mdz-idx__panel-eyebrow">New Workspace</p>
+          <h2 id="idx-create-workspace-title">Start a review</h2>
+        </div>
+        <p class="mdz-idx__statusline" data-idx-create-status></p>
+      </div>
+
+      <form class="mdz-idx__form-grid mdz-idx__form-grid--inline" data-idx-create-workspace-form>
+        <label class="sr-only" for="idx-workspace-name">Workspace name</label>
+        <input id="idx-workspace-name" type="text" placeholder="Acme diligence review" data-idx-workspace-name>
+
+        <label class="sr-only" for="idx-workspace-type">Workspace type</label>
+        <select id="idx-workspace-type" data-idx-workspace-type>
+          <option value="pe">PE</option>
+          <option value="real_estate">Real Estate</option>
+          <option value="sales">Sales</option>
+          <option value="general">General</option>
+        </select>
+
+        <label class="sr-only" for="idx-workspace-notes">Workspace notes</label>
+        <textarea id="idx-workspace-notes" rows="3" placeholder="Optional notes for teammates" data-idx-workspace-create-notes></textarea>
+
+        <div class="mdz-idx__row-actions">
+          <button type="submit" class="btn btn--primary mdz-cta">Create workspace</button>
+        </div>
+      </form>
+    </section>
+
+    <div class="mdz-idx__workspace-statusbar">
+      <div class="mdz-idx__pills" data-idx-workspace-pills></div>
+      <p class="mdz-idx__statusline" data-idx-workspace-status></p>
+    </div>
+
+    <div class="mdz-idx__workspace-shell" data-idx-shell>
+      <aside class="mdz-idx__document-rail" data-idx-document-rail>
+        <div class="mdz-idx__rail-header">
+          <div>
+            <p class="mdz-idx__panel-eyebrow">Documents</p>
+            <h2>Current packet</h2>
+          </div>
+          <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-upload-status></p>
+        </div>
+
+        <div
+          class="mdz-idx__dropzone mdz-idx__dropzone--workspace"
+          data-idx-dropzone
+          tabindex="0"
+          role="button"
+          aria-label="Upload PDF files into this workspace"
+        >
+          <div class="mdz-idx__dropzone-copy">
+            <strong>Drop PDFs here</strong>
+            <p>Add files to the active workspace.</p>
+          </div>
+          <div class="mdz-idx__upload-actions">
+            <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Choose PDF files</button>
+          </div>
+          <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
+        </div>
+
+        <div class="mdz-idx__document-list" data-idx-workspace-documents></div>
+      </aside>
+
+      <main class="mdz-idx__viewer-stage">
+        <header class="mdz-idx__viewer-header">
+          <div class="mdz-idx__viewer-heading">
+            <p class="mdz-idx__panel-eyebrow">Selected Document</p>
+            <h2 class="mdz-idx__viewer-title" data-idx-selected-document-title>Select a document</h2>
+            <p class="mdz-idx__viewer-copy" data-idx-selected-document-meta></p>
+          </div>
+
+          <div class="mdz-idx__viewer-actions">
+            <span class="mdz-idx__document-badge" data-idx-selected-document-badge hidden></span>
+            <a
+              class="btn btn--small mdz-cta mdz-cta--outline"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-idx-open-viewer-link
+              hidden
+            >
+              Open viewer
+            </a>
+          </div>
+        </header>
+
+        <div class="mdz-idx__viewer-pane" data-idx-viewer-pane></div>
+      </main>
+
+      <aside class="mdz-idx__inspector" data-idx-inspector>
+        <div class="mdz-idx__rail-header mdz-idx__rail-header--inspector">
+          <div>
+            <p class="mdz-idx__panel-eyebrow">Inspector</p>
+            <h2>Workspace utilities</h2>
+          </div>
+        </div>
+
+        <div class="mdz-idx__inspector-tabs" role="tablist" aria-label="Workspace utilities">
+          <button type="button" class="mdz-idx__inspector-tab" id="idx-inspector-tab-summary" data-idx-inspector-tab="summary" role="tab" aria-selected="true">
+            Summary
+          </button>
+          <button type="button" class="mdz-idx__inspector-tab" id="idx-inspector-tab-facts" data-idx-inspector-tab="facts" role="tab" aria-selected="false">
+            Facts
+          </button>
+          <button type="button" class="mdz-idx__inspector-tab" id="idx-inspector-tab-compare" data-idx-inspector-tab="compare" role="tab" aria-selected="false">
+            Compare
+          </button>
+          <button type="button" class="mdz-idx__inspector-tab" id="idx-inspector-tab-decision" data-idx-inspector-tab="decision" role="tab" aria-selected="false">
+            Decision
+          </button>
+          <button type="button" class="mdz-idx__inspector-tab" id="idx-inspector-tab-activity" data-idx-inspector-tab="activity" role="tab" aria-selected="false">
+            Activity
+          </button>
+        </div>
+
+        <section class="mdz-idx__panel mdz-idx__inspector-panel" data-idx-inspector-panel="summary" role="tabpanel" aria-labelledby="idx-inspector-tab-summary">
           <div class="mdz-idx__panel-header">
             <div>
-              <p class="mdz-idx__panel-eyebrow">Create Workspace</p>
-              <h2 id="idx-create-workspace-title">Start a new review</h2>
+              <p class="mdz-idx__panel-eyebrow">Summary</p>
+              <h3>Summary</h3>
+            </div>
+            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-summary>Refresh summary</button>
+          </div>
+          <div class="mdz-idx__analysis-card" data-idx-summary-card></div>
+        </section>
+
+        <section class="mdz-idx__panel mdz-idx__inspector-panel" data-idx-inspector-panel="facts" role="tabpanel" aria-labelledby="idx-inspector-tab-facts" hidden>
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Facts</p>
+              <h3>Facts</h3>
+            </div>
+            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-facts>Refresh facts</button>
+          </div>
+          <div class="mdz-idx__analysis-card" data-idx-facts-card></div>
+        </section>
+
+        <section class="mdz-idx__panel mdz-idx__inspector-panel" data-idx-inspector-panel="compare" role="tabpanel" aria-labelledby="idx-inspector-tab-compare" hidden>
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Compare</p>
+              <h3>Compare</h3>
+            </div>
+            <p class="mdz-idx__statusline" data-idx-compare-status></p>
+          </div>
+
+          <div class="mdz-idx__compare-focus">
+            <p class="mdz-idx__helper">Primary document</p>
+            <strong data-idx-compare-left-label>Select a document from the left rail.</strong>
+          </div>
+
+          <div class="mdz-idx__form-grid">
+            <label class="sr-only" for="idx-compare-right">Compare against another document</label>
+            <select id="idx-compare-right" data-idx-compare-right>
+              <option value="">Select document</option>
+            </select>
+          </div>
+
+          <div class="mdz-idx__row-actions">
+            <button type="button" class="btn btn--primary mdz-cta" data-idx-run-compare>Run compare</button>
+          </div>
+          <div class="mdz-idx__compare-result" data-idx-compare-result></div>
+        </section>
+
+        <section class="mdz-idx__panel mdz-idx__inspector-panel" data-idx-inspector-panel="decision" role="tabpanel" aria-labelledby="idx-inspector-tab-decision" hidden>
+          <div class="mdz-idx__panel-header">
+            <div>
+              <p class="mdz-idx__panel-eyebrow">Decision</p>
+              <h3>Decision</h3>
             </div>
           </div>
-          <p class="mdz-idx__instruction-copy">
-            Add a name, pick a type, and open the review.
-          </p>
-          <form class="mdz-idx__form-grid" data-idx-create-workspace-form>
-            <label class="sr-only" for="idx-workspace-name">Workspace name</label>
-            <input id="idx-workspace-name" type="text" placeholder="Acme diligence review" data-idx-workspace-name>
-
-            <label class="sr-only" for="idx-workspace-type">Workspace type</label>
-            <select id="idx-workspace-type" data-idx-workspace-type>
-              <option value="pe">PE</option>
-              <option value="real_estate">Real Estate</option>
-              <option value="sales">Sales</option>
-              <option value="general">General</option>
+          <div class="mdz-idx__decision-summary" data-idx-decision-summary></div>
+          <form class="mdz-idx__form-grid" data-idx-decision-form>
+            <select data-idx-decision-kind>
+              <option value="approved">Approved</option>
+              <option value="needs_changes">Needs Follow-Up</option>
+              <option value="rejected">Rejected</option>
             </select>
-
-            <label class="sr-only" for="idx-workspace-notes">Workspace notes</label>
-            <textarea id="idx-workspace-notes" rows="4" placeholder="Optional notes for teammates" data-idx-workspace-create-notes></textarea>
-
+            <textarea rows="4" placeholder="Short decision note" data-idx-decision-note></textarea>
             <div class="mdz-idx__row-actions">
-              <button type="submit" class="btn btn--primary mdz-cta">Create workspace</button>
+              <button type="submit" class="btn btn--small mdz-cta mdz-cta--outline">Save decision</button>
             </div>
           </form>
-          <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-create-status></p>
+          <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-decision-status></p>
         </section>
 
-        <section class="mdz-idx__panel" aria-labelledby="idx-workspaces-title">
+        <section class="mdz-idx__panel mdz-idx__inspector-panel" data-idx-inspector-panel="activity" role="tabpanel" aria-labelledby="idx-inspector-tab-activity" hidden>
           <div class="mdz-idx__panel-header">
             <div>
-              <p class="mdz-idx__panel-eyebrow">Recent Workspaces</p>
-              <h2 id="idx-workspaces-title">Recent work</h2>
+              <p class="mdz-idx__panel-eyebrow">Activity</p>
+              <h3>Activity</h3>
             </div>
-            <p class="mdz-idx__statusline" data-idx-workspaces-status></p>
           </div>
-          <div class="mdz-idx__workspace-stream" data-idx-workspace-stream></div>
-        </section>
-      </div>
-
-      <section class="mdz-idx__stats-grid" aria-label="IDX dashboard stats">
-        <article class="mdz-idx__stat-card">
-          <p class="mdz-idx__stat-label">Workspaces</p>
-          <strong class="mdz-idx__stat-value" data-idx-stat-workspaces>0</strong>
-        </article>
-        <article class="mdz-idx__stat-card">
-          <p class="mdz-idx__stat-label">Needs Follow-Up</p>
-          <strong class="mdz-idx__stat-value" data-idx-stat-follow-up>0</strong>
-        </article>
-        <article class="mdz-idx__stat-card">
-          <p class="mdz-idx__stat-label">Ready Files</p>
-          <strong class="mdz-idx__stat-value" data-idx-stat-ready-files>0</strong>
-        </article>
-        <article class="mdz-idx__stat-card">
-          <p class="mdz-idx__stat-label">Files Processing</p>
-          <strong class="mdz-idx__stat-value" data-idx-stat-processing-files>0</strong>
-        </article>
-      </section>
-
-      <section class="mdz-idx__panel" aria-labelledby="idx-recent-files-title">
-        <div class="mdz-idx__panel-header">
-          <div>
-            <p class="mdz-idx__panel-eyebrow">Recent Files</p>
-            <h2 id="idx-recent-files-title">Latest uploads</h2>
-          </div>
-          <p class="mdz-idx__statusline" data-idx-files-status></p>
-        </div>
-        <div class="mdz-idx__file-stream" data-idx-recent-files></div>
-      </section>
-
-      <div class="mdz-idx__workspace-footer-actions">
-        <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-open-latest-workspace>Open latest review</button>
-      </div>
-
-    </section>
-
-    <section class="mdz-idx__workspace-view" data-idx-workspace-view hidden>
-      <header class="mdz-idx__workspace-page-header">
-        <div class="mdz-idx__workspace-page-heading">
-          <div class="mdz-idx__row-actions">
-            <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-back-home>Back</button>
-          </div>
-          <h2 class="mdz-idx__workspace-page-title" data-idx-workspace-title>Loading workspace…</h2>
-          <p class="mdz-idx__workspace-page-copy" data-idx-current-workspace-notes></p>
-        </div>
-        <div class="mdz-idx__workspace-meta">
-          <div class="mdz-idx__pills" data-idx-workspace-pills></div>
-          <p class="mdz-idx__statusline" data-idx-workspace-status></p>
-        </div>
-      </header>
-
-      <div class="mdz-idx__workspace-layout">
-        <div class="mdz-idx__workspace-main">
-          <section class="mdz-idx__panel" aria-labelledby="idx-summary-panel-title">
-            <div class="mdz-idx__workspace-two-up">
-              <section class="mdz-idx__workspace-subsection">
-                <div class="mdz-idx__panel-header">
-                  <div>
-                    <p class="mdz-idx__panel-eyebrow">Summary</p>
-                    <h3 id="idx-summary-panel-title">Summary</h3>
-                  </div>
-                  <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-summary>Refresh summary</button>
-                </div>
-                <div class="mdz-idx__analysis-card" data-idx-summary-card></div>
-              </section>
-
-              <section class="mdz-idx__workspace-subsection">
-                <div class="mdz-idx__panel-header">
-                  <div>
-                    <p class="mdz-idx__panel-eyebrow">Facts</p>
-                    <h3>Facts</h3>
-                  </div>
-                  <button type="button" class="btn btn--small mdz-cta mdz-cta--outline" data-idx-refresh-facts>Refresh facts</button>
-                </div>
-                <div class="mdz-idx__analysis-card" data-idx-facts-card></div>
-              </section>
-            </div>
-          </section>
-
-          <section class="mdz-idx__panel" aria-labelledby="idx-workspace-files-title">
-            <div class="mdz-idx__panel-header">
-              <div>
-                <p class="mdz-idx__panel-eyebrow">Files</p>
-                <h3 id="idx-workspace-files-title">Files</h3>
-              </div>
-              <p class="mdz-idx__statusline" data-idx-upload-status></p>
-            </div>
-
-            <div class="mdz-idx__dropzone mdz-idx__dropzone--workspace" data-idx-dropzone tabindex="0" role="button" aria-label="Upload PDF files into this workspace">
-              <div class="mdz-idx__dropzone-copy">
-                <strong>Drop PDFs here</strong>
-                <p>Add files to this review.</p>
-              </div>
-              <div class="mdz-idx__upload-actions">
-                <button type="button" class="btn btn--small mdz-cta" data-idx-upload-button>Choose PDF files</button>
-              </div>
-              <input type="file" accept="application/pdf" multiple hidden data-idx-file-input>
-            </div>
-
-            <div class="mdz-idx__workspace-files" data-idx-workspace-documents></div>
-          </section>
-
-          <section class="mdz-idx__panel" aria-labelledby="idx-compare-title">
-            <div class="mdz-idx__panel-header">
-              <div>
-                <p class="mdz-idx__panel-eyebrow">Compare</p>
-                <h3 id="idx-compare-title">Compare</h3>
-              </div>
-              <p class="mdz-idx__statusline" data-idx-compare-status></p>
-            </div>
-            <div class="mdz-idx__compare-grid">
-              <select data-idx-compare-left>
-                <option value="">Select document</option>
-              </select>
-              <select data-idx-compare-right>
-                <option value="">Select document</option>
-              </select>
-            </div>
+          <form class="mdz-idx__form-grid" data-idx-comment-form>
+            <textarea rows="4" placeholder="Leave a note for teammates" data-idx-comment-body></textarea>
             <div class="mdz-idx__row-actions">
-              <button type="button" class="btn btn--primary mdz-cta" data-idx-run-compare>Run compare</button>
+              <button type="submit" class="btn btn--small mdz-cta mdz-cta--outline">Post comment</button>
             </div>
-            <div class="mdz-idx__compare-result" data-idx-compare-result></div>
-          </section>
-        </div>
-
-        <aside class="mdz-idx__workspace-sidebar">
-          <section class="mdz-idx__panel" aria-labelledby="idx-decision-title">
-            <div class="mdz-idx__panel-header">
-              <div>
-                <p class="mdz-idx__panel-eyebrow">Decision</p>
-                <h3 id="idx-decision-title">Decision</h3>
-              </div>
-            </div>
-            <div class="mdz-idx__decision-summary" data-idx-decision-summary></div>
-            <form class="mdz-idx__form-grid" data-idx-decision-form>
-              <select data-idx-decision-kind>
-                <option value="approved">Approved</option>
-                <option value="needs_changes">Needs Follow-Up</option>
-                <option value="rejected">Rejected</option>
-              </select>
-              <textarea rows="4" placeholder="Short decision note" data-idx-decision-note></textarea>
-              <div class="mdz-idx__row-actions">
-                <button type="submit" class="btn btn--small mdz-cta mdz-cta--outline">Save decision</button>
-              </div>
-            </form>
-            <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-decision-status></p>
-          </section>
-
-          <section class="mdz-idx__panel" aria-labelledby="idx-activity-title">
-            <div class="mdz-idx__panel-header">
-              <div>
-                <p class="mdz-idx__panel-eyebrow">Activity</p>
-                <h3 id="idx-activity-title">Activity</h3>
-              </div>
-            </div>
-            <form class="mdz-idx__form-grid" data-idx-comment-form>
-              <textarea rows="4" placeholder="Leave a note for teammates" data-idx-comment-body></textarea>
-              <div class="mdz-idx__row-actions">
-                <button type="submit" class="btn btn--small mdz-cta mdz-cta--outline">Post comment</button>
-              </div>
-            </form>
-            <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-comment-status></p>
-            <div class="mdz-idx__activity-list" data-idx-activity-list></div>
-          </section>
-        </aside>
-      </div>
-    </section>
+          </form>
+          <p class="mdz-idx__statusline mdz-idx__statusline--left" data-idx-comment-status></p>
+          <div class="mdz-idx__activity-list" data-idx-activity-list></div>
+        </section>
+      </aside>
+    </div>
   </div>
 </section>

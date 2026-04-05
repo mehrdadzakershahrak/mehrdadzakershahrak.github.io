@@ -178,7 +178,7 @@ If you see `[GSI_LOGGER]: The given origin is not allowed for the given client I
 If you see `ERR_NAME_NOT_RESOLVED` for `auth.mehrdadzaker.com` during local development, the auth service is not running locally yet or you opened an old build before the local auth fallback JavaScript was loaded.
 
 ## Website E2E
-The website Playwright suite validates the current redirect contract for `/idx/dashboard/`, the IDX-host navigation links, and the deterministic local `/login/` shell.
+The website Playwright suite validates the rendered `/idx/dashboard/` workspace UI, the local IDX navigation links, and the deterministic local `/login/` shell.
 
 Install the test dependency:
 

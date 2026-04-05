@@ -1,5 +1,5 @@
 brand:
-  home_url: "https://idx.mehrdadzaker.com/v2/portal"
+  home_url: "/idx/dashboard/"
   logo: "/assets/images/logo-mark.svg"
   name: "Neuralint IDX"
   tagline: "Private library and wiki workflows for PDF-heavy teams."
@@ -8,13 +8,13 @@ columns:
   - title: "Dashboard"
     links:
       - label: "IDX Dashboard"
-        url: "https://idx.mehrdadzaker.com/v2/portal"
+        url: "/idx/dashboard/"
       - label: "How IDX Works"
         url: "/idx/assistant/"
       - label: "Support"
         url: "/idx/support/"
       - label: "IDX"
-        url: "https://idx.mehrdadzaker.com/v2/portal"
+        url: "/idx/dashboard/"
 
   - title: "Policies"
     links:
@@ -37,7 +37,7 @@ columns:
 cta_cards:
   - eyebrow: "Dashboard"
     label: "Open Workspace Dashboard"
-    url: "https://idx.mehrdadzaker.com/v2/portal"
+    url: "/idx/dashboard/"
     variant: "solid"
   - eyebrow: "Guidance"
     label: "How IDX Works"
