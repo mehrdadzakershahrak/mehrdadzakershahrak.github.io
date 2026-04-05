@@ -177,6 +177,30 @@ If you see `[GSI_LOGGER]: The given origin is not allowed for the given client I
 
 If you see `ERR_NAME_NOT_RESOLVED` for `auth.mehrdadzaker.com` during local development, the auth service is not running locally yet or you opened an old build before the local auth fallback JavaScript was loaded.
 
+## Website E2E
+The website Playwright suite validates the current redirect contract for `/idx/dashboard/`, the IDX-host navigation links, and the deterministic local `/login/` shell.
+
+Install the test dependency:
+
+```bash
+cd /Users/mehrdad/Downloads/mehrdadzakershahrak.github.io
+PATH="/opt/homebrew/bin:$PATH" npm install
+```
+
+Run the suite:
+
+```bash
+cd /Users/mehrdad/Downloads/mehrdadzakershahrak.github.io
+PATH="/opt/homebrew/bin:$PATH" npm run test:e2e
+```
+
+What Playwright starts automatically:
+
+- Jekyll on `127.0.0.1:4000` with a temporary `--destination` so tracked `_site` is not rewritten
+- a local auth stub on `127.0.0.1:8787`
+
+The `/login/` spec deliberately blocks the Google Identity script so the local signed-out shell stays deterministic.
+
 ## Deploy the auth service
 The auth service includes a production container at [auth-service/Dockerfile](/Users/mehrdad/Downloads/mehrdadzakershahrak.github.io/auth-service/Dockerfile). The simplest deployment target is Cloud Run.
 

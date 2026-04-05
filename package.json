@@ -1,0 +1,11 @@
+{
+  "name": "mehrdadzaker-site-e2e",
+  "private": true,
+  "scripts": {
+    "test:e2e": "PATH=\"/opt/homebrew/bin:$PATH\" playwright test",
+    "test:e2e:headed": "PATH=\"/opt/homebrew/bin:$PATH\" playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.2"
+  }
+}
