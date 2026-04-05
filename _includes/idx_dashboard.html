@@ -30,8 +30,8 @@
     </p>
     <div class="mdz-idx__content-grid mdz-idx__content-grid--dashboard">
       <section class="mdz-idx__content-section mdz-idx__content-section--value">
-        <h3>Website login</h3>
-        <p class="mdz-idx__instruction-copy">Use the website sign-in to confirm access, then continue into the live IDX v2 portal.</p>
+        <h3>Direct handoff</h3>
+        <p class="mdz-idx__instruction-copy">This page immediately forwards into the live IDX v2 portal on the product host.</p>
       </section>
       <section class="mdz-idx__content-section">
         <h3>Live app</h3>
@@ -44,18 +44,18 @@
     </div>
 
     <div class="demo-chat__gate mdz-idx__gate">
-      <strong data-idx-dashboard-status-title>Checking sign-in</strong>
-      <p data-idx-dashboard-status-copy>Verifying website access before opening IDX v2.</p>
+      <strong data-idx-dashboard-status-title>Opening IDX v2</strong>
+      <p data-idx-dashboard-status-copy>Redirecting to the live portal on <code>idx.mehrdadzaker.com</code>.</p>
     </div>
 
     <div class="mdz-idx__header-actions">
-      <a class="btn btn--primary mdz-cta" href="{{ '/login/' | relative_url }}" data-idx-dashboard-login>Sign in with Google</a>
+      <a class="btn btn--primary mdz-cta" href="https://idx.mehrdadzaker.com/auth/login?return_to=https%3A%2F%2Fidx.mehrdadzaker.com%2Fv2%2Fportal" data-idx-dashboard-login>Sign in to IDX v2</a>
       <a class="btn btn--small mdz-cta mdz-cta--outline" href="https://idx.mehrdadzaker.com/v2/portal">Open IDX v2 directly</a>
       <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
     </div>
 
     <p class="mdz-idx__instruction-copy" data-idx-dashboard-detail>
-      Signed-in users are redirected immediately to IDX v2. Signed-out users stay on this wrapper until they complete the website login flow.
+      The website-hosted dashboard has been removed. If the redirect does not happen automatically, use one of the IDX v2 links above.
     </p>
   </section>
 </section>

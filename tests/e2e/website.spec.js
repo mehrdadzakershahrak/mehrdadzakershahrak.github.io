@@ -1,20 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-async function markWebsiteSessionAuthenticated(context) {
-  await context.addCookies([
-    {
-      name: "mdz_session",
-      value: "authenticated",
-      domain: "127.0.0.1",
-      path: "/",
-    },
-  ]);
-}
-
-test("signed-out dashboard wrapper shows the website sign-in CTA and no legacy workspace client", async ({
-  request,
-  page,
-}) => {
+test("dashboard wrapper is a static handoff that redirects directly to the IDX v2 portal", async ({ request, page }) => {
   const response = await request.get("/idx/dashboard/");
   expect(response.ok()).toBeTruthy();
 
@@ -22,20 +8,8 @@ test("signed-out dashboard wrapper shows the website sign-in CTA and no legacy w
   expect(html).toContain('data-idx-dashboard-wrapper');
   expect(html).not.toContain("idx-workspace-dashboard.js");
   expect(html).not.toContain('data-idx-dashboard-app');
+  expect(html).toContain("Sign in to IDX v2");
 
-  await page.goto("/idx/dashboard/");
-
-  await expect(page.getByRole("heading", { name: "Open the live IDX portal" })).toBeVisible();
-  await expect(page.locator('script[src*="idx-workspace-dashboard.js"]')).toHaveCount(0);
-  await expect(page.getByRole("link", { name: "Sign in with Google" })).toHaveAttribute(
-    "href",
-    /\/login\/\?returnTo=%2Fidx%2Fdashboard%2F$/,
-  );
-  await expect(page.getByText("The older website-hosted workspace dashboard has been retired.")).toBeVisible();
-});
-
-test("signed-in dashboard wrapper redirects immediately to the IDX v2 portal", async ({ context, page }) => {
-  await markWebsiteSessionAuthenticated(context);
   await page.route("https://idx.mehrdadzaker.com/**", async (route) => {
     await route.fulfill({
       status: 200,
@@ -51,8 +25,7 @@ test("signed-in dashboard wrapper redirects immediately to the IDX v2 portal", a
   await expect(page.getByText("IDX v2 portal")).toBeVisible();
 });
 
-test("legacy dashboard query params are ignored and still land on IDX v2 home", async ({ context, page }) => {
-  await markWebsiteSessionAuthenticated(context);
+test("legacy dashboard query params are ignored and still land on IDX v2 home", async ({ page }) => {
   await page.route("https://idx.mehrdadzaker.com/**", async (route) => {
     await route.fulfill({
       status: 200,
@@ -67,16 +40,29 @@ test("legacy dashboard query params are ignored and still land on IDX v2 home", 
   expect(page.url()).toBe("https://idx.mehrdadzaker.com/v2/portal");
 });
 
-test("login page renders a deterministic local signed-out shell without Google", async ({ page }) => {
-  await page.route("https://accounts.google.com/**", async (route) => {
-    await route.abort();
+test("login page redirects directly to product-domain auth", async ({ page }) => {
+  await page.route("https://idx.mehrdadzaker.com/**", async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: "text/html",
+      body: "<!doctype html><title>IDX auth</title><main>IDX auth login</main>",
+    });
   });
-
   await page.goto("/login/");
+  await page.waitForURL(/https:\/\/idx\.mehrdadzaker\.com\/auth\/login\?return_to=/);
+  await expect(page.getByText("IDX auth login")).toBeVisible();
+});
 
-  await expect(page.getByRole("heading", { name: "Sign in with Google" })).toBeVisible();
-  await expect(
-    page.getByText("Google sign-in could not load locally. Continue in local preview or refresh and try again."),
-  ).toBeVisible();
-  await expect(page.getByRole("button", { name: "Continue in local preview" })).toBeVisible();
+test("industry guidance stays public and does not load the retired dashboard bundle", async ({ request, page }) => {
+  const response = await request.get("/idx/assistant/");
+  expect(response.ok()).toBeTruthy();
+
+  const html = await response.text();
+  expect(html).toContain("idx-guidance.js");
+  expect(html).not.toContain("idx-dashboard.js");
+
+  await page.goto("/idx/assistant/");
+  await expect(page.locator(".mdz-idx__workspace-title")).toHaveText("Industry Guidance");
+  await expect(page.getByRole("tab", { name: "Finance" })).toBeVisible();
+  await expect(page.locator('script[src*="idx-dashboard.js"]')).toHaveCount(0);
 });
