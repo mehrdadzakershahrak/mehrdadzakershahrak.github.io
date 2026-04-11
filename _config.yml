@@ -18,7 +18,6 @@ plugins:
 
 exclude:
   - .bundle/
-  - auth-service/
   - Gemfile
   - Gemfile.lock
   - gemfiles/
@@ -46,21 +45,10 @@ search: true
 # Site-specific settings
 contact_email: "mehrdadz@neuralint.io"
 logo_mark: "/assets/images/logo-mark.svg"
-google_client_id: "363122025709-tqi291fl6r2lnc9s89unlajemfajfmm4.apps.googleusercontent.com"
-auth_api_base_url: "https://auth.mehrdadzaker.com"
-idx_api_base_url: "https://idx.mehrdadzaker.com"
 
 # Lead capture + demo chat (set these)
 leads_endpoint: ""
 turnstile_site_key: ""
-demo_chat_endpoints:
-  legal: ""
-  finance: ""
-  real_estate: ""
-  healthcare: ""
-  education: ""
-  research: ""
-  revenue_operations: ""
 
 # Newsletter (Substack) (set this)
 substack_subscribe_url: ""

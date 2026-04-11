@@ -48,4 +48,4 @@ PATH="/opt/homebrew/bin:$PATH" npm run test:e2e
 ## Notes
 - Product implementation work belongs in [neuralint-platform](/Users/mehrdad/Downloads/neuralint-platform).
 - If public copy on this site mentions a website-hosted dashboard or website-hosted sign-in, that copy is stale and should be updated to point to `idx.mehrdadzaker.com`.
-- Shared auth code in `auth-service/` and `assets/js/auth.js` remains for generic site auth-link and demo/local-preview behavior; it does not gate IDX v2 product access.
+- The static site no longer carries the legacy auth-service, auth-link, or demo-chat runtime. IDX sign-in and authenticated product access live on `idx.mehrdadzaker.com`.

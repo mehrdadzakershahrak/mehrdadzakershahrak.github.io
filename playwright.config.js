@@ -18,14 +18,5 @@ module.exports = defineConfig({
       stderr: "pipe",
       timeout: 120_000,
     },
-    {
-      command: "node tests/e2e/auth-stub.js",
-      cwd: __dirname,
-      url: "http://127.0.0.1:8787/health",
-      reuseExistingServer: true,
-      stdout: "pipe",
-      stderr: "pipe",
-      timeout: 30_000,
-    },
   ],
 });
