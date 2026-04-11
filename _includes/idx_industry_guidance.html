@@ -1,112 +1,125 @@
-<section class="mdz-idx mdz-idx--guidance" data-idx-guidance>
-  <header class="mdz-idx__workspace-header">
-    <div class="mdz-idx__workspace-heading">
-      <p class="mdz-idx__eyebrow">Industry Guidance</p>
-      <h1 class="mdz-idx__workspace-title">Industry Guidance</h1>
-      <p class="mdz-idx__workspace-copy">
-        Use this public page to understand where IDX fits into document-heavy workflows by industry, then move into the live IDX v2 portal when you are ready to work with uploaded sources.
+<section class="mdz-idx-landing">
+  <section class="mdz-idx-landing__hero">
+    <div class="mdz-idx-landing__hero-copy">
+      <p class="mdz-idx-landing__eyebrow">IDX</p>
+      <h1>Turn dense documents into a source-grounded workspace.</h1>
+      <p class="mdz-idx-landing__lede">
+        IDX gives you one place to upload PDFs, search compiled pages, inspect graph shifts, and open the cited page before you trust the answer.
       </p>
+      <div class="mdz-idx-landing__actions">
+        <a class="btn btn--primary mdz-cta" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX dashboard</a>
+        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/login/' | relative_url }}">Sign in</a>
+        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/private-ai-deployment/' | relative_url }}">Private deployment</a>
+      </div>
+      <div class="mdz-idx-landing__hero-grid">
+        <article class="mdz-idx-landing__stat-card">
+          <span class="mdz-idx-landing__stat-label">Grounded Answers</span>
+          <strong>Search, ask, and verify against the source page.</strong>
+        </article>
+        <article class="mdz-idx-landing__stat-card">
+          <span class="mdz-idx-landing__stat-label">Change Detection</span>
+          <strong>Delta and insight views surface what actually moved.</strong>
+        </article>
+        <article class="mdz-idx-landing__stat-card">
+          <span class="mdz-idx-landing__stat-label">Operational Clarity</span>
+          <strong>Upload, compile, and recovery states stay visible in one workspace.</strong>
+        </article>
+      </div>
     </div>
-    <div class="mdz-idx__header-actions">
-      <a class="btn btn--primary mdz-cta" href="https://idx.mehrdadzaker.com/v2/portal">Open IDX v2 portal</a>
-    </div>
-  </header>
 
-  <section class="mdz-idx__what-is" aria-labelledby="idx-what-is-title">
-    <div class="mdz-idx__what-is-copy">
-      <p class="mdz-idx__panel-eyebrow">What Is IDX?</p>
-      <h2 id="idx-what-is-title">IDX adds source-grounded PDF workflows to ChatGPT</h2>
-      <p>IDX helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages. Under the hood, IDX can connect document workflows to ChatGPT through MCP.</p>
-      <p class="mdz-idx__what-is-note"><code>/idx/assistant/</code> is the public workflow-guidance page on this site. The actual product portal and sign-in flow live on <a href="https://idx.mehrdadzaker.com/v2/portal"><code>https://idx.mehrdadzaker.com/v2/portal</code></a>. ChatGPT-connected MCP testing belongs on <a href="https://idx.mehrdadzaker.com"><code>https://idx.mehrdadzaker.com</code></a>, not on this guidance page. <a href="{{ '/idx/support/' | relative_url }}">Contact IDX support</a> if you want help with workflow fit, portal setup, or ChatGPT-connected IDX.</p>
+    <aside class="mdz-idx-landing__hero-panel" aria-label="IDX workflow overview">
+      <p class="mdz-idx-landing__panel-eyebrow">Inside The Workspace</p>
+      <h2>Built for document-heavy review, not generic chat.</h2>
+      <ul class="mdz-idx-landing__feature-list">
+        <li>Upload a focused document set into one library.</li>
+        <li>Search or ask against compiled pages with evidence attached.</li>
+        <li>Open source pages and viewer links when a claim matters.</li>
+        <li>Use graph, insight, and delta views to see relationship changes.</li>
+        <li>Save the strongest findings as reusable analysis pages.</li>
+      </ul>
+    </aside>
+  </section>
+
+  <section class="mdz-idx-landing__band" aria-labelledby="idx-proof-title">
+    <div class="mdz-idx-landing__band-head">
+      <p class="mdz-idx-landing__panel-eyebrow">Why IDX</p>
+      <h2 id="idx-proof-title">A document workflow that stays closer to the evidence.</h2>
+    </div>
+    <div class="mdz-idx-landing__proof-grid">
+      <article class="mdz-idx-landing__proof-card">
+        <h3>Source-backed reading</h3>
+        <p>Pages, citations, and matched excerpts stay in the same surface so you can audit the answer instead of trusting a summary in isolation.</p>
+      </article>
+      <article class="mdz-idx-landing__proof-card">
+        <h3>Structured review</h3>
+        <p>Search, query, lint, graph, insights, and delta modes all operate on the same library instead of fragmenting your review path across tools.</p>
+      </article>
+      <article class="mdz-idx-landing__proof-card">
+        <h3>Recoverable ingest</h3>
+        <p>Processing, compile, stalled, and failure states are visible, so document workflows do not disappear into a queue with no explanation.</p>
+      </article>
     </div>
   </section>
 
-  <section class="mdz-idx__process" aria-labelledby="idx-how-it-works-title">
-    <div class="mdz-idx__process-heading">
-      <p class="mdz-idx__panel-eyebrow">How IDX Works</p>
-      <h2 id="idx-how-it-works-title">How IDX works</h2>
+  <section class="mdz-idx-landing__band mdz-idx-landing__band--steps" aria-labelledby="idx-how-title">
+    <div class="mdz-idx-landing__band-head">
+      <p class="mdz-idx-landing__panel-eyebrow">How It Works</p>
+      <h2 id="idx-how-title">Move from raw PDFs to review-ready pages.</h2>
     </div>
-    <ol class="mdz-idx__process-list">
-      <li class="mdz-idx__process-step">
-        <span class="mdz-idx__process-label">Step 1</span>
-        <strong>Upload PDFs</strong>
-        <p>Start with the documents tied to one workflow, review task, or decision.</p>
+    <ol class="mdz-idx-landing__steps">
+      <li class="mdz-idx-landing__step">
+        <span class="mdz-idx-landing__step-index">01</span>
+        <h3>Upload one corpus</h3>
+        <p>Start with the files tied to one deal, matter, research lane, or operating question.</p>
       </li>
-      <li class="mdz-idx__process-step">
-        <span class="mdz-idx__process-label">Step 2</span>
-        <strong>Ask focused questions</strong>
-        <p>Search for obligations, dates, gaps, risks, or inconsistencies once files are ready.</p>
+      <li class="mdz-idx-landing__step">
+        <span class="mdz-idx-landing__step-index">02</span>
+        <h3>Compile and inspect</h3>
+        <p>Watch document and wiki status, then open the generated page or source viewer when a document is ready.</p>
       </li>
-      <li class="mdz-idx__process-step">
-        <span class="mdz-idx__process-label">Step 3</span>
-        <strong>Review answers with sources</strong>
-        <p>Use citations and viewer links to confirm the underlying page before sharing findings.</p>
+      <li class="mdz-idx-landing__step">
+        <span class="mdz-idx-landing__step-index">03</span>
+        <h3>Ask, search, and compare</h3>
+        <p>Use query, graph, insight, and delta views to isolate what changed, what conflicts, and what deserves a second look.</p>
+      </li>
+      <li class="mdz-idx-landing__step">
+        <span class="mdz-idx-landing__step-index">04</span>
+        <h3>Save the signal</h3>
+        <p>Promote the strongest findings into reusable analysis pages instead of losing them in chat history.</p>
       </li>
     </ol>
   </section>
 
-  <p class="mdz-idx__intro">Select an industry to update the guidance below. This page stays focused on workflow framing. Uploads, search, source review, and wiki workflows now run on the live IDX v2 portal.</p>
-
-  <section class="mdz-idx__selector" aria-labelledby="idx-industry-selector-title">
-    <div class="mdz-idx__selector-header">
-      <p class="mdz-idx__panel-eyebrow">Industry Selector</p>
-      <h2 id="idx-industry-selector-title">Choose an industry</h2>
+  <section class="mdz-idx-landing__band" aria-labelledby="idx-fit-title">
+    <div class="mdz-idx-landing__band-head">
+      <p class="mdz-idx-landing__panel-eyebrow">Best Fit</p>
+      <h2 id="idx-fit-title">Use IDX when the question depends on the documents.</h2>
     </div>
-    <div class="mdz-idx__tablist" role="tablist" aria-label="Industry guidance">
-      <button class="mdz-idx__tab" id="idx-tab-legal" type="button" data-idx-industry-tab="legal" role="tab" aria-selected="true" aria-controls="idx-guidance-panel" tabindex="0">Legal</button>
-      <button class="mdz-idx__tab" id="idx-tab-finance" type="button" data-idx-industry-tab="finance" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Finance</button>
-      <button class="mdz-idx__tab" id="idx-tab-real-estate" type="button" data-idx-industry-tab="real-estate" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Real Estate</button>
-      <button class="mdz-idx__tab" id="idx-tab-healthcare" type="button" data-idx-industry-tab="healthcare" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Healthcare</button>
-      <button class="mdz-idx__tab" id="idx-tab-procurement" type="button" data-idx-industry-tab="procurement" role="tab" aria-selected="false" aria-controls="idx-guidance-panel" tabindex="-1">Procurement</button>
+    <div class="mdz-idx-landing__fit-grid">
+      <article class="mdz-idx-landing__fit-card">
+        <h3>Legal and policy review</h3>
+        <p>Trace obligations, clause conflicts, revisions, and supporting pages before you circulate a conclusion.</p>
+      </article>
+      <article class="mdz-idx-landing__fit-card">
+        <h3>Finance and diligence</h3>
+        <p>Compare statements, highlight inconsistencies, and keep the source packet one click away from the summary.</p>
+      </article>
+      <article class="mdz-idx-landing__fit-card">
+        <h3>Operations, procurement, and research</h3>
+        <p>Review dense specs, vendor files, manuals, and briefings without losing the thread between facts and evidence.</p>
+      </article>
     </div>
   </section>
 
-  <div class="mdz-idx__guidance-flow">
-    <section class="mdz-idx__panel mdz-idx__panel--instruction mdz-idx__guidance-panel" id="idx-guidance-panel" role="tabpanel" aria-labelledby="idx-tab-legal">
-      <div class="mdz-idx__panel-header">
-        <div>
-          <p class="mdz-idx__panel-eyebrow">Industry Guidance</p>
-          <h2 id="idx-guidance-title" data-idx-industry-title>Document workflow guidance</h2>
-        </div>
-      </div>
-      <p class="mdz-idx__instruction-copy" data-idx-industry-intro></p>
-
-      <div class="mdz-idx__content-grid">
-        <section class="mdz-idx__content-section" aria-labelledby="idx-guidance-documents-title">
-          <h3 id="idx-guidance-documents-title" data-idx-industry-documents-title>Good documents to upload</h3>
-          <ul class="mdz-idx__instruction-list mdz-idx__instruction-list--documents" data-idx-industry-documents></ul>
-        </section>
-
-        <section class="mdz-idx__content-section" aria-labelledby="idx-guidance-prompts-title">
-          <h3 id="idx-guidance-prompts-title" data-idx-industry-prompts-title>Example prompts</h3>
-          <ul class="mdz-idx__prompt-list" data-idx-industry-prompts></ul>
-        </section>
-      </div>
-
-      <section class="mdz-idx__content-section mdz-idx__content-section--value" aria-labelledby="idx-guidance-value-title">
-        <h3 id="idx-guidance-value-title" data-idx-industry-value-title>Why source-backed answers matter here</h3>
-        <p class="mdz-idx__instruction-copy mdz-idx__instruction-copy--value" data-idx-industry-value-summary></p>
-      </section>
-    </section>
-
-    <section class="mdz-idx__panel mdz-idx__guidance-handoff" aria-labelledby="idx-dashboard-handoff-title">
-      <div class="mdz-idx__panel-header">
-        <div>
-          <p class="mdz-idx__panel-eyebrow">Next Step</p>
-          <h2 id="idx-dashboard-handoff-title">Open the product portal when you are ready</h2>
-        </div>
-      </div>
-      <p class="mdz-idx__instruction-copy">
-        Use the live IDX v2 portal to upload files, query the compiled wiki, review lint and graph results, and open cited source pages in IDX Viewer. This site is the public explanation layer only. If you want IDX connected to ChatGPT through MCP, use <a href="https://idx.mehrdadzaker.com"><code>https://idx.mehrdadzaker.com</code></a> or <a href="{{ '/idx/support/' | relative_url }}">contact IDX support</a>.
-      </p>
-      <div class="mdz-idx__header-actions">
-        <a class="btn btn--primary mdz-cta" href="https://idx.mehrdadzaker.com/v2/portal">Open IDX v2 portal</a>
-        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/private-ai-deployment/' | relative_url }}">Private deployment</a>
-      </div>
-    </section>
-
-    <section class="mdz-idx__guidance-note" aria-label="Usage note">
-      <p><strong>Use note:</strong> Start with a focused document set, ask about obligations, dates, risks, or inconsistencies, and verify the cited page before sharing findings. These examples are for source-backed document analysis, not regulated professional advice.</p>
-    </section>
-  </div>
+  <section class="mdz-idx-landing__cta-band" aria-labelledby="idx-cta-title">
+    <div>
+      <p class="mdz-idx-landing__panel-eyebrow">Start Here</p>
+      <h2 id="idx-cta-title">Open the product now, then migrate the domain later when the brand catches up.</h2>
+      <p>The current host stays exactly where it is for now. The product flow is already coherent: landing page, sign-in, dashboard, workspace.</p>
+    </div>
+    <div class="mdz-idx-landing__actions">
+      <a class="btn btn--primary mdz-cta" href="{{ '/idx/dashboard/' | relative_url }}">Go to dashboard</a>
+      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/contact/' | relative_url }}">Talk to Mehrdad</a>
+    </div>
+  </section>
 </section>

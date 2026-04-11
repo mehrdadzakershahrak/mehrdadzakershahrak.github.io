@@ -1,9 +1,8 @@
 ---
 layout: single
-title: "Industry Guidance"
+title: "IDX"
 permalink: /idx/assistant/
 classes: wide
-idx_guidance: true
 footer_variant: idx
 ---
 

@@ -18,14 +18,14 @@ columns:
 
   - title: "IDX"
     links:
-      - label: "Industry Guidance"
+      - label: "IDX Overview"
         url: "/idx/assistant/"
       - label: "IDX Dashboard"
         url: "/idx/dashboard/"
-      - label: "Legal Workflow"
-        url: "/idx/assistant/#legal"
-      - label: "Finance Workflow"
-        url: "/idx/assistant/#finance"
+      - label: "Private Deployment"
+        url: "/private-ai-deployment/"
+      - label: "Contact Mehrdad"
+        url: "/contact/"
 
   - title: "Explore"
     links:

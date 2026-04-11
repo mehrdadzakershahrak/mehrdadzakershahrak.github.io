@@ -20,12 +20,15 @@ main:
     key: idx
     url: /idx/dashboard/
     children:
+      - title: "IDX Overview"
+        key: idx_overview
+        url: /idx/assistant/
       - title: "IDX Dashboard"
         key: idx_dashboard
         url: /idx/dashboard/
-      - title: "How IDX Works"
-        key: industry_ai
-        url: /idx/assistant/
+      - title: "Private Deployment"
+        key: idx_private_deployment
+        url: /private-ai-deployment/
       - title: "Support"
         url: /idx/support/
   - title: "Podcast"
