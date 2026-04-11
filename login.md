@@ -21,4 +21,4 @@ This page now hands off directly to the live IDX v2 product on `https://idx.mehr
   </p>
 </div>
 
-The public [Industry Guidance]({{ '/idx/assistant/' | relative_url }}) page stays on this site. The actual product portal lives at [`https://idx.mehrdadzaker.com/v2/portal`](https://idx.mehrdadzaker.com/v2/portal). If you need help with that setup, [contact Mehrdad]({{ '/contact/' | relative_url }}).
+The public [IDX Overview]({{ '/idx/assistant/' | relative_url }}) page stays on this site. The actual product portal lives at [`https://idx.mehrdadzaker.com/v2/portal`](https://idx.mehrdadzaker.com/v2/portal). If you need help with that setup, [contact Mehrdad]({{ '/contact/' | relative_url }}).

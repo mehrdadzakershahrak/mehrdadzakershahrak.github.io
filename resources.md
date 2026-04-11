@@ -9,7 +9,7 @@ This archive is being consolidated into the main site sections so the most usefu
 
 ## Best starting points
 - [Solutions]({{ '/ai-robotics-solutions/' | relative_url }}) for consulting and delivery paths
-- [Industry Guidance]({{ '/idx/assistant/' | relative_url }}) for document-heavy workflow guidance
-- [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}) for operational document search and review
+- [IDX Overview]({{ '/idx/assistant/' | relative_url }}) for the public IDX product and workflow entry point
+- [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}) for the secure handoff into the live IDX portal
 - [Podcast]({{ '/podcast/' | relative_url }}) for applied AI and system-design discussions
 - [Contact]({{ '/contact/' | relative_url }}) for direct inquiries

@@ -16,8 +16,8 @@
   badge: "Podcast"
 
 - type: card
-  title: "Industry Guidance"
-  description: "See how IDX helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages, with ChatGPT integration available through MCP."
+  title: "IDX Overview"
+  description: "See how IDX turns dense PDFs into a source-grounded workspace for search, comparison, and review."
   url: "/idx/assistant/"
   image_url: "/assets/images/project8.png"
   badge: "IDX"

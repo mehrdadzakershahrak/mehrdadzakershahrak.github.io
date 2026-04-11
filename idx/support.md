@@ -10,13 +10,13 @@ footer_variant: idx
   <section class="mdz-contact__hero">
     <div class="mdz-contact__hero-copy">
       <p class="mdz-contact__eyebrow">IDX Support</p>
-      <h1 class="mdz-contact__title">Get help with the IDX dashboard, document workflows, or rollout questions.</h1>
+      <h1 class="mdz-contact__title">Get help with IDX access, document workflows, or rollout questions.</h1>
       <p class="mdz-contact__lede">
-        Use this page when the issue is specific to IDX: signing in, uploading PDFs, document readiness, search results, viewer links, workflow fit, or operational questions about how IDX should be used in a document-heavy process.
+        Use this page when the issue is specific to IDX: reaching the live portal, signing in through `idx.mehrdadzaker.com`, uploading PDFs, document readiness, search results, viewer links, workflow fit, or operational questions about how IDX should be used in a document-heavy process.
       </p>
       <div class="mdz-contact__actions">
         <a class="btn btn--primary mdz-cta" href="mailto:{{ site.contact_email }}?subject=IDX%20Support">Email {{ site.contact_email }}</a>
-        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX Dashboard</a>
+        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX portal</a>
       </div>
     </div>
   </section>
@@ -25,8 +25,8 @@ footer_variant: idx
     <section class="mdz-contact__panel">
       <h2>Good reasons to reach out</h2>
       <ul>
-        <li>Google sign-in, session, or access issues for the IDX dashboard</li>
-        <li>PDF upload, indexing, readiness, or viewer-link problems</li>
+        <li>Sign-in, session, or access issues while reaching the IDX portal</li>
+        <li>PDF upload, indexing, readiness, search, or viewer-link problems inside IDX</li>
         <li>Questions about how to structure a document set or search workflow</li>
         <li>Planning help for connecting IDX to a broader ChatGPT workflow</li>
       </ul>

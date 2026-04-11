@@ -5,11 +5,11 @@
   badge: "Featured"
   source: "Site"
 
-- title: "Industry Guidance"
-  description: "Workflow guidance across legal, finance, real estate, healthcare, and procurement."
+- title: "IDX Overview"
+  description: "Public product overview for source-grounded document review and workflow fit."
   url: "/idx/assistant/"
   image_url: "/assets/images/2.jpg"
-  badge: "Guidance"
+  badge: "IDX"
   source: "Site"
 
 - title: "Private AI Deployment"

@@ -6,12 +6,12 @@
   badge: "Featured"
   source: "Site"
 
-- title: "Industry Guidance"
-  description: "Browse legal, finance, real estate, healthcare, and procurement document workflows."
+- title: "IDX Overview"
+  description: "Explore the public IDX product overview and the path into the live portal."
   nav_key: "industry_ai"
   url: "/idx/assistant/"
   image_url: "/assets/images/2.jpg"
-  badge: "Guidance"
+  badge: "IDX"
   source: "Site"
 
 - title: "Book (Coming Soon)"

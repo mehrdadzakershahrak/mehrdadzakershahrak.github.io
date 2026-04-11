@@ -8,52 +8,49 @@ footer_variant: idx
 
 This IDX Privacy page explains how information is handled across the IDX surfaces currently exposed by Mehrdad Zaker:
 
-- public informational pages on this site, such as [Industry Guidance]({{ '/idx/assistant/' | relative_url }})
-- Google-based sign-in and the authenticated website flow on [Login]({{ '/login/' | relative_url }}) and [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }})
-- ChatGPT-connected IDX workflows served from the separate IDX backend at [`https://idx.mehrdadzaker.com`](https://idx.mehrdadzaker.com)
+- public informational pages on this site, such as [IDX Overview]({{ '/idx/assistant/' | relative_url }})
+- redirect and handoff pages on this site, such as [Login]({{ '/login/' | relative_url }}) and [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }})
+- the separate IDX application, authentication, and ChatGPT-connected workflows served from [`https://idx.mehrdadzaker.com`](https://idx.mehrdadzaker.com)
 
-These surfaces do not all return or display the same data. Public guidance pages are informational. The website dashboard is the signed-in web interface on this site. ChatGPT-connected IDX and MCP workflows run on the separate backend and return a smaller tool-oriented payload by default.
+These surfaces do not all return or display the same data. Public site pages are informational. The `/login/` and `/idx/dashboard/` pages on this site act as handoff pages into the separate IDX host. Authenticated uploads, indexing, search, viewer access, and ChatGPT-connected IDX/MCP workflows run on the separate IDX host and may return narrower task-oriented payloads where appropriate.
 
-## Public Guidance Pages
+## Public IDX Pages
 
-Public IDX pages on this site, including `/idx/assistant/`, can be viewed without signing in to the dashboard. Those pages may still involve normal website request processing such as IP address, browser details, page requests, and basic operational logging.
+Public IDX pages on this site, including `/idx/assistant/`, can be viewed without signing in. Those pages may still involve normal website request processing such as IP address, browser details, page requests, and basic operational logging.
 
-## Website Sign-In And Dashboard
+## Handoff Pages On This Site
 
-If you use the website sign-in and dashboard flow on this site, IDX may process:
+If you use the `/login/` or `/idx/dashboard/` pages on this site, IDX may process:
 
-- your Google account identifier (`sub`) returned during sign-in
-- your Google-verified email address
-- your Google profile name
-- your Google profile image URL
-- the `mdz_session` cookie used to maintain authenticated website access
-- uploaded PDF files and the text, extracted structure, limited metadata needed to index and retrieve documents, and job-state records derived from those files
-- dashboard searches, document selections, viewer links, and related workflow actions inside the website dashboard
+- request details needed to serve the handoff page or redirect
+- query parameters or return URLs needed to complete the redirect into the live IDX portal
+- standard operational logging needed to troubleshoot redirect, availability, or routing problems
 
-Website session checks on this site are minimized to the authenticated-state information needed for the credentialed web flow. The separate MCP/backend surface still returns its own smaller tool-oriented payloads.
+These handoff pages do not host the authenticated IDX workspace themselves. Document uploads, searches, viewer-linked review, and related authenticated workflows run on the separate IDX host.
 
-## ChatGPT And MCP Workflows
+## IDX App, Authentication, And MCP Workflows
 
-IDX can also connect document workflows to ChatGPT through MCP on the separate backend at [`https://idx.mehrdadzaker.com`](https://idx.mehrdadzaker.com). That surface may process uploaded files, document IDs, workspace IDs, search requests, citations, excerpts, viewer links, and related workflow state needed to answer the user’s request.
+IDX can connect document workflows to the separate IDX application and to ChatGPT through MCP on [`https://idx.mehrdadzaker.com`](https://idx.mehrdadzaker.com). That surface may process account information returned during sign-in, uploaded files, document IDs, workspace IDs, search requests, citations, excerpts, viewer links, and related workflow state needed to answer the user’s request.
 
-By design, ChatGPT/MCP tool responses are narrower than the website dashboard view. They are intended to return only the fields needed for the user’s request and follow-up actions, rather than the broader dashboard-oriented document payload.
+By design, ChatGPT/MCP tool responses may be narrower than the full IDX application view. They are intended to return only the fields needed for the user’s request and follow-up actions.
 
 ## Information IDX May Process
 
 IDX may process:
 
-- account information returned during website sign-in, such as Google account identifier, verified email address, name, and profile image
+- account information returned during IDX sign-in, such as Google account identifier, verified email address, name, and profile image
 - uploaded PDF files and the text, limited metadata needed for indexing and retrieval, extracted structure, and job-state records derived from those files
-- search queries, document selections, viewer links, and other actions taken inside IDX pages, the website dashboard, or ChatGPT-connected IDX workflows
-- technical and operational logs such as IP address, browser details, request timing, and error events
+- search queries, document selections, viewer links, and other actions taken inside the IDX app or ChatGPT-connected IDX workflows
+- technical and operational logs such as IP address, browser details, request timing, error events, and redirect flow diagnostics
 
 ## How IDX Uses Information
 
 IDX uses information to:
 
 - render public informational IDX pages
-- authenticate access to the website dashboard and maintain signed-in sessions
-- store, parse, index, and search uploaded PDFs
+- hand off users from this site into the live IDX portal
+- authenticate access to the IDX application and maintain signed-in sessions
+- store, parse, index, and search uploaded PDFs on the IDX host
 - generate viewer links and support source-backed document review
 - monitor reliability, performance, abuse, and operational errors
 - improve product quality, workflow design, and support response
@@ -66,7 +63,7 @@ Do not upload confidential, regulated, export-controlled, or highly sensitive ma
 
 ## Sessions, Cookies, and Access Control
 
-If you sign in to use the website dashboard, IDX may store authenticated session state in your browser. Session and security controls may use cookies or similar browser storage to keep access-controlled features working and to reduce abuse. The current website sign-in flow uses Google Identity Services plus the `mdz_session` cookie.
+If you sign in to use IDX, authenticated session state may be stored in your browser. Session and security controls may use cookies or similar browser storage to keep access-controlled features working and to reduce abuse. The current website pages at `/login/` and `/idx/dashboard/` are handoff pages; authenticated product access is handled on the separate IDX host.
 
 ## Search, Logs, and Operational Records
 
@@ -85,7 +82,7 @@ Information is retained for as long as reasonably necessary to operate IDX, main
 You may:
 
 - avoid signing in if you do not want to use authenticated IDX features
-- use public informational IDX pages without signing in to the dashboard
+- use public informational IDX pages without signing in to the live product
 - refrain from uploading documents that are not appropriate for this environment
 - contact us with privacy-related questions or requests where legally available
 
@@ -93,7 +90,7 @@ You may:
 
 This page may be updated as IDX changes. The latest version will be posted here.
 
-**Effective date:** March 31, 2026
+**Effective date:** April 11, 2026
 
 ## Contact
 

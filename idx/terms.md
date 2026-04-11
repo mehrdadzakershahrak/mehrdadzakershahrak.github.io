@@ -6,7 +6,7 @@ classes: wide
 footer_variant: idx
 ---
 
-These IDX Terms govern your use of the IDX pages and workflows on this site, including sign-in, PDF uploads, document indexing, search, and viewer-linked review.
+These IDX Terms govern your use of the public IDX pages on this site and the separate IDX application surfaces they link to, including sign-in, PDF uploads, document indexing, search, and viewer-linked review on `idx.mehrdadzaker.com`.
 
 By using IDX, you agree to these Terms. If you do not agree, do not use the IDX pages or submit documents into the service.
 
@@ -27,7 +27,7 @@ You grant a limited right to process uploaded content as needed to operate IDX, 
 
 ## Access and Availability
 
-Some IDX features require sign-in. Access may be suspended, limited, or revoked where necessary for security, abuse prevention, maintenance, legal compliance, or operational reasons.
+Some IDX features require sign-in on the separate IDX application. Access may be suspended, limited, or revoked where necessary for security, abuse prevention, maintenance, legal compliance, or operational reasons.
 
 IDX availability is not guaranteed. Upload, indexing, search, and viewer functions may change, pause, fail, or be removed at any time.
 

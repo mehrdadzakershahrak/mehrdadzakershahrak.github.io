@@ -7,9 +7,9 @@ classes: wide
 
 Integrating AI or robotics into a real business process can automate repetitive work, accelerate decisions, and create new operational capabilities without adding more manual overhead.
 
-If you already have a concrete problem in mind, start with [Contact]({{ '/contact/' | relative_url }}). If you want to explore the document workflow path first, go directly to [Industry Guidance]({{ '/idx/assistant/' | relative_url }}).
+If you already have a concrete problem in mind, start with [Contact]({{ '/contact/' | relative_url }}). If you want to explore the document workflow path first, go directly to [IDX Overview]({{ '/idx/assistant/' | relative_url }}).
 
-IDX is the document-workflow capability in this stack. It helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages. Under the hood, IDX can connect to ChatGPT through MCP; on this site, Industry Guidance and the IDX Dashboard are the two public entry points.
+IDX is the document-workflow capability in this stack. It helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages. Under the hood, IDX can connect to ChatGPT through MCP; on this site, the IDX Overview page and the IDX dashboard handoff are the two public entry points.
 
 <section class="mdz-solutions" data-solutions-tabs>
   <div class="mdz-solutions__selector" aria-labelledby="solutions-selector-title">
@@ -23,18 +23,18 @@ IDX is the document-workflow capability in this stack. It helps teams work with 
 
   <section class="mdz-solutions__panel is-active" id="solutions-panel-ai" role="tabpanel" aria-labelledby="solutions-tab-ai" data-solutions-panel="ai">
     <h2>AI Systems</h2>
-    <p>AI creates the most leverage when it is tied to a real workflow inside the business, whether that means reviewing documents faster, routing work more reliably, supporting internal teams with source-grounded answers, or deploying systems in secure environments. The sections below show different ways into that work: start with <a href="{{ '/idx/assistant/' | relative_url }}">Industry Guidance</a> and the <a href="{{ '/idx/dashboard/' | relative_url }}">IDX Dashboard</a> for document-heavy use cases, <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a> for controlled environments, or <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a> for workflow-specific automation built around your business.</p>
+    <p>AI creates the most leverage when it is tied to a real workflow inside the business, whether that means reviewing documents faster, routing work more reliably, supporting internal teams with source-grounded answers, or deploying systems in secure environments. The sections below show different ways into that work: start with <a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a> and the <a href="{{ '/idx/dashboard/' | relative_url }}">IDX dashboard handoff</a> for document-heavy use cases, <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a> for controlled environments, or <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a> for workflow-specific automation built around your business.</p>
 
     <div class="mdz-card-grid">
       <div class="mdz-card">
-        <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Industry Guidance</a></h3>
-        <p class="mdz-card__desc">Workflow entry point into IDX for legal, finance, real estate, healthcare, and procurement document review.</p>
-        <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">How IDX works</a>
+        <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a></h3>
+        <p class="mdz-card__desc">Public product overview for source-grounded document review, workflow fit, and the path into the live IDX portal.</p>
+        <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
       </div>
       <div class="mdz-card">
         <h3 class="mdz-card__title"><a href="{{ '/idx/dashboard/' | relative_url }}">IDX Dashboard</a></h3>
-        <p class="mdz-card__desc">Authenticated web interface for IDX on this site: uploads, indexing, ready-state search, viewer links, and document management.</p>
-        <a class="btn btn--small" href="{{ '/idx/dashboard/' | relative_url }}">Open web dashboard</a>
+        <p class="mdz-card__desc">Secure handoff into the live IDX portal on the product host.</p>
+        <a class="btn btn--small" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX portal</a>
       </div>
       <div class="mdz-card">
         <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></h3>
