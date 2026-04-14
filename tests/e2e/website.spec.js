@@ -1,6 +1,37 @@
 const { test, expect } = require("@playwright/test");
 
 const PRODUCT_URL = "https://idx.mehrdadzaker.com/v2/portal";
+const HOMEPAGE_TITLE = "Mehrdad Zaker — Custom AI Systems & Private AI Deployment";
+const HOMEPAGE_DESCRIPTION =
+  "Mehrdad Zaker helps engineering and product teams design, deploy, and scale custom AI systems and private AI environments that perform reliably in production.";
+const HOMEPAGE_H1 =
+  "Mehrdad Zaker helps teams build custom AI systems and private AI deployments that hold up in production.";
+const CUSTOM_H1_PAGES = [
+  {
+    path: "/",
+    headingPattern: /Mehrdad Zaker helps teams build custom AI systems and private AI deployments that hold up in production\./,
+  },
+  {
+    path: "/about/",
+    headingPattern: /Get to know\s+Dr\. Mehrdad Zaker/,
+  },
+  {
+    path: "/contact/",
+    headingPattern: /Bring a concrete AI, deployment, or workflow problem\./,
+  },
+  {
+    path: "/idx/support/",
+    headingPattern: /Get help with IDX access, document workflows, or rollout questions\./,
+  },
+  {
+    path: "/idx/assistant/",
+    headingPattern: /Turn dense documents into a source-grounded workspace\./,
+  },
+];
+
+function countHeadingTags(html, level) {
+  return (html.match(new RegExp(`<h${level}\\b`, "gi")) || []).length;
+}
 
 async function mockIdxHost(page, title, bodyText) {
   await page.route("https://idx.mehrdadzaker.com/**", async (route) => {
@@ -29,6 +60,51 @@ test("dashboard wrapper is a static handoff that redirects directly to the IDX v
   await page.waitForURL(PRODUCT_URL);
   expect(page.url()).toBe(PRODUCT_URL);
   await expect(page.getByText("IDX v2 portal")).toBeVisible();
+});
+
+test("homepage exposes the updated SEO title, description, and aligned hero copy", async ({ request, page }) => {
+  const response = await request.get("/");
+  expect(response.ok()).toBeTruthy();
+
+  await page.goto("/");
+
+  await expect(page).toHaveTitle(HOMEPAGE_TITLE);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", HOMEPAGE_DESCRIPTION);
+  await expect(page.getByRole("heading", { level: 1, name: HOMEPAGE_H1 })).toBeVisible();
+});
+
+test("custom-hero pages expose a single content h1 without the theme page title heading", async ({ page, request }) => {
+  for (const { path, headingPattern } of CUSTOM_H1_PAGES) {
+    const response = await request.get(path);
+    expect(response.ok()).toBeTruthy();
+
+    const html = await response.text();
+    expect(countHeadingTags(html, 1)).toBe(1);
+    expect(html).not.toContain('id="page-title"');
+
+    await page.goto(path);
+
+    const h1 = page.locator("h1");
+
+    await expect(h1).toHaveCount(1);
+    await expect(page.locator("#page-title")).toHaveCount(0);
+    await expect(h1.first()).toHaveText(headingPattern);
+  }
+});
+
+test("standard single-layout pages keep the default page title h1", async ({ page, request }) => {
+  const response = await request.get("/private-ai-deployment/");
+  expect(response.ok()).toBeTruthy();
+
+  const html = await response.text();
+  expect(countHeadingTags(html, 1)).toBe(1);
+  expect(html).toContain('id="page-title"');
+
+  await page.goto("/private-ai-deployment/");
+
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator("#page-title")).toHaveCount(1);
+  await expect(page.locator("#page-title")).toHaveText("Private AI Deployment");
 });
 
 test("legacy dashboard query params are ignored and still land on IDX v2 home", async ({ page }) => {

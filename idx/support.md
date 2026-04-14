@@ -4,6 +4,7 @@ title: "IDX Support"
 permalink: /idx/support/
 classes: wide
 footer_variant: idx
+suppress_default_h1: true
 ---
 
 <section class="mdz-contact">

@@ -3,6 +3,7 @@ layout: single
 title: "Contact"
 permalink: /contact/
 classes: wide
+suppress_default_h1: true
 ---
 
 <section class="mdz-contact">
