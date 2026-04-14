@@ -51,11 +51,12 @@ defaults:
       toc_label: "In this issue"
 
 # Site features
-search: true
+search: false
 
 # Site-specific settings
 contact_email: "mehrdadz@neuralint.io"
 logo_mark: "/assets/images/logo-mark.svg"
+default_social_image: "/assets/images/private-ai-consulting-header-1200.png"
 
 # Lead capture + demo chat (set these)
 leads_endpoint: ""

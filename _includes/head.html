@@ -1,0 +1,39 @@
+{%- assign is_home = false -%}
+{%- if page.permalink == "/" or page.url == "/" -%}
+  {%- assign is_home = true -%}
+{%- endif -%}
+{%- if is_home == false and page.classes and page.classes contains "home-page" -%}
+  {%- assign is_home = true -%}
+{%- endif -%}
+
+<meta charset="utf-8">
+
+{% include seo.html %}
+
+{% unless site.atom_feed.hide %}
+  <link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ '/feed.xml' | relative_url }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
+{% endunless %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  {% if site.enable_copy_code_button -%}
+    window.enable_copy_code_button = true;
+  {%- endif %}
+</script>
+
+<!-- For all browsers -->
+{% if is_home %}
+  <style>{% include home-critical.css %}</style>
+  <link rel="preload" href="{{ '/assets/css/main.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}"></noscript>
+{% else %}
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+{% endif %}
+
+{% if site.head_scripts %}
+  {% for script in site.head_scripts %}
+    <script src="{{ script | relative_url }}"></script>
+  {% endfor %}
+{% endif %}

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Technical schematic showing a private AI workflow from private data to LLM engine to verified output">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2f343b"/>
+      <stop offset="100%" stop-color="#1d2329"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(22,29,35,0.96)"/>
+      <stop offset="100%" stop-color="rgba(12,17,22,0.98)"/>
+    </linearGradient>
+    <linearGradient id="wire" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#27d0cb"/>
+      <stop offset="50%" stop-color="#00b8b5"/>
+      <stop offset="100%" stop-color="#77f2ee"/>
+    </linearGradient>
+    <linearGradient id="glowFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="rgba(0,128,128,0.28)"/>
+      <stop offset="100%" stop-color="rgba(0,128,128,0.08)"/>
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse">
+      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="rgba(255,255,255,0.045)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="242" cy="120" r="168" fill="rgba(0,128,128,0.08)"/>
+  <circle cx="1000" cy="516" r="144" fill="rgba(0,128,128,0.06)"/>
+
+  <g opacity="0.9">
+    <rect x="84" y="74" width="286" height="22" rx="11" fill="rgba(255,255,255,0.06)"/>
+    <rect x="396" y="74" width="114" height="22" rx="11" fill="rgba(255,255,255,0.03)"/>
+    <rect x="872" y="74" width="244" height="22" rx="11" fill="rgba(255,255,255,0.05)"/>
+  </g>
+
+  <g transform="translate(88 132)">
+    <path d="M0 24C0 10.7 10.7 0 24 0h236c13.3 0 24 10.7 24 24v190c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24Z" fill="url(#panel)" stroke="rgba(119,242,238,0.26)" stroke-width="2"/>
+    <path d="M18 34h248" stroke="rgba(119,242,238,0.18)" stroke-width="1.5"/>
+    <circle cx="34" cy="18" r="5" fill="#27d0cb"/>
+    <circle cx="52" cy="18" r="5" fill="rgba(39,208,203,0.55)"/>
+    <circle cx="70" cy="18" r="5" fill="rgba(39,208,203,0.26)"/>
+    <text x="30" y="78" fill="#f4fffe" font-family="'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="700">Private Data</text>
+    <text x="30" y="110" fill="rgba(227,250,249,0.72)" font-family="'Helvetica Neue', Arial, sans-serif" font-size="15" letter-spacing="1.2">SELF-HOSTED INPUT LAYER</text>
+
+    <g transform="translate(30 134)">
+      <rect width="106" height="60" rx="16" fill="url(#glowFill)" stroke="rgba(119,242,238,0.28)"/>
+      <rect x="124" y="16" width="102" height="44" rx="14" fill="rgba(255,255,255,0.03)" stroke="rgba(119,242,238,0.18)"/>
+      <rect x="18" y="14" width="48" height="8" rx="4" fill="#27d0cb"/>
+      <rect x="18" y="30" width="72" height="8" rx="4" fill="rgba(255,255,255,0.28)"/>
+      <rect x="18" y="46" width="58" height="8" rx="4" fill="rgba(255,255,255,0.16)"/>
+      <rect x="144" y="30" width="50" height="8" rx="4" fill="rgba(255,255,255,0.3)"/>
+      <rect x="144" y="46" width="34" height="8" rx="4" fill="#27d0cb"/>
+    </g>
+
+    <g transform="translate(200 128)" opacity="0.8">
+      <path d="M0 22h52l18 18v26l-18 18H0l-18-18V40Z" fill="rgba(255,255,255,0.03)" stroke="rgba(119,242,238,0.2)"/>
+      <path d="M14 54h28" stroke="#27d0cb" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="0" cy="54" r="6" fill="#27d0cb"/>
+      <circle cx="56" cy="54" r="6" fill="#27d0cb"/>
+    </g>
+  </g>
+
+  <g filter="url(#softGlow)">
+    <path d="M378 250H500L560 170H632" fill="none" stroke="url(#wire)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M638 170H706L760 250H836" fill="none" stroke="url(#wire)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="500" cy="250" r="8" fill="#77f2ee"/>
+    <circle cx="560" cy="170" r="9" fill="#27d0cb"/>
+    <circle cx="706" cy="170" r="9" fill="#27d0cb"/>
+    <circle cx="760" cy="250" r="8" fill="#77f2ee"/>
+  </g>
+
+  <g transform="translate(468 138)">
+    <path d="M132 0 238 62v128l-106 62-106-62V62Z" fill="rgba(0,128,128,0.12)" stroke="rgba(119,242,238,0.42)" stroke-width="2.5"/>
+    <path d="M132 42 196 80v76l-64 38-64-38V80Z" fill="rgba(255,255,255,0.03)" stroke="rgba(119,242,238,0.2)"/>
+    <path d="M132 42v152" stroke="rgba(119,242,238,0.22)" stroke-width="2"/>
+    <path d="M68 80h128" stroke="rgba(119,242,238,0.22)" stroke-width="2"/>
+    <g filter="url(#softGlow)">
+      <circle cx="132" cy="118" r="24" fill="rgba(39,208,203,0.22)" stroke="#77f2ee" stroke-width="2"/>
+      <path d="M118 118h28M132 104v28" stroke="#e6fffe" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <text x="132" y="288" text-anchor="middle" fill="#f4fffe" font-family="'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="700">LLM Engine</text>
+    <text x="132" y="318" text-anchor="middle" fill="rgba(227,250,249,0.72)" font-family="'Helvetica Neue', Arial, sans-serif" font-size="15" letter-spacing="1.2">RETRIEVAL • POLICY • EVAL</text>
+  </g>
+
+  <g transform="translate(828 132)">
+    <path d="M0 24C0 10.7 10.7 0 24 0h260c13.3 0 24 10.7 24 24v190c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24Z" fill="url(#panel)" stroke="rgba(119,242,238,0.26)" stroke-width="2"/>
+    <path d="M18 34h272" stroke="rgba(119,242,238,0.18)" stroke-width="1.5"/>
+    <text x="30" y="78" fill="#f4fffe" font-family="'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="700">Verified Output</text>
+    <text x="30" y="110" fill="rgba(227,250,249,0.72)" font-family="'Helvetica Neue', Arial, sans-serif" font-size="15" letter-spacing="1.2">TRACEABLE DELIVERY LAYER</text>
+
+    <g transform="translate(30 132)">
+      <rect width="118" height="72" rx="18" fill="rgba(255,255,255,0.03)" stroke="rgba(119,242,238,0.16)"/>
+      <circle cx="59" cy="36" r="22" fill="rgba(39,208,203,0.18)" stroke="#77f2ee" stroke-width="2"/>
+      <path d="M48 36l8 8 16-18" fill="none" stroke="#f4fffe" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="144" y="0" width="108" height="72" rx="18" fill="url(#glowFill)" stroke="rgba(119,242,238,0.28)"/>
+      <rect x="164" y="18" width="46" height="8" rx="4" fill="rgba(255,255,255,0.3)"/>
+      <rect x="164" y="34" width="64" height="8" rx="4" fill="#27d0cb"/>
+      <rect x="164" y="50" width="52" height="8" rx="4" fill="rgba(255,255,255,0.16)"/>
+    </g>
+  </g>
+
+  <g opacity="0.82">
+    <path d="M148 522h904" stroke="rgba(119,242,238,0.16)" stroke-width="1.5"/>
+    <rect x="148" y="496" width="164" height="12" rx="6" fill="rgba(255,255,255,0.08)"/>
+    <rect x="334" y="496" width="106" height="12" rx="6" fill="rgba(39,208,203,0.18)"/>
+    <rect x="816" y="496" width="136" height="12" rx="6" fill="rgba(255,255,255,0.08)"/>
+    <rect x="972" y="496" width="82" height="12" rx="6" fill="rgba(39,208,203,0.24)"/>
+  </g>
+
+  <g opacity="0.48">
+    <text x="96" y="584" fill="rgba(227,250,249,0.54)" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" letter-spacing="2.8">PRIVATE WORKFLOW ORCHESTRATION</text>
+    <text x="888" y="584" fill="rgba(227,250,249,0.54)" font-family="'Helvetica Neue', Arial, sans-serif" font-size="13" letter-spacing="2.8">SOURCE-GROUNDED DELIVERY</text>
+  </g>
+</svg>

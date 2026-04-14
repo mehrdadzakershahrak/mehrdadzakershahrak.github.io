@@ -3,21 +3,21 @@
   description: "A practical guide to secure, reliable, and cost-aware private AI systems, including local LLM deployment tradeoffs."
   url: "/private-ai-deployment/"
   image_urls:
-    - "/assets/images/local-llm-diagram-3.png"
-    - "/assets/images/local-llm-diagram-2.png"
-    - "/assets/images/local-llm-diagram-4.png"
+    - "/assets/images/local-llm-diagram-3.webp"
+    - "/assets/images/local-llm-diagram-2.webp"
+    - "/assets/images/local-llm-diagram-4.webp"
   badge: "Featured"
 
 - type: card
   title: "AI System Design Intro"
   description: "A podcast episode on how AI ideas move from prototypes into systems that can survive real operational use."
   url: "/podcast/ai-system-design-intro/"
-  image_url: "/assets/images/podcast-ai-system-design-intro.jpg"
+  image_url: "/assets/images/podcast-ai-system-design-intro.webp"
   badge: "Podcast"
 
 - type: card
   title: "IDX Overview"
   description: "See how IDX turns dense PDFs into a source-grounded workspace for search, comparison, and review."
   url: "/idx/assistant/"
-  image_url: "/assets/images/project8.png"
+  image_url: "/assets/images/project8.webp"
   badge: "IDX"

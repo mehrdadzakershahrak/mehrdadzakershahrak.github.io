@@ -2,7 +2,7 @@
 title: "AI System Design Intro"
 date: 2026-03-07
 topic: "System Design"
-image_url: "/assets/images/podcast-ai-system-design-intro.jpg"
+image_url: "/assets/images/podcast-ai-system-design-intro.webp"
 watch_url: "https://youtu.be/fvRNitI9Aro"
 watch_label: "Watch on YouTube"
 ---

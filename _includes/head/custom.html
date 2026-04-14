@@ -1,11 +1,53 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+{%- assign is_home = false -%}
+{%- if page.permalink == "/" or page.url == "/" -%}
+  {%- assign is_home = true -%}
+{%- endif -%}
+{%- if is_home == false and page.classes and page.classes contains "home-page" -%}
+  {%- assign is_home = true -%}
+{%- endif -%}
+{%- assign social_image = page.social_image | default: site.default_social_image -%}
+
+<style>
+  @font-face {
+    font-family: "Instrument Sans";
+    src: url("{{ '/assets/fonts/instrument-sans-latin.woff2' | relative_url }}") format("woff2");
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Space Grotesk";
+    src: url("{{ '/assets/fonts/space-grotesk-latin.woff2' | relative_url }}") format("woff2");
+    font-weight: 500 700;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+
+{% if is_home %}
+  <link rel="preload" href="{{ '/assets/fonts/instrument-sans-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ '/assets/fonts/space-grotesk-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+{% endif %}
+
+<link rel="icon" href="{{ '/assets/images/logo-mark.svg' | relative_url }}" type="image/svg+xml">
+<link rel="icon" href="{{ '/assets/images/favicon-32.png' | relative_url }}" sizes="32x32" type="image/png">
+<link rel="icon" href="{{ '/assets/images/favicon-16.png' | relative_url }}" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="{{ '/assets/images/apple-touch-icon.png' | relative_url }}" sizes="180x180">
+<link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
+<meta name="theme-color" content="#2f343b">
 
 {% if page.demo_id or page.url == "/login/" %}
   <meta name="robots" content="index,follow">
 {% endif %}
 
-{% if page.permalink == "/" or page.url == "/" or page.classes contains "home-page" %}
-  <link rel="stylesheet" href="{{ '/assets/css/home-carousel-bleed.css' | relative_url }}">
+{% if social_image %}
+  <meta property="og:image" content="{{ social_image | absolute_url }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ social_image | absolute_url }}">
+  <meta property="og:image:alt" content="Technical schematic showing private data flowing into an LLM engine and verified output.">
+  {% if social_image == site.default_social_image %}
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+  {% endif %}
 {% endif %}
