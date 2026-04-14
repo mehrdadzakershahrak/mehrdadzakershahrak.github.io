@@ -30,6 +30,9 @@ collections:
   podcast_entries:
     output: true
     permalink: /podcast/:name/
+  newsletter_entries:
+    output: true
+    permalink: /newsletter/:name/
 
 defaults:
   - scope:
@@ -38,6 +41,14 @@ defaults:
     values:
       layout: podcast_entry
       classes: wide podcast-entry-page
+  - scope:
+      path: ""
+      type: newsletter_entries
+    values:
+      layout: single
+      classes: wide newsletter-entry-page
+      toc: true
+      toc_label: "In this issue"
 
 # Site features
 search: true

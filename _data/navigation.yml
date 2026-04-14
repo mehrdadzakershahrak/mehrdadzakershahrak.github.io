@@ -34,6 +34,12 @@ main:
   - title: "Podcast"
     key: podcast
     url: /podcast/
+  - title: "Newsletter"
+    key: newsletter
+    url: /newsletter/
+    children:
+      - title: "Archive"
+        url: /newsletter/archive/
   - title: "About"
     url: /about/
   - title: "Contact"

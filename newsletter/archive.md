@@ -5,9 +5,20 @@ permalink: /newsletter/archive/
 classes: wide
 ---
 
-This archive will open once newsletter issues are being published publicly.
+{% assign issues = site.newsletter_entries | sort: "date" | reverse %}
 
 ## Archive
-There are no public archive entries yet. For now, the best public updates are on the [Podcast]({{ '/podcast/' | relative_url }}) and the main [Solutions]({{ '/ai-robotics-solutions/' | relative_url }}) pages.
 
-To subscribe or view the main newsletter page, go to [Newsletter]({{ '/newsletter/' | relative_url }}).
+{% if issues.size > 0 %}
+{% for issue in issues %}
+### [{{ issue.title }}]({{ issue.url | relative_url }})
+
+{{ issue.date | date: "%B %-d, %Y" }}
+
+{{ issue.excerpt }}
+{% endfor %}
+{% else %}
+There are no public archive entries yet. For now, the best public updates are on the [Podcast]({{ '/podcast/' | relative_url }}) and the main [Solutions]({{ '/ai-robotics-solutions/' | relative_url }}) pages.
+{% endif %}
+
+To return to the main newsletter hub, go to [Newsletter]({{ '/newsletter/' | relative_url }}).
