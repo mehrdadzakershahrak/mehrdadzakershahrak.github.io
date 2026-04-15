@@ -5,7 +5,8 @@ permalink: /newsletter/
 classes: wide
 ---
 
-{% assign latest_issue = site.newsletter_entries | sort: "date" | reverse | first %}
+{% assign issues = site.newsletter_entries | sort: "date" | reverse %}
+{% assign latest_issue = issues | first %}
 
 Practical notes on AI systems, robotics, deployment architecture, and product execution. This section now works as the public home for long-form updates and short issue-style essays.
 
@@ -20,6 +21,16 @@ Practical notes on AI systems, robotics, deployment architecture, and product ex
   <a class="btn btn--primary mdz-cta" href="{{ latest_issue.url | relative_url }}">Read the latest issue</a>
   <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/newsletter/archive/' | relative_url }}">Browse the archive</a>
 </p>
+{% endif %}
+
+{% if issues.size > 1 %}
+## Recent issues
+
+{% for issue in issues offset: 1 limit: 1 %}
+### [{{ issue.title }}]({{ issue.url | relative_url }})
+
+{{ issue.excerpt }}
+{% endfor %}
 {% endif %}
 
 ## Subscribe
