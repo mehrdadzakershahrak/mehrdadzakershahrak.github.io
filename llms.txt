@@ -1,34 +1,31 @@
 # Mehrdad Zaker
 
-> Mehrdad Zaker is a private AI consulting and technical advisory practice focused on production-grade AI systems, private deployments, retrieval-backed workflows, and robotics-adjacent automation.
+> Mehrdad Zaker is a private AI consulting practice for teams that need grounded answers, reliable deployment paths, and AI systems that can survive production pressure.
 
-Use this file as a concise guide to the public site. The primary value of the website is technical positioning, service descriptions, IDX product context, selected writing, and ways to contact the practice about a concrete workflow or deployment problem.
+Use this file as a concise guide to the public site. Start with the outcome you need: a private AI system that can ship, a document workflow that stays grounded in the source, or a direct explanation of why a deployment is stalling.
 
 The public website does not host the live authenticated IDX product experience. Public product guidance lives on the marketing site, while the live IDX portal and sign-in flow live on the IDX product host.
 
-## Primary Services
+## Start Here
 
-- [Homepage](https://www.mehrdadzaker.com/): Overview of the consulting practice, delivery model, and main solution areas.
-- [Solutions](https://www.mehrdadzaker.com/ai-robotics-solutions/): Starting point across AI systems, private deployment, and robotics-related solution areas.
-- [Private AI Deployment](https://www.mehrdadzaker.com/private-ai-deployment/): Guidance for security-sensitive, private, and hybrid AI system deployment.
-- [Custom AI Systems](https://www.mehrdadzaker.com/custom-ai-systems/): Delivery approach for workflow-specific AI systems, assistants, and automation.
+- [Homepage](https://www.mehrdadzaker.com/): Outcome-led overview of the consulting practice, common bottlenecks, and where to start.
+- [Why Most Private AI Deployments Fail Before They Ship in 2026](https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/): Best entry point when the question is why a private AI system is stalled between demo and production.
+- [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete deployment, retrieval, evaluation, or workflow problem.
 
-## Robotics And IDX
+## Consulting Paths
 
-- [Industrial Robotics](https://www.mehrdadzaker.com/robotics/industrial-robotics/): Factory and operations automation positioning.
-- [Autonomous Systems](https://www.mehrdadzaker.com/robotics/autonomous-systems/): Applied autonomy positioning for real-world systems.
-- [AI-Powered Robotics](https://www.mehrdadzaker.com/robotics/ai-powered-robotics/): Robotics platforms enhanced by AI, perception, and higher-level decision support.
-- [IDX Overview](https://www.mehrdadzaker.com/idx/assistant/): Public overview of the IDX document workflow product and how it fits into source-grounded review.
+- [Private AI Deployment](https://www.mehrdadzaker.com/private-ai-deployment/): Guidance for secure, private, and hybrid AI deployments that need to hold up under real constraints.
+- [Custom AI Systems](https://www.mehrdadzaker.com/custom-ai-systems/): Delivery approach for workflow-specific AI systems, assistants, and internal tools.
+- [Solutions](https://www.mehrdadzaker.com/ai-robotics-solutions/): Broader view across private AI systems, robotics-adjacent work, and productized workflows.
+
+## Document Grounding With IDX
+
+- [IDX Overview](https://www.mehrdadzaker.com/idx/assistant/): Product overview for grounded answers, page-level verification, and visible ingest states in document-heavy review.
 - [IDX Dashboard Handoff](https://www.mehrdadzaker.com/idx/dashboard/): Redirect entry point into the live IDX product host.
+- [Newsletter](https://www.mehrdadzaker.com/newsletter/): Long-form writing on private AI systems, robotics, and production architecture.
 
-## Writing And Contact
+## Additional Context
 
-- [Newsletter](https://www.mehrdadzaker.com/newsletter/): Long-form notes on AI systems, robotics, and production architecture.
-- [Newsletter Archive](https://www.mehrdadzaker.com/newsletter/archive/): Index of published newsletter entries.
 - [Podcast](https://www.mehrdadzaker.com/podcast/): Applied AI and systems-oriented audio content.
-- [Contact](https://www.mehrdadzaker.com/contact/): Best page for reaching out with a concrete deployment, workflow, or advisory need.
-
-## Optional
-
 - [About](https://www.mehrdadzaker.com/about/): Background on research, systems perspective, and prior experience.
-- [Resources](https://www.mehrdadzaker.com/resources/): Supplemental public resources and references.
+- [Industrial Robotics](https://www.mehrdadzaker.com/robotics/industrial-robotics/): Factory and operations automation positioning.

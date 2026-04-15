@@ -1,16 +1,20 @@
 const { test, expect } = require("@playwright/test");
 
 const PRODUCT_URL = "https://idx.mehrdadzaker.com/v2/portal";
-const HOMEPAGE_TITLE = "Mehrdad Zaker — Custom AI Systems & Private AI Deployment";
+const HOMEPAGE_TITLE = "Mehrdad Zaker — Private AI Systems That Ship";
 const HOMEPAGE_DESCRIPTION =
-  "We design production-grade private AI systems, retrieval workflows, and secure deployment architectures for teams operating under real constraints.";
+  "Ship private AI systems that stay grounded, verifiable, and production-ready across secure, document-heavy workflows.";
 const HOMEPAGE_H1 =
-  "We build production-grade AI systems for private, high-stakes workflows.";
+  "Ship private AI systems that stay grounded, reliable, and ready for production.";
+const IDX_DESCRIPTION =
+  "IDX gives document-heavy teams grounded answers, page-level verification, and visible ingest states in one review workspace.";
+const IDX_H1 = "Get answers you can verify before you act.";
+const FAILURE_ARTICLE_PATH = "/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/";
 const DEFAULT_SOCIAL_IMAGE_PATH = "/assets/images/private-ai-consulting-header-1200.png";
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
-    headingPattern: /We build production-grade AI systems for private, high-stakes workflows\./,
+    headingPattern: /Ship private AI systems that stay grounded, reliable, and ready for production\./,
   },
   {
     path: "/about/",
@@ -26,7 +30,7 @@ const CUSTOM_H1_PAGES = [
   },
   {
     path: "/idx/assistant/",
-    headingPattern: /Turn dense documents into a source-grounded workspace\./,
+    headingPattern: /Get answers you can verify before you act\./,
   },
 ];
 
@@ -153,9 +157,10 @@ test("llms.txt is published with service and contact guidance", async ({ request
 
   const text = await response.text();
   expect(text).toContain("# Mehrdad Zaker");
-  expect(text).toContain("private AI consulting");
+  expect(text).toContain("private AI consulting practice");
   expect(text).toContain("https://www.mehrdadzaker.com/contact/");
-  expect(text).toContain("https://www.mehrdadzaker.com/private-ai-deployment/");
+  expect(text).toContain("https://www.mehrdadzaker.com/idx/assistant/");
+  expect(text).toContain("https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/");
 });
 
 test("idx landing page stays public and does not load retired guidance or dashboard bundles", async ({ request, page }) => {
@@ -175,7 +180,8 @@ test("idx landing page stays public and does not load retired guidance or dashbo
   const hero = page.locator(".mdz-idx-landing__hero");
 
   await expect(page).toHaveTitle(/IDX/);
-  await expect(hero.getByRole("heading", { name: "Turn dense documents into a source-grounded workspace." })).toBeVisible();
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", IDX_DESCRIPTION);
+  await expect(hero.getByRole("heading", { name: IDX_H1 })).toBeVisible();
   await expect(hero.getByRole("link", { name: "Open IDX dashboard" })).toHaveAttribute("href", "/idx/dashboard/");
   await expect(hero.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/login/");
   await expect(hero.getByRole("link", { name: "Private deployment" })).toHaveAttribute("href", "/private-ai-deployment/");
@@ -190,11 +196,24 @@ test("idx landing page remains usable on mobile and the dashboard CTA still hand
 
   const hero = page.locator(".mdz-idx-landing__hero");
 
-  await expect(hero.getByRole("heading", { name: "Turn dense documents into a source-grounded workspace." })).toBeVisible();
+  await expect(hero.getByRole("heading", { name: IDX_H1 })).toBeVisible();
   await expect(hero.getByRole("link", { name: "Sign in" })).toBeVisible();
   await hero.getByRole("link", { name: "Open IDX dashboard" }).click();
 
   await page.waitForURL(PRODUCT_URL);
   expect(page.url()).toBe(PRODUCT_URL);
   await expect(page.getByText("IDX v2 portal")).toBeVisible();
+});
+
+test("deployment failure article bridges to IDX while keeping the final consulting CTA", async ({ request, page }) => {
+  const response = await request.get(FAILURE_ARTICLE_PATH);
+  expect(response.ok()).toBeTruthy();
+
+  const html = await response.text();
+  expect(html).toContain("/idx/assistant/");
+  expect(html).toContain("Get in touch");
+
+  await page.goto(FAILURE_ARTICLE_PATH);
+  await expect(page.locator(".page__content").getByRole("link", { name: "IDX" })).toHaveAttribute("href", "/idx/assistant/");
+  await expect(page.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "/contact/");
 });
