@@ -2,30 +2,35 @@
 
 > Mehrdad Zaker is a private AI consulting practice for teams that need grounded answers, reliable deployment paths, and AI systems that can survive production pressure.
 
-Use this file as a concise guide to the public site. Start with the outcome you need: a private AI system that can ship, a document workflow that stays grounded in the source, or a direct explanation of why a deployment is stalling.
+Use this file as a concise guide to the public site. Start with the outcome you need: a private AI system that can ship, a document workflow that stays grounded in the source, a custom AI system built around a real workflow, or a direct explanation of why a deployment is stalling.
 
 The public website does not host the live authenticated IDX product experience. Public product guidance lives on the marketing site, while the live IDX portal and sign-in flow live on the IDX product host.
 
 ## Start Here
 
-- [Homepage](https://www.mehrdadzaker.com/): Outcome-led overview of the consulting practice, common bottlenecks, and where to start.
+- [Homepage](https://www.mehrdadzaker.com/): Outcome-led overview of the consulting practice, source-backed private AI statistics, first-person expertise context, and FAQ coverage for custom AI systems, private deployment, RAG, evaluation, and fit.
 - [Why Most Private AI Deployments Fail Before They Ship in 2026](https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/): Best entry point when the question is why a private AI system is stalled between demo and production.
 - [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete deployment, retrieval, evaluation, or workflow problem.
 
 ## Consulting Paths
 
-- [Private AI Deployment](https://www.mehrdadzaker.com/private-ai-deployment/): Guidance for secure, private, and hybrid AI deployments that need to hold up under real constraints.
-- [Custom AI Systems](https://www.mehrdadzaker.com/custom-ai-systems/): Delivery approach for workflow-specific AI systems, assistants, and internal tools.
+- [Private AI Deployment](https://www.mehrdadzaker.com/private-ai-deployment/): Source-backed business case and technical guide for secure, private, and hybrid AI deployments that need to hold up under data, governance, latency, and cost constraints.
+- [Custom AI Systems](https://www.mehrdadzaker.com/custom-ai-systems/): Delivery approach for workflow-specific AI systems, RAG pipelines, source-grounded assistants, tool-using workflows, evaluation harnesses, and internal tools.
 - [Solutions](https://www.mehrdadzaker.com/ai-robotics-solutions/): Broader view across private AI systems, robotics-adjacent work, and productized workflows.
 
 ## Document Grounding With IDX
 
-- [IDX Overview](https://www.mehrdadzaker.com/idx/assistant/): Product overview for grounded answers, page-level verification, and visible ingest states in document-heavy review.
+- [IDX Overview](https://www.mehrdadzaker.com/idx/assistant/): Product overview for grounded answers, page-level verification, and visible ingest states in document-heavy review. Use this when the problem is document review, source citation, or evidence inspection.
 - [IDX Dashboard Handoff](https://www.mehrdadzaker.com/idx/dashboard/): Redirect entry point into the live IDX product host.
 - [Newsletter](https://www.mehrdadzaker.com/newsletter/): Long-form writing on private AI systems, robotics, and production architecture.
+
+## Source-Backed Context
+
+- The homepage cites Gartner, Cisco, IBM, Stanford HAI, Google Search Central, and the GEO paper for public claims about AI project failure, privacy risk, AI governance, enterprise adoption, structured data, and generative engine visibility.
+- Public statistics are used conservatively. The site avoids invented client outcomes and unsupported claims about guaranteed search or AI citation uplift.
 
 ## Additional Context
 
 - [Podcast](https://www.mehrdadzaker.com/podcast/): Applied AI and systems-oriented audio content.
-- [About](https://www.mehrdadzaker.com/about/): Background on research, systems perspective, and prior experience.
+- [About](https://www.mehrdadzaker.com/about/): First-person background on research, systems perspective, production experience, private AI, RAG, ranking, robotics, and model-serving work.
 - [Industrial Robotics](https://www.mehrdadzaker.com/robotics/industrial-robotics/): Factory and operations automation positioning.

@@ -11,6 +11,14 @@ const IDX_DESCRIPTION =
 const IDX_H1 = "Get answers you can verify before you act.";
 const FAILURE_ARTICLE_PATH = "/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/";
 const DEFAULT_SOCIAL_IMAGE_PATH = "/assets/images/private-ai-consulting-header-1200.png";
+const HOMEPAGE_FAQ_QUESTIONS = [
+  "What is a custom AI system?",
+  "What is private AI deployment?",
+  "When should a team choose a private or hybrid LLM?",
+  "How does retrieval-augmented generation improve reliability?",
+  "How do you evaluate an AI system before production?",
+  "What types of teams are a fit for Mehrdad Zaker's AI consulting work?",
+];
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
@@ -80,6 +88,37 @@ test("homepage exposes the updated SEO title, description, and aligned hero copy
   await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute("content", new RegExp(`${DEFAULT_SOCIAL_IMAGE_PATH}$`));
   await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute("href", "/assets/images/apple-touch-icon.png");
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "/site.webmanifest");
+});
+
+test("homepage publishes source-backed expertise content and matching FAQ schema", async ({ request, page }) => {
+  const response = await request.get("/");
+  expect(response.ok()).toBeTruthy();
+
+  const html = await response.text();
+  expect(html).toContain("Gartner reported a hard pattern");
+  expect(html).toContain("By the end of 2025, at least half of GenAI projects");
+  expect(html).toContain("Cisco's 2025 privacy benchmark");
+  expect(html).toContain("IBM's 2025 breach report");
+  expect(html).toContain("Stanford HAI's 2025 AI Index");
+  expect(html).toContain("https://arxiv.org/abs/2311.09735");
+
+  await page.goto("/");
+
+  await expect(page.getByRole("heading", { name: "Private AI systems, built from the workflow back." })).toBeVisible();
+  await expect(page.getByText("I build AI systems for teams that need more than a demo.")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Why teams choose private AI deployments" })).toBeVisible();
+  await expect(page.getByText("50%+")).toBeVisible();
+  await expect(page.getByText("$4.4M")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Questions teams ask before building private AI" })).toBeVisible();
+
+  const visibleQuestions = await page.locator(".mdz-home-faq-item h3").allTextContents();
+  expect(visibleQuestions).toEqual(HOMEPAGE_FAQ_QUESTIONS);
+
+  const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
+  const faqSchema = structuredData.map((scriptText) => JSON.parse(scriptText)).find((entry) => entry["@type"] === "FAQPage");
+  expect(faqSchema).toBeTruthy();
+  expect(faqSchema.mainEntity.map((entry) => entry.name)).toEqual(HOMEPAGE_FAQ_QUESTIONS);
+  expect(faqSchema.mainEntity.every((entry) => entry.acceptedAnswer["@type"] === "Answer")).toBe(true);
 });
 
 test("custom-hero pages expose a single content h1 without the theme page title heading", async ({ page, request }) => {
@@ -158,9 +197,13 @@ test("llms.txt is published with service and contact guidance", async ({ request
   const text = await response.text();
   expect(text).toContain("# Mehrdad Zaker");
   expect(text).toContain("private AI consulting practice");
+  expect(text).toContain("source-backed private AI statistics");
+  expect(text).toContain("FAQ coverage for custom AI systems");
   expect(text).toContain("https://www.mehrdadzaker.com/contact/");
   expect(text).toContain("https://www.mehrdadzaker.com/idx/assistant/");
   expect(text).toContain("https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/");
+  expect(text).toContain("https://www.mehrdadzaker.com/private-ai-deployment/");
+  expect(text).toContain("https://www.mehrdadzaker.com/custom-ai-systems/");
 });
 
 test("idx landing page stays public and does not load retired guidance or dashboard bundles", async ({ request, page }) => {

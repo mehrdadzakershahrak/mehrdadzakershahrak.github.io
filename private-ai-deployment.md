@@ -9,6 +9,14 @@ Deploy AI in your environment with practical security, compliance, and reliabili
 
 If you are deciding between hosted, hybrid, and fully private approaches, or trying to harden an existing implementation, use [Contact]({{ '/contact/' | relative_url }}) to describe the environment and constraints.
 
+## Why private AI becomes necessary
+
+Private AI deployment is usually a business and governance decision before it is an infrastructure decision. A hosted API can be the right starting point for many prototypes. It becomes harder to justify when sensitive documents, regulated workflows, data residency, audit trails, latency, offline operation, or predictable cost matter.
+
+The risk is not theoretical. [Gartner reported](https://www.gartner.com/en/articles/genai-project-failure) that by the end of 2025, at least 50% of generative AI projects were abandoned after proof of concept because of poor data quality, inadequate risk controls, escalating costs, or unclear business value. [Cisco's 2025 Data Privacy Benchmark](https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2025/m04/cisco-2025-data-privacy-benchmark-study-privacy-landscape-grows-increasingly-complex-in-the-age-of-ai.html) found that 90% of organizations see local data storage as inherently safer, and 64% worry about accidentally sharing sensitive information publicly or with competitors through GenAI tools. [IBM's 2025 Cost of a Data Breach report](https://www.ibm.com/reports/data-breach) lists USD 4.4 million as the global average breach cost and says 63% of organizations lacked AI governance policies to manage AI or prevent shadow AI.
+
+That is why the deployment model has to be designed with the rest of the system. The work includes model access, retrieval, logging, permissions, evaluation, monitoring, incident response, rollout, and cost controls. A private system still needs good product design. It also needs the operational discipline to prove what happened, where data moved, and why the system answered the way it did.
+
 ## What you get
 - Architecture guidance for private / hybrid deployments
 - Evaluation and observability (quality, latency, cost)
