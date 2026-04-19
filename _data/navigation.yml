@@ -31,6 +31,22 @@ main:
         url: /private-ai-deployment/
       - title: "Support"
         url: /idx/support/
+  - title: "Resources"
+    key: resources
+    url: /resources/
+    children:
+      - title: "Resource Hub"
+        url: /resources/
+      - title: "Private LLM Production"
+        url: /resources/private-llm-pilot-to-production/
+      - title: "Grounding & Hallucinations"
+        url: /resources/grounding-hallucination-prevention-document-ai/
+      - title: "Secure RAG Architecture"
+        url: /resources/secure-enterprise-rag-architecture/
+      - title: "AI Reliability Evaluation"
+        url: /resources/ai-system-reliability-evaluation-before-deployment/
+      - title: "Private vs Cloud AI"
+        url: /resources/private-vs-cloud-ai-regulated-industries/
   - title: "Podcast"
     key: podcast
     url: /podcast/

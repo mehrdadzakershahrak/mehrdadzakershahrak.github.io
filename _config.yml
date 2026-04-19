@@ -33,6 +33,9 @@ collections:
   newsletter_entries:
     output: true
     permalink: /newsletter/:name/
+  resource_guides:
+    output: true
+    permalink: /resources/:name/
 
 defaults:
   - scope:
@@ -49,6 +52,15 @@ defaults:
       classes: wide newsletter-entry-page
       toc: true
       toc_label: "In this issue"
+  - scope:
+      path: ""
+      type: resource_guides
+    values:
+      layout: single
+      classes: wide resource-entry-page
+      toc: true
+      toc_label: "In this guide"
+      resource_guide: true
 
 # Site features
 search: false

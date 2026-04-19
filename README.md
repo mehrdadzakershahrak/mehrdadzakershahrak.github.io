@@ -45,6 +45,30 @@ PATH="/opt/homebrew/bin:$PATH" npx playwright install chromium
 PATH="/opt/homebrew/bin:$PATH" npm run test:e2e
 ```
 
+## Post-publish IndexNow
+
+The site includes an IndexNow verification key at `/36fd8da451bc4ac980e93670b46c9376.txt`. After the resource hub is deployed, submit the changed URLs with:
+
+```bash
+curl -X POST "https://api.indexnow.org/indexnow" \
+  -H "Content-Type: application/json; charset=utf-8" \
+  --data '{
+    "host": "www.mehrdadzaker.com",
+    "key": "36fd8da451bc4ac980e93670b46c9376",
+    "keyLocation": "https://www.mehrdadzaker.com/36fd8da451bc4ac980e93670b46c9376.txt",
+    "urlList": [
+      "https://www.mehrdadzaker.com/resources/",
+      "https://www.mehrdadzaker.com/resources/private-llm-pilot-to-production/",
+      "https://www.mehrdadzaker.com/resources/grounding-hallucination-prevention-document-ai/",
+      "https://www.mehrdadzaker.com/resources/secure-enterprise-rag-architecture/",
+      "https://www.mehrdadzaker.com/resources/ai-system-reliability-evaluation-before-deployment/",
+      "https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/"
+    ]
+  }'
+```
+
+Bing Webmaster Tools sitemap and URL submission still requires access to the verified site-owner account.
+
 ## Notes
 - Product implementation work belongs in [neuralint-platform](/Users/mehrdad/Downloads/neuralint-platform).
 - If public copy on this site mentions a website-hosted dashboard or website-hosted sign-in, that copy is stale and should be updated to point to `idx.mehrdadzaker.com`.

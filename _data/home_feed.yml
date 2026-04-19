@@ -1,4 +1,11 @@
 - type: card
+  title: "Private AI Resource Hub"
+  description: "Five source-backed guides on private LLM production, secure RAG, grounding, reliability evaluation, and regulated-industry deployment tradeoffs."
+  url: "/resources/"
+  image_url: "/assets/images/private-ai-consulting-header-960.webp"
+  badge: "Resources"
+
+- type: card
   title: "Private AI Deployment"
   description: "A practical guide to secure, reliable, and cost-aware private AI systems, including local LLM deployment tradeoffs."
   url: "/private-ai-deployment/"

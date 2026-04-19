@@ -1,0 +1,9 @@
+{% if page.faqs %}
+## FAQ
+
+{% for faq in page.faqs %}
+### {{ faq.question }}
+
+{{ faq.answer | markdownify }}
+{% endfor %}
+{% endif %}

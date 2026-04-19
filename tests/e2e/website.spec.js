@@ -27,6 +27,98 @@ const HOMEPAGE_FAQ_QUESTIONS = [
   "How does retrieval-augmented generation improve reliability?",
   "How do you evaluate an AI system before production?",
 ];
+const RESOURCE_GUIDES = [
+  {
+    path: "/resources/private-llm-pilot-to-production/",
+    title: "How to Move a Private LLM from Pilot to Production",
+    description:
+      "A practical guide for turning a private LLM prototype into a production-ready system with retrieval, evaluation, deployment controls, and rollout discipline.",
+    faqs: [
+      "What is the first step after a private LLM pilot works?",
+      "How long does private LLM production hardening usually take?",
+      "What makes a private LLM production-ready?",
+      "Should a team choose a smaller local model or a larger hosted model?",
+    ],
+    sources: [
+      "https://www.gartner.com/en/articles/genai-project-failure",
+      "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
+    ],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
+  },
+  {
+    path: "/resources/grounding-hallucination-prevention-document-ai/",
+    title: "Grounding and Hallucination Prevention in Document-Heavy AI",
+    description:
+      "How to reduce hallucinations in document-heavy AI systems with retrieval design, evidence preservation, citation checks, and answer evaluation.",
+    faqs: [
+      "What does grounding mean in a document AI system?",
+      "Does RAG eliminate hallucinations?",
+      "What is the fastest way to debug hallucinations in RAG?",
+      "What should citations prove?",
+    ],
+    sources: [
+      "https://arxiv.org/abs/2304.09848",
+      "https://arxiv.org/abs/2312.10997",
+      "https://aclanthology.org/2024.naacl-long.20/",
+    ],
+    internalLinks: ["/idx/assistant/", "/custom-ai-systems/"],
+  },
+  {
+    path: "/resources/secure-enterprise-rag-architecture/",
+    title: "RAG Architecture for Secure Enterprise Workflows",
+    description:
+      "A secure enterprise RAG architecture guide covering ingestion, permissions, retrieval, prompt boundaries, evaluation, monitoring, and rollout controls.",
+    faqs: [
+      "What is secure enterprise RAG?",
+      "Where should access control happen in RAG?",
+      "What is the biggest security risk in RAG systems?",
+      "Does a vector database replace document permissions?",
+    ],
+    sources: [
+      "https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2025/m04/cisco-2025-data-privacy-benchmark-study-privacy-landscape-grows-increasingly-complex-in-the-age-of-ai.html",
+      "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+      "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+    ],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
+  },
+  {
+    path: "/resources/ai-system-reliability-evaluation-before-deployment/",
+    title: "Evaluating AI System Reliability Before Deployment",
+    description:
+      "A production-focused evaluation guide for private AI systems, covering retrieval, answer quality, permissions, latency, security, and rollout readiness.",
+    faqs: [
+      "What should an AI reliability evaluation measure?",
+      "When should evaluation start?",
+      "Are generic benchmarks enough for deployment readiness?",
+      "What is a good first evaluation set size?",
+    ],
+    sources: [
+      "https://www.ibm.com/think/x-force/2025-cost-of-a-data-breach-navigating-ai",
+      "https://www.nist.gov/itl/ai-risk-management-framework",
+      "https://aclanthology.org/2024.naacl-long.20/",
+    ],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/"],
+  },
+  {
+    path: "/resources/private-vs-cloud-ai-regulated-industries/",
+    title: "Private vs. Cloud AI: Tradeoffs for Regulated Industries",
+    description:
+      "A practical comparison of private, cloud, and hybrid AI deployment models for regulated or security-sensitive teams.",
+    faqs: [
+      "Is private AI always safer than cloud AI?",
+      "When should regulated teams use cloud AI?",
+      "What is a hybrid AI deployment?",
+      "What is the most important deployment decision?",
+    ],
+    sources: [
+      "https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2025/m04/cisco-2025-data-privacy-benchmark-study-privacy-landscape-grows-increasingly-complex-in-the-age-of-ai.html",
+      "https://www.ibm.com/think/x-force/2025-cost-of-a-data-breach-navigating-ai",
+      "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
+      "https://www.nist.gov/itl/ai-risk-management-framework",
+    ],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
+  },
+];
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
@@ -218,6 +310,96 @@ test("llms.txt is published with service and contact guidance", async ({ request
   expect(text).toContain("https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/");
   expect(text).toContain("https://www.mehrdadzaker.com/private-ai-deployment/");
   expect(text).toContain("https://www.mehrdadzaker.com/custom-ai-systems/");
+  expect(text).toContain("https://www.mehrdadzaker.com/resources/");
+  for (const guide of RESOURCE_GUIDES) {
+    expect(text).toContain(`https://www.mehrdadzaker.com${guide.path}`);
+  }
+});
+
+test("resources hub lists the private AI pillar guides and service paths", async ({ request, page }) => {
+  const response = await request.get("/resources/");
+  expect(response.ok()).toBeTruthy();
+
+  const html = await response.text();
+  expect(countHeadingTags(html, 1)).toBe(1);
+  expect(html).toContain("Private AI Resource Hub");
+  expect(html).toContain("/private-ai-deployment/");
+  expect(html).toContain("/custom-ai-systems/");
+  expect(html).toContain("/idx/assistant/");
+  expect(html).toContain("/ai-robotics-solutions/");
+  expect(html).toContain("/contact/");
+
+  await page.goto("/resources/");
+  await expect(page.getByRole("heading", { level: 1, name: "Resources" })).toBeVisible();
+  for (const guide of RESOURCE_GUIDES) {
+    await expect(page.getByRole("link", { name: guide.title }).first()).toHaveAttribute("href", guide.path);
+  }
+});
+
+test("private AI resource guides publish article schema, FAQ schema, citations, and service links", async ({ request, page }) => {
+  for (const guide of RESOURCE_GUIDES) {
+    const response = await request.get(guide.path);
+    expect(response.ok()).toBeTruthy();
+
+    const html = await response.text();
+    expect(countHeadingTags(html, 1)).toBe(1);
+    expect(html).toContain('class="toc"');
+    expect(html).toContain("In this guide");
+    for (const sourceUrl of guide.sources) {
+      expect(html).toContain(sourceUrl);
+    }
+    for (const internalLink of guide.internalLinks) {
+      expect(html).toContain(internalLink);
+    }
+
+    await page.goto(guide.path);
+    await expect(page.getByRole("heading", { level: 1, name: guide.title })).toBeVisible();
+    await expect(page.locator(".toc")).toBeVisible();
+    for (const question of guide.faqs) {
+      await expect(page.getByRole("heading", { level: 3, name: question })).toBeVisible();
+    }
+
+    const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
+    const parsedStructuredData = structuredData.map((scriptText) => JSON.parse(scriptText));
+    const articleSchema = parsedStructuredData.find((entry) => entry["@type"] === "Article");
+    expect(articleSchema).toEqual(
+      expect.objectContaining({
+        "@type": "Article",
+        headline: guide.title,
+        description: guide.description,
+        author: expect.objectContaining({ "@type": "Person", name: "Mehrdad Zaker" }),
+        datePublished: expect.stringContaining("2026-04-19"),
+        dateModified: expect.stringContaining("2026-04-19"),
+      })
+    );
+    expect(articleSchema.mainEntityOfPage).toEqual(
+      expect.objectContaining({
+        "@type": "WebPage",
+        "@id": expect.stringMatching(new RegExp(`${guide.path}$`)),
+      })
+    );
+
+    const faqSchema = parsedStructuredData.find((entry) => entry["@type"] === "FAQPage");
+    expect(faqSchema).toBeTruthy();
+    expect(faqSchema.mainEntity.map((entry) => entry.name)).toEqual(guide.faqs);
+    expect(faqSchema.mainEntity.every((entry) => entry.acceptedAnswer["@type"] === "Answer")).toBe(true);
+  }
+});
+
+test("resource guides are discoverable through sitemap and local search data", async ({ request }) => {
+  const sitemapResponse = await request.get("/sitemap.xml");
+  expect(sitemapResponse.ok()).toBeTruthy();
+  const sitemap = await sitemapResponse.text();
+
+  const searchStoreResponse = await request.get("/assets/js/lunr/lunr-store.js");
+  expect(searchStoreResponse.ok()).toBeTruthy();
+  const searchStore = await searchStoreResponse.text();
+
+  for (const guide of RESOURCE_GUIDES) {
+    expect(sitemap).toContain(guide.path);
+    expect(searchStore).toContain(guide.title);
+    expect(searchStore).toContain(guide.path);
+  }
 });
 
 test("idx landing page stays public and does not load retired guidance or dashboard bundles", async ({ request, page }) => {

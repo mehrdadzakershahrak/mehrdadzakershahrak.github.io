@@ -9,6 +9,7 @@ The public website does not host the live authenticated IDX product experience. 
 ## Start Here
 
 - [Homepage](https://www.mehrdadzaker.com/): Outcome-led overview of the consulting practice, source-backed private AI statistics, first-person expertise context, and FAQ coverage for custom AI systems, private deployment, RAG, evaluation, and fit.
+- [Private AI Resource Hub](https://www.mehrdadzaker.com/resources/): Source-backed guide hub for private LLM production, document grounding, secure enterprise RAG, reliability evaluation, and regulated-industry deployment choices.
 - [Why Most Private AI Deployments Fail Before They Ship in 2026](https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/): Best entry point when the question is why a private AI system is stalled between demo and production.
 - [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete deployment, retrieval, evaluation, or workflow problem.
 
@@ -17,6 +18,14 @@ The public website does not host the live authenticated IDX product experience. 
 - [Private AI Deployment](https://www.mehrdadzaker.com/private-ai-deployment/): Source-backed business case and technical guide for secure, private, and hybrid AI deployments that need to hold up under data, governance, latency, and cost constraints.
 - [Custom AI Systems](https://www.mehrdadzaker.com/custom-ai-systems/): Delivery approach for workflow-specific AI systems, RAG pipelines, source-grounded assistants, tool-using workflows, evaluation harnesses, and internal tools.
 - [Solutions](https://www.mehrdadzaker.com/ai-robotics-solutions/): Broader view across private AI systems, robotics-adjacent work, and productized workflows.
+
+## Private AI Resource Guides
+
+- [How to Move a Private LLM from Pilot to Production](https://www.mehrdadzaker.com/resources/private-llm-pilot-to-production/): Production-readiness guide for private LLM pilots, retrieval inspection, evaluation harnesses, deployment constraints, and controlled rollout.
+- [Grounding and Hallucination Prevention in Document-Heavy AI](https://www.mehrdadzaker.com/resources/grounding-hallucination-prevention-document-ai/): Practical guide to source grounding, citation precision, retrieval tests, no-answer behavior, and hallucination prevention.
+- [RAG Architecture for Secure Enterprise Workflows](https://www.mehrdadzaker.com/resources/secure-enterprise-rag-architecture/): Secure RAG reference for identity, permissions, ingestion metadata, prompt boundaries, output validation, and monitoring.
+- [Evaluating AI System Reliability Before Deployment](https://www.mehrdadzaker.com/resources/ai-system-reliability-evaluation-before-deployment/): Evaluation guide covering retrieval quality, answer faithfulness, permission boundaries, latency, security, and release gates.
+- [Private vs. Cloud AI: Tradeoffs for Regulated Industries](https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/): Deployment-model comparison for regulated teams choosing private, cloud, or hybrid AI architectures.
 
 ## Document Grounding With IDX
 
