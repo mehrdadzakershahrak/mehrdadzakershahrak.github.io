@@ -1,0 +1,52 @@
+{%- assign include_person_schema = true -%}
+{%- if include.include_person == false or include.include_person == "false" -%}
+  {%- assign include_person_schema = false -%}
+{%- endif -%}
+{% if include_person_schema %}
+  {% include person_schema.html %}
+{% endif %}
+
+{% if page.resource_guide %}
+{%- assign person = site.data.person -%}
+{%- assign article_description = page.description | default: page.excerpt | default: site.description -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ page.headline | default: page.title | jsonify }},
+  "description": {{ article_description | markdownify | strip_html | strip_newlines | normalize_whitespace | jsonify }},
+  "author": {
+    "@type": "Person",
+    "name": {{ page.author | default: person.name | default: site.title | jsonify }}{% if person.url %},
+    "url": {{ person.url | jsonify }}{% endif %}
+  },
+  "datePublished": {{ page.date | date_to_xmlschema | jsonify }},
+  "dateModified": {{ page.last_modified_at | default: page.date | date_to_xmlschema | jsonify }},
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": {{ page.url | absolute_url | jsonify }}
+  }
+}
+</script>
+
+{% if page.faqs %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for faq in page.faqs %}
+    {
+      "@type": "Question",
+      "name": {{ faq.question | jsonify }},
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": {{ faq.answer | markdownify | strip_html | strip_newlines | normalize_whitespace | jsonify }}
+      }
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endif %}

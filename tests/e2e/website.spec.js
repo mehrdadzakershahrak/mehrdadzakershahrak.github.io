@@ -11,13 +11,21 @@ const IDX_DESCRIPTION =
 const IDX_H1 = "Get answers you can verify before you act.";
 const FAILURE_ARTICLE_PATH = "/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/";
 const DEFAULT_SOCIAL_IMAGE_PATH = "/assets/images/private-ai-consulting-header-1200.png";
+const HOMEPAGE_PERSON_SCHEMA = {
+  "@type": "Person",
+  name: "Mehrdad Zaker",
+  url: "https://www.mehrdadzaker.com/",
+  jobTitle: "Private AI Systems Consultant",
+  description:
+    "Mehrdad Zaker builds private AI systems for secure, document-heavy workflows — helping teams move from pilot to production-ready deployment.",
+  sameAs: ["https://www.linkedin.com/in/mehrdadzaker", "https://twitter.com/mehrdadzaker"],
+};
 const HOMEPAGE_FAQ_QUESTIONS = [
-  "What is a custom AI system?",
-  "What is private AI deployment?",
+  "What is a private AI system?",
+  "How long does it take to move from AI pilot to production?",
   "When should a team choose a private or hybrid LLM?",
   "How does retrieval-augmented generation improve reliability?",
   "How do you evaluate an AI system before production?",
-  "What types of teams are a fit for Mehrdad Zaker's AI consulting work?",
 ];
 const CUSTOM_H1_PAGES = [
   {
@@ -115,10 +123,16 @@ test("homepage publishes source-backed expertise content and matching FAQ schema
   expect(visibleQuestions).toEqual(HOMEPAGE_FAQ_QUESTIONS);
 
   const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
-  const faqSchema = structuredData.map((scriptText) => JSON.parse(scriptText)).find((entry) => entry["@type"] === "FAQPage");
-  expect(faqSchema).toBeTruthy();
+  const parsedStructuredData = structuredData.map((scriptText) => JSON.parse(scriptText));
+  const faqSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "FAQPage");
+  expect(faqSchemas).toHaveLength(1);
+  const [faqSchema] = faqSchemas;
   expect(faqSchema.mainEntity.map((entry) => entry.name)).toEqual(HOMEPAGE_FAQ_QUESTIONS);
   expect(faqSchema.mainEntity.every((entry) => entry.acceptedAnswer["@type"] === "Answer")).toBe(true);
+
+  const personSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "Person");
+  expect(personSchemas).toHaveLength(1);
+  expect(personSchemas[0]).toEqual(expect.objectContaining(HOMEPAGE_PERSON_SCHEMA));
 });
 
 test("custom-hero pages expose a single content h1 without the theme page title heading", async ({ page, request }) => {

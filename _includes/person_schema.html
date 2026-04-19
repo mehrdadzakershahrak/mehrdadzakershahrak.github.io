@@ -1,0 +1,18 @@
+{%- assign person = site.data.person -%}
+{%- if person -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": {{ person.name | jsonify }},
+  "url": {{ person.url | jsonify }},
+  "jobTitle": {{ person.jobTitle | jsonify }},
+  "description": {{ person.description | jsonify }},
+  "sameAs": [
+    {%- for profile_url in person.sameAs %}
+    {{ profile_url | jsonify }}{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
+  ]
+}
+</script>
+{%- endif -%}
