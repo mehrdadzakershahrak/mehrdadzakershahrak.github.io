@@ -171,6 +171,21 @@ img {
   font-size: 0.96rem;
 }
 
+.summary {
+  max-width: 62ch;
+  margin: 0 0 1rem;
+  padding-left: 0.85rem;
+  border-left: 3px solid rgba(184, 106, 43, 0.52);
+  color: rgba(18, 24, 20, 0.84);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.mdz-home-hero .summary {
+  color: rgba(232, 245, 244, 0.9);
+  border-left-color: rgba(119, 242, 238, 0.55);
+}
+
 .mdz-home-hero__actions {
   display: flex;
   flex-wrap: wrap;

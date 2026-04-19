@@ -3,22 +3,44 @@ const { test, expect } = require("@playwright/test");
 const PRODUCT_URL = "https://idx.mehrdadzaker.com/v2/portal";
 const HOMEPAGE_TITLE = "Mehrdad Zaker — Private AI Systems That Ship";
 const HOMEPAGE_DESCRIPTION =
-  "Ship private AI systems that stay grounded, verifiable, and production-ready across secure, document-heavy workflows.";
+  "Build private AI systems that verify answers, protect sensitive documents, and run in production.";
 const HOMEPAGE_H1 =
-  "Ship private AI systems that stay grounded, reliable, and ready for production.";
+  "Ship private AI systems that verify answers and run in production.";
 const IDX_DESCRIPTION =
-  "IDX gives document-heavy teams grounded answers, page-level verification, and visible ingest states in one review workspace.";
+  "IDX lets document-heavy teams ask questions, verify source pages, and track ingest in one workspace.";
 const IDX_H1 = "Get answers you can verify before you act.";
 const FAILURE_ARTICLE_PATH = "/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/";
 const DEFAULT_SOCIAL_IMAGE_PATH = "/assets/images/private-ai-consulting-header-1200.png";
+const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mehrdadzaker";
+const GITHUB_PROFILE_URL = "https://github.com/mehrdadzakershahrak";
 const HOMEPAGE_PERSON_SCHEMA = {
   "@type": "Person",
   name: "Mehrdad Zaker",
   url: "https://www.mehrdadzaker.com/",
   jobTitle: "Private AI Systems Consultant",
   description:
-    "Mehrdad Zaker builds private AI systems for secure, document-heavy workflows — helping teams move from pilot to production-ready deployment.",
-  sameAs: ["https://www.linkedin.com/in/mehrdadzaker", "https://twitter.com/mehrdadzaker"],
+    "Mehrdad Zaker helps organizations ship private AI systems that are grounded, verifiable, and production-ready for secure, document-heavy workflows.",
+  sameAs: [LINKEDIN_PROFILE_URL, "https://twitter.com/mehrdadzaker", GITHUB_PROFILE_URL],
+  knowsAbout: [
+    "Private AI Systems",
+    "Retrieval-Augmented Generation",
+    "LLM Deployment",
+    "Document AI",
+    "Enterprise AI Security",
+  ],
+};
+const HOMEPAGE_PROFESSIONAL_SERVICE_SCHEMA = {
+  "@type": "ProfessionalService",
+  name: "Mehrdad Zaker — Private AI Consulting",
+  url: "https://www.mehrdadzaker.com/",
+  description:
+    "Private AI systems consulting for organizations moving from pilot to production in secure, document-heavy environments.",
+  provider: {
+    "@type": "Person",
+    name: "Mehrdad Zaker",
+  },
+  serviceType: "AI Systems Consulting",
+  areaServed: "Worldwide",
 };
 const HOMEPAGE_FAQ_QUESTIONS = [
   "What is a private AI system?",
@@ -127,7 +149,7 @@ const RESOURCE_UI_VIEWPORTS = [
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
-    headingPattern: /Ship private AI systems that stay grounded, reliable, and ready for production\./,
+    headingPattern: /Ship private AI systems that verify answers and run in production\./,
   },
   {
     path: "/about/",
@@ -219,6 +241,14 @@ test("homepage publishes source-backed expertise content and matching FAQ schema
 
   await expect(page.getByRole("heading", { name: "Private AI systems, built from the workflow back." })).toBeVisible();
   await expect(page.getByText("I build AI systems for teams that need more than a demo.")).toBeVisible();
+  await expect(page.locator(".mdz-home-profile-links").getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
+    "href",
+    LINKEDIN_PROFILE_URL,
+  );
+  await expect(page.locator(".mdz-home-profile-links").getByRole("link", { name: "GitHub" })).toHaveAttribute(
+    "href",
+    GITHUB_PROFILE_URL,
+  );
   await expect(page.getByRole("heading", { name: "Why teams choose private AI deployments" })).toBeVisible();
   await expect(page.getByText("50%+")).toBeVisible();
   await expect(page.getByText("$4.4M")).toBeVisible();
@@ -238,6 +268,10 @@ test("homepage publishes source-backed expertise content and matching FAQ schema
   const personSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "Person");
   expect(personSchemas).toHaveLength(1);
   expect(personSchemas[0]).toEqual(expect.objectContaining(HOMEPAGE_PERSON_SCHEMA));
+
+  const professionalServiceSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "ProfessionalService");
+  expect(professionalServiceSchemas).toHaveLength(1);
+  expect(professionalServiceSchemas[0]).toEqual(expect.objectContaining(HOMEPAGE_PROFESSIONAL_SERVICE_SCHEMA));
 });
 
 test("custom-hero pages expose a single content h1 without the theme page title heading", async ({ page, request }) => {

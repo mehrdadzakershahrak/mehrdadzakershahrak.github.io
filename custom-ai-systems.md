@@ -5,36 +5,65 @@ permalink: /custom-ai-systems/
 classes: wide
 ---
 
-Custom AI systems should be shaped around a concrete workflow, operating constraint, and decision surface. The goal is not to add a generic assistant layer, but to build something that helps a team actually do the work better.
+<p class="summary">We build AI around one real job, not a generic chat box. The system should help a team finish work with less risk.</p>
 
-A useful custom AI system starts with the job it must perform. That job might be reviewing a contract packet, answering questions from a private document set, routing an operational request, ranking search results, supporting a technical team, or turning a fragile internal process into a repeatable workflow. The model is only one part of the system. The data pipeline, retrieval layer, evaluation process, interface, access controls, and monitoring all determine whether the system can survive real use.
+Start with the real work. Then match the system to the team's rules, data, and choices.
 
-I usually approach this work from the workflow back. First, define what a good answer or action looks like. Then map the data sources, user roles, failure modes, latency needs, privacy limits, and review path. Only after that does it make sense to choose the model, retrieval strategy, orchestration layer, or deployment pattern.
+A useful system starts with the job it must perform. That job might be:
+
+- reviewing a contract packet
+- answering from a private document set
+- routing an operational request
+- ranking search results
+- supporting a technical team
+- turning a manual process into a repeatable workflow
+
+The model is only one part. The system also needs:
+
+- a clean data path
+- retrieval that finds the right source text
+- tests for answer quality
+- a useful interface
+- access controls
+- monitoring after launch
+
+I usually work from the workflow back. First, define what a good answer or action looks like. Then map data sources, user roles, failure modes, privacy limits, and review steps.
+
+Only then should the team choose the model, retrieval strategy, workflow layer, or deployment pattern.
 
 ## Typical engagements
 - Domain-specific assistants with your tools and data
-- Agentic workflows (quoting, support, operations)
-- Retrieval + evaluation + monitoring
+- Tool-using workflows for quoting, support, or operations
+- Retrieval, evaluation, and monitoring
 - UI prototypes and demo-to-production hardening
 
 ## Common system patterns
-- Retrieval-augmented generation over private documents, policies, tickets, transcripts, or knowledge bases
-- Source-grounded assistants that preserve citations and make review easier
-- Workflow agents that call internal tools with clear permissions and human approval paths
+- Retrieval-augmented generation (RAG) over private documents, policies, tickets, or transcripts
+- Assistants that keep answers tied to source text, also called grounding
+- Workflow agents that call internal tools with clear permissions
+- Human approval paths for high-risk actions
 - Fine-tuned or adapter-based models when prompts and retrieval are not enough
-- Search, ranking, recommendation, and decision systems that need better relevance or prioritization
-- Evaluation harnesses that measure correctness, grounding, latency, cost, and failure patterns before rollout
+- Search, ranking, recommendation, and decision systems with better relevance
+- Evaluation harnesses that measure correctness, citations, speed, cost, and failures
 
 ## What the work usually includes
 - Workflow and failure-mode mapping before implementation starts
-- Retrieval, evaluation, and source-grounding where accuracy matters
-- Product and interface decisions that fit the real operators
-- Delivery choices that can survive security, latency, and maintenance constraints
+- Retrieval and answer tests where accuracy matters
+- Product decisions that fit the real operators
+- Delivery choices that can pass security and maintenance review
 
 ## Implementation fit
-This work is a good fit when a team already has a clear workflow, a painful manual process, a stalled AI prototype, or a sensitive data constraint. It is also a fit when the current system gives impressive demos but cannot prove correctness, explain its sources, control cost, or pass security review.
+This work fits teams that already have:
 
-The implementation stack depends on the environment. A project may involve LangChain, LlamaIndex, vector databases, model routers, vLLM, Ollama, llama.cpp, MLX, Kubernetes, private cloud services, or custom application code. The important choice is not the trendiest tool. It is the smallest reliable architecture that gives the team control over data, quality, cost, and operations.
+- a clear workflow
+- a painful manual process
+- a stalled AI prototype
+- sensitive data constraints
+- a system that demos well but fails review
+
+The stack depends on the environment. A project may use RAG tools, vector databases, model servers, Kubernetes, private cloud services, or custom code.
+
+The important choice is not the trendiest tool. It is the smallest reliable architecture that gives the team control.
 
 ## Contact
 If you already have a use case in motion, reach out through [Contact]({{ '/contact/' | relative_url }}) or email <a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a>.

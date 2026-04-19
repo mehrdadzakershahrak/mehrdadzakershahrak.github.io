@@ -53,3 +53,7 @@
 {% endif %}
 
 {% include schema.html include_person=false %}
+
+{% if is_home %}
+  {% include professional_service_schema.html %}
+{% endif %}

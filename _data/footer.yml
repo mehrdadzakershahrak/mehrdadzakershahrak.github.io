@@ -61,6 +61,12 @@ social_links:
   - label: "Email"
     url: "mailto:mehrdadz@neuralint.io"
     icon_key: "email"
+  - label: "LinkedIn"
+    url: "https://www.linkedin.com/in/mehrdadzaker"
+    icon_key: "linkedin"
+  - label: "GitHub"
+    url: "https://github.com/mehrdadzakershahrak"
+    icon_key: "github"
 
 legal:
   copyright: "Mehrdad Zaker. All rights reserved."

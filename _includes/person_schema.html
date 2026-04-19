@@ -12,7 +12,13 @@
     {%- for profile_url in person.sameAs %}
     {{ profile_url | jsonify }}{% unless forloop.last %},{% endunless %}
     {%- endfor %}
+  ]{% if person.knowsAbout %},
+  "knowsAbout": [
+    {%- for topic in person.knowsAbout %}
+    {{ topic | jsonify }}{% unless forloop.last %},{% endunless %}
+    {%- endfor %}
   ]
+  {% endif %}
 }
 </script>
 {%- endif -%}

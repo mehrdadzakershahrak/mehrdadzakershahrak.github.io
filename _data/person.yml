@@ -1,7 +1,14 @@
 name: "Mehrdad Zaker"
 url: "https://www.mehrdadzaker.com/"
 jobTitle: "Private AI Systems Consultant"
-description: "Mehrdad Zaker builds private AI systems for secure, document-heavy workflows — helping teams move from pilot to production-ready deployment."
+description: "Mehrdad Zaker helps organizations ship private AI systems that are grounded, verifiable, and production-ready for secure, document-heavy workflows."
 sameAs:
   - "https://www.linkedin.com/in/mehrdadzaker"
   - "https://twitter.com/mehrdadzaker"
+  - "https://github.com/mehrdadzakershahrak"
+knowsAbout:
+  - "Private AI Systems"
+  - "Retrieval-Augmented Generation"
+  - "LLM Deployment"
+  - "Document AI"
+  - "Enterprise AI Security"

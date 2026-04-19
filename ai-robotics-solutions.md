@@ -5,11 +5,13 @@ permalink: /ai-robotics-solutions/
 classes: wide
 ---
 
-Integrating AI or robotics into a real business process can automate repetitive work, accelerate decisions, and create new operational capabilities without adding more manual overhead.
+AI and robotics work best when they improve a real business process. They should reduce manual work, speed up choices, or make operations more reliable.
 
-If you already have a concrete problem in mind, start with [Contact]({{ '/contact/' | relative_url }}). If you want to explore the document workflow path first, go directly to [IDX Overview]({{ '/idx/assistant/' | relative_url }}).
+If you already have a concrete problem, start with [Contact]({{ '/contact/' | relative_url }}). If documents are the bottleneck, start with [IDX Overview]({{ '/idx/assistant/' | relative_url }}).
 
-IDX is the document-workflow capability in this stack. It helps teams work with uploaded PDFs, ask focused questions, and verify answers against source pages. Under the hood, IDX can connect to ChatGPT through MCP; on this site, the IDX Overview page and the IDX dashboard handoff are the two public entry points.
+IDX is the document-workflow path in this stack. It helps teams upload PDFs, ask focused questions, and verify answers against source pages.
+
+IDX can connect to ChatGPT through MCP. On this site, use IDX Overview for fit and IDX Dashboard to reach the live product.
 
 <section class="mdz-solutions" data-solutions-tabs>
   <div class="mdz-solutions__selector" aria-labelledby="solutions-selector-title">
@@ -23,12 +25,20 @@ IDX is the document-workflow capability in this stack. It helps teams work with 
 
   <section class="mdz-solutions__panel is-active" id="solutions-panel-ai" role="tabpanel" aria-labelledby="solutions-tab-ai" data-solutions-panel="ai">
     <h2>AI Systems</h2>
-    <p>AI creates the most leverage when it is tied to a real workflow inside the business, whether that means reviewing documents faster, routing work more reliably, supporting internal teams with source-grounded answers, or deploying systems in secure environments. The sections below show different ways into that work: start with <a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a> and the <a href="{{ '/idx/dashboard/' | relative_url }}">IDX dashboard handoff</a> for document-heavy use cases, <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a> for controlled environments, or <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a> for workflow-specific automation built around your business.</p>
+    <p class="summary">Use AI where it helps people finish real work. Start with documents, private deployment, or a custom workflow.</p>
+    <p>AI helps most when it sits inside the business workflow. It can help teams:</p>
+    <ul>
+      <li>review documents faster</li>
+      <li>route work with fewer handoffs</li>
+      <li>answer from trusted sources</li>
+      <li>deploy systems inside secure environments</li>
+    </ul>
+    <p>Use <a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a> for document-heavy use cases. Use <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a> for controlled environments. Use <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a> for automation built around one workflow.</p>
 
     <div class="mdz-card-grid">
       <div class="mdz-card">
         <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a></h3>
-        <p class="mdz-card__desc">Public product overview for source-grounded document review, workflow fit, and the path into the live IDX portal.</p>
+        <p class="mdz-card__desc">See how IDX keeps document answers tied to source pages.</p>
         <a class="btn btn--small" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
       </div>
       <div class="mdz-card">
@@ -38,22 +48,28 @@ IDX is the document-workflow capability in this stack. It helps teams work with 
       </div>
       <div class="mdz-card">
         <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></h3>
-        <p class="mdz-card__desc">Architecture and delivery guidance for secure, private, and hybrid deployment environments.</p>
+        <p class="mdz-card__desc">Plan secure, private, and hybrid deployment environments.</p>
         <a class="btn btn--small" href="{{ '/private-ai-deployment/' | relative_url }}">Learn more</a>
       </div>
       <div class="mdz-card">
         <h3 class="mdz-card__title"><a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI Systems</a></h3>
-        <p class="mdz-card__desc">End-to-end systems built around a measurable workflow, not just a generic chatbot surface.</p>
+        <p class="mdz-card__desc">Build around a measurable workflow, not a generic chatbot.</p>
         <a class="btn btn--small" href="{{ '/custom-ai-systems/' | relative_url }}">Learn more</a>
       </div>
     </div>
 
-    <p class="mdz-solutions__panel-note">These paths fit teams evaluating private AI architecture, trying to operationalize document-heavy work, or moving from prototype ideas into production systems with clear business value.</p>
+    <p class="mdz-solutions__panel-note">These paths fit teams moving from prototype ideas into production systems with clear business value.</p>
   </section>
 
   <section class="mdz-solutions__panel" id="solutions-panel-robotics" role="tabpanel" aria-labelledby="solutions-tab-robotics" data-solutions-panel="robotics" hidden>
     <h2>Robotics</h2>
-    <p>Robotics becomes more valuable when sensing, control, software, and AI are organized around a concrete operational outcome such as throughput, inspection quality, safety, or labor efficiency. The sections below go deeper into where that shows up in practice: <a href="{{ '/robotics/industrial-robotics/' | relative_url }}">Industrial Robotics</a> for factory and operations automation, <a href="{{ '/robotics/autonomous-systems/' | relative_url }}">Autonomous Systems</a> for machines that perceive and act more independently, and <a href="{{ '/robotics/ai-powered-robotics/' | relative_url }}">AI-Powered Robotics</a> for platforms that benefit from richer reasoning, adaptation, and decision support.</p>
+    <p class="summary">Use robotics where machines can improve a measured operational outcome. Start with throughput, inspection, safety, or labor efficiency.</p>
+    <p>Robotics becomes more valuable when sensing, control, software, and AI serve one clear goal.</p>
+    <ul>
+      <li><a href="{{ '/robotics/industrial-robotics/' | relative_url }}">Industrial Robotics</a> supports factory and operations automation.</li>
+      <li><a href="{{ '/robotics/autonomous-systems/' | relative_url }}">Autonomous Systems</a> supports machines that see and act with less handholding.</li>
+      <li><a href="{{ '/robotics/ai-powered-robotics/' | relative_url }}">AI-Powered Robotics</a> supports better reasoning and decisions.</li>
+    </ul>
 
     <div class="mdz-card-grid">
       <div class="mdz-card">

@@ -709,6 +709,21 @@ body.mdz-menu-lock {
   opacity: 0.72;
 }
 
+.summary {
+  max-width: 62ch;
+  margin: 0 0 1rem;
+  padding-left: 0.85rem;
+  border-left: 3px solid rgba(var(--highlight-rgb), 0.52);
+  color: rgba(18, 24, 20, 0.84);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.mdz-home-hero .summary {
+  color: rgba(232, 245, 244, 0.9);
+  border-left-color: rgba(119, 242, 238, 0.55);
+}
+
 .mdz-band a:not(.btn):hover,
 .mdz-band a:not(.btn):focus-visible {
   color: var(--ui-blue);
@@ -1408,6 +1423,15 @@ body.mdz-menu-lock {
 .mdz-solutions__panel h2,
 .mdz-solutions__panel p {
   margin: 0;
+}
+
+.mdz-solutions__panel ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.mdz-solutions__panel li {
+  margin: 0.18rem 0;
 }
 
 .mdz-solutions__panel h2 {
@@ -4554,6 +4578,27 @@ h6,
 
 .mdz-home-expertise__copy p {
   margin: 0;
+}
+
+.mdz-home-expertise__copy ul {
+  margin: 0;
+  padding-left: 1.18rem;
+}
+
+.mdz-home-expertise__copy li {
+  margin: 0.16rem 0;
+}
+
+.mdz-home-profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+}
+
+.mdz-home-profile-links .mdz-cta {
+  min-height: 2.25rem;
+  box-shadow: none !important;
 }
 
 .mdz-home-expertise__list,
