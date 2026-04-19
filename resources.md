@@ -3,41 +3,97 @@ layout: single
 title: "Resources"
 description: "Source-backed resource hub on private AI deployment, secure RAG, document grounding, reliability evaluation, and regulated-industry AI tradeoffs."
 permalink: /resources/
-classes: wide
+classes: wide resources-hub-page
+suppress_default_h1: true
 ---
 
-The Private AI Resource Hub collects practical, source-backed guides for teams moving private AI systems from prototypes into controlled production environments. The focus is narrow: private LLM deployment, retrieval-augmented generation, document grounding, evaluation, and regulated-industry tradeoffs.
-
-Use it alongside the main [private AI systems consulting]({{ '/private-ai-deployment/' | relative_url }}) page, the [custom AI systems]({{ '/custom-ai-systems/' | relative_url }}) service page, and [IDX for source-grounded document review]({{ '/idx/assistant/' | relative_url }}).
-
 {% assign guides = site.resource_guides | sort: "order" %}
+{% assign primary_guide = guides | first %}
 
-## Resource guides
+<div class="mdz-resource-hub">
+  <section class="mdz-resource-hub__hero" aria-labelledby="resource-hub-title">
+    <div class="mdz-resource-hub__hero-copy">
+      <p class="mdz-resource-hub__eyebrow">Private AI Resource Hub</p>
+      <h1 id="resource-hub-title">Private AI Resource Hub</h1>
+      <p class="mdz-resource-hub__lede">
+        Five source-backed guides for teams moving private LLMs, secure RAG, document grounding, and evaluation from prototype into controlled production.
+      </p>
+      <div class="mdz-resource-hub__actions">
+        <a class="btn btn--primary mdz-cta" href="{{ primary_guide.url | relative_url }}">Start with the production guide</a>
+        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/contact/' | relative_url }}">Discuss a deployment</a>
+      </div>
+    </div>
+    <div class="mdz-resource-hub__signal-panel" aria-label="Resource hub profile">
+      <article>
+        <strong>5</strong>
+        <span>Pillar guides</span>
+      </article>
+      <article>
+        <strong>20</strong>
+        <span>FAQ answers</span>
+      </article>
+      <article>
+        <strong>2+</strong>
+        <span>Cited sources per guide</span>
+      </article>
+    </div>
+  </section>
 
-<div class="mdz-card-grid">
-{% for guide in guides %}
-  <article class="mdz-card">
-    <p class="mdz-card__eyebrow">{{ guide.pillar | default: "Resource Guide" }}</p>
-    <h3 class="mdz-card__title"><a href="{{ guide.url | relative_url }}">{{ guide.title }}</a></h3>
-    <p class="mdz-card__desc">{{ guide.excerpt | default: guide.description }}</p>
-    <a class="btn btn--small mdz-cta" href="{{ guide.url | relative_url }}">Read guide</a>
-  </article>
-{% endfor %}
+  <nav class="mdz-resource-hub__problem-strip" aria-label="Choose a guide by problem">
+    {% for guide in guides %}
+      <a href="{{ guide.url | relative_url }}">
+        <span>{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
+        {{ guide.problem_label | default: guide.pillar }}
+      </a>
+    {% endfor %}
+  </nav>
+
+  <section class="mdz-resource-hub__guides" aria-labelledby="resource-guide-list-title">
+    <div class="mdz-resource-hub__section-head">
+      <p class="mdz-resource-hub__eyebrow">Source-backed guide map</p>
+      <h2 id="resource-guide-list-title">Choose the constraint that is blocking launch</h2>
+      <p>
+        Each guide is written for a specific production bottleneck: pilot hardening, hallucination control, secure retrieval, reliability evaluation, or regulated deployment tradeoffs.
+      </p>
+    </div>
+
+    <div class="mdz-resource-hub__grid">
+      {% for guide in guides %}
+        <article class="mdz-resource-card">
+          <div class="mdz-resource-card__top">
+            <span class="mdz-resource-card__number">{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
+            <span class="mdz-resource-card__pillar">{{ guide.pillar | default: "Resource Guide" }}</span>
+          </div>
+          <h3><a href="{{ guide.url | relative_url }}">{{ guide.title }}</a></h3>
+          <p>{{ guide.excerpt | default: guide.description }}</p>
+          {% if guide.ui_tags %}
+            <div class="mdz-resource-card__tags" aria-label="Guide topics">
+              {% for tag in guide.ui_tags limit: 3 %}
+                <span>{{ tag }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="mdz-resource-card__meta">
+            <span>Source-backed</span>
+            <span>{{ guide.faqs | size }} FAQ answers</span>
+          </div>
+          <a class="btn btn--small mdz-cta" href="{{ guide.url | relative_url }}">Read guide</a>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="mdz-resource-hub__service-map" aria-labelledby="resource-service-map-title">
+    <div>
+      <p class="mdz-resource-hub__eyebrow">Apply the guides</p>
+      <h2 id="resource-service-map-title">Pair the reading path with the right implementation path</h2>
+    </div>
+    <div class="mdz-resource-hub__service-links">
+      <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI deployment</a>
+      <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI systems</a>
+      <a href="{{ '/idx/assistant/' | relative_url }}">IDX document review</a>
+      <a href="{{ '/ai-robotics-solutions/' | relative_url }}">Solutions</a>
+      <a href="{{ '/contact/' | relative_url }}">Contact</a>
+    </div>
+  </section>
 </div>
-
-## Topic map
-
-- Start with [How to Move a Private LLM from Pilot to Production]({{ '/resources/private-llm-pilot-to-production/' | relative_url }}) when a proof of concept is stuck between demo and launch.
-- Use [Grounding and Hallucination Prevention in Document-Heavy AI]({{ '/resources/grounding-hallucination-prevention-document-ai/' | relative_url }}) when answers need to stay tied to evidence.
-- Use [RAG Architecture for Secure Enterprise Workflows]({{ '/resources/secure-enterprise-rag-architecture/' | relative_url }}) when retrieval, permissions, and security controls have to fit the same design.
-- Use [Evaluating AI System Reliability Before Deployment]({{ '/resources/ai-system-reliability-evaluation-before-deployment/' | relative_url }}) before turning a prototype into a user-facing workflow.
-- Use [Private vs. Cloud AI: Tradeoffs for Regulated Industries]({{ '/resources/private-vs-cloud-ai-regulated-industries/' | relative_url }}) when the deployment model is still undecided.
-
-## Best starting points
-- [Solutions]({{ '/ai-robotics-solutions/' | relative_url }}) for consulting and delivery paths
-- [Private AI Deployment]({{ '/private-ai-deployment/' | relative_url }}) for controlled-environment deployment guidance
-- [Custom AI Systems]({{ '/custom-ai-systems/' | relative_url }}) for workflow-specific implementation
-- [IDX Overview]({{ '/idx/assistant/' | relative_url }}) for the public IDX product and workflow entry point
-- [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }}) for the secure handoff into the live IDX portal
-- [Podcast]({{ '/podcast/' | relative_url }}) for applied AI and system-design discussions
-- [Contact]({{ '/contact/' | relative_url }}) for direct inquiries

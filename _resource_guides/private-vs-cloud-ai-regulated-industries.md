@@ -7,6 +7,16 @@ last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
 pillar: "Private vs. Cloud AI"
 order: 5
+problem_label: "Regulated tradeoffs"
+ui_tags:
+  - "Governance"
+  - "Private Cloud"
+  - "Regulated AI"
+resource_cta:
+  title: "Draw the deployment boundary before choosing tools"
+  copy: "Use the private AI deployment path to map data exposure, runtime options, governance gates, and hybrid tradeoffs before architecture hardens."
+  url: "/private-ai-deployment/"
+  label: "Map deployment options"
 faqs:
   - question: "Is private AI always safer than cloud AI?"
     answer: >-
@@ -132,6 +142,8 @@ On-prem systems may suffer from limited hardware, slow procurement, and maintena
 The [NIST AI Risk Management Framework](https://www.nist.gov/itl/ai-risk-management-framework) emphasizes trustworthy AI characteristics and lifecycle risk management. In practice, governance requires traceability: which model answered, which sources were used, which version of the corpus was indexed, what policy applied, and who approved the release.
 
 Private deployments can make audit trails easier to control, but only if the team builds them. Cloud deployments can provide strong audit logs if configured correctly. Hybrid deployments need the most careful audit design because responsibility crosses boundaries.
+
+{% include resource_guide_cta.html %}
 
 ## Regulated industry patterns
 

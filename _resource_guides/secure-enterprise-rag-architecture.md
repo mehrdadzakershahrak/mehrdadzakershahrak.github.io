@@ -7,6 +7,16 @@ last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
 pillar: "Secure Enterprise RAG"
 order: 3
+problem_label: "Secure RAG"
+ui_tags:
+  - "Secure RAG"
+  - "Access Control"
+  - "Prompt Injection"
+resource_cta:
+  title: "Design retrieval around the workflow boundary"
+  copy: "Use custom AI systems support when RAG has to combine permissions, evidence, model routing, and operational review in one governed workflow."
+  url: "/custom-ai-systems/"
+  label: "Design custom RAG"
 faqs:
   - question: "What is secure enterprise RAG?"
     answer: >-
@@ -111,6 +121,8 @@ Good metadata design reduces hallucination because the model sees fewer irreleva
 Operations teams need to debug retrieval. For a given query, they should be able to see the candidate set, applied filters, top results, scores, and final context sent to the model. Access to this debug view should itself be permissioned because it may expose sensitive snippets.
 
 Without retrieval inspection, teams often over-tune prompts when the real issue is indexing or permissions.
+
+{% include resource_guide_cta.html %}
 
 ## Architecture layer 4: prompt assembly and generation
 

@@ -7,6 +7,16 @@ last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
 pillar: "Private LLM Deployment"
 order: 1
+problem_label: "Pilot stuck"
+ui_tags:
+  - "Private LLM"
+  - "RAG"
+  - "Production"
+resource_cta:
+  title: "Turn the pilot into a controlled deployment"
+  copy: "Use the private AI deployment path when the demo works but retrieval, permissions, evaluation, or infrastructure still need production shape."
+  url: "/private-ai-deployment/"
+  label: "Review deployment path"
 faqs:
   - question: "What is the first step after a private LLM pilot works?"
     answer: >-
@@ -103,6 +113,8 @@ Each test case should record the query, expected evidence, expected answer behav
 Use metrics that map to operational risk: retrieval recall, citation precision, answer faithfulness, refusal accuracy, latency percentiles, token cost, queue time, timeout rate, ingestion success, and permission leakage tests. A single accuracy score hides too much.
 
 If the system supports high-risk decisions, add human review and audit sampling. The model should not silently become the decision maker just because the interface is convenient.
+
+{% include resource_guide_cta.html %}
 
 ## Step 4: Make deployment constraints real early
 

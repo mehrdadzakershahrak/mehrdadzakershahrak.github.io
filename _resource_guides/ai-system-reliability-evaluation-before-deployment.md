@@ -7,6 +7,16 @@ last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
 pillar: "AI Reliability Evaluation"
 order: 4
+problem_label: "Reliability"
+ui_tags:
+  - "Evaluation"
+  - "Reliability"
+  - "Launch Gates"
+resource_cta:
+  title: "Pressure-test the system before launch"
+  copy: "Send the workflow, corpus shape, and failure modes through a focused review before the AI system reaches real users."
+  url: "/contact/"
+  label: "Book a reliability review"
 faqs:
   - question: "What should an AI reliability evaluation measure?"
     answer: >-
@@ -101,6 +111,8 @@ Look for irrelevant chunks, stale versions, duplicate passages, and content that
 For failed retrieval cases, inspect ranking scores, metadata filters, chunk boundaries, OCR output, and re-ranking behavior. Many failures are not model failures. They are indexing or query-planning failures.
 
 Fixing retrieval often improves answer quality more than switching models.
+
+{% include resource_guide_cta.html %}
 
 ## Evaluate generated answers
 

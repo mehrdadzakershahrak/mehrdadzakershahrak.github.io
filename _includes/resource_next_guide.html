@@ -1,0 +1,17 @@
+{% assign resource_guides = site.resource_guides | sort: "order" %}
+{% assign next_order = page.order | plus: 1 %}
+{% assign next_guide = resource_guides | where: "order", next_order | first %}
+{% unless next_guide %}
+  {% assign next_guide = resource_guides | first %}
+{% endunless %}
+
+{% if next_guide and next_guide.url != page.url %}
+  <section class="mdz-resource-next" aria-label="Next resource guide">
+    <div>
+      <p class="mdz-resource-next__eyebrow">Next best guide</p>
+      <h2><a href="{{ next_guide.url | relative_url }}">{{ next_guide.title }}</a></h2>
+      <p>{{ next_guide.description }}</p>
+    </div>
+    <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ next_guide.url | relative_url }}">Read next guide</a>
+  </section>
+{% endif %}

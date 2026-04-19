@@ -22,6 +22,9 @@ layout: default
 {% endif %}
 
 {% assign suppress_default_h1 = page.suppress_default_h1 | default: false %}
+{% if page.resource_guide %}
+  {% assign suppress_default_h1 = true %}
+{% endif %}
 
 <div id="main" role="main">
   {% include sidebar.html locale=locale %}
@@ -45,18 +48,66 @@ layout: default
       {% endunless %}
 
       <section class="page__content e-content" itemprop="text">
-        {% if page.toc %}
-          <aside class="sidebar__right {% if page.toc_sticky %}sticky{% endif %}">
-            <nav class="toc" aria-label="Table of contents">
-              <header><h4 class="nav__title">{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</h4></header>
-              {% include toc.html sanitize=true html=content h_min=1 h_max=6 class="toc__menu" skip_no_ids=true %}
-            </nav>
-          </aside>
+        {% if page.resource_guide %}
+          <header class="mdz-resource-entry__header">
+            <p class="mdz-resource-entry__eyebrow">{{ page.pillar | default: "Resource Guide" }}</p>
+            {% if page.title -%}
+              <h1 id="page-title" class="page__title mdz-resource-entry__title p-name" itemprop="headline">
+                <a href="{{ page.url | absolute_url }}" itemprop="url">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</a>
+              </h1>
+            {%- endif %}
+            {% if page.description %}
+              <p class="mdz-resource-entry__dek">{{ page.description }}</p>
+            {% endif %}
+            <div class="mdz-resource-entry__meta" aria-label="Guide metadata">
+              {% if page.date %}
+                <time datetime="{{ page.date | date_to_xmlschema }}">Published {{ page.date | date: "%B %-d, %Y" }}</time>
+              {% endif %}
+              {% for tag in page.ui_tags limit: 3 %}
+                <span>{{ tag }}</span>
+              {% endfor %}
+            </div>
+          </header>
+
+          {% if page.toc %}
+            <details class="mdz-resource-toc-mobile">
+              <summary>{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</summary>
+              <nav class="toc" aria-label="Table of contents">
+                {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="toc__menu" skip_no_ids=true %}
+              </nav>
+            </details>
+          {% endif %}
+
+          <div class="mdz-resource-entry__layout">
+            <div class="mdz-resource-entry__body">
+              {{ content }}
+              {% include resource_next_guide.html %}
+              {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
+            </div>
+
+            {% if page.toc %}
+              <aside class="mdz-resource-entry__toc">
+                <nav class="toc" aria-label="Table of contents">
+                  <header><h4 class="nav__title">{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</h4></header>
+                  {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="toc__menu" skip_no_ids=true %}
+                </nav>
+              </aside>
+            {% endif %}
+          </div>
+        {% else %}
+          {% if page.toc %}
+            <aside class="sidebar__right {% if page.toc_sticky %}sticky{% endif %}">
+              <nav class="toc" aria-label="Table of contents">
+                <header><h4 class="nav__title">{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</h4></header>
+                {% include toc.html sanitize=true html=content h_min=1 h_max=6 class="toc__menu" skip_no_ids=true %}
+              </nav>
+            </aside>
+          {% endif %}
+
+          {{ content }}
+
+          {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
         {% endif %}
-
-        {{ content }}
-
-        {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
       </section>
 
       <footer class="page__meta">

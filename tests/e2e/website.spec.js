@@ -119,6 +119,11 @@ const RESOURCE_GUIDES = [
     internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
   },
 ];
+const RESOURCE_UI_VIEWPORTS = [
+  { width: 390, height: 844 },
+  { width: 768, height: 1024 },
+  { width: 1440, height: 900 },
+];
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
@@ -154,6 +159,14 @@ async function mockIdxHost(page, title, bodyText) {
       body: `<!doctype html><title>${title}</title><main>${bodyText}</main>`,
     });
   });
+}
+
+async function expectNoHorizontalOverflow(page) {
+  const overflow = await page.evaluate(() => {
+    const root = document.documentElement;
+    return Math.max(root.scrollWidth, document.body.scrollWidth) - root.clientWidth;
+  });
+  expect(overflow).toBeLessThanOrEqual(2);
 }
 
 test("dashboard wrapper is a static handoff that redirects directly to the IDX v2 portal", async ({ request, page }) => {
@@ -323,6 +336,8 @@ test("resources hub lists the private AI pillar guides and service paths", async
   const html = await response.text();
   expect(countHeadingTags(html, 1)).toBe(1);
   expect(html).toContain("Private AI Resource Hub");
+  expect(html).toContain("mdz-resource-hub__hero");
+  expect(html).toContain("mdz-resource-hub__problem-strip");
   expect(html).toContain("/private-ai-deployment/");
   expect(html).toContain("/custom-ai-systems/");
   expect(html).toContain("/idx/assistant/");
@@ -330,9 +345,29 @@ test("resources hub lists the private AI pillar guides and service paths", async
   expect(html).toContain("/contact/");
 
   await page.goto("/resources/");
-  await expect(page.getByRole("heading", { level: 1, name: "Resources" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "Private AI Resource Hub" })).toBeVisible();
+  await expect(page.locator(".mdz-resource-hub__problem-strip")).toBeVisible();
   for (const guide of RESOURCE_GUIDES) {
     await expect(page.getByRole("link", { name: guide.title }).first()).toHaveAttribute("href", guide.path);
+  }
+});
+
+test("resources hub layout stays intentional across desktop and mobile", async ({ page }) => {
+  for (const viewport of RESOURCE_UI_VIEWPORTS) {
+    await page.setViewportSize(viewport);
+    await page.goto("/resources/");
+
+    await expectNoHorizontalOverflow(page);
+    await expect(page.locator(".mdz-resource-hub__hero")).toBeVisible();
+    await expect(page.locator(".mdz-resource-hub__problem-strip")).toBeVisible();
+    await expect(page.locator(".mdz-resource-card")).toHaveCount(RESOURCE_GUIDES.length);
+
+    const visibleCardTarget = viewport.width >= 1024 ? 3 : 2;
+    for (let index = 0; index < visibleCardTarget; index += 1) {
+      const cardBox = await page.locator(".mdz-resource-card").nth(index).boundingBox();
+      expect(cardBox).toBeTruthy();
+      expect(cardBox.y).toBeLessThan(viewport.height);
+    }
   }
 });
 
@@ -354,7 +389,7 @@ test("private AI resource guides publish article schema, FAQ schema, citations, 
 
     await page.goto(guide.path);
     await expect(page.getByRole("heading", { level: 1, name: guide.title })).toBeVisible();
-    await expect(page.locator(".toc")).toBeVisible();
+    await expect(page.locator(".mdz-resource-entry__toc .toc")).toBeVisible();
     for (const question of guide.faqs) {
       await expect(page.getByRole("heading", { level: 3, name: question })).toBeVisible();
     }
@@ -383,6 +418,57 @@ test("private AI resource guides publish article schema, FAQ schema, citations, 
     expect(faqSchema).toBeTruthy();
     expect(faqSchema.mainEntity.map((entry) => entry.name)).toEqual(guide.faqs);
     expect(faqSchema.mainEntity.every((entry) => entry.acceptedAnswer["@type"] === "Answer")).toBe(true);
+  }
+});
+
+test("resource guide reading layout exposes content before oversized navigation", async ({ page }) => {
+  const articlePath = "/resources/private-llm-pilot-to-production/";
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(articlePath);
+  await expectNoHorizontalOverflow(page);
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator(".mdz-resource-entry__toc .toc")).toBeVisible();
+  await expect(page.locator(".mdz-resource-toc-mobile")).toBeHidden();
+
+  const desktopFirstParagraphTop = await page.locator(".mdz-resource-entry__body > p").first().evaluate((element) => element.getBoundingClientRect().top);
+  expect(desktopFirstParagraphTop).toBeLessThan(520);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(articlePath);
+  await expectNoHorizontalOverflow(page);
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator(".mdz-resource-entry__toc")).toBeHidden();
+  await expect(page.locator(".mdz-resource-toc-mobile")).toBeVisible();
+  await expect(page.locator(".mdz-resource-toc-mobile")).not.toHaveAttribute("open", "");
+
+  await page.locator(".mdz-resource-toc-mobile summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".mdz-resource-toc-mobile .toc")).toBeVisible();
+
+  await page.locator(".mdz-resource-toc-mobile summary").click();
+  const mobileFirstParagraphTop = await page.locator(".mdz-resource-entry__body > p").first().evaluate((element) => element.getBoundingClientRect().top);
+  expect(mobileFirstParagraphTop).toBeLessThan(620);
+});
+
+test("resource UI changes do not introduce horizontal overflow on primary pages", async ({ page }) => {
+  const pages = [
+    { path: "/", heading: HOMEPAGE_H1 },
+    { path: "/idx/assistant/", heading: IDX_H1 },
+    { path: "/private-ai-deployment/", heading: "Private AI Deployment" },
+  ];
+
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 768, height: 1024 },
+    { width: 1440, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    for (const pageUnderTest of pages) {
+      await page.goto(pageUnderTest.path);
+      await expectNoHorizontalOverflow(page);
+      await expect(page.getByRole("heading", { level: 1, name: pageUnderTest.heading })).toBeVisible();
+    }
   }
 });
 

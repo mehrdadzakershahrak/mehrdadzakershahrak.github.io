@@ -1,5 +1,32 @@
 {% assign feed = site.data.home_feed %}
 {% assign card_items = feed | where: "type", "card" %}
+{% assign resource_item = card_items | where: "url", "/resources/" | first %}
+{% assign feed = feed | where_exp: "item", "item.url != '/resources/'" %}
+{% assign card_items = feed | where: "type", "card" %}
+
+{% if resource_item %}
+  {% assign resource_guides = site.resource_guides | sort: "order" %}
+  {% assign feature_guide = resource_guides | first %}
+  {% assign support_guide = resource_guides | where: "order", 2 | first %}
+  <section class="mdz-home-resource-feature" aria-labelledby="home-resource-feature-title">
+    <a class="mdz-home-resource-feature__main" href="{{ feature_guide.url | relative_url }}">
+      <span class="mdz-badge">{{ resource_item.badge | default: "Resources" }}</span>
+      <h3 id="home-resource-feature-title">{{ feature_guide.title }}</h3>
+      <p>{{ feature_guide.description }}</p>
+      <span class="mdz-home-resource-feature__cta">Read the first guide</span>
+    </a>
+    <div class="mdz-home-resource-feature__links" aria-label="Resource hub links">
+      <a href="{{ resource_item.url | relative_url }}">
+        <strong>{{ resource_item.title }}</strong>
+        <span>{{ resource_item.description }}</span>
+      </a>
+      <a href="{{ support_guide.url | relative_url }}">
+        <strong>{{ support_guide.problem_label | default: support_guide.pillar }}</strong>
+        <span>{{ support_guide.title }}</span>
+      </a>
+    </div>
+  </section>
+{% endif %}
 
 {% if card_items and card_items.size > 0 %}
   {% assign hero = card_items[0] %}

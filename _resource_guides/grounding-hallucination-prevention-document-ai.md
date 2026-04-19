@@ -7,6 +7,16 @@ last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
 pillar: "Grounding and Hallucination Prevention"
 order: 2
+problem_label: "Hallucinations"
+ui_tags:
+  - "Grounding"
+  - "Citations"
+  - "Document AI"
+resource_cta:
+  title: "Make document answers verifiable"
+  copy: "Use IDX when the workflow needs grounded answers, page-level citations, and faster source review over dense documents."
+  url: "/idx/assistant/"
+  label: "Explore IDX"
 faqs:
   - question: "What does grounding mean in a document AI system?"
     answer: >-
@@ -119,6 +129,8 @@ No-answer behavior needs tests. Include questions where the correct response is 
 The more polished an answer looks, the more users may trust it. That is dangerous when evidence is weak. The interface should expose confidence signals that matter: source count, source freshness, citation coverage, retrieval warnings, and whether the answer required inference.
 
 Do not overstate confidence with vague labels. A "high confidence" badge is only useful if it maps to tested behavior.
+
+{% include resource_guide_cta.html %}
 
 ## Evaluate grounding directly
 
