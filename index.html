@@ -6,40 +6,20 @@ permalink: /
 classes: wide home-page
 suppress_default_h1: true
 ---
-<section class="mdz-band mdz-band--hero">
+<section class="mdz-band mdz-band--hero" aria-labelledby="home-hero-title">
   <div class="mdz-band__inner">
-    <div class="mdz-home-hero">
+    <div class="mdz-home-hero mdz-home-hero--v2">
       <div class="mdz-home-hero__copy">
         <p class="mdz-home-hero__eyebrow">Private AI consulting</p>
-        <h1 class="mdz-home-hero__title">Ship private AI systems that verify answers and run in production.</h1>
+        <h1 id="home-hero-title" class="mdz-home-hero__title">
+          Ship private AI that <span class="mdz-home-hero__title-accent">verifies every answer</span>.
+        </h1>
         <p class="mdz-home-hero__lede">
-          I help teams move private AI from demo to production. The system must answer with evidence and protect sensitive documents.
-        </p>
-        <p class="mdz-home-hero__detail">
-          We fix retrieval, tests, launch plans, and workflow design. Those gaps are where most pilots stall.
+          I help teams move private AI from pilot to production — grounded answers, protected documents, operational controls from day one.
         </p>
         <div class="mdz-home-hero__actions">
-          <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a>
-          <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
-        </div>
-        <p class="summary mdz-home-hero__summary">We help teams move an AI pilot into a real private deployment. Answers stay tied to sources, and sensitive data stays in approved systems.</p>
-        <div class="mdz-home-hero__services" aria-label="Core technical services">
-          <article class="mdz-home-hero__service">
-            <strong>Keep answers grounded</strong>
-            <span>Tie each answer to sources, citations, and review steps.</span>
-          </article>
-          <article class="mdz-home-hero__service">
-            <strong>Clear the path to production</strong>
-            <span>Choose private, hybrid, or cloud boundaries before shortcuts harden.</span>
-          </article>
-          <article class="mdz-home-hero__service">
-            <strong>Stabilize the workflow</strong>
-            <span>Build around real work, not a generic chat demo.</span>
-          </article>
-          <article class="mdz-home-hero__service">
-            <strong>Make automation more predictive</strong>
-            <span>Surface operational failure earlier, including robotics-adjacent signals.</span>
-          </article>
+          <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-source="hero">Start a conversation</a>
+          <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}" data-analytics="idx_demo_start" data-analytics-source="hero">See IDX in action</a>
         </div>
       </div>
 
@@ -73,21 +53,49 @@ suppress_default_h1: true
             >
           </picture>
         </div>
-        <div class="mdz-home-hero__signal-grid" aria-label="Practice profile">
-          <article class="mdz-home-hero__signal">
-            <p class="mdz-home-hero__media-label">Best fit</p>
-            <strong>Private, regulated, or source-heavy workflows</strong>
-          </article>
-          <article class="mdz-home-hero__signal">
-            <p class="mdz-home-hero__media-label">Led by</p>
-            <strong>Mehrdad Zaker, Ph.D.</strong>
-          </article>
-          <article class="mdz-home-hero__signal">
-            <p class="mdz-home-hero__media-label">Delivery mode</p>
-            <strong>Architecture, evaluation, and implementation support</strong>
-          </article>
-        </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="mdz-band mdz-band--practice" aria-labelledby="home-practice-title">
+  <div class="mdz-band__inner">
+    <div class="mdz-home-section-head">
+      <p class="mdz-home-section-head__eyebrow">Practice at a glance</p>
+      <h2 id="home-practice-title">Four levers, one delivery model.</h2>
+      <p class="mdz-muted">Most pilots stall on retrieval, tests, launch plans, or workflow fit. That's where the work starts.</p>
+    </div>
+    <div class="mdz-home-hero__services" aria-label="Core technical services">
+      <article class="mdz-home-hero__service">
+        <strong>Keep answers grounded</strong>
+        <span>Tie each answer to sources, citations, and review steps.</span>
+      </article>
+      <article class="mdz-home-hero__service">
+        <strong>Clear the path to production</strong>
+        <span>Choose private, hybrid, or cloud boundaries before shortcuts harden.</span>
+      </article>
+      <article class="mdz-home-hero__service">
+        <strong>Stabilize the workflow</strong>
+        <span>Build around real work, not a generic chat demo.</span>
+      </article>
+      <article class="mdz-home-hero__service">
+        <strong>Make automation more predictive</strong>
+        <span>Surface operational failure earlier, including robotics-adjacent signals.</span>
+      </article>
+    </div>
+    <div class="mdz-home-hero__signal-grid" aria-label="Practice profile">
+      <article class="mdz-home-hero__signal">
+        <p class="mdz-home-hero__media-label">Best fit</p>
+        <strong>Private, regulated, or source-heavy workflows</strong>
+      </article>
+      <article class="mdz-home-hero__signal">
+        <p class="mdz-home-hero__media-label">Led by</p>
+        <strong>Mehrdad Zaker, Ph.D.</strong>
+      </article>
+      <article class="mdz-home-hero__signal">
+        <p class="mdz-home-hero__media-label">Delivery mode</p>
+        <strong>Architecture, evaluation, and implementation support</strong>
+      </article>
     </div>
   </div>
 </section>

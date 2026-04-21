@@ -6842,3 +6842,114 @@ h6,
     width: 100%;
   }
 }
+
+/* =========================================================================
+   Stage-3 hero rebuild (.mdz-home-hero--v2) + new .mdz-band--practice band
+   Roomier hero, stronger focal title, half the content. Supporting detail
+   (services, signals) moves to a dedicated "Practice at a glance" band.
+   ========================================================================= */
+.mdz-home-hero--v2 {
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  gap: clamp(1.75rem, 4vw, 3.5rem);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  align-items: center;
+}
+
+.mdz-home-hero--v2 .mdz-home-hero__copy {
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.mdz-home-hero--v2 .mdz-home-hero__title {
+  max-width: 18ch;
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+}
+
+.mdz-home-hero__title-accent {
+  display: inline;
+  background: linear-gradient(120deg, #77f2ee 0%, #b86a2b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Thin underline stays visible for browsers that don't paint the gradient */
+  text-decoration-color: rgba(119, 242, 238, 0.45);
+}
+
+.mdz-home-hero--v2 .mdz-home-hero__lede {
+  max-width: 52ch;
+  font-size: var(--fs-md);
+  line-height: var(--lh-snug);
+}
+
+.mdz-home-hero--v2 .mdz-home-hero__actions {
+  margin-top: var(--sp-2);
+}
+
+@media (max-width: 48em) {
+  .mdz-home-hero--v2 {
+    grid-template-columns: 1fr;
+  }
+  .mdz-home-hero--v2 .mdz-home-hero__title {
+    max-width: none;
+  }
+}
+
+/* ---------- Practice band: lifts services + signals out of the hero ----- */
+.mdz-band--practice .mdz-band__inner {
+  padding-block: var(--sp-7);
+}
+
+.mdz-band--practice .mdz-home-section-head {
+  margin-bottom: var(--sp-6);
+}
+
+.mdz-band--practice .mdz-home-hero__services {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.mdz-band--practice .mdz-home-hero__service,
+.mdz-band--practice .mdz-home-hero__signal {
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  box-shadow: var(--el-1);
+  padding: var(--sp-4);
+  transition: transform var(--dur-base) var(--ease-standard),
+              box-shadow var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard);
+}
+
+.mdz-band--practice .mdz-home-hero__service:hover,
+.mdz-band--practice .mdz-home-hero__signal:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--el-3);
+  border-color: var(--color-border-strong);
+}
+
+.mdz-band--practice .mdz-home-hero__service strong,
+.mdz-band--practice .mdz-home-hero__signal strong {
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+}
+
+.mdz-band--practice .mdz-home-hero__service span {
+  color: var(--color-ink-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+}
+
+.mdz-band--practice .mdz-home-hero__media-label {
+  color: var(--color-ink-subtle);
+}
+
+@media (max-width: 48em) {
+  .mdz-band--practice .mdz-home-hero__services {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .mdz-band--practice .mdz-home-hero__signal-grid {
+    grid-template-columns: 1fr;
+  }
+}
