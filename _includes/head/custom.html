@@ -28,6 +28,19 @@
 {% if is_home %}
   <link rel="preload" href="{{ '/assets/fonts/instrument-sans-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{{ '/assets/fonts/space-grotesk-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+  {%- comment -%}
+    LCP hint for the homepage hero image. imagesrcset + imagesizes make the
+    preload participate in responsive-image selection instead of over-
+    fetching the 1200w asset on small screens.
+  {%- endcomment -%}
+  <link
+    rel="preload"
+    as="image"
+    href="{{ '/assets/images/private-ai-consulting-header-960.webp' | relative_url }}"
+    imagesrcset="{{ '/assets/images/private-ai-consulting-header-640.webp' | relative_url }} 640w, {{ '/assets/images/private-ai-consulting-header-960.webp' | relative_url }} 960w, {{ '/assets/images/private-ai-consulting-header-1200.webp' | relative_url }} 1200w"
+    imagesizes="(max-width: 960px) 100vw, 40vw"
+    type="image/webp"
+    fetchpriority="high">
 {% endif %}
 
 <link rel="icon" href="{{ '/assets/images/logo-mark.svg' | relative_url }}" type="image/svg+xml">
