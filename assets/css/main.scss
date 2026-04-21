@@ -5,28 +5,166 @@
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
 @import "minimal-mistakes";
 
+/* =========================================================================
+   DESIGN TOKENS
+   Single source of truth for the site's visual language. Organized by
+   category; legacy aliases are kept at the bottom for backwards compat
+   until older rules are migrated.
+   Dark-mode overrides live in the [data-theme="dark"] block further down.
+   ========================================================================= */
 :root {
-  --ui-blue: #1f3a30;
-  --ui-black: #121814;
-  --ui-white: #fffdf8;
-  --ui-surface: #f5f0e7;
-  --ui-surface-strong: #ebe3d5;
-  --accent-rgb: 31, 58, 48;
+  /* ---------- Brand palette (raw) ------------------------------------- */
+  --c-forest-900: #0c1612;
+  --c-forest-800: #121814;  /* prev --ui-black */
+  --c-forest-700: #162b24;  /* prev --tone-navy */
+  --c-forest-600: #1f3a30;  /* prev --ui-blue */
+  --c-forest-500: #244437;
+  --c-forest-400: #33493e;  /* prev --tone-slate */
+  --c-sand-50:   #fffdf8;   /* prev --ui-white */
+  --c-sand-100:  #f5f0e7;   /* prev --ui-surface */
+  --c-sand-200:  #ebe3d5;   /* prev --ui-surface-strong */
+  --c-sand-300:  #d8ccb7;
+  --c-ember-500: #b86a2b;   /* prev --tone-cyan */
+  --c-ember-400: #cc813f;
+
+  /* ---------- Semantic color tokens (light) --------------------------- */
+  --color-surface:          var(--c-sand-100);
+  --color-surface-elevated: var(--c-sand-50);
+  --color-surface-strong:   var(--c-sand-200);
+  --color-ink:              var(--c-forest-800);
+  --color-ink-muted:        rgba(18, 24, 20, 0.68);
+  --color-ink-subtle:       rgba(18, 24, 20, 0.52);
+  --color-ink-inverse:      var(--c-sand-50);
+  --color-accent:           var(--c-forest-600);
+  --color-accent-strong:    var(--c-forest-700);
+  --color-accent-contrast:  var(--c-sand-50);
+  --color-highlight:        var(--c-ember-500);
+  --color-border:           rgba(31, 58, 48, 0.16);
+  --color-border-strong:    rgba(31, 58, 48, 0.32);
+  --color-focus-ring:       var(--c-ember-500);
+  --color-focus-ring-soft:  rgba(184, 106, 43, 0.42);
+  --color-success:          #2f6a4f;
+  --color-warning:          #a0640f;
+  --color-danger:           #a13828;
+
+  /* Raw RGB triplets (used by existing rgba() calls — keep values aligned) */
+  --accent-rgb:    31, 58, 48;
   --highlight-rgb: 184, 106, 43;
-  --layout-max: 1280px;
-  --layout-gutter: clamp(16px, 4vw, 48px);
-  --card-rail-margin: clamp(16px, 4vw, 48px);
-  --content-rail-mobile: clamp(22px, 5vw, 30px);
-  --brand-accent: var(--ui-blue);
-  --brand-accent-2: rgba(var(--highlight-rgb), 0.72);
-  --tone-slate: #33493e;
-  --tone-navy: #162b24;
-  --tone-cyan: #b86a2b;
-  --tone-ink: var(--ui-white);
-  --tone-muted: rgba(var(--highlight-rgb), 0.72);
-  --font-sans: "Instrument Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+
+  /* ---------- Typography ---------------------------------------------- */
+  --font-sans:    "Instrument Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
   --font-display: "Space Grotesk", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "SFMono-Regular", "Menlo", "Consolas", monospace;
+  --font-mono:    "SFMono-Regular", "Menlo", "Consolas", monospace;
+
+  /* Fluid type scale — minor-third ratio, clamped for responsiveness */
+  --fs-xs:   clamp(0.75rem, 0.72rem + 0.15vw, 0.82rem);
+  --fs-sm:   clamp(0.86rem, 0.82rem + 0.20vw, 0.95rem);
+  --fs-base: clamp(0.98rem, 0.94rem + 0.25vw, 1.06rem);
+  --fs-md:   clamp(1.12rem, 1.06rem + 0.35vw, 1.24rem);
+  --fs-lg:   clamp(1.30rem, 1.22rem + 0.50vw, 1.48rem);
+  --fs-xl:   clamp(1.56rem, 1.44rem + 0.70vw, 1.82rem);
+  --fs-2xl:  clamp(1.96rem, 1.78rem + 1.10vw, 2.40rem);
+  --fs-3xl:  clamp(2.40rem, 2.10rem + 1.70vw, 3.10rem);
+  --fs-4xl:  clamp(2.88rem, 2.42rem + 2.30vw, 3.90rem);
+
+  --lh-tight:   1.12;
+  --lh-snug:    1.28;
+  --lh-normal:  1.55;
+  --lh-relaxed: 1.72;
+
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  --tr-tight:  -0.015em;
+  --tr-normal:  0.00em;
+  --tr-wide:    0.04em;
+
+  /* ---------- Spacing (4px base) -------------------------------------- */
+  --sp-0:  0;
+  --sp-1:  0.25rem;   /* 4  */
+  --sp-2:  0.50rem;   /* 8  */
+  --sp-3:  0.75rem;   /* 12 */
+  --sp-4:  1.00rem;   /* 16 */
+  --sp-5:  1.50rem;   /* 24 */
+  --sp-6:  2.00rem;   /* 32 */
+  --sp-7:  3.00rem;   /* 48 */
+  --sp-8:  4.50rem;   /* 72 */
+  --sp-9:  6.00rem;   /* 96 */
+  --sp-10: 8.00rem;   /* 128 */
+
+  /* ---------- Radii --------------------------------------------------- */
+  --r-sm:   6px;
+  --r-md:   10px;
+  --r-lg:   16px;
+  --r-xl:   24px;
+  --r-pill: 999px;
+
+  /* ---------- Elevation (warm-tinted shadows) ------------------------- */
+  --el-0: none;
+  --el-1: 0 1px 2px rgba(var(--accent-rgb), 0.08);
+  --el-2: 0 4px 10px rgba(var(--accent-rgb), 0.10);
+  --el-3: 0 10px 24px rgba(var(--accent-rgb), 0.14);
+  --el-4: 0 20px 48px rgba(var(--accent-rgb), 0.18);
+  --el-glow: 0 0 0 3px var(--color-focus-ring-soft);
+
+  /* ---------- Motion -------------------------------------------------- */
+  --dur-instant: 90ms;
+  --dur-fast:    150ms;
+  --dur-base:    220ms;
+  --dur-slow:    360ms;
+  --dur-slower:  540ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-out:      cubic-bezier(0.0, 0, 0.2, 1);
+  --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring:   cubic-bezier(0.2, 0.8, 0.2, 1.2);
+  --ease-emphasize: cubic-bezier(0.3, 0, 0, 1);
+
+  /* ---------- Layout -------------------------------------------------- */
+  --layout-max:          1280px;
+  --layout-max-narrow:   960px;
+  --layout-gutter:       clamp(16px, 4vw, 48px);
+  --card-rail-margin:    clamp(16px, 4vw, 48px);
+  --content-rail-mobile: clamp(22px, 5vw, 30px);
+  --band-pad-y:          clamp(3rem, 6vw, 5.5rem);
+
+  /* ---------- Z-index scale ------------------------------------------- */
+  --z-base:      1;
+  --z-sticky:    100;
+  --z-overlay:   200;
+  --z-modal:     300;
+  --z-toast:     400;
+
+  /* ==================================================================
+     Legacy aliases — mapped to the new tokens above so older rules keep
+     working without edits. New styles must use the --color-*/ --sp-*
+     tokens; aliases will be removed once every call site is migrated.
+     ================================================================== */
+  --ui-blue:           var(--c-forest-600);
+  --ui-black:          var(--c-forest-800);
+  --ui-white:          var(--c-sand-50);
+  --ui-surface:        var(--c-sand-100);
+  --ui-surface-strong: var(--c-sand-200);
+  --brand-accent:      var(--color-accent);
+  --brand-accent-2:    rgba(var(--highlight-rgb), 0.72);
+  --tone-slate:        var(--c-forest-400);
+  --tone-navy:         var(--c-forest-700);
+  --tone-cyan:         var(--c-ember-500);
+  --tone-ink:          var(--color-ink-inverse);
+  --tone-muted:        rgba(var(--highlight-rgb), 0.72);
+}
+
+/* ---------- Respect reduced-motion at the token level ------------------ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms;
+    --dur-fast:    0ms;
+    --dur-base:    0ms;
+    --dur-slow:    0ms;
+    --dur-slower:  0ms;
+  }
 }
 
 body {
