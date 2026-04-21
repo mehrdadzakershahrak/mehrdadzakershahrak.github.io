@@ -360,6 +360,25 @@ body {
   }
 }
 
+/* =========================================================================
+   Suppress Minimal Mistakes' site-wide `intro` animation.
+   The theme ships `animation: intro 0.3s both` on .masthead / #main / #footer
+   with `@keyframes intro { 0% { opacity:0 } 100% { opacity:1 } }`, which
+   hides every top-level region for ~450ms after load. On text-only pages
+   (e.g. /contact/) headless Chrome's paintTiming observer sees only opacity
+   transitions — not a contentful paint — and Lighthouse times out with
+   NO_FCP. Neutralizing the animation keeps content painted immediately,
+   matches our own fade-in system (data-mdz-reveal), and removes the FCP
+   tax for every page.
+   ========================================================================= */
+.masthead,
+#main,
+#footer,
+.page__footer {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
 body {
   font-family: var(--font-sans);
   color: var(--ui-black);
