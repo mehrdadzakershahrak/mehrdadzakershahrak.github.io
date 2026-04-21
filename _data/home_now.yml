@@ -1,0 +1,18 @@
+# "Now" block items on the editorial homepage.
+# Short status updates — inspired by nownownow.com.
+# Edit freely; keep 3-4 items for best layout.
+
+last_updated: "2026·04·21"
+
+items:
+  - label: "Building"
+    text: "Private AI reliability tooling — retrieval, evaluation, and guardrails that hold up in production."
+
+  - label: "Writing"
+    text: "Weekly notes on why private AI deployments stall between demo and production, and what teams that ship do differently."
+
+  - label: "Reading"
+    text: "Evaluation and grounding literature for document-heavy AI. Re-reading Sutton on reliability."
+
+  - label: "Available"
+    text: "Taking on one to two new private AI engagements this quarter. Shortest path is a real email."

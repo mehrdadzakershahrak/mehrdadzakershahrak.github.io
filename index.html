@@ -1,610 +1,292 @@
 ---
-layout: single
+layout: editorial-home
 title: "Mehrdad Zaker — Private AI Systems That Ship"
-description: "Build private AI systems that verify answers, protect sensitive documents, and run in production."
+description: "Private AI systems that verify every answer, protect sensitive documents, and run in production. Consulting, custom AI systems, and the IDX platform."
 permalink: /
 classes: wide home-page
 suppress_default_h1: true
 ---
-<section class="mdz-band mdz-band--hero" aria-labelledby="home-hero-title">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-hero mdz-home-hero--v2">
-      <div class="mdz-home-hero__copy">
-        <p class="mdz-home-hero__eyebrow">Private AI consulting</p>
-        <h1 id="home-hero-title" class="mdz-home-hero__title">
-          Ship private AI that <span class="mdz-home-hero__title-accent">verifies every answer</span>.
-        </h1>
-        <p class="mdz-home-hero__lede">
-          I help teams move private AI from pilot to production — grounded answers, protected documents, operational controls from day one.
+
+{%- comment -%}
+  Single-page editorial home. Ported from the Claude Design handoff.
+  Everything below is scoped under `.eh-*` classes defined in
+  /assets/css/editorial-home.css. Interactions live in editorial-home.js.
+
+  To edit: work entries → _data/home_work.yml
+           now items     → _data/home_now.yml
+{%- endcomment -%}
+
+{%- assign work_items   = site.data.home_work    -%}
+{%- assign now_data     = site.data.home_now     -%}
+{%- assign writing_all  = site.newsletter_entries | concat: site.resource_guides | sort: 'date' | reverse -%}
+{%- assign writing_list = writing_all | slice: 0, 5 -%}
+{%- assign work_count   = work_items | size -%}
+
+{%- comment -%} ─── Sticky top bar ─── {%- endcomment -%}
+<header class="eh-topbar" role="banner">
+  <span class="eh-topbar__brand">MZ · <span class="eh-topbar__brand-strong">mehrdadzaker.com</span></span>
+  <span class="eh-topbar__status">
+    <span class="eh-dot" aria-hidden="true"></span>
+    <span>Available · Q3 2026</span>
+  </span>
+</header>
+
+{%- comment -%} ─── Mobile horizontal nav (hidden on desktop via CSS) ─── {%- endcomment -%}
+<nav class="eh-nav eh-nav--mobile" aria-label="Page sections">
+  <span class="eh-nav__brand-inline">Mehrdad Zaker</span>
+  <span class="eh-nav__rule" aria-hidden="true"></span>
+  <a href="#home"    class="eh-nav__mobile-link is-active" data-eh-nav-link data-target="home">Index</a>
+  <a href="#now"     class="eh-nav__mobile-link"           data-eh-nav-link data-target="now">Now</a>
+  <a href="#work"    class="eh-nav__mobile-link"           data-eh-nav-link data-target="work">Work</a>
+  <a href="#writing" class="eh-nav__mobile-link"           data-eh-nav-link data-target="writing">Writing</a>
+  <a href="#contact" class="eh-nav__mobile-link"           data-eh-nav-link data-target="contact">Elsewhere</a>
+</nav>
+
+<div class="eh-grid">
+  {%- comment -%} ─── Desktop side nav ─── {%- endcomment -%}
+  <nav class="eh-nav" aria-label="Page sections">
+    <p class="eh-nav__brand">Mehrdad<br>Zaker</p>
+    <div class="eh-eyebrow eh-nav__sublabel">Private AI · Consulting</div>
+
+    <ul class="eh-nav__list">
+      <li class="eh-nav__item">
+        <a href="#home" class="eh-nav__link is-active" data-eh-nav-link data-target="home">
+          <span class="eh-nav__num">00</span>
+          <span class="eh-nav__label">Index</span>
+        </a>
+      </li>
+      <li class="eh-nav__item">
+        <a href="#now" class="eh-nav__link" data-eh-nav-link data-target="now">
+          <span class="eh-nav__num">01</span>
+          <span class="eh-nav__label">Now</span>
+        </a>
+      </li>
+      <li class="eh-nav__item">
+        <a href="#work" class="eh-nav__link" data-eh-nav-link data-target="work">
+          <span class="eh-nav__num">02</span>
+          <span class="eh-nav__label">Work</span>
+        </a>
+      </li>
+      <li class="eh-nav__item">
+        <a href="#writing" class="eh-nav__link" data-eh-nav-link data-target="writing">
+          <span class="eh-nav__num">03</span>
+          <span class="eh-nav__label">Writing</span>
+        </a>
+      </li>
+      <li class="eh-nav__item">
+        <a href="#contact" class="eh-nav__link" data-eh-nav-link data-target="contact">
+          <span class="eh-nav__num">04</span>
+          <span class="eh-nav__label">Elsewhere</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="eh-nav__block">
+      <span class="eh-eyebrow">Available</span>
+      <div class="eh-nav__block-line"><span class="eh-dot" aria-hidden="true"></span> Q3 2026</div>
+      <div class="eh-nav__block-sub">1–2 engagements</div>
+    </div>
+  </nav>
+
+  <main class="eh-main" id="main" role="main">
+
+    {%- comment -%} ─── Hero ─── {%- endcomment -%}
+    <section id="home" class="eh-hero" aria-labelledby="eh-home-title">
+      <p class="eh-eyebrow eh-hero__eyebrow">Seattle · Private AI consulting</p>
+
+      <h1 id="eh-home-title" class="eh-hero__title">
+        Ship private AI that<br>
+        <span class="eh-hero__title-accent">verifies every answer</span>.
+      </h1>
+
+      <div class="eh-hero__copy">
+        <p>
+          I'm <b>Mehrdad Zaker</b> — I help teams move private AI from pilot to
+          production. Grounded answers, protected documents, and operational
+          controls from day one.
         </p>
-        <div class="mdz-home-hero__actions">
-          <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-source="hero">Start a conversation</a>
-          <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}" data-analytics="idx_demo_start" data-analytics-source="hero">See IDX in action</a>
-        </div>
+        <p>
+          A decade of research and shipped systems across retrieval,
+          structured extraction, and reliability evaluation. The goal is always
+          the same: AI people actually use, on work that actually matters.
+        </p>
       </div>
 
-      <div class="mdz-home-hero__media">
-        <div class="mdz-home-hero__media-shell">
-          <picture>
-            <source
-              srcset="
-                {{ '/assets/images/private-ai-consulting-header-640.webp' | relative_url }} 640w,
-                {{ '/assets/images/private-ai-consulting-header-960.webp' | relative_url }} 960w,
-                {{ '/assets/images/private-ai-consulting-header-1200.webp' | relative_url }} 1200w
-              "
-              sizes="(max-width: 960px) 100vw, 40vw"
-              type="image/webp"
-            >
-            <img
-              class="mdz-home-hero__image"
-              src="{{ '/assets/images/private-ai-consulting-header-960.png' | relative_url }}"
-              srcset="
-                {{ '/assets/images/private-ai-consulting-header-640.png' | relative_url }} 640w,
-                {{ '/assets/images/private-ai-consulting-header-960.png' | relative_url }} 960w,
-                {{ '/assets/images/private-ai-consulting-header-1200.png' | relative_url }} 1200w
-              "
-              sizes="(max-width: 960px) 100vw, 40vw"
-              width="960"
-              height="504"
-              alt="Schematic showing private data flowing into an LLM engine and verified output."
-              decoding="async"
-              loading="eager"
-              fetchpriority="high"
-            >
-          </picture>
-        </div>
+      <div class="eh-hero__actions">
+        <a href="#work" class="eh-btn" data-eh-nav-link data-target="work">
+          See recent work
+          <span class="eh-btn__arrow" aria-hidden="true">↓</span>
+        </a>
+        <a href="#contact" class="eh-link" data-eh-nav-link data-target="contact">Get in touch</a>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--verify" aria-labelledby="home-verify-title">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow" id="home-verify-title">How grounded answers work</p>
-      <h2>Source in. Retrieval. Answer with citations out.</h2>
-      <p class="mdz-muted">The signature pattern behind every system I build. Nothing hidden; every claim lands back on the document it came from.</p>
-    </div>
-    <div class="mdz-verify-ribbon" data-mdz-reveal="rise" aria-label="Grounded retrieval flow">
-      <article class="mdz-verify-step">
-        <svg class="mdz-verify-step__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M6 3h8l4 4v14H6z"></path>
-          <path d="M14 3v4h4"></path>
-          <path d="M8 12h8M8 16h8M8 8h4"></path>
-        </svg>
-        <p class="mdz-verify-step__label">01 · Source</p>
-        <h3 class="mdz-verify-step__title">Your document enters</h3>
-        <p class="mdz-verify-step__desc">Private files stay inside your boundary — VPC, on-prem, or approved cloud.</p>
-        <span class="mdz-verify-step__pulse" aria-hidden="true"></span>
-      </article>
-      <article class="mdz-verify-step">
-        <svg class="mdz-verify-step__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="11" cy="11" r="6"></circle>
-          <path d="M15.5 15.5L20 20"></path>
-          <path d="M8 11h6M11 8v6"></path>
-        </svg>
-        <p class="mdz-verify-step__label">02 · Retrieve</p>
-        <h3 class="mdz-verify-step__title">Relevant passages found</h3>
-        <p class="mdz-verify-step__desc">Chunked, ranked, and verified against the question before the model ever sees them.</p>
-        <span class="mdz-verify-step__pulse" aria-hidden="true"></span>
-      </article>
-      <article class="mdz-verify-step">
-        <svg class="mdz-verify-step__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M4 5h16v10H7l-3 3z"></path>
-          <path d="M8 9h8M8 12h5"></path>
-        </svg>
-        <p class="mdz-verify-step__label">03 · Answer</p>
-        <h3 class="mdz-verify-step__title">Response with citations</h3>
-        <p class="mdz-verify-step__desc">Every claim links back to the source page so reviewers can verify in seconds.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--ragdemo" aria-labelledby="home-rag-title" data-mdz-rag-root>
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow" id="home-rag-title">Walk through a grounded answer</p>
-      <h2>Three questions, three audit trails.</h2>
-      <p class="mdz-muted">A pre-baked illustration of what the retrieval layer looks like when it's working — every claim clicks back to a source passage. No model calls, just a fixed snapshot.</p>
-    </div>
-
-    <div class="mdz-rag" role="group" aria-label="Example grounded Q&amp;A">
-      <div class="mdz-rag__tabs" role="tablist" aria-label="Pre-selected questions">
-        <button
-          type="button"
-          class="mdz-rag__tab is-active"
-          role="tab"
-          aria-selected="true"
-          aria-controls="mdz-rag-panel-1"
-          id="mdz-rag-tab-1"
-          data-mdz-rag-tab="1"
-        >What's the hallucination rate on the reference deployment?</button>
-        <button
-          type="button"
-          class="mdz-rag__tab"
-          role="tab"
-          aria-selected="false"
-          aria-controls="mdz-rag-panel-2"
-          id="mdz-rag-tab-2"
-          tabindex="-1"
-          data-mdz-rag-tab="2"
-        >How does private data stay inside our boundary?</button>
-        <button
-          type="button"
-          class="mdz-rag__tab"
-          role="tab"
-          aria-selected="false"
-          aria-controls="mdz-rag-panel-3"
-          id="mdz-rag-tab-3"
-          tabindex="-1"
-          data-mdz-rag-tab="3"
-        >What does the evaluation harness measure?</button>
-      </div>
-
-      <div
-        class="mdz-rag__panel is-active"
-        id="mdz-rag-panel-1"
-        role="tabpanel"
-        aria-labelledby="mdz-rag-tab-1"
-        data-mdz-rag-panel="1"
-      >
-        <article class="mdz-rag__answer mdz-surface" aria-label="Grounded answer">
-          <header class="mdz-rag__answer-head">
-            <span class="mdz-rag__answer-label">Answer</span>
-            <span class="mdz-rag__answer-meta">Grounded in 2 sources · latency 480&nbsp;ms</span>
-          </header>
-          <p>
-            On the reference deployment the measured hallucination rate settled at
-            <mark class="mdz-rag__claim">1.2% across the 800-question adversarial eval set<a class="mdz-rag__cite" href="#mdz-rag-src-1a">1</a></mark>,
-            down from
-            <mark class="mdz-rag__claim">a 3.1% baseline recorded on the original prototype<a class="mdz-rag__cite" href="#mdz-rag-src-1b">2</a></mark>.
-            Every remaining failure case surfaces in the weekly evaluator report with the
-            failing passage attached.
-          </p>
-        </article>
-        <aside class="mdz-rag__sources" aria-label="Source passages">
-          <h3 class="mdz-rag__sources-title">Sources</h3>
-          <ol class="mdz-rag__source-list">
-            <li class="mdz-rag__source" id="mdz-rag-src-1a">
-              <p class="mdz-rag__source-meta"><strong>annual-report-2024.pdf</strong> · p.&nbsp;42</p>
-              <blockquote>"Across the 800-question adversarial eval set the system held a
-                <mark>1.2% hallucination rate</mark> — the lowest recorded since onboarding the reranker in Q2."</blockquote>
-            </li>
-            <li class="mdz-rag__source" id="mdz-rag-src-1b">
-              <p class="mdz-rag__source-meta"><strong>q1-benchmark.pdf</strong> · p.&nbsp;7</p>
-              <blockquote>"Prototype-only baseline (no reranker, no evaluator): <mark>3.1%
-                hallucination</mark> on the same suite. See Appendix A for the confusion matrix."</blockquote>
-            </li>
-          </ol>
-        </aside>
-      </div>
-
-      <div
-        class="mdz-rag__panel"
-        id="mdz-rag-panel-2"
-        role="tabpanel"
-        aria-labelledby="mdz-rag-tab-2"
-        hidden
-        data-mdz-rag-panel="2"
-      >
-        <article class="mdz-rag__answer mdz-surface" aria-label="Grounded answer">
-          <header class="mdz-rag__answer-head">
-            <span class="mdz-rag__answer-label">Answer</span>
-            <span class="mdz-rag__answer-meta">Grounded in 2 sources · latency 360&nbsp;ms</span>
-          </header>
-          <p>
-            Private files enter the pipeline only inside the customer VPC;
-            <mark class="mdz-rag__claim">the retrieval service runs on dedicated workers that never egress to public endpoints<a class="mdz-rag__cite" href="#mdz-rag-src-2a">1</a></mark>.
-            Model weights are pulled from the internal registry at deploy-time so
-            <mark class="mdz-rag__claim">no document or embedding ever leaves the boundary<a class="mdz-rag__cite" href="#mdz-rag-src-2b">2</a></mark>.
-          </p>
-        </article>
-        <aside class="mdz-rag__sources" aria-label="Source passages">
-          <h3 class="mdz-rag__sources-title">Sources</h3>
-          <ol class="mdz-rag__source-list">
-            <li class="mdz-rag__source" id="mdz-rag-src-2a">
-              <p class="mdz-rag__source-meta"><strong>architecture-brief.pdf</strong> · p.&nbsp;12</p>
-              <blockquote>"All retrieval workers are allocated inside the customer VPC.
-                <mark>No egress to public endpoints</mark> is permitted — enforced by the
-                egress-deny firewall rule in Section 4.2."</blockquote>
-            </li>
-            <li class="mdz-rag__source" id="mdz-rag-src-2b">
-              <p class="mdz-rag__source-meta"><strong>security-review.pdf</strong> · p.&nbsp;3</p>
-              <blockquote>"Weights are staged from the internal registry at deploy-time.
-                <mark>Documents and embeddings never leave the boundary</mark>; see
-                boundary-test evidence in Appendix C."</blockquote>
-            </li>
-          </ol>
-        </aside>
-      </div>
-
-      <div
-        class="mdz-rag__panel"
-        id="mdz-rag-panel-3"
-        role="tabpanel"
-        aria-labelledby="mdz-rag-tab-3"
-        hidden
-        data-mdz-rag-panel="3"
-      >
-        <article class="mdz-rag__answer mdz-surface" aria-label="Grounded answer">
-          <header class="mdz-rag__answer-head">
-            <span class="mdz-rag__answer-label">Answer</span>
-            <span class="mdz-rag__answer-meta">Grounded in 2 sources · latency 420&nbsp;ms</span>
-          </header>
-          <p>
-            The harness gates every release on
-            <mark class="mdz-rag__claim">an 800-item adversarial question set covering paraphrase, out-of-corpus, and contradictory prompts<a class="mdz-rag__cite" href="#mdz-rag-src-3a">1</a></mark>.
-            Regressions trigger the rollback before deploy;
-            <mark class="mdz-rag__claim">no release has shipped without passing the citation-faithfulness check<a class="mdz-rag__cite" href="#mdz-rag-src-3b">2</a></mark>.
-          </p>
-        </article>
-        <aside class="mdz-rag__sources" aria-label="Source passages">
-          <h3 class="mdz-rag__sources-title">Sources</h3>
-          <ol class="mdz-rag__source-list">
-            <li class="mdz-rag__source" id="mdz-rag-src-3a">
-              <p class="mdz-rag__source-meta"><strong>eval-harness-readme.md</strong> · §&nbsp;Coverage</p>
-              <blockquote>"Release gate = <mark>800-item adversarial question set</mark>
-                covering paraphrase (240), out-of-corpus (260), contradictory (300).
-                Weekly refresh from new-ticket sampling."</blockquote>
-            </li>
-            <li class="mdz-rag__source" id="mdz-rag-src-3b">
-              <p class="mdz-rag__source-meta"><strong>release-log.md</strong> · Q4&nbsp;2024</p>
-              <blockquote>"12 releases, 0 skipped gates. Every deploy carries the
-                <mark>citation-faithfulness check</mark> output on the PR; see
-                release-log audit trail for proofs."</blockquote>
-            </li>
-          </ol>
-        </aside>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--practice" aria-labelledby="home-practice-title">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow">Practice at a glance</p>
-      <h2 id="home-practice-title">Four levers, one delivery model.</h2>
-      <p class="mdz-muted">Most pilots stall on retrieval, tests, launch plans, or workflow fit. That's where the work starts.</p>
-    </div>
-    <div class="mdz-home-hero__services" aria-label="Core technical services" data-mdz-reveal="rise">
-      <article class="mdz-home-hero__service">
-        <strong>Keep answers grounded</strong>
-        <span>Tie each answer to sources, citations, and review steps.</span>
-      </article>
-      <article class="mdz-home-hero__service">
-        <strong>Clear the path to production</strong>
-        <span>Choose private, hybrid, or cloud boundaries before shortcuts harden.</span>
-      </article>
-      <article class="mdz-home-hero__service">
-        <strong>Stabilize the workflow</strong>
-        <span>Build around real work, not a generic chat demo.</span>
-      </article>
-      <article class="mdz-home-hero__service">
-        <strong>Make automation more predictive</strong>
-        <span>Surface operational failure earlier, including robotics-adjacent signals.</span>
-      </article>
-    </div>
-    <div class="mdz-home-hero__signal-grid" aria-label="Practice profile">
-      <article class="mdz-home-hero__signal">
-        <p class="mdz-home-hero__media-label">Best fit</p>
-        <strong>Private, regulated, or source-heavy workflows</strong>
-      </article>
-      <article class="mdz-home-hero__signal">
-        <p class="mdz-home-hero__media-label">Led by</p>
-        <strong>Mehrdad Zaker, Ph.D.</strong>
-      </article>
-      <article class="mdz-home-hero__signal">
-        <p class="mdz-home-hero__media-label">Delivery mode</p>
-        <strong>Architecture, evaluation, and implementation support</strong>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--proof" aria-labelledby="home-proof-title">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow">Proof of work</p>
-      <h2 id="home-proof-title">Shipped, not theoretical.</h2>
-      <p class="mdz-muted">A short list of engagements where private AI moved from pilot into daily production.</p>
-    </div>
-    <div class="mdz-home-proof-grid" aria-label="Selected engagements" data-mdz-reveal="rise">
-      <!--
-        TODO(mehrdad): replace the three placeholder engagements below with
-        real work. Each card wants: industry, constraint, deliverable, one
-        measurable outcome. Anonymize names if needed — the numbers do the
-        talking. See /work/index.md for the long-form version.
-      -->
-      <article class="mdz-home-proof-card mdz-surface">
-        <p class="mdz-home-proof-card__eyebrow">Regulated · Financial services</p>
-        <strong>Cut hallucination rate by ~45% on 50k-doc RAG</strong>
-        <p>Reranker + evaluator harness before launch. Reviewers spend &lt;30s verifying each cited passage.</p>
-        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-regulated-finance" data-analytics="cta_work_click" data-analytics-source="proof_regulated_finance">Read the full story</a>
-      </article>
-      <article class="mdz-home-proof-card mdz-surface">
-        <p class="mdz-home-proof-card__eyebrow">Healthcare · Hybrid deploy</p>
-        <strong>Moved a stalled pilot to production in 9 weeks</strong>
-        <p>VPC-native model serving, approved-boundary retrieval, cost-per-query down ~60% vs. the original cloud prototype.</p>
-        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-healthcare-hybrid" data-analytics="cta_work_click" data-analytics-source="proof_healthcare_hybrid">Read the full story</a>
-      </article>
-      <article class="mdz-home-proof-card mdz-surface">
-        <p class="mdz-home-proof-card__eyebrow">Industrial · On-prem</p>
-        <strong>Predictive-failure signals 3× earlier</strong>
-        <p>Robotics-adjacent telemetry + LLM-generated root-cause narratives. Field techs triage before the alarm lands.</p>
-        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-industrial-onprem" data-analytics="cta_work_click" data-analytics-source="proof_industrial_onprem">Read the full story</a>
-      </article>
-    </div>
-    <p class="mdz-home-proof-note mdz-muted">
-      All engagements anonymized. Figures are illustrative — TODO(mehrdad): swap in the real eval numbers from internal dashboards.
-    </p>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--expertise">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow">About / Expertise</p>
-      <h2>Private AI systems, built from the workflow back.</h2>
-      <p class="mdz-muted">Useful AI needs a clear job, a reliable data path, and proof behind each answer.</p>
-    </div>
-    <div class="mdz-home-expertise">
-      <div class="mdz-home-expertise__copy">
-        <p>I build AI systems for teams that need more than a demo. The work starts with the job the system must do.</p>
-        <p>That job may be:</p>
-        <ul>
-          <li>answering from sensitive files with source links</li>
-          <li>reviewing a document packet before a decision</li>
-          <li>running a private LLM inside approved infrastructure</li>
-          <li>testing answers before launch</li>
-        </ul>
-        <p>The common thread is control. I help teams decide what data enters the prompt. I help keep citations attached.</p>
-        <p>I also help choose where inference runs. That may mean a private VPC, on-prem servers, or a hybrid setup.</p>
-        <p>My background spans RAG, model serving, ranking, robotics-adjacent AI, and platform reliability. I choose tools around the constraint, not the trend.</p>
-        <p>The best fit is a regulated, document-heavy, or complex setting. Teams need answers tied to evidence. They also need systems they can monitor after launch.</p>
-        <div class="mdz-home-profile-links" aria-label="Professional profiles">
-          <a class="mdz-cta mdz-cta--outline" href="https://www.linkedin.com/in/mehrdadzaker" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a class="mdz-cta mdz-cta--outline" href="https://github.com/mehrdadzakershahrak" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-      </div>
-      <div class="mdz-home-expertise__list" aria-label="Technical focus areas">
-        <article>
-          <strong>Retrieval and grounding</strong>
-          <span>Find the right source text and attach it to the answer.</span>
-        </article>
-        <article>
-          <strong>Private deployment</strong>
-          <span>Run sensitive work inside approved cloud, VPC, or on-prem boundaries.</span>
-        </article>
-        <article>
-          <strong>Model operations</strong>
-          <span>Track speed, cost, failures, and model behavior after launch.</span>
-        </article>
-        <article>
-          <strong>Workflow automation</strong>
-          <span>Connect AI to the steps people already use to finish work.</span>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--private-ai">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow">Why private AI</p>
-      <h2>Why teams choose private AI deployments</h2>
-      <p class="mdz-muted">Private AI is about control. Teams need to know where data moves, who can see it, and how answers are tested.</p>
-    </div>
-    <!--
-      TODO(mehrdad): three of these cards are placeholders for YOUR numbers
-      from real engagements. Replace the TODO copy + value with figures from
-      the proof-of-work stories. One industry stat (Gartner) kept as context.
-      Keep the tone concrete — "% lift", "p95 ms", "$/query".
-    -->
-    <div class="mdz-home-stat-grid" data-mdz-reveal="rise">
-      <article class="mdz-home-stat-card">
-        <span class="mdz-home-stat-card__value" data-mdz-placeholder>~40%</span>
-        <p><strong>Retrieval precision lift</strong> after a grounded-RAG rework on a 5k-doc private corpus. TODO(mehrdad): swap with your latest eval delta.</p>
-        <a href="{{ '/work/' | relative_url }}">See the engagement</a>
-      </article>
-      <article class="mdz-home-stat-card">
-        <span class="mdz-home-stat-card__value" data-mdz-placeholder>p95 &lt;900ms</span>
-        <p><strong>End-to-end latency</strong> on a VPC-isolated private LLM, post-quantization. TODO(mehrdad): replace with your measured p95 on the current deploy.</p>
-        <a href="{{ '/work/' | relative_url }}">See the engagement</a>
-      </article>
-      <article class="mdz-home-stat-card">
-        <span class="mdz-home-stat-card__value" data-mdz-placeholder>9 wks</span>
-        <p><strong>Pilot → production</strong> median across three recent deployments. TODO(mehrdad): refresh once the next engagement closes.</p>
-        <a href="{{ '/work/' | relative_url }}">See the engagement</a>
-      </article>
-      <article class="mdz-home-stat-card">
-        <span class="mdz-home-stat-card__value">50%+</span>
-        <p><strong>Industry context:</strong> Gartner reported that half of GenAI projects were abandoned after proof of concept by the end of 2025 — largely due to poor data, weak risk controls, and unclear value.</p>
-        <a href="https://www.gartner.com/en/articles/genai-project-failure">Gartner analysis</a>
-      </article>
-    </div>
-    <p class="mdz-home-sources">
-      Google says structured data helps classify page content. It does not guarantee rich results. The GEO paper reports visibility gains up to 40% in generative-engine responses. Sources:
-      <a href="https://developers.google.com/search/docs/appearance/structured-data/faqpage">Google FAQ structured data guidance</a>
-      and
-      <a href="https://arxiv.org/abs/2311.09735">GEO: Generative Engine Optimization</a>.
-    </p>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--offers">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow">Common starting points</p>
-      <h2>Start with the bottleneck that is blocking progress</h2>
-      <p class="mdz-muted">Some teams need a deployment path. Others need answers tied to evidence before the system can move.</p>
-    </div>
-    <p class="summary">We help teams choose the first bottleneck to fix. Start with deployment, a custom system, or document review.</p>
-    <div class="mdz-card-grid">
-      <div class="mdz-card">
-        <p class="mdz-card__eyebrow">Private AI Deployment</p>
-        <h3 class="mdz-card__title"><a href="{{ '/private-ai-deployment/' | relative_url }}">Move from pilot to a deployable private system</a></h3>
-        <p class="mdz-card__desc">Set data boundaries, model access, security controls, and rollout steps before launch pressure hits.</p>
-        <a class="btn btn--small mdz-cta" href="{{ '/private-ai-deployment/' | relative_url }}">Private deployment</a>
-      </div>
-      <div class="mdz-card">
-        <p class="mdz-card__eyebrow">Custom AI Systems</p>
-        <h3 class="mdz-card__title"><a href="{{ '/custom-ai-systems/' | relative_url }}">Build around the workflow that actually matters</a></h3>
-        <p class="mdz-card__desc">Turn a fragile proof of concept into a system tied to one measurable business process.</p>
-        <a class="btn btn--small mdz-cta" href="{{ '/custom-ai-systems/' | relative_url }}">Custom systems</a>
-      </div>
-      <div class="mdz-card">
-        <p class="mdz-card__eyebrow">IDX</p>
-        <h3 class="mdz-card__title"><a href="{{ '/idx/assistant/' | relative_url }}">Fix grounding and verification in document-heavy review</a></h3>
-        <p class="mdz-card__desc">Use IDX when answers drift from sources or review takes too long.</p>
-        <a class="btn btn--small mdz-cta" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
-      </div>
-    </div>
-    <div class="mdz-demos-cta">
-      <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-source="demos_cta">Start a conversation</a>
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/ai-robotics-solutions/' | relative_url }}" data-analytics="nav_click" data-analytics-source="demos_cta" data-analytics-destination="solutions">View all solutions</a>
-    </div>
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--content">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow">Selected insights</p>
-      <h2>Writing and podcast work from the implementation side</h2>
-      <p class="mdz-muted">Operating assumptions behind the systems work.</p>
-    </div>
-    {% include home_feed.html %}
-  </div>
-</section>
-
-<section class="mdz-band mdz-band--faq" aria-labelledby="home-faq-title">
-  <div class="mdz-band__inner">
-    <div class="mdz-home-section-head">
-      <p class="mdz-home-section-head__eyebrow">FAQ</p>
-      <h2 id="home-faq-title">Questions teams ask before building private AI</h2>
-      <p class="mdz-muted">Short answers for teams choosing a private deployment, a custom AI system, IDX, or an architecture review.</p>
-    </div>
-    <div class="mdz-home-faq-grid" role="list">
-      {% for item in site.data.home_faq %}
-        <article class="mdz-home-faq-item" role="listitem">
-          <details class="mdz-home-faq-item__details"{% if forloop.first %} open{% endif %}>
-            <summary class="mdz-home-faq-item__summary">
-              <h3 class="mdz-home-faq-item__question">{{ item.question }}</h3>
-              <svg class="mdz-home-faq-item__chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
-                <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </summary>
-            <p class="mdz-home-faq-item__answer">{{ item.answer }}</p>
-          </details>
-        </article>
-      {% endfor %}
-    </div>
-  </div>
-</section>
-
-<div class="mdz-horizontal-stack mdz-horizontal-stack--bleed mdz-horizontal-stack--search">
-  <div class="mdz-horizontal-stack__inner">
-    <section class="mdz-search-promo" aria-labelledby="home-search-title">
-      <div class="mdz-search-promo__copy">
-        <h2 id="home-search-title">Looking for something specific?</h2>
-        <p>Search solutions, IDX workflows, newsletter posts, podcast entries, and reference pages.</p>
-      </div>
-
-      <form class="mdz-search-promo__form" action="{{ '/search/' | relative_url }}" method="get" role="search" data-analytics-submit="search_submit" data-analytics-source="home_search_promo">
-        <label class="sr-only" for="home-search-input">Search the site</label>
-        <div class="mdz-search-promo__field">
-          <input
-            id="home-search-input"
-            class="mdz-search-promo__input"
-            type="search"
-            name="q"
-            placeholder="What are you looking for?"
-            autocomplete="off"
-          >
-          <button class="mdz-search-promo__submit" type="submit">
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-              <circle cx="11" cy="11" r="6.5"></circle>
-              <path d="M16 16L21 21"></path>
-            </svg>
-            <span>Search</span>
-          </button>
-        </div>
-      </form>
     </section>
-  </div>
-</div>
 
-<div class="mdz-horizontal-stack mdz-horizontal-stack--bleed mdz-horizontal-stack--features">
-  <div class="mdz-horizontal-stack__inner">
-    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--about" href="{{ '/about/' | relative_url }}" data-analytics="nav_click" data-analytics-source="home_about_card" data-analytics-destination="about">
-      <div class="mdz-horizontal-card__body">
-        <h3>About Mehrdad</h3>
-        <p>Read the background behind the systems perspective and production experience shaping the work.</p>
-        <span class="mdz-horizontal-card__cta mdz-cta">Read the full background</span>
+    {%- comment -%} ─── Now ─── {%- endcomment -%}
+    <section id="now" class="eh-now" aria-labelledby="eh-now-title">
+      <div class="eh-rule">
+        <span class="eh-eyebrow">Now</span>
+        <span class="eh-rule__line" aria-hidden="true"></span>
       </div>
-      <picture class="mdz-horizontal-card__media">
-        <source
-          type="image/webp"
-          srcset="{{ '/assets/images/about-profile-2026-800.webp' | relative_url }}">
-        <img
-          src="{{ '/assets/images/about-profile-2026.jpg' | relative_url }}"
-          alt="Portrait of Mehrdad Zaker"
-          loading="lazy"
-          decoding="async"
-          width="800"
-          height="800">
-      </picture>
-    </a>
 
-    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--book" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-source="home_work_card">
-      <div class="mdz-horizontal-card__body">
-        <h3>Work Together</h3>
-        <p>Bring a concrete problem, deployment constraint, or workflow that needs to become real.</p>
-        <span class="mdz-horizontal-card__cta mdz-cta">Open contact page</span>
+      <h2 id="eh-now-title" class="eh-section-h2">
+        What I'm actually doing <em>this week</em>.
+      </h2>
+      <p class="eh-now__meta">
+        Last updated <span class="eh-now__meta-mono">{{ now_data.last_updated }}</span>
+        · Inspired by
+        <a class="eh-link" href="https://nownownow.com/about" target="_blank" rel="noreferrer">nownownow</a>
+      </p>
+
+      <div class="eh-now__grid">
+        {%- for item in now_data.items -%}
+          <div class="eh-now__item">
+            <span class="eh-eyebrow">{{ item.label }}</span>
+            <p class="eh-now__item-text">{{ item.text }}</p>
+          </div>
+        {%- endfor -%}
       </div>
-      <picture class="mdz-horizontal-card__media">
-        <source
-          type="image/webp"
-          srcset="{{ '/assets/images/private-ai-consulting-header-640.webp' | relative_url }} 640w,
-                  {{ '/assets/images/private-ai-consulting-header-960.webp' | relative_url }} 960w,
-                  {{ '/assets/images/private-ai-consulting-header-1200.webp' | relative_url }} 1200w"
-          sizes="(max-width: 720px) 100vw, 480px">
-        <source
-          type="image/png"
-          srcset="{{ '/assets/images/private-ai-consulting-header-640.png' | relative_url }} 640w,
-                  {{ '/assets/images/private-ai-consulting-header-960.png' | relative_url }} 960w,
-                  {{ '/assets/images/private-ai-consulting-header-1200.png' | relative_url }} 1200w"
-          sizes="(max-width: 720px) 100vw, 480px">
-        <img
-          src="{{ '/assets/images/private-ai-consulting-header-960.png' | relative_url }}"
-          alt="Technical schematic showing private data flowing into an LLM engine and verified output."
-          loading="lazy"
-          decoding="async"
-          width="960"
-          height="540">
-      </picture>
-    </a>
-  </div>
-</div>
+    </section>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {% for item in site.data.home_faq %}
-    {
-      "@type": "Question",
-      "name": {{ item.question | jsonify }},
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": {{ item.answer | jsonify }}
-      }
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ]
-}
-</script>
+    {%- comment -%} ─── Work ─── {%- endcomment -%}
+    <section id="work" class="eh-work" aria-labelledby="eh-work-title">
+      <div class="eh-rule">
+        <span class="eh-eyebrow">Selected work</span>
+        <span class="eh-rule__line" aria-hidden="true"></span>
+      </div>
+
+      <div class="eh-work__head">
+        <h2 id="eh-work-title" class="eh-section-h2">
+          A decade of <em>research that shipped</em>, for teams who need
+          private AI to actually work.
+        </h2>
+        <span class="eh-work__count">{{ work_count }} entries</span>
+      </div>
+
+      <ul class="eh-work__list">
+        {%- for w in work_items -%}
+          <li class="eh-work__row{% if forloop.last %} eh-work__row--last-rule{% endif %}"
+              data-eh-work-row
+              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+            <span class="eh-work__year">{{ w.year }}</span>
+            <div>
+              <div class="eh-work__title">{{ w.title }}</div>
+              <div class="eh-work__kind">{{ w.kind }}</div>
+
+              <div class="eh-work__detail">
+                <p class="eh-work__blurb">
+                  {{ w.blurb | strip_newlines }}
+                  {%- if w.url %}
+                    <a class="eh-link" href="{{ w.url | relative_url }}">Read more →</a>
+                  {%- endif %}
+                </p>
+                {%- if w.stack and w.stack.size > 0 -%}
+                  <div class="eh-work__stack">
+                    {%- for t in w.stack -%}
+                      <span class="eh-work__tag">{{ t }}</span>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+            <span class="eh-work__expand" aria-hidden="true">+</span>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <p class="eh-work__foot">
+        More on the consulting side at
+        <a class="eh-link" href="{{ '/ai-robotics-solutions/' | relative_url }}">/solutions</a>
+        and the IDX platform at
+        <a class="eh-link" href="{{ '/idx/' | relative_url }}">/idx</a>.
+      </p>
+    </section>
+
+    {%- comment -%} ─── Writing ─── {%- endcomment -%}
+    <section id="writing" class="eh-writing" aria-labelledby="eh-writing-title">
+      <div class="eh-rule">
+        <span class="eh-eyebrow">Writing</span>
+        <span class="eh-rule__line" aria-hidden="true"></span>
+      </div>
+
+      <h2 id="eh-writing-title" class="eh-section-h2">
+        Long enough to be useful, <em>short enough to finish</em>.
+      </h2>
+
+      <ul class="eh-writing__list">
+        {%- for entry in writing_list -%}
+          {%- assign is_guide = false -%}
+          {%- for g in site.resource_guides -%}
+            {%- if g.url == entry.url -%}{%- assign is_guide = true -%}{%- endif -%}
+          {%- endfor -%}
+          {%- if is_guide -%}
+            {%- assign tag_label = "Guide" -%}
+          {%- else -%}
+            {%- assign tag_label = "Newsletter" -%}
+          {%- endif -%}
+          {%- assign words = entry.content | strip_html | number_of_words -%}
+          {%- assign mins = words | divided_by: 220 -%}
+          {%- if mins < 1 -%}{%- assign mins = 1 -%}{%- endif -%}
+
+          <a href="{{ entry.url | relative_url }}"
+             class="eh-writing__row{% if forloop.last %} eh-writing__row--last{% endif %}">
+            <span class="eh-writing__date">{{ entry.date | date: '%Y·%m·%d' }}</span>
+            <span class="eh-writing__title">{{ entry.title }}</span>
+            <span class="eh-writing__tag">{{ tag_label }}</span>
+            <span class="eh-writing__read">{{ mins }} min</span>
+          </a>
+        {%- endfor -%}
+      </ul>
+    </section>
+
+    {%- comment -%} ─── Elsewhere / Contact ─── {%- endcomment -%}
+    <section id="contact" class="eh-contact" aria-labelledby="eh-contact-title">
+      <div class="eh-rule">
+        <span class="eh-eyebrow">Elsewhere</span>
+        <span class="eh-rule__line" aria-hidden="true"></span>
+      </div>
+
+      <h2 id="eh-contact-title" class="eh-contact__lead">
+        The best way to reach me is<br>
+        <span class="eh-contact__lead-accent">an actual email</span>.
+      </h2>
+
+      <div class="eh-contact__grid">
+        <a class="eh-contact__item eh-contact__item--left"
+           href="mailto:{{ site.contact_email }}">
+          <span class="eh-eyebrow">Email</span>
+          <span class="eh-contact__value">{{ site.contact_email }}</span>
+          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="eh-contact__item eh-contact__item--right"
+           href="{{ '/contact/' | relative_url }}">
+          <span class="eh-eyebrow">Brief</span>
+          <span class="eh-contact__value">Share a project brief</span>
+          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="eh-contact__item eh-contact__item--left"
+           href="{{ '/newsletter/' | relative_url }}">
+          <span class="eh-eyebrow">Newsletter</span>
+          <span class="eh-contact__value">Notes on private AI</span>
+          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <a class="eh-contact__item eh-contact__item--right"
+           href="{{ '/resources/' | relative_url }}">
+          <span class="eh-eyebrow">Resources</span>
+          <span class="eh-contact__value">Deployment guides</span>
+          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
+        </a>
+
+        <div class="eh-contact__last-rule" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <footer class="eh-footer" role="contentinfo">
+      <span>© {{ site.time | date: '%Y' }} Mehrdad Zaker</span>
+      <span>Hand-built · set in Newsreader &amp; Geist</span>
+      <span>Seattle · 47.6062° N, 122.3321° W</span>
+    </footer>
+  </main>
+</div>
