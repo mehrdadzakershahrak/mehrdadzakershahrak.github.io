@@ -7233,3 +7233,66 @@ h6,
 .mdz-theme-toggle {
   position: relative;
 }
+
+/* =========================================================================
+   Stage-6 accessibility polish.
+   ========================================================================= */
+
+/* Give the theme's skip-link a visible, branded style when focused so
+   keyboard users get a clear first-stop link. Minimal Mistakes ships
+   `.skip--screen-reader` with sr-only defaults; this overrides only the
+   focused state so the semantics don't change. */
+.skip-link:focus,
+.skip-link:focus-visible,
+.nav__sub-title:focus-visible {
+  position: fixed;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  z-index: var(--z-toast);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  border-radius: var(--r-md);
+  box-shadow: var(--el-3);
+  text-decoration: none;
+  clip: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+/* prefers-contrast: more — strengthen borders and muted text globally. */
+@media (prefers-contrast: more) {
+  :root {
+    --color-border:        rgba(31, 58, 48, 0.42);
+    --color-border-strong: rgba(31, 58, 48, 0.62);
+    --color-ink-muted:     rgba(18, 24, 20, 0.86);
+    --color-ink-subtle:    rgba(18, 24, 20, 0.74);
+  }
+
+  .mdz-band .mdz-muted {
+    color: var(--color-ink-muted);
+  }
+}
+
+/* forced-colors (Windows high-contrast): let the OS redraw critical
+   surfaces so the UI remains intelligible. */
+@media (forced-colors: active) {
+  .mdz-btn,
+  .mdz-cta,
+  .mdz-menu-trigger,
+  .mdz-menu-close,
+  .mdz-surface,
+  .mdz-card,
+  .mdz-horizontal-card {
+    forced-color-adjust: none;
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+  .mdz-btn:focus-visible,
+  .mdz-cta:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
