@@ -7275,6 +7275,208 @@ h6,
   }
 }
 
+/* =========================================================================
+   Stage-7 motion system — reveal primitives + verification-ribbon motif.
+   ========================================================================= */
+
+[data-mdz-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--dur-slow) var(--ease-standard),
+              transform var(--dur-slow) var(--ease-standard);
+  will-change: opacity, transform;
+}
+
+[data-mdz-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-mdz-reveal="fade"] {
+  transform: none;
+}
+
+[data-mdz-reveal="rise"] {
+  transform: translateY(24px);
+}
+
+[data-mdz-reveal="scale"] {
+  transform: scale(0.98);
+}
+[data-mdz-reveal="scale"].is-revealed {
+  transform: scale(1);
+}
+
+/* Skeleton shimmer for async content placeholders */
+.mdz-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-strong) 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    var(--color-surface-strong) 100%
+  );
+  background-size: 200% 100%;
+  animation: mdz-skeleton-shimmer 1.6s var(--ease-out) infinite;
+  border-radius: var(--r-md);
+}
+
+@keyframes mdz-skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ---------- Verification ribbon motif ---------------------------------
+   A three-step visualization that sits below the hero as the signature
+   moment: Document -> Retrieval -> Grounded answer. Pure CSS/SVG so it
+   costs nothing. */
+.mdz-verify-ribbon {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sp-4);
+  align-items: stretch;
+  padding: var(--sp-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-lg);
+  background: linear-gradient(
+    160deg,
+    var(--color-surface-elevated) 0%,
+    var(--color-surface) 100%
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.mdz-verify-ribbon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(119, 242, 238, 0.18), transparent 35%),
+    radial-gradient(circle at 90% 80%, rgba(184, 106, 43, 0.12), transparent 40%);
+  pointer-events: none;
+  opacity: 0.8;
+  animation: mdz-verify-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes mdz-verify-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-2%, -1%) scale(1.05); }
+}
+
+.mdz-verify-step {
+  position: relative;
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border-radius: var(--r-md);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  min-height: 120px;
+}
+
+.mdz-verify-step__icon {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mdz-verify-step__label {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tr-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.mdz-verify-step__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  color: var(--color-ink);
+  line-height: var(--lh-snug);
+}
+
+.mdz-verify-step__desc {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+}
+
+.mdz-verify-step__pulse {
+  position: absolute;
+  right: calc(-1 * var(--sp-4) / 2);
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--sp-4);
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent) 0%,
+    var(--color-highlight) 100%
+  );
+  z-index: 1;
+  overflow: hidden;
+}
+
+.mdz-verify-step__pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #fff 50%,
+    transparent 100%
+  );
+  animation: mdz-verify-flow 2.4s var(--ease-in) infinite;
+}
+
+@keyframes mdz-verify-flow {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.mdz-verify-step:last-child .mdz-verify-step__pulse {
+  display: none;
+}
+
+@media (max-width: 48em) {
+  .mdz-verify-ribbon {
+    grid-template-columns: 1fr;
+  }
+  .mdz-verify-step__pulse {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: calc(-1 * var(--sp-4) / 2);
+    transform: translate(-50%, 0);
+    width: 2px;
+    height: var(--sp-4);
+    background: linear-gradient(
+      180deg,
+      var(--color-accent) 0%,
+      var(--color-highlight) 100%
+    );
+  }
+  .mdz-verify-step__pulse::after {
+    background: linear-gradient(180deg, transparent, #fff, transparent);
+    animation-name: mdz-verify-flow-v;
+  }
+}
+
+@keyframes mdz-verify-flow-v {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
 /* forced-colors (Windows high-contrast): let the OS redraw critical
    surfaces so the UI remains intelligible. */
 @media (forced-colors: active) {
