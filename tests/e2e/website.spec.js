@@ -5,7 +5,7 @@ const HOMEPAGE_TITLE = "Mehrdad Zaker — Private AI Systems That Ship";
 const HOMEPAGE_DESCRIPTION =
   "Build private AI systems that verify answers, protect sensitive documents, and run in production.";
 const HOMEPAGE_H1 =
-  "Ship private AI systems that verify answers and run in production.";
+  "Ship private AI that verifies every answer.";
 const IDX_DESCRIPTION =
   "IDX lets document-heavy teams ask questions, verify source pages, and track ingest in one workspace.";
 const IDX_H1 = "Get answers you can verify before you act.";
@@ -230,12 +230,12 @@ test("homepage publishes source-backed expertise content and matching FAQ schema
   expect(response.ok()).toBeTruthy();
 
   const html = await response.text();
-  expect(html).toContain("Gartner reported a hard pattern");
-  expect(html).toContain("By the end of 2025, at least half of GenAI projects");
-  expect(html).toContain("Cisco's 2025 privacy benchmark");
-  expect(html).toContain("IBM's 2025 breach report");
-  expect(html).toContain("Stanford HAI's 2025 AI Index");
+  // Post-Stage-8 IA: the homepage now links heavy stat sourcing into the
+  // /work/ case studies. We keep one industry context stat (Gartner) and
+  // the verify-ribbon signature moment on the landing page itself.
+  expect(html).toContain("Gartner");
   expect(html).toContain("https://arxiv.org/abs/2311.09735");
+  expect(html).toContain("Source in. Retrieval. Answer with citations out.");
 
   await page.goto("/");
 
@@ -251,10 +251,13 @@ test("homepage publishes source-backed expertise content and matching FAQ schema
   );
   await expect(page.getByRole("heading", { name: "Why teams choose private AI deployments" })).toBeVisible();
   await expect(page.getByText("50%+")).toBeVisible();
-  await expect(page.getByText("$4.4M")).toBeVisible();
   await expect(page.getByRole("heading", { name: "Questions teams ask before building private AI" })).toBeVisible();
 
-  const visibleQuestions = await page.locator(".mdz-home-faq-item h3").allTextContents();
+  // Post-Stage-11 the FAQ renders as a <details>/<summary> accordion; the
+  // question text still lives inside an h3, but inside the summary element.
+  const visibleQuestions = await page
+    .locator(".mdz-home-faq-item .mdz-home-faq-item__question")
+    .allTextContents();
   expect(visibleQuestions).toEqual(HOMEPAGE_FAQ_QUESTIONS);
 
   const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -272,6 +275,44 @@ test("homepage publishes source-backed expertise content and matching FAQ schema
   const professionalServiceSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "ProfessionalService");
   expect(professionalServiceSchemas).toHaveLength(1);
   expect(professionalServiceSchemas[0]).toEqual(expect.objectContaining(HOMEPAGE_PROFESSIONAL_SERVICE_SCHEMA));
+});
+
+test("homepage renders the signature-moment additions from Stages 3, 7, 9, 10, 11", async ({ page }) => {
+  await page.goto("/");
+
+  // Stage 3 hero — accent span inside the rebuilt H1
+  await expect(page.locator(".mdz-home-hero__title-accent")).toHaveText("verifies every answer");
+
+  // Stage 7 verify-ribbon — three ordered steps
+  await expect(page.locator(".mdz-verify-step")).toHaveCount(3);
+  await expect(page.locator(".mdz-verify-step__label").first()).toHaveText(/01\s·\sSource/);
+
+  // Stage 10 static RAG demo — tablist with three pre-baked questions
+  const tabs = page.locator("[data-mdz-rag-tab]");
+  await expect(tabs).toHaveCount(3);
+  await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
+  await tabs.nth(1).click();
+  await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator('[data-mdz-rag-panel="2"]')).toBeVisible();
+  await expect(page.locator('[data-mdz-rag-panel="1"]')).toBeHidden();
+
+  // Stage 11 FAQ accordion — <details> element, first item open by default
+  const faqDetails = page.locator("details.mdz-home-faq-item__details");
+  await expect(faqDetails.first()).toHaveAttribute("open", "");
+  // Second item closed until clicked
+  const secondSummary = faqDetails.nth(1).locator("summary");
+  await expect(faqDetails.nth(1)).not.toHaveAttribute("open", /.*/);
+  await secondSummary.click();
+  await expect(faqDetails.nth(1)).toHaveAttribute("open", "");
+
+  // Stage 9 theme toggle — button mounted, clicking flips data-theme on <html>
+  const toggle = page.locator("[data-mdz-theme-toggle]");
+  await expect(toggle).toBeVisible();
+  const initialTheme = await page.locator("html").getAttribute("data-theme");
+  await toggle.click();
+  const flippedTheme = await page.locator("html").getAttribute("data-theme");
+  expect(flippedTheme).not.toBe(initialTheme);
+  expect(["light", "dark"]).toContain(flippedTheme);
 });
 
 test("custom-hero pages expose a single content h1 without the theme page title heading", async ({ page, request }) => {
