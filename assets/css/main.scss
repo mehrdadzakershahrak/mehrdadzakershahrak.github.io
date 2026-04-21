@@ -156,6 +156,199 @@
   --tone-muted:        rgba(var(--highlight-rgb), 0.72);
 }
 
+/* =========================================================================
+   Dark theme — hand-tuned forest/ember inversion.
+   Activated by [data-theme="dark"] on <html>, which masthead-menu.js sets
+   from (stored preference > data-theme attribute > OS preference). Because
+   all colors flow through --color-* semantic tokens and their legacy
+   aliases below, this single override repaints the whole site.
+   ========================================================================= */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces: night-forest ground, lifted cards step toward charcoal */
+  --color-surface:          var(--c-forest-900);          /* page ground */
+  --color-surface-elevated: #16211c;                       /* cards       */
+  --color-surface-strong:   var(--c-forest-700);          /* raised rails */
+
+  /* Ink: warm sand on forest; keep tint to avoid a clinical grey cast */
+  --color-ink:              #f2ece0;
+  --color-ink-muted:        rgba(242, 236, 224, 0.72);
+  --color-ink-subtle:       rgba(242, 236, 224, 0.52);
+  --color-ink-inverse:      var(--c-forest-900);
+
+  /* Accent: brighten ember so it survives on the dark ground */
+  --color-accent:           #e49a57;
+  --color-accent-strong:    var(--c-ember-400);
+  --color-accent-contrast:  var(--c-forest-900);
+  --color-highlight:        #f0b06b;
+
+  /* Borders: low-alpha ink for hairlines that read as "warm charcoal" */
+  --color-border:           rgba(242, 236, 224, 0.12);
+  --color-border-strong:    rgba(242, 236, 224, 0.24);
+
+  /* Focus: ember-gold, softened glow for dark */
+  --color-focus-ring:       #f0b06b;
+  --color-focus-ring-soft:  rgba(240, 176, 107, 0.38);
+
+  /* Status colors shifted brighter for contrast against forest-900 */
+  --color-success:          #6bbb8b;
+  --color-warning:          #e0b070;
+  --color-danger:           #e27a6b;
+
+  /* RGB triplets used by rgba() call sites — remap to the dark accent
+     so shadows/borders built from these don't keep a lime-forest cast */
+  --accent-rgb:    228, 154, 87;
+  --highlight-rgb: 240, 176, 107;
+
+  /* Shadows need more visual weight on dark — shift to pure-black alphas */
+  --el-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --el-2: 0 4px 10px rgba(0, 0, 0, 0.55);
+  --el-3: 0 10px 24px rgba(0, 0, 0, 0.60);
+  --el-4: 0 20px 48px rgba(0, 0, 0, 0.70);
+  --el-glow: 0 0 0 3px var(--color-focus-ring-soft);
+
+  /* Legacy aliases — remap so every pre-token rule picks up the dark ramp */
+  --ui-blue:           var(--color-accent);
+  --ui-black:          var(--color-ink);
+  --ui-white:          var(--color-surface-elevated);
+  --ui-surface:        var(--color-surface);
+  --ui-surface-strong: var(--color-surface-strong);
+  --brand-accent:      var(--color-accent);
+  --brand-accent-2:    rgba(240, 176, 107, 0.55);
+  --tone-slate:        rgba(242, 236, 224, 0.42);
+  --tone-navy:         var(--color-surface-strong);
+  --tone-cyan:         var(--color-accent);
+  --tone-ink:          var(--color-ink);
+  --tone-muted:        rgba(242, 236, 224, 0.60);
+}
+
+/* Follow the OS when the user hasn't chosen explicitly — but only until
+   masthead-menu.js boots and promotes a preference onto <html>. The
+   inline head script sets data-theme before first paint to prevent flash. */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+    --color-surface:          var(--c-forest-900);
+    --color-surface-elevated: #16211c;
+    --color-surface-strong:   var(--c-forest-700);
+    --color-ink:              #f2ece0;
+    --color-ink-muted:        rgba(242, 236, 224, 0.72);
+    --color-ink-subtle:       rgba(242, 236, 224, 0.52);
+    --color-ink-inverse:      var(--c-forest-900);
+    --color-accent:           #e49a57;
+    --color-accent-strong:    var(--c-ember-400);
+    --color-accent-contrast:  var(--c-forest-900);
+    --color-highlight:        #f0b06b;
+    --color-border:           rgba(242, 236, 224, 0.12);
+    --color-border-strong:    rgba(242, 236, 224, 0.24);
+    --color-focus-ring:       #f0b06b;
+    --color-focus-ring-soft:  rgba(240, 176, 107, 0.38);
+    --accent-rgb:    228, 154, 87;
+    --highlight-rgb: 240, 176, 107;
+    --el-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+    --el-2: 0 4px 10px rgba(0, 0, 0, 0.55);
+    --el-3: 0 10px 24px rgba(0, 0, 0, 0.60);
+    --el-4: 0 20px 48px rgba(0, 0, 0, 0.70);
+    --ui-blue:           var(--color-accent);
+    --ui-black:          var(--color-ink);
+    --ui-white:          var(--color-surface-elevated);
+    --ui-surface:        var(--color-surface);
+    --ui-surface-strong: var(--color-surface-strong);
+    --brand-accent:      var(--color-accent);
+    --brand-accent-2:    rgba(240, 176, 107, 0.55);
+    --tone-slate:        rgba(242, 236, 224, 0.42);
+    --tone-navy:         var(--color-surface-strong);
+    --tone-cyan:         var(--color-accent);
+    --tone-ink:          var(--color-ink);
+    --tone-muted:        rgba(242, 236, 224, 0.60);
+  }
+}
+
+/* Smooth the theme flip — cheap transitions limited to the paint-heaviest
+   surface properties. Respects reduced-motion because --dur-base → 0ms. */
+html,
+body {
+  transition: background-color var(--dur-base) var(--ease-standard),
+              color var(--dur-base) var(--ease-standard);
+}
+
+/* Dark-mode tweaks for the hero wash overlay. On light the hero uses a
+   white-cream gradient fade; on dark that reads as a bright band. Flip
+   the gradient to the forest ground so the hero image blends correctly. */
+[data-theme="dark"] .mdz-home-hero::before,
+[data-theme="dark"] .mdz-band--verify::before {
+  background-image: linear-gradient(
+    180deg,
+    rgba(12, 22, 18, 0) 0%,
+    rgba(12, 22, 18, 0.65) 60%,
+    var(--color-surface) 100%
+  );
+}
+
+/* Buttons in dark mode: ember-fill with forest-ink for legible contrast */
+[data-theme="dark"] .btn--primary,
+[data-theme="dark"] .mdz-btn--primary {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  border-color: var(--color-accent);
+}
+
+[data-theme="dark"] .btn--primary:hover,
+[data-theme="dark"] .mdz-btn--primary:hover {
+  background-color: var(--color-accent-strong);
+  border-color: var(--color-accent-strong);
+}
+
+/* Theme toggle — compact circular button in the utility nav.
+   Sun is revealed when dark is active (so pressing it returns to light);
+   moon is revealed on light (so pressing it engages dark). */
+.mdz-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
+}
+
+.mdz-theme-toggle:hover {
+  background-color: var(--color-surface-strong);
+  border-color: var(--color-border-strong);
+}
+
+.mdz-theme-toggle:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.mdz-theme-toggle__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.mdz-theme-toggle__icon--sun { display: none; }
+.mdz-theme-toggle__icon--moon { display: inline-block; }
+
+[data-theme="dark"] .mdz-theme-toggle__icon--sun { display: inline-block; }
+[data-theme="dark"] .mdz-theme-toggle__icon--moon { display: none; }
+
+/* Moon needs a solid fill for silhouette readability */
+.mdz-theme-toggle__icon--moon { fill: currentColor; stroke: none; }
+
 /* ---------- Respect reduced-motion at the token level ------------------ */
 @media (prefers-reduced-motion: reduce) {
   :root {
