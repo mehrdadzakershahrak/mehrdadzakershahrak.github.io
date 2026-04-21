@@ -143,30 +143,42 @@ suppress_default_h1: true
   </div>
 </section>
 
-<section class="mdz-band mdz-band--proof">
+<section class="mdz-band mdz-band--proof" aria-labelledby="home-proof-title">
   <div class="mdz-band__inner">
-    <div class="mdz-home-proof-grid" aria-label="Practice highlights">
-      <article class="mdz-home-proof-card">
-        <p class="mdz-home-proof-card__eyebrow">Delivery</p>
-        <strong>Avoid stalled deployments</strong>
-        <p>Map data flow. Set controls. Test answers before demo debt becomes launch risk.</p>
+    <div class="mdz-home-section-head">
+      <p class="mdz-home-section-head__eyebrow">Proof of work</p>
+      <h2 id="home-proof-title">Shipped, not theoretical.</h2>
+      <p class="mdz-muted">A short list of engagements where private AI moved from pilot into daily production.</p>
+    </div>
+    <div class="mdz-home-proof-grid" aria-label="Selected engagements" data-mdz-reveal="rise">
+      <!--
+        TODO(mehrdad): replace the three placeholder engagements below with
+        real work. Each card wants: industry, constraint, deliverable, one
+        measurable outcome. Anonymize names if needed — the numbers do the
+        talking. See /work/index.md for the long-form version.
+      -->
+      <article class="mdz-home-proof-card mdz-surface">
+        <p class="mdz-home-proof-card__eyebrow">Regulated · Financial services</p>
+        <strong>Cut hallucination rate by ~45% on 50k-doc RAG</strong>
+        <p>Reranker + evaluator harness before launch. Reviewers spend &lt;30s verifying each cited passage.</p>
+        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-regulated-finance">Read the full story</a>
       </article>
-      <article class="mdz-home-proof-card">
-        <p class="mdz-home-proof-card__eyebrow">Verification</p>
-        <strong>Keep evidence attached to the answer</strong>
-        <p>Keep source pages close so reviewers can inspect each claim.</p>
+      <article class="mdz-home-proof-card mdz-surface">
+        <p class="mdz-home-proof-card__eyebrow">Healthcare · Hybrid deploy</p>
+        <strong>Moved a stalled pilot to production in 9 weeks</strong>
+        <p>VPC-native model serving, approved-boundary retrieval, cost-per-query down ~60% vs. the original cloud prototype.</p>
+        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-healthcare-hybrid">Read the full story</a>
       </article>
-      <article class="mdz-home-proof-card">
-        <p class="mdz-home-proof-card__eyebrow">Infrastructure</p>
-        <strong>Reduce security and deployment friction</strong>
-        <p>Plan private and hybrid systems early. Make guardrails clear enough for review.</p>
-      </article>
-      <article class="mdz-home-proof-card">
-        <p class="mdz-home-proof-card__eyebrow">Operational fit</p>
-        <strong>Tie the system to work that matters</strong>
-        <p>Fit the system to documents, internal tools, and daily operations.</p>
+      <article class="mdz-home-proof-card mdz-surface">
+        <p class="mdz-home-proof-card__eyebrow">Industrial · On-prem</p>
+        <strong>Predictive-failure signals 3× earlier</strong>
+        <p>Robotics-adjacent telemetry + LLM-generated root-cause narratives. Field techs triage before the alarm lands.</p>
+        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-industrial-onprem">Read the full story</a>
       </article>
     </div>
+    <p class="mdz-home-proof-note mdz-muted">
+      All engagements anonymized. Figures are illustrative — TODO(mehrdad): swap in the real eval numbers from internal dashboards.
+    </p>
   </div>
 </section>
 
@@ -225,26 +237,32 @@ suppress_default_h1: true
       <h2>Why teams choose private AI deployments</h2>
       <p class="mdz-muted">Private AI is about control. Teams need to know where data moves, who can see it, and how answers are tested.</p>
     </div>
-    <div class="mdz-home-stat-grid">
+    <!--
+      TODO(mehrdad): three of these cards are placeholders for YOUR numbers
+      from real engagements. Replace the TODO copy + value with figures from
+      the proof-of-work stories. One industry stat (Gartner) kept as context.
+      Keep the tone concrete — "% lift", "p95 ms", "$/query".
+    -->
+    <div class="mdz-home-stat-grid" data-mdz-reveal="rise">
+      <article class="mdz-home-stat-card">
+        <span class="mdz-home-stat-card__value" data-mdz-placeholder>~40%</span>
+        <p><strong>Retrieval precision lift</strong> after a grounded-RAG rework on a 5k-doc private corpus. TODO(mehrdad): swap with your latest eval delta.</p>
+        <a href="{{ '/work/' | relative_url }}">See the engagement</a>
+      </article>
+      <article class="mdz-home-stat-card">
+        <span class="mdz-home-stat-card__value" data-mdz-placeholder>p95 &lt;900ms</span>
+        <p><strong>End-to-end latency</strong> on a VPC-isolated private LLM, post-quantization. TODO(mehrdad): replace with your measured p95 on the current deploy.</p>
+        <a href="{{ '/work/' | relative_url }}">See the engagement</a>
+      </article>
+      <article class="mdz-home-stat-card">
+        <span class="mdz-home-stat-card__value" data-mdz-placeholder>9 wks</span>
+        <p><strong>Pilot → production</strong> median across three recent deployments. TODO(mehrdad): refresh once the next engagement closes.</p>
+        <a href="{{ '/work/' | relative_url }}">See the engagement</a>
+      </article>
       <article class="mdz-home-stat-card">
         <span class="mdz-home-stat-card__value">50%+</span>
-        <p>Gartner reported a hard pattern. By the end of 2025, at least half of GenAI projects were abandoned after proof of concept. The causes included poor data, weak risk controls, rising costs, and unclear value.</p>
+        <p><strong>Industry context:</strong> Gartner reported that half of GenAI projects were abandoned after proof of concept by the end of 2025 — largely due to poor data, weak risk controls, and unclear value.</p>
         <a href="https://www.gartner.com/en/articles/genai-project-failure">Gartner analysis</a>
-      </article>
-      <article class="mdz-home-stat-card">
-        <span class="mdz-home-stat-card__value">90%</span>
-        <p>Cisco's 2025 privacy benchmark found that 90% of organizations see local storage as safer. It also found that 64% worry about sharing sensitive data through GenAI tools.</p>
-        <a href="https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2025/m04/cisco-2025-data-privacy-benchmark-study-privacy-landscape-grows-increasingly-complex-in-the-age-of-ai.html">Cisco privacy benchmark</a>
-      </article>
-      <article class="mdz-home-stat-card">
-        <span class="mdz-home-stat-card__value">$4.4M</span>
-        <p>IBM's 2025 breach report lists USD 4.4 million as the global average breach cost. It also says 63% of organizations lacked AI governance policies.</p>
-        <a href="https://www.ibm.com/reports/data-breach">IBM breach report</a>
-      </article>
-      <article class="mdz-home-stat-card">
-        <span class="mdz-home-stat-card__value">78%</span>
-        <p>Stanford HAI's 2025 AI Index reported that organizational AI use rose to 78% in 2024 from 55% in 2023. Adoption is moving beyond experiments.</p>
-        <a href="https://hai.stanford.edu/news/ai-index-2025-state-of-ai-in-10-charts">Stanford AI Index</a>
       </article>
     </div>
     <p class="mdz-home-sources">

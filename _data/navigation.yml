@@ -56,6 +56,8 @@ main:
     children:
       - title: "Archive"
         url: /newsletter/archive/
+  - title: "Work"
+    url: /work/
   - title: "About"
     url: /about/
   - title: "Contact"

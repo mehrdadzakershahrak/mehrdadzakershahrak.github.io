@@ -7477,6 +7477,86 @@ h6,
   100% { transform: translateY(100%); }
 }
 
+/* =========================================================================
+   Stage-8 IA surfaces: work page + placeholder hints.
+   ========================================================================= */
+
+.mdz-home-proof-note {
+  margin-top: var(--sp-5);
+  font-size: var(--fs-sm);
+}
+
+.mdz-home-stat-card__value[data-mdz-placeholder]::after {
+  content: " ·";
+  color: var(--color-highlight);
+  margin-left: 0.2rem;
+}
+/* Visually flag placeholder copy blocks only when editing (behind a
+   body class you can toggle locally). Ships invisible in production. */
+body.mdz-editing [data-mdz-placeholder],
+body.mdz-editing [data-mdz-todo] {
+  outline: 2px dashed var(--color-warning);
+  outline-offset: 4px;
+}
+
+.mdz-band--case .mdz-band__inner {
+  max-width: var(--layout-max-narrow);
+  padding-block: var(--sp-7);
+}
+
+.mdz-band--case h2 {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  margin-bottom: var(--sp-5);
+}
+
+.mdz-band--case h3 {
+  font-size: var(--fs-md);
+  margin-top: var(--sp-5);
+  margin-bottom: var(--sp-2);
+  color: var(--color-accent);
+  letter-spacing: var(--tr-wide);
+  text-transform: uppercase;
+}
+
+.mdz-band--case ul {
+  margin: 0 0 var(--sp-4);
+  padding-left: var(--sp-5);
+  color: var(--color-ink-muted);
+}
+
+.mdz-band--case ul li {
+  margin-bottom: var(--sp-2);
+  line-height: var(--lh-normal);
+}
+
+.mdz-band--work-hero .mdz-band__inner,
+.mdz-band--work-cta .mdz-band__inner {
+  max-width: var(--layout-max-narrow);
+  padding-block: var(--sp-7);
+  text-align: center;
+}
+
+.mdz-band--work-hero h1 {
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  margin-bottom: var(--sp-4);
+}
+
+.mdz-band--work-hero .mdz-muted,
+.mdz-band--work-cta .mdz-muted {
+  max-width: 52ch;
+  margin: 0 auto;
+  font-size: var(--fs-md);
+}
+
+.mdz-band--work-cta .mdz-home-hero__actions {
+  justify-content: center;
+  margin-top: var(--sp-5);
+}
+
 /* forced-colors (Windows high-contrast): let the OS redraw critical
    surfaces so the UI remains intelligible. */
 @media (forced-colors: active) {
