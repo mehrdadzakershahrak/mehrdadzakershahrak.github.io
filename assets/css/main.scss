@@ -6953,3 +6953,154 @@ h6,
     grid-template-columns: 1fr;
   }
 }
+
+/* =========================================================================
+   Stage-4 canonical surface + button primitives.
+
+   .mdz-surface      — token-driven card container (replaces the many
+                        bespoke cards; older card classes remain as
+                        specialized layers on top of their own rules)
+   .mdz-surface--*    — variants (stat, quote, offer, outlined, etc.)
+   .mdz-btn          — token-driven button, no !important; .mdz-cta kept
+                        as a compatibility alias via shared rules
+   ========================================================================= */
+.mdz-surface {
+  display: grid;
+  gap: var(--sp-2);
+  padding: var(--sp-5);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--el-1);
+  transition: transform var(--dur-base) var(--ease-standard),
+              box-shadow var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard);
+}
+
+.mdz-surface:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--el-3);
+  border-color: var(--color-border-strong);
+}
+
+.mdz-surface--flat {
+  box-shadow: none;
+}
+
+.mdz-surface--ghost {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+}
+
+.mdz-surface--accent {
+  background: linear-gradient(160deg, var(--c-forest-500) 0%, var(--c-forest-700) 100%);
+  border-color: rgba(255, 255, 255, 0.10);
+  color: var(--color-ink-inverse);
+}
+
+.mdz-surface--accent .mdz-surface__eyebrow { color: rgba(255, 255, 255, 0.7); }
+.mdz-surface--accent .mdz-surface__title   { color: #fff; }
+.mdz-surface--accent .mdz-surface__desc    { color: rgba(255, 255, 255, 0.82); }
+
+.mdz-surface__eyebrow {
+  margin: 0;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-ink-subtle);
+}
+
+.mdz-surface__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-md);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-snug);
+  color: var(--color-ink);
+}
+
+.mdz-surface__desc {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+}
+
+.mdz-surface__metric {
+  font-family: var(--font-display);
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tr-tight);
+  color: var(--color-accent);
+  line-height: var(--lh-tight);
+}
+
+/* ---------- Buttons -------------------------------------------------- */
+.mdz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: 0.6rem 1rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  letter-spacing: var(--tr-normal);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--r-pill);
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard),
+              color var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard),
+              box-shadow var(--dur-base) var(--ease-standard);
+}
+
+.mdz-btn:hover,
+.mdz-btn:focus-visible {
+  background: var(--color-accent-strong);
+  border-color: var(--color-accent-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--el-2);
+}
+
+.mdz-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--el-1);
+}
+
+.mdz-btn--ghost {
+  background: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-border-strong);
+}
+
+.mdz-btn--ghost:hover,
+.mdz-btn--ghost:focus-visible {
+  background: var(--color-accent);
+  color: var(--color-accent-contrast);
+}
+
+.mdz-btn--sm {
+  padding: 0.45rem 0.85rem;
+  font-size: var(--fs-xs);
+}
+
+.mdz-btn--lg {
+  padding: 0.85rem 1.35rem;
+  font-size: var(--fs-base);
+}
+
+/* Visible, branded focus ring for any focusable element that isn't
+   handled by a more specific rule. Applied once, site-wide. */
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--r-sm);
+}
