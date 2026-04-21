@@ -1339,6 +1339,11 @@ body.mdz-menu-lock {
 }
 
 .mdz-horizontal-card__media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  /* Legacy: background-* still honored if any call site passes a bg URL */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1352,6 +1357,15 @@ body.mdz-menu-lock {
 
 .mdz-horizontal-card--band .mdz-horizontal-card__media {
   min-height: 360px;
+}
+
+/* Ensure <img> inside the new <picture>-based media fills the tile */
+.mdz-horizontal-card__media > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .mdz-horizontal-card--about {
@@ -8021,4 +8035,93 @@ body.mdz-editing [data-mdz-todo] {
   color: var(--color-ink);
   padding-inline: 2px;
   border-radius: 2px;
+}
+
+/* =========================================================================
+   Stage 11 — FAQ accordion.
+   Each FAQ item wraps its Q/A pair in a <details> element. We suppress the
+   default disclosure triangle and drive our own chevron that rotates when
+   the item opens. The legacy .mdz-home-faq-item h3/p rules still apply to
+   typography; this block just governs the expand/collapse affordance.
+   ========================================================================= */
+.mdz-home-faq-item {
+  padding: 0;
+  overflow: hidden;
+}
+
+.mdz-home-faq-item__details {
+  padding: var(--sp-5) var(--sp-5);
+}
+
+.mdz-home-faq-item__details > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.mdz-home-faq-item__details > summary::-webkit-details-marker { display: none; }
+.mdz-home-faq-item__details > summary::marker { content: ""; }
+
+.mdz-home-faq-item__details > summary:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 4px;
+  border-radius: var(--r-sm);
+}
+
+.mdz-home-faq-item__summary {
+  /* already flex via selector above; keep class for JS hooks / specificity */
+}
+
+.mdz-home-faq-item__question {
+  margin: 0;
+  font-size: var(--fs-md);
+  line-height: var(--lh-snug);
+  color: var(--color-ink);
+  flex: 1 1 auto;
+}
+
+.mdz-home-faq-item__chevron {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+  color: var(--color-ink-muted);
+  transition: transform var(--dur-base) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard);
+}
+
+.mdz-home-faq-item__details[open] .mdz-home-faq-item__chevron {
+  transform: rotate(180deg);
+  color: var(--color-accent);
+}
+
+.mdz-home-faq-item__details > summary:hover .mdz-home-faq-item__chevron {
+  color: var(--color-accent);
+}
+
+.mdz-home-faq-item__answer {
+  margin: var(--sp-3) 0 0;
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-ink-muted);
+  line-height: var(--lh-relaxed);
+}
+
+/* Subtle reveal when the answer expands (respects reduced-motion via token) */
+.mdz-home-faq-item__details[open] .mdz-home-faq-item__answer {
+  animation: mdzFaqReveal var(--dur-base) var(--ease-standard);
+}
+
+@keyframes mdzFaqReveal {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mdz-home-faq-item__details[open] .mdz-home-faq-item__answer { animation: none; }
+  .mdz-home-faq-item__chevron { transition: none; }
 }
