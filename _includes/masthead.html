@@ -61,6 +61,24 @@
               </li>
             {% endif %}
           {% endfor %}
+          <li class="mdz-menu-item mdz-menu-item--utility">
+            <button
+              class="mdz-theme-toggle"
+              type="button"
+              aria-pressed="false"
+              aria-label="Switch to dark theme"
+              data-mdz-theme-toggle
+            >
+              <svg class="mdz-theme-toggle__icon mdz-theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+              </svg>
+              <svg class="mdz-theme-toggle__icon mdz-theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M21 12.8A8.5 8.5 0 0 1 11.2 3a7 7 0 1 0 9.8 9.8Z"></path>
+              </svg>
+              <span class="sr-only">Toggle theme</span>
+            </button>
+          </li>
         </ul>
       </nav>
 
@@ -70,9 +88,15 @@
           type="button"
           aria-expanded="false"
           aria-controls="mdz-menu-overlay"
+          aria-label="Open menu"
           data-mdz-menu-toggle
         >
-          <span>Menu</span>
+          <svg class="mdz-menu-trigger__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path class="mdz-menu-trigger__bar mdz-menu-trigger__bar--top" d="M4 7h16"></path>
+            <path class="mdz-menu-trigger__bar mdz-menu-trigger__bar--mid" d="M4 12h16"></path>
+            <path class="mdz-menu-trigger__bar mdz-menu-trigger__bar--bot" d="M4 17h16"></path>
+          </svg>
+          <span class="mdz-menu-trigger__label">Menu</span>
         </button>
 
         <div class="mdz-menu-overlay" id="mdz-menu-overlay" data-mdz-menu-overlay aria-hidden="true">

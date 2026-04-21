@@ -7104,3 +7104,132 @@ h6,
   outline-offset: 2px;
   border-radius: var(--r-sm);
 }
+
+/* =========================================================================
+   Stage-5 masthead polish: shrink-on-scroll, icon+label menu trigger,
+   theme toggle button.
+   ========================================================================= */
+.mdz-masthead {
+  transition: padding var(--dur-base) var(--ease-standard),
+              box-shadow var(--dur-base) var(--ease-standard),
+              background-color var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard);
+}
+
+.mdz-masthead.is-scrolled {
+  background: rgba(255, 253, 248, 0.92);
+  border-bottom-color: var(--color-border-strong);
+  box-shadow: var(--el-1);
+}
+
+.mdz-masthead.is-scrolled .mdz-masthead__bar {
+  padding-block: 0.32rem;
+}
+
+.mdz-masthead.is-scrolled .mdz-brand__logo {
+  width: 28px;
+  height: 28px;
+  transition: width var(--dur-base) var(--ease-standard),
+              height var(--dur-base) var(--ease-standard);
+}
+
+/* ---------- Hamburger icon -------------------------------------------- */
+.mdz-menu-trigger {
+  gap: 0.55rem;
+}
+
+.mdz-menu-trigger__icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.mdz-menu-trigger__bar {
+  transform-origin: center;
+  transition: transform var(--dur-base) var(--ease-emphasize),
+              opacity var(--dur-fast) var(--ease-standard);
+}
+
+.mdz-menu-wrap.is-open .mdz-menu-trigger__bar--top {
+  transform: translateY(5px) rotate(45deg);
+}
+
+.mdz-menu-wrap.is-open .mdz-menu-trigger__bar--mid {
+  opacity: 0;
+}
+
+.mdz-menu-wrap.is-open .mdz-menu-trigger__bar--bot {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+.mdz-menu-trigger__label {
+  font-size: var(--fs-sm);
+}
+
+@media (max-width: 48em) {
+  .mdz-menu-trigger__label {
+    /* Icon is enough on narrow screens — keep the label in the tree for
+       screen readers via aria-label on the button. */
+    display: none;
+  }
+  .mdz-menu-trigger {
+    padding-inline: 0.55rem;
+  }
+}
+
+/* ---------- Theme toggle ---------------------------------------------- */
+.mdz-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--r-pill);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background var(--dur-base) var(--ease-standard),
+              color var(--dur-base) var(--ease-standard),
+              border-color var(--dur-base) var(--ease-standard);
+}
+
+.mdz-theme-toggle:hover,
+.mdz-theme-toggle:focus-visible {
+  background: var(--color-surface-strong);
+  border-color: var(--color-border);
+}
+
+.mdz-theme-toggle__icon {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: opacity var(--dur-base) var(--ease-standard),
+              transform var(--dur-base) var(--ease-standard);
+}
+
+/* Light theme: show sun, hide moon (we'll switch to a moon on dark) */
+[data-theme="light"] .mdz-theme-toggle__icon--moon,
+:root:not([data-theme="dark"]) .mdz-theme-toggle__icon--moon {
+  opacity: 0;
+  transform: rotate(-60deg) scale(0.6);
+}
+
+[data-theme="dark"] .mdz-theme-toggle__icon--sun {
+  opacity: 0;
+  transform: rotate(60deg) scale(0.6);
+}
+
+.mdz-theme-toggle {
+  position: relative;
+}
