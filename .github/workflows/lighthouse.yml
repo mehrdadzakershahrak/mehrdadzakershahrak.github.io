@@ -39,6 +39,12 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+        id: setup-chrome
+
       - name: Install Lighthouse CI
         run: npm install --global @lhci/cli@0.14.x
 
@@ -46,3 +52,4 @@ jobs:
         run: lhci autorun
         env:
           LHCI_BUILD_CONTEXT__CURRENT_HASH: ${{ github.sha }}
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
