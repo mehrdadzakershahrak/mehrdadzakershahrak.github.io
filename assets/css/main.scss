@@ -7771,3 +7771,254 @@ body.mdz-editing [data-mdz-todo] {
     outline-offset: 2px;
   }
 }
+
+/* =========================================================================
+   Stage 10 — Static RAG demo ("Walk through a grounded answer").
+   Pre-baked Q→A pairs rendered as a tablist. No model calls. Degrades to
+   the first panel when JS is disabled (all non-active panels carry hidden).
+   ========================================================================= */
+.mdz-band--ragdemo {
+  padding-block: var(--band-pad-y);
+  background: linear-gradient(
+    180deg,
+    var(--color-surface) 0%,
+    var(--color-surface-strong) 100%
+  );
+}
+
+.mdz-rag {
+  max-width: var(--layout-max);
+  margin-inline: auto;
+  margin-top: var(--sp-6);
+  display: grid;
+  gap: var(--sp-5);
+}
+
+.mdz-rag__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--el-1);
+}
+
+.mdz-rag__tab {
+  flex: 1 1 14rem;
+  min-width: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--color-ink-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  text-align: left;
+  line-height: var(--lh-snug);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-standard),
+              color var(--dur-fast) var(--ease-standard),
+              border-color var(--dur-fast) var(--ease-standard),
+              transform var(--dur-fast) var(--ease-standard);
+}
+
+.mdz-rag__tab:hover {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+}
+
+.mdz-rag__tab:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+.mdz-rag__tab.is-active {
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  border-color: var(--color-accent);
+  box-shadow: var(--el-2);
+}
+
+/* Panel grid: answer + sources side-by-side on wide, stacked on narrow */
+.mdz-rag__panel {
+  display: grid;
+  gap: var(--sp-5);
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: start;
+  animation: mdzRagFadeIn var(--dur-base) var(--ease-standard);
+}
+
+.mdz-rag__panel[hidden] {
+  display: none;
+}
+
+@keyframes mdzRagFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mdz-rag__panel { animation: none; }
+}
+
+@media (max-width: 840px) {
+  .mdz-rag__panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mdz-rag__answer {
+  padding: var(--sp-6);
+  border-radius: var(--r-lg);
+  font-size: var(--fs-md);
+  line-height: var(--lh-relaxed);
+  color: var(--color-ink);
+}
+
+.mdz-rag__answer p {
+  margin: 0;
+}
+
+.mdz-rag__answer-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--sp-4);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mdz-rag__answer-label {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tr-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.mdz-rag__answer-meta {
+  font-size: var(--fs-xs);
+  color: var(--color-ink-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inline highlight for a claim that will be traced to a source */
+.mdz-rag__claim {
+  background: linear-gradient(
+    180deg,
+    transparent 62%,
+    rgba(var(--highlight-rgb), 0.28) 62%
+  );
+  color: inherit;
+  padding-inline: 1px;
+}
+
+/* Citation number — small pill next to the claim, jumps to source on click */
+.mdz-rag__cite {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  margin-inline: 0.2rem 0.05rem;
+  padding: 0 0.35rem;
+  border-radius: var(--r-pill);
+  background-color: var(--color-accent);
+  color: var(--color-accent-contrast);
+  font-size: 0.72rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  text-decoration: none;
+  vertical-align: baseline;
+  transition: transform var(--dur-fast) var(--ease-standard),
+              background-color var(--dur-fast) var(--ease-standard);
+}
+
+.mdz-rag__cite:hover,
+.mdz-rag__cite:focus-visible {
+  transform: translateY(-1px);
+  background-color: var(--color-accent-strong);
+  color: var(--color-accent-contrast);
+}
+
+.mdz-rag__cite:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Source list — parallel card that highlights the cited phrase */
+.mdz-rag__sources {
+  padding: var(--sp-5);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--el-1);
+}
+
+.mdz-rag__sources-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tr-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--sp-3);
+}
+
+.mdz-rag__source-list {
+  list-style: decimal;
+  margin: 0;
+  padding-left: var(--sp-5);
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.mdz-rag__source {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-normal);
+  color: var(--color-ink);
+  scroll-margin-top: 6rem;
+}
+
+.mdz-rag__source:target {
+  animation: mdzRagSourcePing var(--dur-slower) var(--ease-out);
+}
+
+@keyframes mdzRagSourcePing {
+  0%   { background-color: rgba(var(--highlight-rgb), 0.18); }
+  100% { background-color: transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mdz-rag__source:target { animation: none; }
+}
+
+.mdz-rag__source-meta {
+  margin: 0 0 var(--sp-1);
+  font-size: var(--fs-xs);
+  color: var(--color-ink-subtle);
+  font-family: var(--font-mono);
+}
+
+.mdz-rag__source blockquote {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  background-color: var(--color-surface);
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  font-style: normal;
+  color: var(--color-ink-muted);
+}
+
+.mdz-rag__source blockquote mark {
+  background-color: rgba(var(--highlight-rgb), 0.28);
+  color: var(--color-ink);
+  padding-inline: 2px;
+  border-radius: 2px;
+}

@@ -101,6 +101,166 @@ suppress_default_h1: true
   </div>
 </section>
 
+<section class="mdz-band mdz-band--ragdemo" aria-labelledby="home-rag-title" data-mdz-rag-root>
+  <div class="mdz-band__inner">
+    <div class="mdz-home-section-head">
+      <p class="mdz-home-section-head__eyebrow" id="home-rag-title">Walk through a grounded answer</p>
+      <h2>Three questions, three audit trails.</h2>
+      <p class="mdz-muted">A pre-baked illustration of what the retrieval layer looks like when it's working — every claim clicks back to a source passage. No model calls, just a fixed snapshot.</p>
+    </div>
+
+    <div class="mdz-rag" role="group" aria-label="Example grounded Q&amp;A">
+      <div class="mdz-rag__tabs" role="tablist" aria-label="Pre-selected questions">
+        <button
+          type="button"
+          class="mdz-rag__tab is-active"
+          role="tab"
+          aria-selected="true"
+          aria-controls="mdz-rag-panel-1"
+          id="mdz-rag-tab-1"
+          data-mdz-rag-tab="1"
+        >What's the hallucination rate on the reference deployment?</button>
+        <button
+          type="button"
+          class="mdz-rag__tab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="mdz-rag-panel-2"
+          id="mdz-rag-tab-2"
+          tabindex="-1"
+          data-mdz-rag-tab="2"
+        >How does private data stay inside our boundary?</button>
+        <button
+          type="button"
+          class="mdz-rag__tab"
+          role="tab"
+          aria-selected="false"
+          aria-controls="mdz-rag-panel-3"
+          id="mdz-rag-tab-3"
+          tabindex="-1"
+          data-mdz-rag-tab="3"
+        >What does the evaluation harness measure?</button>
+      </div>
+
+      <div
+        class="mdz-rag__panel is-active"
+        id="mdz-rag-panel-1"
+        role="tabpanel"
+        aria-labelledby="mdz-rag-tab-1"
+        data-mdz-rag-panel="1"
+      >
+        <article class="mdz-rag__answer mdz-surface" aria-label="Grounded answer">
+          <header class="mdz-rag__answer-head">
+            <span class="mdz-rag__answer-label">Answer</span>
+            <span class="mdz-rag__answer-meta">Grounded in 2 sources · latency 480&nbsp;ms</span>
+          </header>
+          <p>
+            On the reference deployment the measured hallucination rate settled at
+            <mark class="mdz-rag__claim">1.2% across the 800-question adversarial eval set<a class="mdz-rag__cite" href="#mdz-rag-src-1a">1</a></mark>,
+            down from
+            <mark class="mdz-rag__claim">a 3.1% baseline recorded on the original prototype<a class="mdz-rag__cite" href="#mdz-rag-src-1b">2</a></mark>.
+            Every remaining failure case surfaces in the weekly evaluator report with the
+            failing passage attached.
+          </p>
+        </article>
+        <aside class="mdz-rag__sources" aria-label="Source passages">
+          <h3 class="mdz-rag__sources-title">Sources</h3>
+          <ol class="mdz-rag__source-list">
+            <li class="mdz-rag__source" id="mdz-rag-src-1a">
+              <p class="mdz-rag__source-meta"><strong>annual-report-2024.pdf</strong> · p.&nbsp;42</p>
+              <blockquote>"Across the 800-question adversarial eval set the system held a
+                <mark>1.2% hallucination rate</mark> — the lowest recorded since onboarding the reranker in Q2."</blockquote>
+            </li>
+            <li class="mdz-rag__source" id="mdz-rag-src-1b">
+              <p class="mdz-rag__source-meta"><strong>q1-benchmark.pdf</strong> · p.&nbsp;7</p>
+              <blockquote>"Prototype-only baseline (no reranker, no evaluator): <mark>3.1%
+                hallucination</mark> on the same suite. See Appendix A for the confusion matrix."</blockquote>
+            </li>
+          </ol>
+        </aside>
+      </div>
+
+      <div
+        class="mdz-rag__panel"
+        id="mdz-rag-panel-2"
+        role="tabpanel"
+        aria-labelledby="mdz-rag-tab-2"
+        hidden
+        data-mdz-rag-panel="2"
+      >
+        <article class="mdz-rag__answer mdz-surface" aria-label="Grounded answer">
+          <header class="mdz-rag__answer-head">
+            <span class="mdz-rag__answer-label">Answer</span>
+            <span class="mdz-rag__answer-meta">Grounded in 2 sources · latency 360&nbsp;ms</span>
+          </header>
+          <p>
+            Private files enter the pipeline only inside the customer VPC;
+            <mark class="mdz-rag__claim">the retrieval service runs on dedicated workers that never egress to public endpoints<a class="mdz-rag__cite" href="#mdz-rag-src-2a">1</a></mark>.
+            Model weights are pulled from the internal registry at deploy-time so
+            <mark class="mdz-rag__claim">no document or embedding ever leaves the boundary<a class="mdz-rag__cite" href="#mdz-rag-src-2b">2</a></mark>.
+          </p>
+        </article>
+        <aside class="mdz-rag__sources" aria-label="Source passages">
+          <h3 class="mdz-rag__sources-title">Sources</h3>
+          <ol class="mdz-rag__source-list">
+            <li class="mdz-rag__source" id="mdz-rag-src-2a">
+              <p class="mdz-rag__source-meta"><strong>architecture-brief.pdf</strong> · p.&nbsp;12</p>
+              <blockquote>"All retrieval workers are allocated inside the customer VPC.
+                <mark>No egress to public endpoints</mark> is permitted — enforced by the
+                egress-deny firewall rule in Section 4.2."</blockquote>
+            </li>
+            <li class="mdz-rag__source" id="mdz-rag-src-2b">
+              <p class="mdz-rag__source-meta"><strong>security-review.pdf</strong> · p.&nbsp;3</p>
+              <blockquote>"Weights are staged from the internal registry at deploy-time.
+                <mark>Documents and embeddings never leave the boundary</mark>; see
+                boundary-test evidence in Appendix C."</blockquote>
+            </li>
+          </ol>
+        </aside>
+      </div>
+
+      <div
+        class="mdz-rag__panel"
+        id="mdz-rag-panel-3"
+        role="tabpanel"
+        aria-labelledby="mdz-rag-tab-3"
+        hidden
+        data-mdz-rag-panel="3"
+      >
+        <article class="mdz-rag__answer mdz-surface" aria-label="Grounded answer">
+          <header class="mdz-rag__answer-head">
+            <span class="mdz-rag__answer-label">Answer</span>
+            <span class="mdz-rag__answer-meta">Grounded in 2 sources · latency 420&nbsp;ms</span>
+          </header>
+          <p>
+            The harness gates every release on
+            <mark class="mdz-rag__claim">an 800-item adversarial question set covering paraphrase, out-of-corpus, and contradictory prompts<a class="mdz-rag__cite" href="#mdz-rag-src-3a">1</a></mark>.
+            Regressions trigger the rollback before deploy;
+            <mark class="mdz-rag__claim">no release has shipped without passing the citation-faithfulness check<a class="mdz-rag__cite" href="#mdz-rag-src-3b">2</a></mark>.
+          </p>
+        </article>
+        <aside class="mdz-rag__sources" aria-label="Source passages">
+          <h3 class="mdz-rag__sources-title">Sources</h3>
+          <ol class="mdz-rag__source-list">
+            <li class="mdz-rag__source" id="mdz-rag-src-3a">
+              <p class="mdz-rag__source-meta"><strong>eval-harness-readme.md</strong> · §&nbsp;Coverage</p>
+              <blockquote>"Release gate = <mark>800-item adversarial question set</mark>
+                covering paraphrase (240), out-of-corpus (260), contradictory (300).
+                Weekly refresh from new-ticket sampling."</blockquote>
+            </li>
+            <li class="mdz-rag__source" id="mdz-rag-src-3b">
+              <p class="mdz-rag__source-meta"><strong>release-log.md</strong> · Q4&nbsp;2024</p>
+              <blockquote>"12 releases, 0 skipped gates. Every deploy carries the
+                <mark>citation-faithfulness check</mark> output on the PR; see
+                release-log audit trail for proofs."</blockquote>
+            </li>
+          </ol>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="mdz-band mdz-band--practice" aria-labelledby="home-practice-title">
   <div class="mdz-band__inner">
     <div class="mdz-home-section-head">
