@@ -139,7 +139,7 @@
 
   /* ==================================================================
      Legacy aliases — mapped to the new tokens above so older rules keep
-     working without edits. New styles must use the --color-*/ --sp-*
+     working without edits. New styles must use the --color-* / --sp-*
      tokens; aliases will be removed once every call site is migrated.
      ================================================================== */
   --ui-blue:           var(--c-forest-600);
