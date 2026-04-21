@@ -321,19 +321,19 @@ suppress_default_h1: true
         <p class="mdz-home-proof-card__eyebrow">Regulated · Financial services</p>
         <strong>Cut hallucination rate by ~45% on 50k-doc RAG</strong>
         <p>Reranker + evaluator harness before launch. Reviewers spend &lt;30s verifying each cited passage.</p>
-        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-regulated-finance">Read the full story</a>
+        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-regulated-finance" data-analytics="cta_work_click" data-analytics-source="proof_regulated_finance">Read the full story</a>
       </article>
       <article class="mdz-home-proof-card mdz-surface">
         <p class="mdz-home-proof-card__eyebrow">Healthcare · Hybrid deploy</p>
         <strong>Moved a stalled pilot to production in 9 weeks</strong>
         <p>VPC-native model serving, approved-boundary retrieval, cost-per-query down ~60% vs. the original cloud prototype.</p>
-        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-healthcare-hybrid">Read the full story</a>
+        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-healthcare-hybrid" data-analytics="cta_work_click" data-analytics-source="proof_healthcare_hybrid">Read the full story</a>
       </article>
       <article class="mdz-home-proof-card mdz-surface">
         <p class="mdz-home-proof-card__eyebrow">Industrial · On-prem</p>
         <strong>Predictive-failure signals 3× earlier</strong>
         <p>Robotics-adjacent telemetry + LLM-generated root-cause narratives. Field techs triage before the alarm lands.</p>
-        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-industrial-onprem">Read the full story</a>
+        <a class="mdz-cta mdz-cta--outline" href="{{ '/work/' | relative_url }}#case-industrial-onprem" data-analytics="cta_work_click" data-analytics-source="proof_industrial_onprem">Read the full story</a>
       </article>
     </div>
     <p class="mdz-home-proof-note mdz-muted">
@@ -463,8 +463,8 @@ suppress_default_h1: true
       </div>
     </div>
     <div class="mdz-demos-cta">
-      <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}">Start a conversation</a>
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/ai-robotics-solutions/' | relative_url }}">View all solutions</a>
+      <a class="btn btn--primary mdz-cta" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-source="demos_cta">Start a conversation</a>
+      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/ai-robotics-solutions/' | relative_url }}" data-analytics="nav_click" data-analytics-source="demos_cta" data-analytics-destination="solutions">View all solutions</a>
     </div>
   </div>
 </section>
@@ -513,7 +513,7 @@ suppress_default_h1: true
         <p>Search solutions, IDX workflows, newsletter posts, podcast entries, and reference pages.</p>
       </div>
 
-      <form class="mdz-search-promo__form" action="{{ '/search/' | relative_url }}" method="get" role="search">
+      <form class="mdz-search-promo__form" action="{{ '/search/' | relative_url }}" method="get" role="search" data-analytics-submit="search_submit" data-analytics-source="home_search_promo">
         <label class="sr-only" for="home-search-input">Search the site</label>
         <div class="mdz-search-promo__field">
           <input
@@ -539,7 +539,7 @@ suppress_default_h1: true
 
 <div class="mdz-horizontal-stack mdz-horizontal-stack--bleed mdz-horizontal-stack--features">
   <div class="mdz-horizontal-stack__inner">
-    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--about" href="{{ '/about/' | relative_url }}">
+    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--about" href="{{ '/about/' | relative_url }}" data-analytics="nav_click" data-analytics-source="home_about_card" data-analytics-destination="about">
       <div class="mdz-horizontal-card__body">
         <h3>About Mehrdad</h3>
         <p>Read the background behind the systems perspective and production experience shaping the work.</p>
@@ -559,7 +559,7 @@ suppress_default_h1: true
       </picture>
     </a>
 
-    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--book" href="{{ '/contact/' | relative_url }}">
+    <a class="mdz-horizontal-card mdz-horizontal-card--band mdz-horizontal-card--book" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-source="home_work_card">
       <div class="mdz-horizontal-card__body">
         <h3>Work Together</h3>
         <p>Bring a concrete problem, deployment constraint, or workflow that needs to become real.</p>
