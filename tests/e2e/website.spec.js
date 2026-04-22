@@ -3,7 +3,7 @@ const { test, expect } = require("@playwright/test");
 const PRODUCT_URL = "https://idx.mehrdadzaker.com/v2/portal";
 const HOMEPAGE_TITLE = "Mehrdad Zaker — Private AI Systems That Ship";
 const HOMEPAGE_DESCRIPTION =
-  "Build private AI systems that verify answers, protect sensitive documents, and run in production.";
+  "Private AI systems that verify every answer, protect sensitive documents, and run in production. Consulting, custom AI systems, and the IDX platform.";
 const HOMEPAGE_H1 =
   "Ship private AI that verifies every answer.";
 const IDX_DESCRIPTION =
@@ -149,7 +149,9 @@ const RESOURCE_UI_VIEWPORTS = [
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
-    headingPattern: /Ship private AI systems that verify answers and run in production\./,
+    // Editorial homepage hero, Stage 14+. The <br> splits the title so match
+    // each half independently.
+    headingPattern: /Ship private AI that\s*verifies every answer\./,
   },
   {
     path: "/about/",
@@ -225,7 +227,11 @@ test("homepage exposes the updated SEO title, description, and aligned hero copy
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "/site.webmanifest");
 });
 
-test("homepage publishes source-backed expertise content and matching FAQ schema", async ({ request, page }) => {
+// Stage 14 retired the Stage 8-11 homepage (Gartner stat, verify ribbon,
+// RAG demo, .mdz-home-profile-links, FAQ accordion). This test asserts on
+// structure that no longer exists. Kept skipped as a pointer until we
+// write editorial-home-equivalent coverage.
+test.skip("homepage publishes source-backed expertise content and matching FAQ schema", async ({ request, page }) => {
   const response = await request.get("/");
   expect(response.ok()).toBeTruthy();
 
@@ -277,7 +283,12 @@ test("homepage publishes source-backed expertise content and matching FAQ schema
   expect(professionalServiceSchemas[0]).toEqual(expect.objectContaining(HOMEPAGE_PROFESSIONAL_SERVICE_SCHEMA));
 });
 
-test("homepage renders the signature-moment additions from Stages 3, 7, 9, 10, 11", async ({ page }) => {
+// Stage 14 retired the .mdz-home-hero__title-accent / .mdz-verify-step /
+// data-mdz-rag-tab / .mdz-home-faq-item / data-mdz-theme-toggle selectors
+// on the homepage. The editorial home uses its own .eh-* structure with a
+// theme toggle under #eh-theme-toggle. Kept skipped until rewritten for
+// the new selectors.
+test.skip("homepage renders the signature-moment additions from Stages 3, 7, 9, 10, 11", async ({ page }) => {
   await page.goto("/");
 
   // Stage 3 hero — accent span inside the rebuilt H1

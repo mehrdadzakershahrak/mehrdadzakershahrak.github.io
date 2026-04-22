@@ -1,137 +1,90 @@
-<div class="masthead mdz-masthead">
-  <div class="masthead__inner-wrap">
-    <div class="mdz-masthead__bar">
-      <a class="mdz-brand" href="{{ '/' | relative_url }}">
-        {% if site.logo_mark %}
-          <img class="mdz-brand__logo" src="{{ site.logo_mark | relative_url }}" alt="{{ site.title | escape }} logo" />
-        {% endif %}
-        <span class="mdz-brand__text mdz-brand__text--mobile">{{ site.title }}</span>
-        <span class="mdz-brand__text mdz-brand__text--desktop">Mehrdad Zaker</span>
-      </a>
+{%- comment -%}
+  Editorial masthead — shared across every route.
 
-      <nav class="mdz-desktop-nav" aria-label="Primary">
-        {% assign utility_urls = "/search/,/login/" | split: "," %}
-        <ul class="mdz-menu-list mdz-menu-list--primary">
-          {% for item in site.data.navigation.main %}
-            {% unless utility_urls contains item.url %}
-              <li class="mdz-menu-item">
-                {% if item.url == "/book/" %}
-                  <a href="{{ item.url | relative_url }}">Book</a>
-                {% else %}
-                  <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
-                {% endif %}
-                {% if item.children %}
-                  <ul class="mdz-submenu-list">
-                    {% for child in item.children %}
-                      <li class="mdz-submenu-item">
-                        <a href="{{ child.url | relative_url }}">{{ child.title }}</a>
-                        {% if child.children %}
-                          <ul class="mdz-subsubmenu-list">
-                            {% for grandchild in child.children %}
-                              <li class="mdz-subsubmenu-item">
-                                <a href="{{ grandchild.url | relative_url }}">{{ grandchild.title }}</a>
-                              </li>
-                            {% endfor %}
-                          </ul>
-                        {% endif %}
-                      </li>
-                    {% endfor %}
-                  </ul>
-                {% endif %}
-              </li>
-            {% endunless %}
-          {% endfor %}
-        </ul>
+  Layout:
+    Left   → wordmark (MZ · mehrdadzaker.com), links to /
+    Center → flat nav from _data/navigation.yml  (hidden on mobile; becomes sheet)
+    Right  → availability chip + theme toggle
 
-        <ul class="mdz-menu-list mdz-menu-list--utility">
-          {% for item in site.data.navigation.main %}
-            {% if utility_urls contains item.url %}
-              <li class="mdz-menu-item mdz-menu-item--utility">
-                {% if item.url == "/search/" %}
-                  <a class="mdz-menu-link--search" href="{{ item.url | relative_url }}" aria-label="Search" title="Search">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                      <circle cx="11" cy="11" r="6.5"></circle>
-                      <path d="M16 16L21 21"></path>
-                    </svg>
-                    <span>Search</span>
-                  </a>
-                {% else %}
-                  <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
-                {% endif %}
-              </li>
-            {% endif %}
-          {% endfor %}
-          <li class="mdz-menu-item mdz-menu-item--utility">
-            <button
-              class="mdz-theme-toggle"
-              type="button"
-              aria-pressed="false"
-              aria-label="Switch to dark theme"
-              data-mdz-theme-toggle
-            >
-              <svg class="mdz-theme-toggle__icon mdz-theme-toggle__icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <circle cx="12" cy="12" r="4"></circle>
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-              </svg>
-              <svg class="mdz-theme-toggle__icon mdz-theme-toggle__icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                <path d="M21 12.8A8.5 8.5 0 0 1 11.2 3a7 7 0 1 0 9.8 9.8Z"></path>
-              </svg>
-              <span class="sr-only">Toggle theme</span>
-            </button>
+  Styled under .eh-topbar / .eh-masthead rules in editorial-home.scss +
+  a small block appended below for the shared non-home cases. Uses the
+  same --eh-* / --color-* tokens so dark mode cascades automatically.
+{%- endcomment -%}
+
+<header class="eh-topbar eh-masthead" role="banner" data-analytics-area="masthead">
+  <a class="eh-topbar__brand eh-masthead__brand-link" href="{{ '/' | relative_url }}"
+     data-analytics="nav_click" data-analytics-label="home">
+    MZ · <span class="eh-topbar__brand-strong">mehrdadzaker.com</span>
+  </a>
+
+  <nav class="eh-masthead__nav" aria-label="Primary">
+    <ul class="eh-masthead__list">
+      {%- for item in site.data.navigation.main -%}
+        {%- if item.url and item.title -%}
+          {%- assign is_active = false -%}
+          {%- if page.url == item.url -%}{%- assign is_active = true -%}{%- endif -%}
+          <li class="eh-masthead__item">
+            <a class="eh-masthead__link{% if is_active %} is-active{% endif %}"
+               href="{{ item.url | relative_url }}"
+               data-analytics="nav_click"
+               data-analytics-label="{{ item.key | default: item.title | downcase | replace: ' ', '_' }}">
+              {{ item.title }}
+            </a>
           </li>
-        </ul>
-      </nav>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </nav>
 
-      <div class="mdz-menu-wrap" data-mdz-menu-wrap>
-        <button
-          class="mdz-menu-trigger"
-          type="button"
-          aria-expanded="false"
-          aria-controls="mdz-menu-overlay"
-          aria-label="Open menu"
-          data-mdz-menu-toggle
-        >
-          <svg class="mdz-menu-trigger__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path class="mdz-menu-trigger__bar mdz-menu-trigger__bar--top" d="M4 7h16"></path>
-            <path class="mdz-menu-trigger__bar mdz-menu-trigger__bar--mid" d="M4 12h16"></path>
-            <path class="mdz-menu-trigger__bar mdz-menu-trigger__bar--bot" d="M4 17h16"></path>
-          </svg>
-          <span class="mdz-menu-trigger__label">Menu</span>
-        </button>
+  <div class="eh-masthead__right">
+    <span class="eh-topbar__status" aria-label="Availability">
+      <span class="eh-dot" aria-hidden="true"></span>
+      <span class="eh-masthead__status-text">Available · Q3 2026</span>
+    </span>
 
-        <div class="mdz-menu-overlay" id="mdz-menu-overlay" data-mdz-menu-overlay aria-hidden="true">
-          <div class="mdz-menu-drawer" role="dialog" aria-modal="true" aria-label="Site menu">
-            <button class="mdz-menu-close" type="button" data-mdz-menu-close aria-label="Close menu">Close</button>
-            <nav class="mdz-menu-mobile-nav" aria-label="Mobile primary">
-              <ul class="mdz-menu-list">
-                {% for item in site.data.navigation.main %}
-                  <li class="mdz-menu-item">
-                    <a href="{{ item.url | relative_url }}">{{ item.title }}</a>
-                    {% if item.children %}
-                      <ul class="mdz-submenu-list">
-                        {% for child in item.children %}
-                          <li class="mdz-submenu-item">
-                            <a href="{{ child.url | relative_url }}">{{ child.title }}</a>
-                            {% if child.children %}
-                              <ul class="mdz-subsubmenu-list">
-                                {% for grandchild in child.children %}
-                                  <li class="mdz-subsubmenu-item">
-                                    <a href="{{ grandchild.url | relative_url }}">{{ grandchild.title }}</a>
-                                  </li>
-                                {% endfor %}
-                              </ul>
-                            {% endif %}
-                          </li>
-                        {% endfor %}
-                      </ul>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
+    <button type="button"
+            class="eh-masthead__theme-toggle"
+            id="eh-theme-toggle"
+            aria-label="Toggle theme"
+            data-analytics="theme_toggle">
+      <svg class="eh-masthead__theme-icon eh-masthead__theme-icon--sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+      <svg class="eh-masthead__theme-icon eh-masthead__theme-icon--moon" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
+        <path d="M20 14.5A8 8 0 0 1 9.5 4a1 1 0 0 0-1.35-1A10 10 0 1 0 21 15.85a1 1 0 0 0-1-1.35z"/>
+      </svg>
+    </button>
+
+    <button type="button"
+            class="eh-masthead__burger"
+            id="eh-masthead-burger"
+            aria-label="Open navigation"
+            aria-expanded="false"
+            aria-controls="eh-masthead-sheet">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
   </div>
+</header>
+
+{%- comment -%}
+  Mobile navigation sheet. Hidden by default; opened by tapping the burger.
+  Full-width, editorial-styled list of the same routes as the desktop nav.
+{%- endcomment -%}
+<div class="eh-masthead__sheet" id="eh-masthead-sheet" hidden>
+  <ul class="eh-masthead__sheet-list">
+    {%- for item in site.data.navigation.main -%}
+      {%- if item.url and item.title -%}
+        <li>
+          <a href="{{ item.url | relative_url }}"
+             data-analytics="nav_click"
+             data-analytics-label="mobile_{{ item.key | default: item.title | downcase | replace: ' ', '_' }}">
+            {{ item.title }}
+          </a>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
 </div>

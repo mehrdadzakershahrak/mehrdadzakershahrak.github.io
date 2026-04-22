@@ -1,147 +1,48 @@
-{% assign footer_variant = include.variant | default: page.footer_variant | default: 'default' %}
-{% if footer_variant == 'idx' %}
-  {% assign footer_data = site.data.footer_idx %}
-{% else %}
-  {% assign footer_data = site.data.footer %}
-{% endif %}
-{% assign footer_brand = footer_data.brand %}
-{% assign footer_columns = footer_data.columns %}
-{% assign footer_cards = footer_data.cta_cards %}
-{% assign footer_social = footer_data.social_links %}
-{% assign footer_legal = footer_data.legal %}
+{%- comment -%}
+  Editorial footer — shared across every route.
 
-<div class="mdz-site-footer">
-  <div class="mdz-site-footer__top">
-    {% assign brand_url = footer_brand.home_url | default: '/' %}
-    {% assign brand_logo = footer_brand.logo | default: site.logo_mark %}
-    <div class="mdz-site-footer__brand">
-      <a class="mdz-site-footer__brand-link" href="{{ brand_url | relative_url }}">
-        {% if brand_logo %}
-          <img
-            class="mdz-site-footer__brand-mark"
-            src="{{ brand_logo | relative_url }}"
-            alt="{{ footer_brand.name | default: site.title | escape }} logo"
-          >
-        {% endif %}
-        <div class="mdz-site-footer__brand-copy">
-          <span class="mdz-site-footer__brand-name">{{ footer_brand.name | default: site.title }}</span>
-          {% if footer_brand.tagline %}
-            <span class="mdz-site-footer__brand-tagline">{{ footer_brand.tagline }}</span>
-          {% endif %}
-        </div>
-      </a>
-    </div>
+  Two rows:
+    1. Links to the flat nav destinations + a minimal email link.
+    2. Meta — copyright, credit, location.
 
-    <div class="mdz-site-footer__content">
-      {% if footer_columns and footer_columns.size > 0 %}
-        <div class="mdz-site-footer__columns" role="navigation" aria-label="Footer">
-          {% for column in footer_columns %}
-            {% assign column_links = column.links %}
-            {% if column_links and column_links.size > 0 %}
-              <section class="mdz-site-footer__column" aria-labelledby="footer-column-{{ forloop.index }}">
-                <h2 id="footer-column-{{ forloop.index }}" class="mdz-site-footer__column-title">{{ column.title }}</h2>
-                <ul class="mdz-site-footer__link-list">
-                  {% for link in column_links %}
-                    {% assign link_url = link.url | default: '' %}
-                    {% if link_url != '' %}
-                      {% assign is_absolute = false %}
-                      {% assign is_special = false %}
-                      {% if link_url contains '://' %}
-                        {% assign is_absolute = true %}
-                      {% endif %}
-                      {% if link_url contains 'mailto:' or link_url contains 'tel:' %}
-                        {% assign is_special = true %}
-                      {% endif %}
-                      {% capture link_href %}{% if is_absolute or is_special %}{{ link_url }}{% else %}{{ link_url | relative_url }}{% endif %}{% endcapture %}
-                      <li class="mdz-site-footer__link-item">
-                        <a
-                          class="mdz-site-footer__link"
-                          href="{{ link_href | strip }}"
-                          {% if is_absolute %}target="_blank" rel="noopener noreferrer"{% endif %}
-                        >
-                          <span>{{ link.label }}</span>
-                          {% if link.description %}
-                            <small>{{ link.description }}</small>
-                          {% endif %}
-                        </a>
-                      </li>
-                    {% endif %}
-                  {% endfor %}
-                </ul>
-              </section>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
+  Styled under .eh-site-footer rules in editorial-home.scss. Uses the
+  same token system as the masthead; dark mode cascades automatically.
 
-      {% if footer_cards and footer_cards.size > 0 %}
-        <div class="mdz-site-footer__cards" aria-label="Footer highlights">
-          {% for card in footer_cards %}
-            {% assign card_url = card.url | default: '' %}
-            {% if card_url != '' %}
-              {% assign card_is_absolute = false %}
-              {% assign card_is_special = false %}
-              {% if card_url contains '://' %}
-                {% assign card_is_absolute = true %}
-              {% endif %}
-              {% if card_url contains 'mailto:' or card_url contains 'tel:' %}
-                {% assign card_is_special = true %}
-              {% endif %}
-              {% capture card_href %}{% if card_is_absolute or card_is_special %}{{ card_url }}{% else %}{{ card_url | relative_url }}{% endif %}{% endcapture %}
-              {% assign card_variant = card.variant | default: 'outline' %}
-              <a
-                class="mdz-cta mdz-cta--footer{% if card_variant == 'outline' %} mdz-cta--outline{% endif %}"
-                href="{{ card_href | strip }}"
-                {% if card_is_absolute %}target="_blank" rel="noopener noreferrer"{% endif %}
-              >
-                {% if card.eyebrow %}
-                  <span class="mdz-site-footer__card-eyebrow">{{ card.eyebrow }}</span>
-                {% endif %}
-                <span class="mdz-site-footer__card-label">{{ card.label }}</span>
-              </a>
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-    </div>
-  </div>
+  The old Minimal-Mistakes-era footer (brand block + 3-column links + CTA
+  cards + legal) is retired. _data/footer.yml and _data/footer_idx.yml
+  are no longer loaded — kept around for archival; nothing references
+  them. `page.footer_variant` is ignored.
+{%- endcomment -%}
 
-  <div class="mdz-site-footer__bottom">
-    <div class="mdz-site-footer__legal">
-      <p>&copy; {{ site.time | date: '%Y' }} {{ footer_legal.copyright | default: site.title }}</p>
-      {% if footer_legal.secondary_text %}
-        <p>{{ footer_legal.secondary_text }}</p>
-      {% endif %}
-    </div>
-
-    {% if footer_social and footer_social.size > 0 %}
-      <ul class="mdz-site-footer__social-list" aria-label="Social links">
-        {% for item in footer_social %}
-          {% assign social_url = item.url | default: '' %}
-          {% if social_url != '' %}
-            {% assign social_is_absolute = false %}
-            {% assign social_is_special = false %}
-            {% if social_url contains '://' %}
-              {% assign social_is_absolute = true %}
-            {% endif %}
-            {% if social_url contains 'mailto:' or social_url contains 'tel:' %}
-              {% assign social_is_special = true %}
-            {% endif %}
-            {% capture social_href %}{% if social_is_absolute or social_is_special %}{{ social_url }}{% else %}{{ social_url | relative_url }}{% endif %}{% endcapture %}
-            <li class="mdz-site-footer__social-item">
-              <a
-                class="mdz-site-footer__social-link"
-                href="{{ social_href | strip }}"
-                aria-label="{{ item.label }}"
-                {% if item.icon_key %}data-icon="{{ item.icon_key }}"{% endif %}
-                {% if social_is_absolute %}target="_blank" rel="noopener noreferrer"{% endif %}
-              >
-                {% include footer_social_icon.html icon_key=item.icon_key icon_path=item.icon_path %}
+<footer class="eh-site-footer" role="contentinfo">
+  <div class="eh-site-footer__inner">
+    <nav class="eh-site-footer__links" aria-label="Site links">
+      <ul class="eh-site-footer__list">
+        {%- for item in site.data.navigation.main -%}
+          {%- if item.url and item.title -%}
+            <li>
+              <a href="{{ item.url | relative_url }}"
+                 data-analytics="footer_nav_click"
+                 data-analytics-label="{{ item.key | default: item.title | downcase | replace: ' ', '_' }}">
+                {{ item.title }}
               </a>
             </li>
-          {% endif %}
-        {% endfor %}
+          {%- endif -%}
+        {%- endfor -%}
+        <li>
+          <a href="mailto:{{ site.contact_email }}"
+             data-analytics="footer_nav_click"
+             data-analytics-label="email">
+            Email
+          </a>
+        </li>
       </ul>
-    {% endif %}
+    </nav>
+
+    <div class="eh-site-footer__meta">
+      <span>© {{ site.time | date: '%Y' }} Mehrdad Zaker</span>
+      <span>Hand-built · set in Newsreader &amp; Geist</span>
+      <span>Seattle · 47.6062° N, 122.3321° W</span>
+    </div>
   </div>
-</div>
+</footer>

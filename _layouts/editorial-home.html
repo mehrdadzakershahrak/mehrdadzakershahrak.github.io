@@ -1,20 +1,22 @@
 <!doctype html>
-<html lang="{{ site.locale | replace: '_', '-' | default: 'en' }}" data-theme="light" class="eh-html">
+<html lang="{{ site.locale | replace: '_', '-' | default: 'en' }}" class="eh-html no-js">
   <head>
     {% include head.html %}
     {% include head/custom.html %}
-
-    {%- comment -%} Editorial typography: Newsreader serif + Geist sans + Geist Mono {%- endcomment -%}
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="{{ '/assets/css/editorial-home.css' | relative_url }}">
   </head>
 
   <body class="eh-body layout--editorial-home">
+    {% include masthead.html %}
+
     {{ content }}
 
+    {% include footer.html %}
+
+    <script src="{{ '/assets/js/masthead-menu.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/analytics.js' | relative_url }}" defer></script>
     <script src="{{ '/assets/js/editorial-home.js' | relative_url }}" defer></script>
+    <script src="{{ '/assets/js/editorial-masthead.js' | relative_url }}" defer></script>
   </body>
 </html>

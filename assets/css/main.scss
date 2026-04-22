@@ -13,48 +13,56 @@
    Dark-mode overrides live in the [data-theme="dark"] block further down.
    ========================================================================= */
 :root {
-  /* ---------- Brand palette (raw) ------------------------------------- */
-  --c-forest-900: #0c1612;
-  --c-forest-800: #121814;  /* prev --ui-black */
-  --c-forest-700: #162b24;  /* prev --tone-navy */
-  --c-forest-600: #1f3a30;  /* prev --ui-blue */
-  --c-forest-500: #244437;
-  --c-forest-400: #33493e;  /* prev --tone-slate */
-  --c-sand-50:   #fffdf8;   /* prev --ui-white */
-  --c-sand-100:  #f5f0e7;   /* prev --ui-surface */
-  --c-sand-200:  #ebe3d5;   /* prev --ui-surface-strong */
-  --c-sand-300:  #d8ccb7;
-  --c-ember-500: #b86a2b;   /* prev --tone-cyan */
-  --c-ember-400: #cc813f;
+  /* ---------- Raw palette -------------------------------------------
+     Editorial cream + forest-ink + burnt-sienna. Variable NAMES kept
+     from the forest/ember era so ~8000 lines of .mdz-* rules below
+     don't need to be rewritten — the values they resolve to are new.
+     -------------------------------------------------------------------- */
+  --c-forest-900: #0B0906;  /* deepest ink — not used much; for dark bgs */
+  --c-forest-800: #15140F;  /* primary ink (was #121814) */
+  --c-forest-700: #2A251B;  /* raised rails / secondary ink */
+  --c-forest-600: #3A372F;  /* secondary ink soft (was forest blue) */
+  --c-forest-500: #524D42;
+  --c-forest-400: #706B5E;  /* tertiary / muted ink */
+  --c-sand-50:   #FFFDF8;   /* brightest paper */
+  --c-sand-100:  #FAF7F2;   /* page ground (editorial paper) */
+  --c-sand-200:  #F2ECE0;   /* paper-deep — cards, inputs */
+  --c-sand-300:  #E3DCCC;   /* rules, hairlines */
+  --c-ember-500: #B8532A;   /* burnt sienna accent */
+  --c-ember-400: #C46B3C;   /* lighter accent for hover */
 
   /* ---------- Semantic color tokens (light) --------------------------- */
   --color-surface:          var(--c-sand-100);
   --color-surface-elevated: var(--c-sand-50);
   --color-surface-strong:   var(--c-sand-200);
   --color-ink:              var(--c-forest-800);
-  --color-ink-muted:        rgba(18, 24, 20, 0.68);
-  --color-ink-subtle:       rgba(18, 24, 20, 0.52);
+  --color-ink-muted:        rgba(21, 20, 15, 0.68);
+  --color-ink-subtle:       rgba(21, 20, 15, 0.52);
   --color-ink-inverse:      var(--c-sand-50);
-  --color-accent:           var(--c-forest-600);
-  --color-accent-strong:    var(--c-forest-700);
+  --color-accent:           var(--c-ember-500);   /* was forest — now sienna */
+  --color-accent-strong:    var(--c-ember-400);
   --color-accent-contrast:  var(--c-sand-50);
   --color-highlight:        var(--c-ember-500);
-  --color-border:           rgba(31, 58, 48, 0.16);
-  --color-border-strong:    rgba(31, 58, 48, 0.32);
+  --color-border:           rgba(21, 20, 15, 0.12);
+  --color-border-strong:    rgba(21, 20, 15, 0.24);
   --color-focus-ring:       var(--c-ember-500);
-  --color-focus-ring-soft:  rgba(184, 106, 43, 0.42);
-  --color-success:          #2f6a4f;
-  --color-warning:          #a0640f;
-  --color-danger:           #a13828;
+  --color-focus-ring-soft:  rgba(184, 83, 42, 0.42);
+  --color-success:          #5C7A3C;
+  --color-warning:          #B8882A;
+  --color-danger:           #A13828;
 
-  /* Raw RGB triplets (used by existing rgba() calls — keep values aligned) */
-  --accent-rgb:    31, 58, 48;
-  --highlight-rgb: 184, 106, 43;
+  /* Raw RGB triplets (used by existing rgba() calls) */
+  --accent-rgb:    184, 83, 42;
+  --highlight-rgb: 21, 20, 15;
+  --surface-rgb:   250, 247, 242;   /* for translucent masthead/topbar backdrops */
 
-  /* ---------- Typography ---------------------------------------------- */
-  --font-sans:    "Instrument Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --font-display: "Space Grotesk", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-  --font-mono:    "SFMono-Regular", "Menlo", "Consolas", monospace;
+  /* ---------- Typography ----------------------------------------------
+     Newsreader serif for display, Geist sans for body/UI, Geist Mono for
+     meta. Loaded site-wide from Google Fonts via _includes/head/custom.html.
+     -------------------------------------------------------------------- */
+  --font-sans:    "Geist", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-mono:    "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Fluid type scale — minor-third ratio, clamped for responsiveness */
   --fs-xs:   clamp(0.75rem, 0.72rem + 0.15vw, 0.82rem);
@@ -166,42 +174,42 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* Surfaces: night-forest ground, lifted cards step toward charcoal */
-  --color-surface:          var(--c-forest-900);          /* page ground */
-  --color-surface-elevated: #16211c;                       /* cards       */
-  --color-surface-strong:   var(--c-forest-700);          /* raised rails */
+  /* Surfaces: warm near-black ground, raised surfaces step up in warmth */
+  --color-surface:          #14110C;   /* page ground */
+  --color-surface-elevated: #1C1813;   /* cards */
+  --color-surface-strong:   #2A251B;   /* raised rails */
 
-  /* Ink: warm sand on forest; keep tint to avoid a clinical grey cast */
-  --color-ink:              #f2ece0;
-  --color-ink-muted:        rgba(242, 236, 224, 0.72);
-  --color-ink-subtle:       rgba(242, 236, 224, 0.52);
-  --color-ink-inverse:      var(--c-forest-900);
+  /* Ink: warm cream on ink; keep tint to avoid a clinical grey cast */
+  --color-ink:              #EFE7D5;
+  --color-ink-muted:        rgba(239, 231, 213, 0.72);
+  --color-ink-subtle:       rgba(239, 231, 213, 0.52);
+  --color-ink-inverse:      #14110C;
 
-  /* Accent: brighten ember so it survives on the dark ground */
-  --color-accent:           #e49a57;
-  --color-accent-strong:    var(--c-ember-400);
-  --color-accent-contrast:  var(--c-forest-900);
-  --color-highlight:        #f0b06b;
+  /* Accent: lighter ember for dark-bg contrast */
+  --color-accent:           #D97A4A;
+  --color-accent-strong:    #E18A5C;
+  --color-accent-contrast:  #14110C;
+  --color-highlight:        #E18A5C;
 
-  /* Borders: low-alpha ink for hairlines that read as "warm charcoal" */
-  --color-border:           rgba(242, 236, 224, 0.12);
-  --color-border-strong:    rgba(242, 236, 224, 0.24);
+  /* Borders: low-alpha ink for hairlines */
+  --color-border:           rgba(239, 231, 213, 0.12);
+  --color-border-strong:    rgba(239, 231, 213, 0.24);
 
   /* Focus: ember-gold, softened glow for dark */
-  --color-focus-ring:       #f0b06b;
-  --color-focus-ring-soft:  rgba(240, 176, 107, 0.38);
+  --color-focus-ring:       #E18A5C;
+  --color-focus-ring-soft:  rgba(217, 122, 74, 0.38);
 
-  /* Status colors shifted brighter for contrast against forest-900 */
-  --color-success:          #6bbb8b;
-  --color-warning:          #e0b070;
-  --color-danger:           #e27a6b;
+  /* Status colors shifted brighter for contrast against warm near-black */
+  --color-success:          #8FAE6A;
+  --color-warning:          #D4A95F;
+  --color-danger:           #E27A6B;
 
-  /* RGB triplets used by rgba() call sites — remap to the dark accent
-     so shadows/borders built from these don't keep a lime-forest cast */
-  --accent-rgb:    228, 154, 87;
-  --highlight-rgb: 240, 176, 107;
+  /* RGB triplets remap to dark accent so shadows/borders pick up ember */
+  --accent-rgb:    217, 122, 74;
+  --highlight-rgb: 239, 231, 213;
+  --surface-rgb:   20, 17, 12;
 
-  /* Shadows need more visual weight on dark — shift to pure-black alphas */
+  /* Shadows need more visual weight on dark — pure-black alphas */
   --el-1: 0 1px 2px rgba(0, 0, 0, 0.45);
   --el-2: 0 4px 10px rgba(0, 0, 0, 0.55);
   --el-3: 0 10px 24px rgba(0, 0, 0, 0.60);
@@ -215,37 +223,36 @@
   --ui-surface:        var(--color-surface);
   --ui-surface-strong: var(--color-surface-strong);
   --brand-accent:      var(--color-accent);
-  --brand-accent-2:    rgba(240, 176, 107, 0.55);
-  --tone-slate:        rgba(242, 236, 224, 0.42);
+  --brand-accent-2:    rgba(217, 122, 74, 0.55);
+  --tone-slate:        rgba(239, 231, 213, 0.42);
   --tone-navy:         var(--color-surface-strong);
   --tone-cyan:         var(--color-accent);
   --tone-ink:          var(--color-ink);
-  --tone-muted:        rgba(242, 236, 224, 0.60);
+  --tone-muted:        rgba(239, 231, 213, 0.60);
 }
 
-/* Follow the OS when the user hasn't chosen explicitly — but only until
-   masthead-menu.js boots and promotes a preference onto <html>. The
-   inline head script sets data-theme before first paint to prevent flash. */
+/* Follow the OS when the user hasn't chosen explicitly — until the theme
+   script in _includes/head/custom.html promotes a preference onto <html>. */
 @media (prefers-color-scheme: dark) {
   html:not([data-theme]) {
     color-scheme: dark;
-    --color-surface:          var(--c-forest-900);
-    --color-surface-elevated: #16211c;
-    --color-surface-strong:   var(--c-forest-700);
-    --color-ink:              #f2ece0;
-    --color-ink-muted:        rgba(242, 236, 224, 0.72);
-    --color-ink-subtle:       rgba(242, 236, 224, 0.52);
-    --color-ink-inverse:      var(--c-forest-900);
-    --color-accent:           #e49a57;
-    --color-accent-strong:    var(--c-ember-400);
-    --color-accent-contrast:  var(--c-forest-900);
-    --color-highlight:        #f0b06b;
-    --color-border:           rgba(242, 236, 224, 0.12);
-    --color-border-strong:    rgba(242, 236, 224, 0.24);
-    --color-focus-ring:       #f0b06b;
-    --color-focus-ring-soft:  rgba(240, 176, 107, 0.38);
-    --accent-rgb:    228, 154, 87;
-    --highlight-rgb: 240, 176, 107;
+    --color-surface:          #14110C;
+    --color-surface-elevated: #1C1813;
+    --color-surface-strong:   #2A251B;
+    --color-ink:              #EFE7D5;
+    --color-ink-muted:        rgba(239, 231, 213, 0.72);
+    --color-ink-subtle:       rgba(239, 231, 213, 0.52);
+    --color-ink-inverse:      #14110C;
+    --color-accent:           #D97A4A;
+    --color-accent-strong:    #E18A5C;
+    --color-accent-contrast:  #14110C;
+    --color-highlight:        #E18A5C;
+    --color-border:           rgba(239, 231, 213, 0.12);
+    --color-border-strong:    rgba(239, 231, 213, 0.24);
+    --color-focus-ring:       #E18A5C;
+    --color-focus-ring-soft:  rgba(217, 122, 74, 0.38);
+    --accent-rgb:    217, 122, 74;
+    --highlight-rgb: 239, 231, 213;
     --el-1: 0 1px 2px rgba(0, 0, 0, 0.45);
     --el-2: 0 4px 10px rgba(0, 0, 0, 0.55);
     --el-3: 0 10px 24px rgba(0, 0, 0, 0.60);
@@ -256,12 +263,12 @@
     --ui-surface:        var(--color-surface);
     --ui-surface-strong: var(--color-surface-strong);
     --brand-accent:      var(--color-accent);
-    --brand-accent-2:    rgba(240, 176, 107, 0.55);
-    --tone-slate:        rgba(242, 236, 224, 0.42);
+    --brand-accent-2:    rgba(217, 122, 74, 0.55);
+    --tone-slate:        rgba(239, 231, 213, 0.42);
     --tone-navy:         var(--color-surface-strong);
     --tone-cyan:         var(--color-accent);
     --tone-ink:          var(--color-ink);
-    --tone-muted:        rgba(242, 236, 224, 0.60);
+    --tone-muted:        rgba(239, 231, 213, 0.60);
   }
 }
 

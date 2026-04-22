@@ -28,27 +28,19 @@
   })();
 </script>
 
-<style>
-  @font-face {
-    font-family: "Instrument Sans";
-    src: url("{{ '/assets/fonts/instrument-sans-latin.woff2' | relative_url }}") format("woff2");
-    font-weight: 400 700;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: "Space Grotesk";
-    src: url("{{ '/assets/fonts/space-grotesk-latin.woff2' | relative_url }}") format("woff2");
-    font-weight: 500 700;
-    font-style: normal;
-    font-display: swap;
-  }
-</style>
+{%- comment -%}
+  Editorial type stack — Newsreader serif + Geist sans + Geist Mono.
+  Loaded site-wide (not homepage-only) so every route shares the same
+  typography. Preconnect cuts TLS latency on first font fetch.
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
 
 {% if is_home %}
-  <link rel="preload" href="{{ '/assets/fonts/instrument-sans-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{{ '/assets/fonts/space-grotesk-latin.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
   {%- comment -%}
     LCP hint for the homepage hero image. imagesrcset + imagesizes make the
     preload participate in responsive-image selection instead of over-
@@ -69,8 +61,8 @@
 <link rel="icon" href="{{ '/assets/images/favicon-16.png' | relative_url }}" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="{{ '/assets/images/apple-touch-icon.png' | relative_url }}" sizes="180x180">
 <link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
-<meta name="theme-color" content="#f5f0e7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0c1612" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FAF7F2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14110C" media="(prefers-color-scheme: dark)">
 
 {% if page.demo_id or page.url == "/login/" %}
   <meta name="robots" content="index,follow">

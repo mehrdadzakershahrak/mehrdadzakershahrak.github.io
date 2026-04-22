@@ -4,19 +4,20 @@
 /* =========================================================================
    Editorial home — scoped stylesheet for the new homepage only.
    Ported from the Claude Design handoff (mehrdadzaker/project/index.html).
-   All classes are prefixed `.eh-` so nothing leaks into main.scss / the
-   theme. Light-only by design; hardcoded colors intentionally ignore
-   site-wide dark mode.
+
+   Tokens: --eh-* are aliases for the main.scss --color-* / --font-* /
+   etc. tokens, which carry both light and dark palettes. Dark mode
+   cascades automatically via [data-theme="dark"] on <html>, set by the
+   pre-paint script in _includes/head/custom.html.
    ========================================================================= */
 
 .eh-html,
 .eh-body {
-  background: #FAF7F2;
-  color: #15140F;
+  background: var(--eh-paper);
+  color: var(--eh-ink);
   margin: 0;
   padding: 0;
-  font-family: Geist, system-ui, -apple-system, "Segoe UI", sans-serif;
-  color-scheme: light;
+  font-family: var(--eh-ff-sans);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,38 +27,58 @@
   min-height: 100vh;
 }
 
-/* ---------- Design tokens (hardcoded, light-only) -------------------- */
-.eh-body {
-  --eh-paper:      #FAF7F2;
-  --eh-paper-deep: #F2ECE0;
-  --eh-ink:        #15140F;
-  --eh-ink-soft:   #3A372F;
-  --eh-ink-mute:   #706B5E;
-  --eh-rule:       #E3DCCC;
-  --eh-accent:     #B8532A; /* burnt sienna */
-  --eh-accent-soft:#E9C6B2;
+/* ---------- Token aliases (resolve to main.scss tokens) ----------------
+   Defined on :root so the --eh-* names are available everywhere the
+   editorial stylesheet loads — the homepage AND inner routes that also
+   pull in this sheet for the shared masthead/footer.
+   ---------------------------------------------------------------------- */
+:root {
+  --eh-paper:        var(--color-surface);
+  --eh-paper-deep:   var(--color-surface-strong);
+  --eh-ink:          var(--color-ink);
+  --eh-ink-soft:     var(--color-ink-muted);
+  --eh-ink-mute:     var(--color-ink-subtle);
+  --eh-rule:         var(--color-border);
+  --eh-rule-strong:  var(--color-border-strong);
+  --eh-accent:       var(--color-accent);
+  --eh-accent-soft:  var(--color-focus-ring-soft);
+
+  --eh-ff-serif: var(--font-display);
+  --eh-ff-sans:  var(--font-sans);
+  --eh-ff-mono:  var(--font-mono);
 }
 
 /* ---------- Selection + scrollbar ------------------------------------ */
-.eh-body ::selection { background: var(--eh-accent); color: var(--eh-paper); }
+::selection { background: var(--eh-accent); color: var(--color-ink-inverse); }
 
-.eh-body *::-webkit-scrollbar { width: 10px; height: 10px; }
-.eh-body *::-webkit-scrollbar-track { background: transparent; }
-.eh-body *::-webkit-scrollbar-thumb { background: #D5CCB7; border-radius: 10px; }
-.eh-body *::-webkit-scrollbar-thumb:hover { background: var(--eh-accent); }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 10px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--eh-accent); }
 
 /* =========================================================================
-   Top bar — sticky, MZ · mehrdadzaker.com · AVAILABLE
+   Shared masthead (used on every route) — slim, editorial, sticky.
+
+   Structure:
+     .eh-topbar / .eh-masthead  (same element; header row)
+       .eh-topbar__brand        wordmark, left
+       .eh-masthead__nav        flat nav, center (hides on mobile)
+       .eh-masthead__right      availability chip + theme toggle + burger
+     .eh-masthead__sheet        mobile nav sheet (hidden by default)
+
+   The .eh-topbar class is also used inline in the homepage design without
+   an .eh-masthead counterpart (legacy); both skins render identically.
    ========================================================================= */
-.eh-topbar {
+.eh-topbar,
+.eh-masthead {
   position: sticky; top: 0; z-index: 20;
-  background: rgba(250, 247, 242, 0.82);
+  background: rgba(var(--surface-rgb, 250, 247, 242), 0.82);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--eh-rule);
   padding: 10px 24px;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 11px;
   letter-spacing: 0.06em;
   color: var(--eh-ink-mute);
@@ -67,15 +88,122 @@
 .eh-topbar__status {
   white-space: nowrap;
   display: inline-flex; align-items: center;
+  gap: 0;
 }
 
-/* Blinking status dot (accent). Two instances: topbar + side-nav "On air". */
+.eh-masthead__brand-link {
+  text-decoration: none;
+  color: inherit;
+  transition: color .15s;
+}
+.eh-masthead__brand-link:hover { color: var(--eh-ink); }
+
+.eh-masthead__nav { display: flex; }
+.eh-masthead__list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; gap: 26px; align-items: center;
+}
+.eh-masthead__item { margin: 0; }
+.eh-masthead__link {
+  font-family: var(--eh-ff-sans);
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  color: var(--eh-ink-mute);
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  transition: color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.eh-masthead__link:hover { color: var(--eh-accent); }
+.eh-masthead__link.is-active {
+  color: var(--eh-ink);
+  border-bottom-color: var(--eh-accent);
+}
+
+.eh-masthead__right {
+  display: flex; align-items: center; gap: 14px;
+}
+
+/* Theme toggle — compact circular icon button. */
+.eh-masthead__theme-toggle {
+  all: unset;
+  cursor: pointer;
+  width: 28px; height: 28px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 999px;
+  color: var(--eh-ink-mute);
+  transition: color .15s, background-color .15s;
+}
+.eh-masthead__theme-toggle:hover {
+  color: var(--eh-ink);
+  background: var(--eh-paper-deep);
+}
+.eh-masthead__theme-toggle:focus-visible {
+  outline: 2px solid var(--eh-accent);
+  outline-offset: 2px;
+}
+.eh-masthead__theme-icon { display: none; }
+[data-theme="light"] .eh-masthead__theme-icon--moon,
+html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
+[data-theme="dark"] .eh-masthead__theme-icon--sun { display: block; }
+
+/* Burger — hidden on desktop, visible on mobile. */
+.eh-masthead__burger {
+  all: unset;
+  cursor: pointer;
+  display: none;
+  width: 24px; height: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+}
+.eh-masthead__burger span {
+  height: 1.5px; background: var(--eh-ink); display: block; width: 100%;
+  transition: transform .2s, opacity .2s;
+}
+.eh-masthead__burger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+.eh-masthead__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.eh-masthead__burger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Mobile nav sheet — slides down below the masthead. */
+.eh-masthead__sheet {
+  position: sticky;
+  top: 41px; /* just below the topbar */
+  z-index: 19;
+  background: var(--eh-paper);
+  border-bottom: 1px solid var(--eh-rule);
+  padding: 12px 20px 18px;
+}
+.eh-masthead__sheet[hidden] { display: none; }
+.eh-masthead__sheet-list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.eh-masthead__sheet-list a {
+  display: block;
+  padding: 10px 0;
+  font-family: var(--eh-ff-serif);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--eh-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--eh-rule);
+}
+.eh-masthead__sheet-list li:last-child a { border-bottom: none; }
+
+/* Blinking status dot (accent). Used in topbar + side-nav "On air". */
 .eh-dot {
   display: inline-block;
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--eh-accent);
   margin-right: 8px; vertical-align: middle;
   animation: eh-blink 1.8s ease-in-out infinite;
+  flex-shrink: 0;
 }
 @keyframes eh-blink {
   0%, 45% { opacity: 1; }
@@ -84,6 +212,17 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .eh-dot { animation: none; }
+}
+
+/* Masthead responsive behavior */
+@media (max-width: 899px) {
+  .eh-masthead__nav { display: none; }
+  .eh-masthead__burger { display: flex; }
+  .eh-masthead__status-text { display: none; } /* only the dot shows on narrow */
+}
+@media (max-width: 759px) {
+  .eh-topbar,
+  .eh-masthead { padding: 10px 20px; font-size: 10px; }
 }
 
 /* =========================================================================
@@ -109,11 +248,11 @@
   align-self: start;
   width: 180px;
   padding-top: 4px;
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
 }
 
 .eh-nav__brand {
-  font-family: Newsreader, Georgia, "Times New Roman", serif;
+  font-family: var(--eh-ff-serif);
   font-weight: 500;
   font-size: 20px;
   line-height: 1.1;
@@ -127,7 +266,7 @@
 
 /* Eyebrow — small uppercase mono label used throughout */
 .eh-eyebrow {
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -146,7 +285,7 @@
   display: flex; align-items: center; gap: 10px;
   padding: 6px 0;
   width: 100%;
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 14px;
   color: var(--eh-ink-mute);
   background: none; border: none;
@@ -159,7 +298,7 @@
 .eh-nav__link.is-active { color: var(--eh-ink); }
 
 .eh-nav__num {
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 10px;
   color: var(--eh-ink-mute);
   width: 18px;
@@ -183,13 +322,13 @@
 }
 .eh-nav__block .eh-eyebrow { display: block; margin-bottom: 8px; }
 .eh-nav__block-line {
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 13px;
   color: var(--eh-ink);
   letter-spacing: 0.05em;
 }
 .eh-nav__block-sub {
-  font-family: "Geist Mono", ui-monospace, monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 11px;
   color: var(--eh-ink-mute);
   margin-top: 4px;
@@ -205,7 +344,7 @@
   overflow-x: auto;
   border-bottom: 1px solid var(--eh-rule);
   position: sticky; top: 37px; z-index: 9;
-  background: rgba(250, 247, 242, 0.95);
+  background: rgba(var(--surface-rgb, 250, 247, 242), 0.95);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   -webkit-overflow-scrolling: touch;
@@ -214,7 +353,7 @@
 .eh-nav--mobile::-webkit-scrollbar { display: none; }
 
 .eh-nav--mobile .eh-nav__brand-inline {
-  font-family: Newsreader, Georgia, serif;
+  font-family: var(--eh-ff-serif);
   font-weight: 500;
   font-size: 15px;
   color: var(--eh-ink);
@@ -226,7 +365,7 @@
 }
 .eh-nav--mobile .eh-nav__mobile-link {
   padding: 6px 10px;
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 13px;
   color: var(--eh-ink-mute);
   background: none; border: none;
@@ -257,7 +396,7 @@
 .eh-hero__eyebrow { margin-bottom: 28px; }
 
 .eh-hero__title {
-  font-family: Newsreader, Georgia, "Times New Roman", serif;
+  font-family: var(--eh-ff-serif);
   font-weight: 400;
   font-size: 76px;
   line-height: 1.02;
@@ -278,7 +417,7 @@
   margin-top: 56px;
 }
 .eh-hero__copy p {
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 17px;
   line-height: 1.6;
   color: var(--eh-ink-soft);
@@ -295,7 +434,7 @@
 
 .eh-btn {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 15px; font-weight: 500;
   padding: 12px 22px;
   background: var(--eh-ink);
@@ -306,7 +445,7 @@
   cursor: pointer; border: none;
 }
 .eh-btn:hover { background: var(--eh-accent); color: var(--eh-paper); }
-.eh-btn__arrow { font-family: "Geist Mono", monospace; font-size: 13px; }
+.eh-btn__arrow { font-family: var(--eh-ff-mono); font-size: 13px; }
 
 .eh-link {
   color: var(--eh-ink);
@@ -327,7 +466,7 @@
 .eh-now { padding-top: 64px; padding-bottom: 64px; }
 
 .eh-section-h2 {
-  font-family: Newsreader, Georgia, serif;
+  font-family: var(--eh-ff-serif);
   font-weight: 400;
   font-size: 36px;
   line-height: 1.1;
@@ -340,12 +479,12 @@
 .eh-section-h2 .eh-italic { font-style: italic; }
 
 .eh-now__meta {
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 14px;
   color: var(--eh-ink-mute);
   margin-top: 8px; margin-bottom: 0;
 }
-.eh-now__meta-mono { font-family: "Geist Mono", monospace; }
+.eh-now__meta-mono { font-family: var(--eh-ff-mono); }
 
 .eh-now__grid {
   margin-top: 32px;
@@ -360,7 +499,7 @@
 }
 .eh-now__item .eh-eyebrow { display: block; margin-bottom: 8px; }
 .eh-now__item-text {
-  font-family: Newsreader, Georgia, serif;
+  font-family: var(--eh-ff-serif);
   font-size: 22px;
   line-height: 1.3;
   color: var(--eh-ink);
@@ -381,7 +520,7 @@
   margin-bottom: 40px;
 }
 .eh-work__count {
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 12px;
   color: var(--eh-ink-mute);
   white-space: nowrap;
@@ -400,19 +539,19 @@
   transition: background .15s;
   margin: 0 -12px;
 }
-.eh-work__row:hover { background: rgba(184, 83, 42, 0.03); }
+.eh-work__row:hover { background: rgba(var(--accent-rgb), 0.05); }
 
 .eh-work__row--last-rule { border-bottom: 1px solid var(--eh-rule); }
 
 .eh-work__year {
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 12px;
   color: var(--eh-ink-mute);
   padding-top: 6px;
 }
 
 .eh-work__title {
-  font-family: Newsreader, Georgia, serif;
+  font-family: var(--eh-ff-serif);
   font-size: 26px;
   line-height: 1.25;
   color: var(--eh-ink);
@@ -423,13 +562,13 @@
 
 .eh-work__kind {
   margin-top: 6px;
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 13px;
   color: var(--eh-ink-mute);
 }
 
 .eh-work__expand {
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 18px;
   color: var(--eh-ink-mute);
   width: 16px;
@@ -458,7 +597,7 @@
 
 .eh-work__blurb {
   margin: 0;
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 15px;
   line-height: 1.55;
   color: var(--eh-ink-soft);
@@ -473,7 +612,7 @@
   justify-content: flex-end;
 }
 .eh-work__tag {
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 11px;
   padding: 3px 8px;
   border: 1px solid var(--eh-rule);
@@ -484,7 +623,7 @@
 
 .eh-work__foot {
   margin-top: 24px;
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 14px;
   color: var(--eh-ink-mute);
 }
@@ -511,12 +650,12 @@
 .eh-writing__row--last { border-bottom: 1px solid var(--eh-rule); }
 
 .eh-writing__date {
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 12px;
   color: var(--eh-ink-mute);
 }
 .eh-writing__title {
-  font-family: Newsreader, Georgia, serif;
+  font-family: var(--eh-ff-serif);
   font-size: 22px;
   line-height: 1.3;
   color: var(--eh-ink);
@@ -525,7 +664,7 @@
 }
 .eh-writing__row:hover .eh-writing__title { color: var(--eh-accent); }
 .eh-writing__tag {
-  font-family: Geist, system-ui, sans-serif;
+  font-family: var(--eh-ff-sans);
   font-size: 12px;
   color: var(--eh-ink-mute);
   padding: 3px 10px;
@@ -534,7 +673,7 @@
   white-space: nowrap;
 }
 .eh-writing__read {
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 12px;
   color: var(--eh-ink-mute);
   width: 50px;
@@ -547,7 +686,7 @@
 .eh-contact { padding-top: 64px; padding-bottom: 80px; }
 
 .eh-contact__lead {
-  font-family: Newsreader, Georgia, serif;
+  font-family: var(--eh-ff-serif);
   font-weight: 400;
   font-size: 54px;
   line-height: 1.05;
@@ -589,7 +728,7 @@
 .eh-contact__item--full { grid-column: 1 / -1; padding-left: 0; padding-right: 0; border-right: none; }
 
 .eh-contact__value {
-  font-family: Newsreader, Georgia, serif;
+  font-family: var(--eh-ff-serif);
   font-size: 22px;
   color: var(--eh-ink);
   transition: color .15s;
@@ -598,7 +737,7 @@
 .eh-contact__item:hover .eh-contact__value { color: var(--eh-accent); }
 
 .eh-contact__arrow {
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 14px;
   color: var(--eh-ink-mute);
   transition: transform .15s;
@@ -618,7 +757,7 @@
   padding-bottom: 40px;
   border-top: 1px solid var(--eh-rule);
   display: flex; justify-content: space-between; align-items: center;
-  font-family: "Geist Mono", monospace;
+  font-family: var(--eh-ff-mono);
   font-size: 11px;
   color: var(--eh-ink-mute);
   letter-spacing: 0.04em;
@@ -686,7 +825,7 @@
   .eh-writing__row:hover { padding-left: 0; }
   .eh-writing__date-row {
     display: flex; gap: 10px; align-items: center;
-    font-family: "Geist Mono", monospace;
+    font-family: var(--eh-ff-mono);
     font-size: 11px;
     color: var(--eh-ink-mute);
   }
@@ -708,5 +847,66 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+}
+
+/* =========================================================================
+   Shared site footer (used on every route via _includes/footer.html).
+
+   Sits below every page's main content. Subtle top rule, then a slim
+   link list row, then a meta row. Token-driven so it dark-flips with the
+   rest of the site.
+   ========================================================================= */
+.eh-site-footer {
+  border-top: 1px solid var(--eh-rule);
+  padding: 32px 24px 40px;
+  background: var(--eh-paper);
+}
+.eh-site-footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex; flex-direction: column;
+  gap: 18px;
+}
+
+.eh-site-footer__links { width: 100%; }
+.eh-site-footer__list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap;
+  gap: 6px 24px;
+  align-items: baseline;
+}
+.eh-site-footer__list a {
+  font-family: var(--eh-ff-sans);
+  font-size: 13px;
+  color: var(--eh-ink-soft);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  transition: color .15s, border-color .15s;
+  white-space: nowrap;
+}
+.eh-site-footer__list a:hover {
+  color: var(--eh-accent);
+  border-bottom-color: var(--eh-accent);
+}
+
+.eh-site-footer__meta {
+  display: flex; flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--eh-rule);
+  font-family: var(--eh-ff-mono);
+  font-size: 11px;
+  color: var(--eh-ink-mute);
+  letter-spacing: 0.04em;
+}
+
+@media (max-width: 759px) {
+  .eh-site-footer { padding: 24px 20px 32px; }
+  .eh-site-footer__meta {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

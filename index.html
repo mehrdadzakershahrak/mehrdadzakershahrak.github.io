@@ -22,18 +22,14 @@ suppress_default_h1: true
 {%- assign writing_list = writing_all | slice: 0, 5 -%}
 {%- assign work_count   = work_items | size -%}
 
-{%- comment -%} ─── Sticky top bar ─── {%- endcomment -%}
-<header class="eh-topbar" role="banner">
-  <span class="eh-topbar__brand">MZ · <span class="eh-topbar__brand-strong">mehrdadzaker.com</span></span>
-  <span class="eh-topbar__status">
-    <span class="eh-dot" aria-hidden="true"></span>
-    <span>Available · Q3 2026</span>
-  </span>
-</header>
+{%- comment -%}
+  Masthead (site-wide) is rendered by the layout via _includes/masthead.html.
+  No inline .eh-topbar here anymore.
+{%- endcomment -%}
 
-{%- comment -%} ─── Mobile horizontal nav (hidden on desktop via CSS) ─── {%- endcomment -%}
-<nav class="eh-nav eh-nav--mobile" aria-label="Page sections">
-  <span class="eh-nav__brand-inline">Mehrdad Zaker</span>
+{%- comment -%} ─── Mobile horizontal section-nav (in-page only) ─── {%- endcomment -%}
+<nav class="eh-nav eh-nav--mobile eh-sectionnav--mobile" aria-label="Page sections">
+  <span class="eh-nav__brand-inline">Sections</span>
   <span class="eh-nav__rule" aria-hidden="true"></span>
   <a href="#home"    class="eh-nav__mobile-link is-active" data-eh-nav-link data-target="home">Index</a>
   <a href="#now"     class="eh-nav__mobile-link"           data-eh-nav-link data-target="now">Now</a>
@@ -113,11 +109,15 @@ suppress_default_h1: true
       </div>
 
       <div class="eh-hero__actions">
-        <a href="#work" class="eh-btn" data-eh-nav-link data-target="work">
+        <a href="#work" class="eh-btn"
+           data-eh-nav-link data-target="work"
+           data-analytics="cta_work_click" data-analytics-label="hero">
           See recent work
           <span class="eh-btn__arrow" aria-hidden="true">↓</span>
         </a>
-        <a href="#contact" class="eh-link" data-eh-nav-link data-target="contact">Get in touch</a>
+        <a href="#contact" class="eh-link"
+           data-eh-nav-link data-target="contact"
+           data-analytics="cta_contact_click" data-analytics-label="hero">Get in touch</a>
       </div>
     </section>
 
@@ -166,7 +166,9 @@ suppress_default_h1: true
         {%- for w in work_items -%}
           <li class="eh-work__row{% if forloop.last %} eh-work__row--last-rule{% endif %}"
               data-eh-work-row
-              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+              data-analytics="work_expand"
+              data-analytics-label="{{ w.url | default: w.title | slugify }}">
             <span class="eh-work__year">{{ w.year }}</span>
             <div>
               <div class="eh-work__title">{{ w.title }}</div>
@@ -228,7 +230,9 @@ suppress_default_h1: true
           {%- if mins < 1 -%}{%- assign mins = 1 -%}{%- endif -%}
 
           <a href="{{ entry.url | relative_url }}"
-             class="eh-writing__row{% if forloop.last %} eh-writing__row--last{% endif %}">
+             class="eh-writing__row{% if forloop.last %} eh-writing__row--last{% endif %}"
+             data-analytics="writing_click"
+             data-analytics-label="{{ entry.url | slugify }}">
             <span class="eh-writing__date">{{ entry.date | date: '%Y·%m·%d' }}</span>
             <span class="eh-writing__title">{{ entry.title }}</span>
             <span class="eh-writing__tag">{{ tag_label }}</span>
@@ -252,28 +256,32 @@ suppress_default_h1: true
 
       <div class="eh-contact__grid">
         <a class="eh-contact__item eh-contact__item--left"
-           href="mailto:{{ site.contact_email }}">
+           href="mailto:{{ site.contact_email }}"
+           data-analytics="cta_contact_click" data-analytics-label="email">
           <span class="eh-eyebrow">Email</span>
           <span class="eh-contact__value">{{ site.contact_email }}</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
         </a>
 
         <a class="eh-contact__item eh-contact__item--right"
-           href="{{ '/contact/' | relative_url }}">
+           href="{{ '/contact/' | relative_url }}"
+           data-analytics="cta_contact_click" data-analytics-label="brief">
           <span class="eh-eyebrow">Brief</span>
           <span class="eh-contact__value">Share a project brief</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
         </a>
 
         <a class="eh-contact__item eh-contact__item--left"
-           href="{{ '/newsletter/' | relative_url }}">
+           href="{{ '/newsletter/' | relative_url }}"
+           data-analytics="nav_click" data-analytics-label="newsletter">
           <span class="eh-eyebrow">Newsletter</span>
           <span class="eh-contact__value">Notes on private AI</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
         </a>
 
         <a class="eh-contact__item eh-contact__item--right"
-           href="{{ '/resources/' | relative_url }}">
+           href="{{ '/resources/' | relative_url }}"
+           data-analytics="nav_click" data-analytics-label="resources">
           <span class="eh-eyebrow">Resources</span>
           <span class="eh-contact__value">Deployment guides</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
@@ -283,10 +291,9 @@ suppress_default_h1: true
       </div>
     </section>
 
-    <footer class="eh-footer" role="contentinfo">
-      <span>© {{ site.time | date: '%Y' }} Mehrdad Zaker</span>
-      <span>Hand-built · set in Newsreader &amp; Geist</span>
-      <span>Seattle · 47.6062° N, 122.3321° W</span>
-    </footer>
+    {%- comment -%}
+      Site footer is rendered by the layout via _includes/footer.html.
+      No inline .eh-footer here anymore.
+    {%- endcomment -%}
   </main>
 </div>

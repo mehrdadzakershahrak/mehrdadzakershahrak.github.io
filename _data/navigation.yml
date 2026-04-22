@@ -1,68 +1,27 @@
+# Editorial navigation — flat, 5 items max.
+# Used by _includes/masthead.html and _includes/footer.html.
+#
+# Full prior tree (Solutions + IDX dropdowns, 6-child Resources, Podcast,
+# Newsletter + Archive, Work, About, Contact, Search, Login) is in git
+# history at commit 2ed9cf2 — restore from there if a deeper IA is needed.
+
 main:
-  - title: "Solutions"
-    key: solutions
+  - title: "Work"
+    key: work
     url: /ai-robotics-solutions/
-    children:
-      - title: "AI & Robotics Overview"
-        url: /ai-robotics-solutions/
-      - title: "Private AI Deployment"
-        key: private_ai_deployment
-        url: /private-ai-deployment/
-      - title: "Custom AI Systems"
-        url: /custom-ai-systems/
-      - title: "Industrial Robotics"
-        url: /robotics/industrial-robotics/
-      - title: "Autonomous Systems"
-        url: /robotics/autonomous-systems/
-      - title: "AI-Powered Robotics"
-        url: /robotics/ai-powered-robotics/
-  - title: "IDX"
-    key: idx
-    url: /idx/dashboard/
-    children:
-      - title: "IDX Overview"
-        key: idx_overview
-        url: /idx/assistant/
-      - title: "IDX Dashboard"
-        key: idx_dashboard
-        url: /idx/dashboard/
-      - title: "Private Deployment"
-        key: idx_private_deployment
-        url: /private-ai-deployment/
-      - title: "Support"
-        url: /idx/support/
+
+  - title: "Writing"
+    key: writing
+    url: /newsletter/
+
   - title: "Resources"
     key: resources
     url: /resources/
-    children:
-      - title: "Resource Hub"
-        url: /resources/
-      - title: "Private LLM Production"
-        url: /resources/private-llm-pilot-to-production/
-      - title: "Grounding & Hallucinations"
-        url: /resources/grounding-hallucination-prevention-document-ai/
-      - title: "Secure RAG Architecture"
-        url: /resources/secure-enterprise-rag-architecture/
-      - title: "AI Reliability Evaluation"
-        url: /resources/ai-system-reliability-evaluation-before-deployment/
-      - title: "Private vs Cloud AI"
-        url: /resources/private-vs-cloud-ai-regulated-industries/
-  - title: "Podcast"
-    key: podcast
-    url: /podcast/
-  - title: "Newsletter"
-    key: newsletter
-    url: /newsletter/
-    children:
-      - title: "Archive"
-        url: /newsletter/archive/
-  - title: "Work"
-    url: /work/
+
   - title: "About"
+    key: about
     url: /about/
+
   - title: "Contact"
+    key: contact
     url: /contact/
-  - title: "Search"
-    url: /search/
-  - title: "Login"
-    url: /login/
