@@ -6,12 +6,12 @@
 {% endunless %}
 
 {% if next_guide and next_guide.url != page.url %}
-  <section class="mdz-resource-next" aria-label="Next resource guide">
+  <section class="eh-next-card" aria-label="Next resource guide">
     <div>
-      <p class="mdz-resource-next__eyebrow">Next best guide</p>
+      <p class="eh-eyebrow">Next best guide</p>
       <h2><a href="{{ next_guide.url | relative_url }}">{{ next_guide.title }}</a></h2>
       <p>{{ next_guide.description }}</p>
     </div>
-    <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ next_guide.url | relative_url }}">Read next guide</a>
+    <a class="eh-btn eh-btn--secondary" href="{{ next_guide.url | relative_url }}">Read next guide</a>
   </section>
 {% endif %}

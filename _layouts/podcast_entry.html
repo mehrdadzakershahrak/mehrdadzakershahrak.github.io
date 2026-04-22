@@ -1,5 +1,5 @@
 ---
-layout: single
+layout: default
 ---
 
 {% assign has_transcript = false %}
@@ -7,18 +7,19 @@ layout: single
   {% assign has_transcript = true %}
 {% endif %}
 
-<article class="mdz-podcast-entry">
+<main id="main" class="eh-document eh-document--podcast-entry" role="main">
+<article class="eh-article eh-podcast-entry">
   {% if page.image_url %}
-    <div class="mdz-podcast-entry__hero">
-      <div class="mdz-podcast-entry__date-badge">
-        <time class="mdz-podcast-entry__date" datetime="{{ page.date | date_to_xmlschema }}">
+    <div class="eh-podcast-entry__hero">
+      <div class="eh-podcast-entry__date-badge">
+        <time class="eh-podcast-entry__date" datetime="{{ page.date | date_to_xmlschema }}">
           {{ page.date | date: "%B %-d, %Y" }}
         </time>
       </div>
 
-      <div class="mdz-podcast-entry__media">
+      <div class="eh-podcast-entry__media">
         <img
-          class="mdz-podcast-entry__image"
+          class="eh-podcast-entry__image"
           src="{{ page.image_url | relative_url }}"
           alt="{{ page.title | escape }} artwork"
         >
@@ -26,33 +27,34 @@ layout: single
     </div>
   {% endif %}
 
-  <div class="mdz-entry-actions" aria-label="Entry actions">
+  <div class="eh-action-row" aria-label="Entry actions">
     {% if page.watch_url %}
-      <a class="mdz-cta" href="{{ page.watch_url }}" target="_blank" rel="noopener noreferrer">
+      <a class="eh-btn" href="{{ page.watch_url }}" target="_blank" rel="noopener noreferrer">
         {{ page.watch_label | default: "Watch on YouTube" }}
       </a>
     {% endif %}
 
     {% if has_transcript %}
-      <a class="mdz-cta mdz-cta--outline" href="#transcript">
+      <a class="eh-btn eh-btn--secondary" href="#transcript">
         Read transcript
       </a>
     {% endif %}
 
-    <a class="mdz-cta mdz-cta--outline" href="{{ '/resources/ask-mehrdad/' | relative_url }}">
+    <a class="eh-btn eh-btn--secondary" href="{{ '/resources/ask-mehrdad/' | relative_url }}">
       Chat with podcast library
     </a>
   </div>
 
-  <h1 class="mdz-podcast-entry__title">{{ page.title }}</h1>
+  <h1 id="main-title" class="eh-title">{{ page.title }}</h1>
 
   {% if page.topic %}
-    <div class="mdz-podcast-entry__topics">
-      <span class="mdz-podcast-entry__topic">{{ page.topic }}</span>
+    <div class="eh-chip-row">
+      <span class="eh-chip">{{ page.topic }}</span>
     </div>
   {% endif %}
 
-  <div class="mdz-podcast-entry__content">
+  <div class="eh-prose">
     {{ content }}
   </div>
 </article>
+</main>

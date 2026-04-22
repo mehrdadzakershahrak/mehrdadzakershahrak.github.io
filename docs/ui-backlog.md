@@ -102,7 +102,7 @@ Add scoped styles for resource experiences without globally changing established
 - Add a dedicated resource hub wrapper class for `/resources/`.
 - Reuse existing CSS variables, typography choices, button styles, and the dark teal technical direction.
 - Avoid a new color system.
-- Avoid global `.mdz-card` changes unless required by a shared bug.
+- Avoid global `.eh-card` changes unless required by a shared bug.
 - Keep card radius at or below the established local style unless matching an existing homepage hero surface.
 
 ### Acceptance Criteria

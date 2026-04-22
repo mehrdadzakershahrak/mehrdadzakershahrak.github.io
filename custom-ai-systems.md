@@ -5,7 +5,7 @@ permalink: /custom-ai-systems/
 classes: wide
 ---
 
-<p class="summary">We build AI around one real job, not a generic chat box. The system should help a team finish work with less risk.</p>
+<p class="eh-summary">We build AI around one real job, not a generic chat box. The system should help a team finish work with less risk.</p>
 
 Start with the real work. Then match the system to the team's rules, data, and choices.
 

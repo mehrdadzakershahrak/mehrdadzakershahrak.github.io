@@ -7,23 +7,23 @@ footer_variant: idx
 suppress_default_h1: true
 ---
 
-<section class="mdz-contact">
-  <section class="mdz-contact__hero">
-    <div class="mdz-contact__hero-copy">
-      <p class="mdz-contact__eyebrow">IDX Support</p>
-      <h1 class="mdz-contact__title">Get help with IDX access, document workflows, or rollout questions.</h1>
-      <p class="mdz-contact__lede">
-        Use this page when the issue is specific to IDX: reaching the live portal, signing in through `idx.mehrdadzaker.com`, uploading PDFs, document readiness, search results, viewer links, workflow fit, or operational questions about how IDX should be used in a document-heavy process.
+<section class="eh-contact-page eh-contact-page--idx">
+  <section class="eh-showcase__hero" aria-labelledby="idx-support-title">
+    <div class="eh-showcase__copy">
+      <p class="eh-eyebrow">IDX Support</p>
+      <h1 id="idx-support-title" class="eh-title">Get help with IDX access, document workflows, or rollout questions.</h1>
+      <p class="eh-dek">
+        Use this page when the issue is specific to IDX: reaching the live portal, signing in through <code>idx.mehrdadzaker.com</code>, uploading PDFs, document readiness, search results, viewer links, workflow fit, or operational questions about how IDX should be used in a document-heavy process.
       </p>
-      <div class="mdz-contact__actions">
-        <a class="btn btn--primary mdz-cta" href="mailto:{{ site.contact_email }}?subject=IDX%20Support">Email {{ site.contact_email }}</a>
-        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX portal</a>
+      <div class="eh-action-row">
+        <a class="eh-btn" href="mailto:{{ site.contact_email }}?subject=IDX%20Support">Email {{ site.contact_email }}</a>
+        <a class="eh-btn eh-btn--secondary" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX portal</a>
       </div>
     </div>
   </section>
 
-  <div class="mdz-contact__grid">
-    <section class="mdz-contact__panel">
+  <div class="eh-card-grid">
+    <section class="eh-card">
       <h2>Good reasons to reach out</h2>
       <ul>
         <li>Sign-in, session, or access issues while reaching the IDX portal</li>
@@ -33,7 +33,7 @@ suppress_default_h1: true
       </ul>
     </section>
 
-    <section class="mdz-contact__panel">
+    <section class="eh-card">
       <h2>What to include</h2>
       <ul>
         <li>The page or IDX step where the issue happens</li>
@@ -44,7 +44,7 @@ suppress_default_h1: true
     </section>
   </div>
 
-  <section class="mdz-contact__panel mdz-contact__panel--wide">
+  <section class="eh-panel">
     <h2>Response framing</h2>
     <p>
       The goal is to resolve the blocker quickly or clarify the right next step. Expect a concise response focused on diagnosis, workflow guidance, or whether the issue belongs in IDX support versus a broader implementation conversation.

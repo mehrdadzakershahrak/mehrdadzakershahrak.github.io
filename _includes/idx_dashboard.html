@@ -1,60 +1,58 @@
-<section class="mdz-idx mdz-idx--workspace-dashboard" data-idx-dashboard-wrapper>
-  <header class="mdz-idx__product-bar">
-    <div class="mdz-idx__product-brand">
-      <span class="mdz-idx__brand-mark">IDX</span>
-      <div class="mdz-idx__brand-copy">
-        <p class="mdz-idx__panel-eyebrow">Neuralint Platform</p>
+<section class="eh-product-handoff" data-idx-dashboard-wrapper>
+  <header class="eh-product-bar">
+    <div class="eh-product-bar__brand">
+      <span class="eh-product-bar__mark">IDX</span>
+      <div>
+        <p class="eh-eyebrow">Neuralint Platform</p>
         <strong>IDX v2 portal handoff</strong>
       </div>
     </div>
-    <nav class="mdz-idx__product-nav" aria-label="IDX navigation">
-      <a class="mdz-idx__product-link" href="{{ '/idx/dashboard/' | relative_url }}">Dashboard</a>
-      <a class="mdz-idx__product-link" href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a>
-      <a class="mdz-idx__product-link" href="{{ '/idx/support/' | relative_url }}">Support</a>
+    <nav class="eh-product-bar__nav" aria-label="IDX navigation">
+      <a href="{{ '/idx/dashboard/' | relative_url }}">Dashboard</a>
+      <a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a>
+      <a href="{{ '/idx/support/' | relative_url }}">Support</a>
     </nav>
-    <div class="mdz-idx__header-actions">
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="https://idx.mehrdadzaker.com/v2/portal">Open IDX v2</a>
+    <div class="eh-action-row">
+      <a class="eh-btn eh-btn--secondary" href="https://idx.mehrdadzaker.com/v2/portal">Open IDX v2</a>
     </div>
   </header>
 
-  <section class="mdz-idx__panel mdz-idx__panel--instruction mdz-idx__preauth-panel">
-    <div class="mdz-idx__panel-header">
-      <div>
-        <p class="mdz-idx__panel-eyebrow">IDX v2</p>
-        <h2>Open the live IDX portal</h2>
-      </div>
+  <section class="eh-panel eh-panel--handoff">
+    <div class="eh-section-head">
+      <p class="eh-eyebrow">IDX v2</p>
+      <h2>Open the live IDX portal</h2>
     </div>
-    <p class="mdz-idx__instruction-copy">
+    <p class="eh-summary">
       This page is now a secure handoff into the live IDX app at <a href="https://idx.mehrdadzaker.com/v2/portal"><code>idx.mehrdadzaker.com</code></a>.
       The older website-hosted workspace dashboard has been retired.
     </p>
-    <div class="mdz-idx__content-grid mdz-idx__content-grid--dashboard">
-      <section class="mdz-idx__content-section mdz-idx__content-section--value">
+    <div class="eh-card-grid">
+      <section class="eh-card">
         <h3>Direct handoff</h3>
-        <p class="mdz-idx__instruction-copy">This page immediately forwards into the live IDX v2 portal on the product host.</p>
+        <p>This page immediately forwards into the live IDX v2 portal on the product host.</p>
       </section>
-      <section class="mdz-idx__content-section">
+      <section class="eh-card">
         <h3>Live app</h3>
-        <p class="mdz-idx__instruction-copy">All supported dashboard workflows now run on the app host instead of this GitHub Pages site.</p>
+        <p>All supported dashboard workflows now run on the app host instead of this GitHub Pages site.</p>
       </section>
-      <section class="mdz-idx__content-section">
+      <section class="eh-card">
         <h3>Legacy links</h3>
-        <p class="mdz-idx__instruction-copy">Old workspace and document query params are ignored here. IDX v2 always opens on the portal home.</p>
+        <p>Old workspace and document query params are ignored here. IDX v2 always opens on the portal home.</p>
       </section>
     </div>
 
-    <div class="demo-chat__gate mdz-idx__gate">
+    <div class="eh-status-panel">
       <strong data-idx-dashboard-status-title>Opening IDX v2</strong>
       <p data-idx-dashboard-status-copy>Redirecting to the live portal on <code>idx.mehrdadzaker.com</code>.</p>
     </div>
 
-    <div class="mdz-idx__header-actions">
-      <a class="btn btn--primary mdz-cta" href="https://idx.mehrdadzaker.com/auth/login?return_to=https%3A%2F%2Fidx.mehrdadzaker.com%2Fv2%2Fportal" data-idx-dashboard-login>Sign in to IDX v2</a>
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="https://idx.mehrdadzaker.com/v2/portal">Open IDX v2 directly</a>
-      <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
+    <div class="eh-action-row">
+      <a class="eh-btn" href="https://idx.mehrdadzaker.com/auth/login?return_to=https%3A%2F%2Fidx.mehrdadzaker.com%2Fv2%2Fportal" data-idx-dashboard-login>Sign in to IDX v2</a>
+      <a class="eh-btn eh-btn--secondary" href="https://idx.mehrdadzaker.com/v2/portal">Open IDX v2 directly</a>
+      <a class="eh-btn eh-btn--secondary" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
     </div>
 
-    <p class="mdz-idx__instruction-copy" data-idx-dashboard-detail>
+    <p class="eh-summary" data-idx-dashboard-detail>
       The website-hosted dashboard has been removed. If the redirect does not happen automatically, use one of the IDX v2 links above.
     </p>
   </section>

@@ -1,13 +1,13 @@
 {% assign podcast_cards = site.podcast_entries | sort: "date" | reverse %}
 
 {% if podcast_cards and podcast_cards.size > 0 %}
-  <div class="mdz-podcast-stack" aria-label="Podcast episodes">
+  <div class="eh-podcast-stack" aria-label="Podcast episodes">
     {% for episode in podcast_cards %}
-      <a class="mdz-podcast-card" href="{{ episode.url | relative_url }}">
-        <div class="mdz-podcast-card__media">
+      <a class="eh-podcast-card" href="{{ episode.url | relative_url }}">
+        <div class="eh-podcast-card__media">
           {% if episode.image_url %}
             <img
-              class="mdz-podcast-card__image"
+              class="eh-podcast-card__image"
               src="{{ episode.image_url | relative_url }}"
               alt="{{ episode.title | escape }} artwork"
               loading="lazy"
@@ -15,22 +15,22 @@
           {% endif %}
         </div>
 
-        <div class="mdz-podcast-card__body">
-          <div class="mdz-podcast-card__date-row">
-            <time class="mdz-podcast-card__date" datetime="{{ episode.date | date_to_xmlschema }}">
+        <div class="eh-podcast-card__body">
+          <div class="eh-meta">
+            <time datetime="{{ episode.date | date_to_xmlschema }}">
               {{ episode.date | date: "%B %-d, %Y" }}
             </time>
           </div>
 
-          <h2 class="mdz-podcast-card__title">{{ episode.title }}</h2>
+          <h2>{{ episode.title }}</h2>
 
           {% if episode.topic %}
-            <span class="mdz-podcast-card__topic">{{ episode.topic }}</span>
+            <span class="eh-chip">{{ episode.topic }}</span>
           {% endif %}
         </div>
       </a>
     {% endfor %}
   </div>
 {% else %}
-  <p class="mdz-muted">No podcast entries yet. Add markdown files under <code>_podcast_entries/</code>.</p>
+  <p class="eh-muted">No podcast entries yet. Add markdown files under <code>_podcast_entries/</code>.</p>
 {% endif %}

@@ -11,7 +11,7 @@
   Pre-paint theme resolution — runs synchronously before the stylesheet
   loads so the first paint already matches the user's intent, avoiding a
   flash-of-light-theme for dark-mode users. Order of precedence:
-    1. stored preference (localStorage 'mdz-theme')
+    1. stored preference (localStorage 'eh-theme')
     2. OS preference (prefers-color-scheme)
   If the browser blocks storage access, we fall back silently to OS.
 {%- endcomment -%}
@@ -19,7 +19,7 @@
   (function () {
     try {
       var stored = null;
-      try { stored = window.localStorage.getItem('mdz-theme'); } catch (e) {}
+      try { stored = window.localStorage.getItem('eh-theme'); } catch (e) {}
       var prefersDark = window.matchMedia &&
         window.matchMedia('(prefers-color-scheme: dark)').matches;
       var theme = stored || (prefersDark ? 'dark' : 'light');

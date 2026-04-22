@@ -2,7 +2,7 @@
  * Editorial masthead interactions — vanilla, no dependencies.
  *
  *   1. Theme toggle — flips [data-theme] on <html>, persists to localStorage
- *      under key 'mdz-theme' (same key used by the pre-paint script in
+ *      under key 'eh-theme' (same key used by the pre-paint script in
  *      _includes/head/custom.html).
  *   2. Burger → mobile nav sheet — toggles [hidden] + aria-expanded.
  *
@@ -28,7 +28,7 @@
       var next = current === "dark" ? "light" : "dark";
       root.setAttribute("data-theme", next);
       try {
-        window.localStorage.setItem("mdz-theme", next);
+        window.localStorage.setItem("eh-theme", next);
       } catch (e) {
         /* privacy mode / disabled storage — best effort */
       }

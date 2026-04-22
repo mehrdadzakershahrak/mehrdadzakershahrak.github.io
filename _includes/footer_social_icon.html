@@ -7,13 +7,13 @@
     {% assign icon_path_is_absolute = true %}
   {% endif %}
   <img
-    class="mdz-site-footer__social-image"
+    class="eh-site-footer__social-image"
     src="{% if icon_path_is_absolute %}{{ icon_path }}{% else %}{{ icon_path | relative_url }}{% endif %}"
     alt=""
     loading="lazy"
   >
 {% else %}
-  <svg class="mdz-site-footer__social-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <svg class="eh-site-footer__social-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
     {% case icon_key %}
       {% when "email" %}
         <path d="M3.75 6.75h16.5a1.5 1.5 0 0 1 1.5 1.5v7.5a1.5 1.5 0 0 1-1.5 1.5H3.75a1.5 1.5 0 0 1-1.5-1.5v-7.5a1.5 1.5 0 0 1 1.5-1.5Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"/>

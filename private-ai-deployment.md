@@ -7,7 +7,7 @@ classes: wide
 
 Deploy AI inside an environment your team can approve and operate. Keep data controlled, test the answers, and launch with clear limits.
 
-<p class="summary">I help teams move an AI pilot into a real private deployment. The goal is simple: protect sensitive data, verify outputs, and avoid a fragile launch.</p>
+<p class="eh-summary">I help teams move an AI pilot into a real private deployment. The goal is simple: protect sensitive data, verify outputs, and avoid a fragile launch.</p>
 
 Use [Contact]({{ '/contact/' | relative_url }}) if you are choosing between hosted, hybrid, and fully private options. Also use it if an existing implementation needs hardening.
 

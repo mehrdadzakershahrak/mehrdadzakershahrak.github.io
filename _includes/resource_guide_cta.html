@@ -1,11 +1,11 @@
 {% if page.resource_cta %}
   {% assign cta_url = page.resource_cta.url | default: "/contact/" %}
-  <section class="mdz-resource-cta" aria-label="Related implementation path">
-    <div class="mdz-resource-cta__copy">
-      <p class="mdz-resource-cta__eyebrow">Implementation path</p>
+  <section class="eh-cta-panel" aria-label="Related implementation path">
+    <div>
+      <p class="eh-eyebrow">Implementation path</p>
       <h2>{{ page.resource_cta.title }}</h2>
       <p>{{ page.resource_cta.copy }}</p>
     </div>
-    <a class="btn btn--small mdz-cta" href="{{ cta_url | relative_url }}">{{ page.resource_cta.label | default: "Start here" }}</a>
+    <a class="eh-btn" href="{{ cta_url | relative_url }}">{{ page.resource_cta.label | default: "Start here" }}</a>
   </section>
 {% endif %}

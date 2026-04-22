@@ -2,144 +2,123 @@
 layout: default
 ---
 
-{%- assign locale = page.locale | default: layout.locale | default: site.locale %}
+{%- assign locale = page.locale | default: layout.locale | default: site.locale -%}
+{%- assign suppress_default_h1 = page.suppress_default_h1 | default: false -%}
+{%- if page.resource_guide -%}
+  {%- assign suppress_default_h1 = true -%}
+{%- endif -%}
+{%- assign page_description = page.description | default: page.excerpt -%}
+{%- assign body_class = "eh-prose" -%}
+{%- if suppress_default_h1 -%}
+  {%- assign body_class = "eh-content" -%}
+{%- endif -%}
 
-{% if page.header.overlay_color or page.header.overlay_image or page.header.image %}
-  {% include page__hero.html locale=locale %}
-{% elsif page.header.video.id and page.header.video.provider %}
-  {% include page__hero_video.html %}
-{% endif %}
-
-{% assign breadcrumbs_enabled = site.breadcrumbs %}
-{% if page.breadcrumbs != null %}
-  {% assign breadcrumbs_enabled = page.breadcrumbs %}
-{% endif %}
-
-{% if page.url != "/" and breadcrumbs_enabled %}
-  {% unless paginator %}
-    {% include breadcrumbs.html locale=locale %}
-  {% endunless %}
-{% endif %}
-
-{% assign suppress_default_h1 = page.suppress_default_h1 | default: false %}
-{% if page.resource_guide %}
-  {% assign suppress_default_h1 = true %}
-{% endif %}
-
-<div id="main" role="main">
-  {% include sidebar.html locale=locale %}
-
-  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork"{% if page.locale %} lang="{{ page.locale }}"{% endif %}>
+<main id="main" class="eh-document{% if page.resource_guide %} eh-document--resource{% endif %}" role="main">
+  <article class="eh-article h-entry" itemscope itemtype="https://schema.org/CreativeWork"{% if page.locale %} lang="{{ page.locale }}"{% endif %}>
     {% if page.title %}<meta itemprop="headline" content="{{ page.title | replace: '|', '&#124;' | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
-    {% if page.excerpt %}<meta itemprop="description" content="{{ page.excerpt | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
+    {% if page_description %}<meta itemprop="description" content="{{ page_description | markdownify | strip_html | strip_newlines | escape_once }}">{% endif %}
     {% if page.date %}<meta itemprop="datePublished" content="{{ page.date | date_to_xmlschema }}">{% endif %}
     {% if page.last_modified_at %}<meta itemprop="dateModified" content="{{ page.last_modified_at | date_to_xmlschema }}">{% endif %}
 
-    <div class="page__inner-wrap">
-      {% unless page.header.overlay_color or page.header.overlay_image or suppress_default_h1 %}
-        <header>
-          {% if page.title -%}
-            <h1 id="page-title" class="page__title p-name" itemprop="headline">
-              <a href="{{ page.url | absolute_url }}" itemprop="url">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</a>
-            </h1>
-          {%- endif %}
-          {% include page__meta.html locale=locale %}
+    {% if page.resource_guide %}
+      <header class="eh-article-header eh-article-header--resource">
+        <p class="eh-eyebrow">{{ page.pillar | default: "Resource Guide" }}</p>
+        {% if page.title %}
+          <h1 id="main-title" class="eh-title p-name" itemprop="headline">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</h1>
+        {% endif %}
+        {% if page.description %}
+          <p class="eh-dek">{{ page.description }}</p>
+        {% endif %}
+        <div class="eh-meta" aria-label="Guide metadata">
+          {% if page.date %}
+            <time datetime="{{ page.date | date_to_xmlschema }}">Published {{ page.date | date: "%B %-d, %Y" }}</time>
+          {% endif %}
+          {% for tag in page.ui_tags limit: 3 %}
+            <span>{{ tag }}</span>
+          {% endfor %}
+        </div>
+      </header>
+
+      {% if page.toc %}
+        <details class="eh-toc-mobile">
+          <summary>{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</summary>
+          <nav class="eh-toc" aria-label="Table of contents">
+            {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="eh-toc__menu" skip_no_ids=true %}
+          </nav>
+        </details>
+      {% endif %}
+
+      <div class="eh-reading-layout">
+        <div class="eh-prose eh-resource-body e-content" itemprop="text">
+          {{ content }}
+          {% include resource_next_guide.html %}
+          {% if page.link %}
+            <p><a href="{{ page.link }}" class="eh-btn">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></p>
+          {% endif %}
+        </div>
+
+        {% if page.toc %}
+          <aside class="eh-toc-rail">
+            <nav class="eh-toc" aria-label="Table of contents">
+              <h2 class="eh-toc__title">{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</h2>
+              {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="eh-toc__menu" skip_no_ids=true %}
+            </nav>
+          </aside>
+        {% endif %}
+      </div>
+    {% else %}
+      {% unless suppress_default_h1 %}
+        <header class="eh-article-header">
+          <p class="eh-eyebrow">{{ page.eyebrow | default: "Mehrdad Zaker" }}</p>
+          {% if page.title %}
+            <h1 id="main-title" class="eh-title p-name" itemprop="headline">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</h1>
+          {% endif %}
+          {% if page_description %}
+            <p class="eh-dek">{{ page_description | markdownify | strip_html }}</p>
+          {% endif %}
+          {% if page.date or page.last_modified_at %}
+            <div class="eh-meta" aria-label="Page metadata">
+              {% if page.date %}
+                <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %-d, %Y" }}</time>
+              {% endif %}
+              {% if page.last_modified_at %}
+                <span>Updated {{ page.last_modified_at | date: "%B %-d, %Y" }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
         </header>
       {% endunless %}
 
-      <section class="page__content e-content" itemprop="text">
-        {% if page.resource_guide %}
-          <header class="mdz-resource-entry__header">
-            <p class="mdz-resource-entry__eyebrow">{{ page.pillar | default: "Resource Guide" }}</p>
-            {% if page.title -%}
-              <h1 id="page-title" class="page__title mdz-resource-entry__title p-name" itemprop="headline">
-                <a href="{{ page.url | absolute_url }}" itemprop="url">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</a>
-              </h1>
-            {%- endif %}
-            {% if page.description %}
-              <p class="mdz-resource-entry__dek">{{ page.description }}</p>
-            {% endif %}
-            <div class="mdz-resource-entry__meta" aria-label="Guide metadata">
-              {% if page.date %}
-                <time datetime="{{ page.date | date_to_xmlschema }}">Published {{ page.date | date: "%B %-d, %Y" }}</time>
-              {% endif %}
-              {% for tag in page.ui_tags limit: 3 %}
-                <span>{{ tag }}</span>
-              {% endfor %}
-            </div>
-          </header>
+      {% if page.toc %}
+        <details class="eh-toc-mobile">
+          <summary>{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</summary>
+          <nav class="eh-toc" aria-label="Table of contents">
+            {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="eh-toc__menu" skip_no_ids=true %}
+          </nav>
+        </details>
 
-          {% if page.toc %}
-            <details class="mdz-resource-toc-mobile">
-              <summary>{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</summary>
-              <nav class="toc" aria-label="Table of contents">
-                {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="toc__menu" skip_no_ids=true %}
-              </nav>
-            </details>
-          {% endif %}
-
-          <div class="mdz-resource-entry__layout">
-            <div class="mdz-resource-entry__body">
-              {{ content }}
-              {% include resource_next_guide.html %}
-              {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
-            </div>
-
-            {% if page.toc %}
-              <aside class="mdz-resource-entry__toc">
-                <nav class="toc" aria-label="Table of contents">
-                  <header><h4 class="nav__title">{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</h4></header>
-                  {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="toc__menu" skip_no_ids=true %}
-                </nav>
-              </aside>
+        <div class="eh-reading-layout">
+          <div class="{{ body_class }} e-content" itemprop="text">
+            {{ content }}
+            {% if page.link %}
+              <p><a href="{{ page.link }}" class="eh-btn">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></p>
             {% endif %}
           </div>
-        {% else %}
-          {% if page.toc %}
-            <aside class="sidebar__right {% if page.toc_sticky %}sticky{% endif %}">
-              <nav class="toc" aria-label="Table of contents">
-                <header><h4 class="nav__title">{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</h4></header>
-                {% include toc.html sanitize=true html=content h_min=1 h_max=6 class="toc__menu" skip_no_ids=true %}
-              </nav>
-            </aside>
-          {% endif %}
-
-          {{ content }}
-
-          {% if page.link %}<div><a href="{{ page.link }}" class="btn btn--primary">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></div>{% endif %}
-        {% endif %}
-      </section>
-
-      <footer class="page__meta">
-        {% if site.data.ui-text[locale].meta_label %}
-          <h4 class="page__meta-title">{{ site.data.ui-text[locale].meta_label }}</h4>
-        {% endif %}
-        {% include page__taxonomy.html locale=locale %}
-        {% include page__date.html locale=locale %}
-      </footer>
-
-      {% if page.share %}{% include social-share.html locale=locale %}{% endif %}
-
-      {% include post_pagination.html locale=locale %}
-    </div>
-
-    {% if site.comments.provider and page.comments %}
-      {% if jekyll.environment == 'production' %}
-        {% include comments.html locale=locale %}
+          <aside class="eh-toc-rail">
+            <nav class="eh-toc" aria-label="Table of contents">
+              <h2 class="eh-toc__title">{{ page.toc_label | default: site.data.ui-text[locale].toc_label | default: "On this page" }}</h2>
+              {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="eh-toc__menu" skip_no_ids=true %}
+            </nav>
+          </aside>
+        </div>
       {% else %}
-        <p>
-          Comments are configured with provider: <strong>{{ site.comments.provider }}</strong>,
-          but are disabled in non-production environments.
-        </p>
+        <div class="{{ body_class }} e-content" itemprop="text">
+          {{ content }}
+          {% if page.link %}
+            <p><a href="{{ page.link }}" class="eh-btn">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></p>
+          {% endif %}
+        </div>
       {% endif %}
     {% endif %}
   </article>
-
-  {% comment %}<!-- only show related on a post page when `related: true` -->{% endcomment %}
-  {% if page.id and page.related and site.related_posts.size > 0 %}
-    {% include page__related.html locale=locale posts=site.related_posts %}
-    {% comment %}<!-- otherwise show recent posts if no related when `related: true` -->{% endcomment %}
-  {% elsif page.id and page.related %}
-    {% include page__related.html locale=locale posts=site.posts %}
-  {% endif %}
-</div>
+</main>

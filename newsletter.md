@@ -18,8 +18,8 @@ Practical notes on AI systems, robotics, deployment architecture, and product ex
 {{ latest_issue.excerpt }}
 
 <p>
-  <a class="btn btn--primary mdz-cta" href="{{ latest_issue.url | relative_url }}">Read the latest issue</a>
-  <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/newsletter/archive/' | relative_url }}">Browse the archive</a>
+  <a class="eh-btn" href="{{ latest_issue.url | relative_url }}">Read the latest issue</a>
+  <a class="eh-btn eh-btn--secondary" href="{{ '/newsletter/archive/' | relative_url }}">Browse the archive</a>
 </p>
 {% endif %}
 
@@ -37,7 +37,7 @@ Practical notes on AI systems, robotics, deployment architecture, and product ex
 
 {% if site.substack_subscribe_url and site.substack_subscribe_url != "" %}
   <p>Subscribe for new issues on applied AI, robotics, and production architecture.</p>
-  <p><a class="btn btn--primary" href="{{ site.substack_subscribe_url }}" target="_blank" rel="noopener noreferrer">Subscribe on Substack</a></p>
+  <p><a class="eh-btn" href="{{ site.substack_subscribe_url }}" target="_blank" rel="noopener noreferrer">Subscribe on Substack</a></p>
   <iframe
     src="{{ site.substack_subscribe_url }}"
     width="100%"
@@ -47,7 +47,7 @@ Practical notes on AI systems, robotics, deployment architecture, and product ex
 {% else %}
   <p>Public subscriptions are not open yet, but the writing archive is now live. For direct questions about a deployment, architecture review, or robotics workflow, use the contact page.</p>
   <p>
-    <a class="btn btn--primary mdz-cta" href="{{ '/newsletter/archive/' | relative_url }}">View the archive</a>
-    <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a>
+    <a class="eh-btn" href="{{ '/newsletter/archive/' | relative_url }}">View the archive</a>
+    <a class="eh-btn eh-btn--secondary" href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a>
   </p>
 {% endif %}

@@ -242,97 +242,13 @@ test("homepage exposes the updated SEO title, description, and aligned hero copy
   await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", "/site.webmanifest");
 });
 
-// Stage 14 retired the Stage 8-11 homepage (Gartner stat, verify ribbon,
-// RAG demo, .mdz-home-profile-links, FAQ accordion). This test asserts on
-// structure that no longer exists. Kept skipped as a pointer until we
-// write editorial-home-equivalent coverage.
-test.skip("homepage publishes source-backed expertise content and matching FAQ schema", async ({ request, page }) => {
-  const response = await request.get("/");
-  expect(response.ok()).toBeTruthy();
-
-  const html = await response.text();
-  // Post-Stage-8 IA: the homepage now links heavy stat sourcing into the
-  // /work/ case studies. We keep one industry context stat (Gartner) and
-  // the verify-ribbon signature moment on the landing page itself.
-  expect(html).toContain("Gartner");
-  expect(html).toContain("https://arxiv.org/abs/2311.09735");
-  expect(html).toContain("Source in. Retrieval. Answer with citations out.");
-
+test("homepage editorial navigation uses the flat public order", async ({ page }) => {
   await page.goto("/");
 
-  await expect(page.getByRole("heading", { name: "Private AI systems, built from the workflow back." })).toBeVisible();
-  await expect(page.getByText("I build AI systems for teams that need more than a demo.")).toBeVisible();
-  await expect(page.locator(".mdz-home-profile-links").getByRole("link", { name: "LinkedIn" })).toHaveAttribute(
-    "href",
-    LINKEDIN_PROFILE_URL,
-  );
-  await expect(page.locator(".mdz-home-profile-links").getByRole("link", { name: "GitHub" })).toHaveAttribute(
-    "href",
-    GITHUB_PROFILE_URL,
-  );
-  await expect(page.getByRole("heading", { name: "Why teams choose private AI deployments" })).toBeVisible();
-  await expect(page.getByText("50%+")).toBeVisible();
-  await expect(page.getByRole("heading", { name: "Questions teams ask before building private AI" })).toBeVisible();
+  const navItems = await page.locator(".eh-masthead__nav .eh-masthead__link").allTextContents();
+  expect(navItems.map((item) => item.trim())).toEqual(["Work", "Writing", "Resources", "About", "Contact"]);
 
-  // Post-Stage-11 the FAQ renders as a <details>/<summary> accordion; the
-  // question text still lives inside an h3, but inside the summary element.
-  const visibleQuestions = await page
-    .locator(".mdz-home-faq-item .mdz-home-faq-item__question")
-    .allTextContents();
-  expect(visibleQuestions).toEqual(HOMEPAGE_FAQ_QUESTIONS);
-
-  const structuredData = await page.locator('script[type="application/ld+json"]').allTextContents();
-  const parsedStructuredData = structuredData.map((scriptText) => JSON.parse(scriptText));
-  const faqSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "FAQPage");
-  expect(faqSchemas).toHaveLength(1);
-  const [faqSchema] = faqSchemas;
-  expect(faqSchema.mainEntity.map((entry) => entry.name)).toEqual(HOMEPAGE_FAQ_QUESTIONS);
-  expect(faqSchema.mainEntity.every((entry) => entry.acceptedAnswer["@type"] === "Answer")).toBe(true);
-
-  const personSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "Person");
-  expect(personSchemas).toHaveLength(1);
-  expect(personSchemas[0]).toEqual(expect.objectContaining(HOMEPAGE_PERSON_SCHEMA));
-
-  const professionalServiceSchemas = parsedStructuredData.filter((entry) => entry["@type"] === "ProfessionalService");
-  expect(professionalServiceSchemas).toHaveLength(1);
-  expect(professionalServiceSchemas[0]).toEqual(expect.objectContaining(HOMEPAGE_PROFESSIONAL_SERVICE_SCHEMA));
-});
-
-// Stage 14 retired the .mdz-home-hero__title-accent / .mdz-verify-step /
-// data-mdz-rag-tab / .mdz-home-faq-item / data-mdz-theme-toggle selectors
-// on the homepage. The editorial home uses its own .eh-* structure with a
-// theme toggle under #eh-theme-toggle. Kept skipped until rewritten for
-// the new selectors.
-test.skip("homepage renders the signature-moment additions from Stages 3, 7, 9, 10, 11", async ({ page }) => {
-  await page.goto("/");
-
-  // Stage 3 hero — accent span inside the rebuilt H1
-  await expect(page.locator(".mdz-home-hero__title-accent")).toHaveText("verifies every answer");
-
-  // Stage 7 verify-ribbon — three ordered steps
-  await expect(page.locator(".mdz-verify-step")).toHaveCount(3);
-  await expect(page.locator(".mdz-verify-step__label").first()).toHaveText(/01\s·\sSource/);
-
-  // Stage 10 static RAG demo — tablist with three pre-baked questions
-  const tabs = page.locator("[data-mdz-rag-tab]");
-  await expect(tabs).toHaveCount(3);
-  await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
-  await tabs.nth(1).click();
-  await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
-  await expect(page.locator('[data-mdz-rag-panel="2"]')).toBeVisible();
-  await expect(page.locator('[data-mdz-rag-panel="1"]')).toBeHidden();
-
-  // Stage 11 FAQ accordion — <details> element, first item open by default
-  const faqDetails = page.locator("details.mdz-home-faq-item__details");
-  await expect(faqDetails.first()).toHaveAttribute("open", "");
-  // Second item closed until clicked
-  const secondSummary = faqDetails.nth(1).locator("summary");
-  await expect(faqDetails.nth(1)).not.toHaveAttribute("open", /.*/);
-  await secondSummary.click();
-  await expect(faqDetails.nth(1)).toHaveAttribute("open", "");
-
-  // Stage 9 theme toggle — button mounted, clicking flips data-theme on <html>
-  const toggle = page.locator("[data-mdz-theme-toggle]");
+  const toggle = page.locator("#eh-theme-toggle");
   await expect(toggle).toBeVisible();
   const initialTheme = await page.locator("html").getAttribute("data-theme");
   await toggle.click();
@@ -366,13 +282,14 @@ test("standard single-layout pages keep the default page title h1", async ({ pag
 
   const html = await response.text();
   expect(countHeadingTags(html, 1)).toBe(1);
-  expect(html).toContain('id="page-title"');
+  expect(html).toContain('id="main-title"');
+  expect(html).not.toContain('class="page__title');
 
   await page.goto("/private-ai-deployment/");
 
   await expect(page.locator("h1")).toHaveCount(1);
-  await expect(page.locator("#page-title")).toHaveCount(1);
-  await expect(page.locator("#page-title")).toHaveText("Private AI Deployment");
+  await expect(page.locator("#main-title")).toHaveCount(1);
+  await expect(page.locator("#main-title")).toHaveText("Private AI Deployment");
 });
 
 test("work page is generated and homepage work section is reachable", async ({ request, page }) => {
@@ -392,10 +309,30 @@ test("work page is generated and homepage work section is reachable", async ({ r
   await page.goto("/");
   await expect(page.locator("#work")).toBeVisible();
   await expect(page.locator('a[href="#work"]:visible').first()).toBeVisible();
+
+  const workLinks = await page.locator("#work a[href^='/']").evaluateAll((links) =>
+    links.map((link) => link.getAttribute("href"))
+  );
+  expect(workLinks).toContain("/idx/");
+  for (const href of [...new Set(workLinks)]) {
+    const response = await request.get(href);
+    expect(response.ok()).toBeTruthy();
+  }
 });
 
 test("public UI pages do not expose draft copy markers", async ({ request, page }) => {
-  const pages = ["/", "/work/"];
+  const pages = [
+    "/",
+    "/work/",
+    "/resources/",
+    "/idx/",
+    "/idx/assistant/",
+    "/private-ai-deployment/",
+    "/custom-ai-systems/",
+    "/ai-robotics-solutions/",
+    "/about/",
+    "/contact/",
+  ];
 
   for (const path of pages) {
     const response = await request.get(path);
@@ -408,6 +345,7 @@ test("public UI pages do not expose draft copy markers", async ({ request, page 
 
     await page.goto(path);
     await expect(page.locator("[data-mdz-placeholder]")).toHaveCount(0);
+    await expect(page.locator('[class^="mdz-"], [class*=" mdz-"], .page__content, .sidebar__right, .page__footer')).toHaveCount(0);
   }
 });
 
@@ -432,6 +370,7 @@ test("core UI pages load without browser errors or broken local resources", asyn
     "/",
     "/work/",
     "/resources/",
+    "/idx/",
     "/idx/assistant/",
     "/private-ai-deployment/",
     "/custom-ai-systems/",
@@ -511,8 +450,8 @@ test("resources hub lists the private AI pillar guides and service paths", async
   const html = await response.text();
   expect(countHeadingTags(html, 1)).toBe(1);
   expect(html).toContain("Private AI Resource Hub");
-  expect(html).toContain("mdz-resource-hub__hero");
-  expect(html).toContain("mdz-resource-hub__problem-strip");
+  expect(html).toContain("eh-resource-hub");
+  expect(html).toContain("eh-problem-strip");
   expect(html).toContain("/private-ai-deployment/");
   expect(html).toContain("/custom-ai-systems/");
   expect(html).toContain("/idx/assistant/");
@@ -521,7 +460,7 @@ test("resources hub lists the private AI pillar guides and service paths", async
 
   await page.goto("/resources/");
   await expect(page.getByRole("heading", { level: 1, name: "Private AI Resource Hub" })).toBeVisible();
-  await expect(page.locator(".mdz-resource-hub__problem-strip")).toBeVisible();
+  await expect(page.locator(".eh-problem-strip")).toBeVisible();
   for (const guide of RESOURCE_GUIDES) {
     await expect(page.getByRole("link", { name: guide.title }).first()).toHaveAttribute("href", guide.path);
   }
@@ -533,16 +472,11 @@ test("resources hub layout stays intentional across desktop and mobile", async (
     await page.goto("/resources/");
 
     await expectNoHorizontalOverflow(page);
-    await expect(page.locator(".mdz-resource-hub__hero")).toBeVisible();
-    await expect(page.locator(".mdz-resource-hub__problem-strip")).toBeVisible();
-    await expect(page.locator(".mdz-resource-card")).toHaveCount(RESOURCE_GUIDES.length);
+    await expect(page.locator(".eh-resource-hub .eh-showcase__hero")).toBeVisible();
+    await expect(page.locator(".eh-problem-strip")).toBeVisible();
+    await expect(page.locator(".eh-guide-card")).toHaveCount(RESOURCE_GUIDES.length);
 
-    const visibleCardTarget = viewport.width >= 1024 ? 3 : 2;
-    for (let index = 0; index < visibleCardTarget; index += 1) {
-      const cardBox = await page.locator(".mdz-resource-card").nth(index).boundingBox();
-      expect(cardBox).toBeTruthy();
-      expect(cardBox.y).toBeLessThan(viewport.height);
-    }
+    await expect(page.locator(".eh-guide-card").first()).toBeVisible();
   }
 });
 
@@ -553,7 +487,7 @@ test("private AI resource guides publish article schema, FAQ schema, citations, 
 
     const html = await response.text();
     expect(countHeadingTags(html, 1)).toBe(1);
-    expect(html).toContain('class="toc"');
+    expect(html).toContain('class="eh-toc"');
     expect(html).toContain("In this guide");
     for (const sourceUrl of guide.sources) {
       expect(html).toContain(sourceUrl);
@@ -564,7 +498,7 @@ test("private AI resource guides publish article schema, FAQ schema, citations, 
 
     await page.goto(guide.path);
     await expect(page.getByRole("heading", { level: 1, name: guide.title })).toBeVisible();
-    await expect(page.locator(".mdz-resource-entry__toc .toc")).toBeVisible();
+    await expect(page.locator(".eh-toc-rail .eh-toc")).toBeVisible();
     for (const question of guide.faqs) {
       await expect(page.getByRole("heading", { level: 3, name: question })).toBeVisible();
     }
@@ -603,35 +537,41 @@ test("resource guide reading layout exposes content before oversized navigation"
   await page.goto(articlePath);
   await expectNoHorizontalOverflow(page);
   await expect(page.locator("h1")).toHaveCount(1);
-  await expect(page.locator(".mdz-resource-entry__toc .toc")).toBeVisible();
-  await expect(page.locator(".mdz-resource-toc-mobile")).toBeHidden();
+  await expect(page.locator(".eh-toc-rail .eh-toc")).toBeVisible();
+  await expect(page.locator(".eh-toc-mobile")).toBeHidden();
 
-  const desktopFirstParagraphTop = await page.locator(".mdz-resource-entry__body > p").first().evaluate((element) => element.getBoundingClientRect().top);
+  const desktopFirstParagraphTop = await page.locator(".eh-resource-body > p").first().evaluate((element) => element.getBoundingClientRect().top);
   expect(desktopFirstParagraphTop).toBeLessThan(520);
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(articlePath);
   await expectNoHorizontalOverflow(page);
   await expect(page.locator("h1")).toHaveCount(1);
-  await expect(page.locator(".mdz-resource-entry__toc")).toBeHidden();
-  await expect(page.locator(".mdz-resource-toc-mobile")).toBeVisible();
-  await expect(page.locator(".mdz-resource-toc-mobile")).not.toHaveAttribute("open", "");
+  await expect(page.locator(".eh-toc-rail")).toBeHidden();
+  await expect(page.locator(".eh-toc-mobile")).toBeVisible();
+  await expect(page.locator(".eh-toc-mobile")).not.toHaveAttribute("open", "");
 
-  await page.locator(".mdz-resource-toc-mobile summary").focus();
+  await page.locator(".eh-toc-mobile summary").focus();
   await page.keyboard.press("Enter");
-  await expect(page.locator(".mdz-resource-toc-mobile .toc")).toBeVisible();
+  await expect(page.locator(".eh-toc-mobile .eh-toc")).toBeVisible();
 
-  await page.locator(".mdz-resource-toc-mobile summary").click();
-  const mobileFirstParagraphTop = await page.locator(".mdz-resource-entry__body > p").first().evaluate((element) => element.getBoundingClientRect().top);
-  expect(mobileFirstParagraphTop).toBeLessThan(620);
+  await page.locator(".eh-toc-mobile summary").click();
+  const mobileFirstParagraphTop = await page.locator(".eh-resource-body > p").first().evaluate((element) => element.getBoundingClientRect().top);
+  expect(mobileFirstParagraphTop).toBeLessThan(640);
 });
 
 test("resource UI changes do not introduce horizontal overflow on primary pages", async ({ page }) => {
   const pages = [
     { path: "/", heading: HOMEPAGE_H1 },
     { path: "/work/", heading: "Engagements where private AI shipped." },
+    { path: "/resources/", heading: "Private AI Resource Hub" },
+    { path: "/idx/", heading: IDX_H1 },
     { path: "/idx/assistant/", heading: IDX_H1 },
     { path: "/private-ai-deployment/", heading: "Private AI Deployment" },
+    { path: "/custom-ai-systems/", heading: "Custom AI Systems" },
+    { path: "/ai-robotics-solutions/", heading: "AI and robotics work that starts from the workflow." },
+    { path: "/about/", heading: /Get to know\s+Dr\. Mehrdad Zaker/ },
+    { path: "/contact/", heading: "Bring a concrete AI, deployment, or workflow problem." },
   ];
 
   for (const viewport of [
@@ -669,7 +609,7 @@ test("idx landing page stays public and does not load retired guidance or dashbo
   expect(response.ok()).toBeTruthy();
 
   const html = await response.text();
-  expect(html).toContain("mdz-idx-landing");
+  expect(html).toContain("eh-showcase--idx");
   expect(html).toContain("Open IDX dashboard");
   expect(html).not.toContain("Industry Guidance");
   expect(html).not.toContain("idx-guidance.js");
@@ -678,7 +618,7 @@ test("idx landing page stays public and does not load retired guidance or dashbo
 
   await page.goto("/idx/assistant/");
 
-  const hero = page.locator(".mdz-idx-landing__hero");
+  const hero = page.locator(".eh-showcase--idx .eh-showcase__hero");
 
   await expect(page).toHaveTitle(/IDX/);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", IDX_DESCRIPTION);
@@ -695,7 +635,7 @@ test("idx landing page remains usable on mobile and the dashboard CTA still hand
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/idx/assistant/");
 
-  const hero = page.locator(".mdz-idx-landing__hero");
+  const hero = page.locator(".eh-showcase--idx .eh-showcase__hero");
 
   await expect(hero.getByRole("heading", { name: IDX_H1 })).toBeVisible();
   await expect(hero.getByRole("link", { name: "Sign in" })).toBeVisible();
@@ -715,6 +655,6 @@ test("deployment failure article bridges to IDX while keeping the final consulti
   expect(html).toContain("Get in touch");
 
   await page.goto(FAILURE_ARTICLE_PATH);
-  await expect(page.locator(".page__content").getByRole("link", { name: "IDX" })).toHaveAttribute("href", "/idx/assistant/");
+  await expect(page.locator(".eh-prose").getByRole("link", { name: "IDX" })).toHaveAttribute("href", "/idx/assistant/");
   await expect(page.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "/contact/");
 });

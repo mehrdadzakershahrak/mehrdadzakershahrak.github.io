@@ -10,36 +10,36 @@ suppress_default_h1: true
 {% assign guides = site.resource_guides | sort: "order" %}
 {% assign primary_guide = guides | first %}
 
-<div class="mdz-resource-hub">
-  <section class="mdz-resource-hub__hero" aria-labelledby="resource-hub-title">
-    <div class="mdz-resource-hub__hero-copy">
-      <p class="mdz-resource-hub__eyebrow">Private AI Resource Hub</p>
-      <h1 id="resource-hub-title">Private AI Resource Hub</h1>
-      <p class="mdz-resource-hub__lede">
+<section class="eh-resource-hub">
+  <section class="eh-showcase__hero" aria-labelledby="resource-hub-title">
+    <div class="eh-showcase__copy">
+      <p class="eh-eyebrow">Private AI Resource Hub</p>
+      <h1 id="resource-hub-title" class="eh-title">Private AI Resource Hub</h1>
+      <p class="eh-dek">
         Five source-backed guides for teams moving private LLMs, secure RAG, document grounding, and evaluation from prototype into controlled production.
       </p>
-      <div class="mdz-resource-hub__actions">
-        <a class="btn btn--primary mdz-cta" href="{{ primary_guide.url | relative_url }}">Start with the production guide</a>
-        <a class="btn btn--small mdz-cta mdz-cta--outline" href="{{ '/contact/' | relative_url }}">Discuss a deployment</a>
+      <div class="eh-action-row">
+        <a class="eh-btn" href="{{ primary_guide.url | relative_url }}">Start with the production guide</a>
+        <a class="eh-btn eh-btn--secondary" href="{{ '/contact/' | relative_url }}">Discuss a deployment</a>
       </div>
     </div>
-    <div class="mdz-resource-hub__signal-panel" aria-label="Resource hub profile">
-      <article>
+    <div class="eh-metric-grid eh-metric-grid--stacked" aria-label="Resource hub profile">
+      <article class="eh-metric-card">
         <strong>5</strong>
         <span>Pillar guides</span>
       </article>
-      <article>
+      <article class="eh-metric-card">
         <strong>20</strong>
         <span>FAQ answers</span>
       </article>
-      <article>
+      <article class="eh-metric-card">
         <strong>2+</strong>
         <span>Cited sources per guide</span>
       </article>
     </div>
   </section>
 
-  <nav class="mdz-resource-hub__problem-strip" aria-label="Choose a guide by problem">
+  <nav class="eh-problem-strip" aria-label="Choose a guide by problem">
     {% for guide in guides %}
       <a href="{{ guide.url | relative_url }}">
         <span>{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
@@ -48,47 +48,47 @@ suppress_default_h1: true
     {% endfor %}
   </nav>
 
-  <section class="mdz-resource-hub__guides" aria-labelledby="resource-guide-list-title">
-    <div class="mdz-resource-hub__section-head">
-      <p class="mdz-resource-hub__eyebrow">Source-backed guide map</p>
+  <section class="eh-section" aria-labelledby="resource-guide-list-title">
+    <div class="eh-section-head">
+      <p class="eh-eyebrow">Source-backed guide map</p>
       <h2 id="resource-guide-list-title">Choose the constraint that is blocking launch</h2>
       <p>
         Each guide is written for a specific production bottleneck: pilot hardening, hallucination control, secure retrieval, reliability evaluation, or regulated deployment tradeoffs.
       </p>
     </div>
 
-    <div class="mdz-resource-hub__grid">
+    <div class="eh-guide-grid">
       {% for guide in guides %}
-        <article class="mdz-resource-card">
-          <div class="mdz-resource-card__top">
-            <span class="mdz-resource-card__number">{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
-            <span class="mdz-resource-card__pillar">{{ guide.pillar | default: "Resource Guide" }}</span>
+        <article class="eh-guide-card">
+          <div class="eh-guide-card__top">
+            <span>{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
+            <span>{{ guide.pillar | default: "Resource Guide" }}</span>
           </div>
           <h3><a href="{{ guide.url | relative_url }}">{{ guide.title }}</a></h3>
           <p>{{ guide.excerpt | default: guide.description }}</p>
           {% if guide.ui_tags %}
-            <div class="mdz-resource-card__tags" aria-label="Guide topics">
+            <div class="eh-chip-row" aria-label="Guide topics">
               {% for tag in guide.ui_tags limit: 3 %}
-                <span>{{ tag }}</span>
+                <span class="eh-chip">{{ tag }}</span>
               {% endfor %}
             </div>
           {% endif %}
-          <div class="mdz-resource-card__meta">
+          <div class="eh-meta">
             <span>Source-backed</span>
             <span>{{ guide.faqs | size }} FAQ answers</span>
           </div>
-          <a class="btn btn--small mdz-cta" href="{{ guide.url | relative_url }}">Read guide</a>
+          <a class="eh-btn eh-btn--secondary" href="{{ guide.url | relative_url }}">Read guide</a>
         </article>
       {% endfor %}
     </div>
   </section>
 
-  <section class="mdz-resource-hub__service-map" aria-labelledby="resource-service-map-title">
+  <section class="eh-cta-panel" aria-labelledby="resource-service-map-title">
     <div>
-      <p class="mdz-resource-hub__eyebrow">Apply the guides</p>
+      <p class="eh-eyebrow">Apply the guides</p>
       <h2 id="resource-service-map-title">Pair the reading path with the right implementation path</h2>
     </div>
-    <div class="mdz-resource-hub__service-links">
+    <div class="eh-link-cloud">
       <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI deployment</a>
       <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI systems</a>
       <a href="{{ '/idx/assistant/' | relative_url }}">IDX document review</a>
@@ -96,4 +96,4 @@ suppress_default_h1: true
       <a href="{{ '/contact/' | relative_url }}">Contact</a>
     </div>
   </section>
-</div>
+</section>

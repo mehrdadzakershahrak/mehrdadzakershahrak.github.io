@@ -20,18 +20,18 @@
     {% include_cached skip-links.html %}
     {% include masthead.html %}
 
-    <div class="initial-content">
+    <div class="eh-route-content">
       {{ content }}
       {% include after-content.html %}
     </div>
 
     {% if site.search == true %}
-      <div class="search-content">
+      <div class="eh-search-content">
         {% include_cached search/search_form.html %}
       </div>
     {% endif %}
 
-    <div id="footer" class="page__footer">
+    <div id="footer" class="eh-footer-wrap">
       {% include footer/custom.html %}
       {% include footer.html %}
     </div>
