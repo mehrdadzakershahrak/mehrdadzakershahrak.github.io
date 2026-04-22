@@ -13,6 +13,13 @@ const FAILURE_ARTICLE_PATH = "/newsletter/why-most-private-ai-deployments-fail-b
 const DEFAULT_SOCIAL_IMAGE_PATH = "/assets/images/private-ai-consulting-header-1200.png";
 const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mehrdadzaker";
 const GITHUB_PROFILE_URL = "https://github.com/mehrdadzakershahrak";
+const PUBLIC_DRAFT_MARKERS = [
+  "TODO(mehrdad)",
+  "data-mdz-placeholder",
+  "this page is scaffolded",
+  "placeholder engagements",
+  "Figures are illustrative",
+];
 const HOMEPAGE_PERSON_SCHEMA = {
   "@type": "Person",
   name: "Mehrdad Zaker",
@@ -193,6 +200,14 @@ async function expectNoHorizontalOverflow(page) {
   expect(overflow).toBeLessThanOrEqual(2);
 }
 
+function isLocalUrl(url) {
+  try {
+    return new URL(url).origin === "http://127.0.0.1:4000";
+  } catch {
+    return false;
+  }
+}
+
 test("dashboard wrapper is a static handoff that redirects directly to the IDX v2 portal", async ({ request, page }) => {
   const response = await request.get("/idx/dashboard/");
   expect(response.ok()).toBeTruthy();
@@ -358,6 +373,80 @@ test("standard single-layout pages keep the default page title h1", async ({ pag
   await expect(page.locator("h1")).toHaveCount(1);
   await expect(page.locator("#page-title")).toHaveCount(1);
   await expect(page.locator("#page-title")).toHaveText("Private AI Deployment");
+});
+
+test("work page is generated and homepage work section is reachable", async ({ request, page }) => {
+  const workResponse = await request.get("/work/");
+  expect(workResponse.ok()).toBeTruthy();
+
+  const workHtml = await workResponse.text();
+  expect(countHeadingTags(workHtml, 1)).toBe(1);
+  expect(workHtml).toContain("Engagements where private AI shipped.");
+
+  await page.goto("/work/");
+  await expect(page.getByRole("heading", { level: 1, name: "Engagements where private AI shipped." })).toBeVisible();
+
+  const homepageResponse = await request.get("/");
+  expect(homepageResponse.ok()).toBeTruthy();
+
+  await page.goto("/");
+  await expect(page.locator("#work")).toBeVisible();
+  await expect(page.locator('a[href="#work"]:visible').first()).toBeVisible();
+});
+
+test("public UI pages do not expose draft copy markers", async ({ request, page }) => {
+  const pages = ["/", "/work/"];
+
+  for (const path of pages) {
+    const response = await request.get(path);
+    expect(response.ok()).toBeTruthy();
+
+    const html = await response.text();
+    for (const marker of PUBLIC_DRAFT_MARKERS) {
+      expect(html).not.toContain(marker);
+    }
+
+    await page.goto(path);
+    await expect(page.locator("[data-mdz-placeholder]")).toHaveCount(0);
+  }
+});
+
+test("core UI pages load without browser errors or broken local resources", async ({ page }) => {
+  const consoleErrors = [];
+  const pageErrors = [];
+  const failedLocalResponses = [];
+
+  page.on("console", (message) => {
+    if (message.type() === "error") consoleErrors.push(message.text());
+  });
+  page.on("pageerror", (error) => {
+    pageErrors.push(error.message);
+  });
+  page.on("response", (response) => {
+    if (isLocalUrl(response.url()) && response.status() >= 400) {
+      failedLocalResponses.push(`${response.status()} ${response.url()}`);
+    }
+  });
+
+  const pages = [
+    "/",
+    "/work/",
+    "/resources/",
+    "/idx/assistant/",
+    "/private-ai-deployment/",
+    "/custom-ai-systems/",
+    "/ai-robotics-solutions/",
+    "/about/",
+    "/contact/",
+  ];
+
+  for (const path of pages) {
+    await page.goto(path, { waitUntil: "networkidle" });
+  }
+
+  expect(consoleErrors).toEqual([]);
+  expect(pageErrors).toEqual([]);
+  expect(failedLocalResponses).toEqual([]);
 });
 
 test("legacy dashboard query params are ignored and still land on IDX v2 home", async ({ page }) => {
@@ -540,6 +629,7 @@ test("resource guide reading layout exposes content before oversized navigation"
 test("resource UI changes do not introduce horizontal overflow on primary pages", async ({ page }) => {
   const pages = [
     { path: "/", heading: HOMEPAGE_H1 },
+    { path: "/work/", heading: "Engagements where private AI shipped." },
     { path: "/idx/assistant/", heading: IDX_H1 },
     { path: "/private-ai-deployment/", heading: "Private AI Deployment" },
   ];

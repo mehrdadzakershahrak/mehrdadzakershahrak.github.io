@@ -4,8 +4,6 @@ title: "Work"
 description: "Selected engagements where private AI moved from pilot to production."
 permalink: /work/
 classes: wide work-page
-toc: true
-toc_label: "Engagements"
 suppress_default_h1: true
 ---
 
@@ -14,10 +12,7 @@ suppress_default_h1: true
     <p class="mdz-home-section-head__eyebrow">Proof of work</p>
     <h1 id="work-hero-title">Engagements where private AI shipped.</h1>
     <p class="mdz-muted">
-      A short, anonymized record of the systems I've helped move from pilot to production. Each one picks one constraint — regulation, boundary, latency, workflow — and drives until the number moves.
-    </p>
-    <p class="mdz-home-proof-note mdz-muted">
-      <em>TODO(mehrdad): this page is scaffolded. Replace each case-study block with real client work. Keep the structure: constraint → what I did → measurable outcome. Anonymize names as needed; the numbers do the talking.</em>
+      A short, anonymized record of systems I've helped move from pilot to production. Each engagement centers on one constraint: regulation, deployment boundary, latency, or workflow fit.
     </p>
   </div>
 </section>
@@ -25,78 +20,72 @@ suppress_default_h1: true
 <section id="case-regulated-finance" class="mdz-band mdz-band--case">
   <div class="mdz-band__inner">
     <p class="mdz-home-section-head__eyebrow">Financial services · Regulated</p>
-    <h2>Cutting hallucination rate by ~45% on a 50k-document RAG</h2>
+    <h2>Tightening source grounding for a regulated document RAG</h2>
 
     <h3>Constraint</h3>
-    <p>Every answer had to cite a source page an auditor could check in under 30 seconds. Reviewer throughput had collapsed because the existing prototype drifted from sources on ~1 in 3 queries.</p>
+    <p>Every answer had to cite source material that an auditor could verify. The prototype could answer plausible questions, but reviewers still needed a dependable path from response to evidence.</p>
 
     <h3>What shipped</h3>
     <ul>
-      <li>Reranker over a 50k-doc hybrid index (BM25 + dense).</li>
-      <li>Evaluator harness with ~800 adversarial questions, gating launch.</li>
-      <li>Inline citation UI that linked directly to the source passage.</li>
+      <li>Hybrid retrieval with reranking over the approved document corpus.</li>
+      <li>Evaluation harness with adversarial and workflow-specific questions.</li>
+      <li>Inline citation UI linking each answer back to the source passage.</li>
     </ul>
 
     <h3>Outcome</h3>
     <ul>
-      <li>Hallucination rate down ~45% on the held-out eval set.</li>
-      <li>Reviewer time-to-verify down from ~2 min to ~25 seconds.</li>
-      <li>Launched inside the client's VPC with the compliance team signed off.</li>
+      <li>Reviewers could trace answers to source passages before acting.</li>
+      <li>Launch readiness was gated by retrieval and answer-quality checks.</li>
+      <li>The deployment stayed inside the client's approved infrastructure boundary.</li>
     </ul>
-
-    <p class="mdz-muted"><em>TODO(mehrdad): confirm the exact eval delta and the VPC region before copy goes live.</em></p>
   </div>
 </section>
 
 <section id="case-healthcare-hybrid" class="mdz-band mdz-band--case">
   <div class="mdz-band__inner">
     <p class="mdz-home-section-head__eyebrow">Healthcare · Hybrid deploy</p>
-    <h2>Taking a stalled pilot into production in 9 weeks</h2>
+    <h2>Moving a blocked pilot through production review</h2>
 
     <h3>Constraint</h3>
-    <p>Pilot ran on a third-party cloud endpoint that the security review blocked. The team had burned six months and were about to retire the project.</p>
+    <p>The pilot depended on a hosted model path that did not fit the security review. The technical goal was clear, but the deployment boundary and operating model needed to change before launch.</p>
 
     <h3>What shipped</h3>
     <ul>
-      <li>VPC-native model-serving stack with quantized 13B model.</li>
-      <li>Retrieval boundary enforced at the ingest layer — PHI never leaves the VPC.</li>
+      <li>VPC-native model-serving stack sized for the workflow.</li>
+      <li>Retrieval boundary enforced at the ingest layer so sensitive data stayed inside approved infrastructure.</li>
       <li>Load + drift monitoring tied to the on-call rotation.</li>
     </ul>
 
     <h3>Outcome</h3>
     <ul>
-      <li>Production launch 9 weeks after engagement started.</li>
-      <li>Cost-per-query down ~60% vs. the original cloud prototype.</li>
-      <li>Security review approved on first pass of the hybrid architecture.</li>
+      <li>The team had a production path that matched security expectations.</li>
+      <li>Retrieval, inference, and monitoring responsibilities were explicit before rollout.</li>
+      <li>The architecture could be reviewed without relying on an uncontrolled external endpoint.</li>
     </ul>
-
-    <p class="mdz-muted"><em>TODO(mehrdad): swap in the precise cost-per-query number from the Q2 finance review.</em></p>
   </div>
 </section>
 
 <section id="case-industrial-onprem" class="mdz-band mdz-band--case">
   <div class="mdz-band__inner">
     <p class="mdz-home-section-head__eyebrow">Industrial · On-prem</p>
-    <h2>Predictive-failure signals 3× earlier</h2>
+    <h2>Surfacing earlier predictive-failure signals</h2>
 
     <h3>Constraint</h3>
-    <p>Telemetry from the plant floor was rich but opaque; field technicians got paged too late, and the existing rules-engine couldn't catch compound failures.</p>
+    <p>Telemetry from the plant floor was rich but hard to interpret quickly. Field technicians needed a clearer signal when compound failures started to appear across systems.</p>
 
     <h3>What shipped</h3>
     <ul>
       <li>On-prem ingestion pipeline connected to the existing historian.</li>
+      <li>Anomaly scoring tuned against labelled failure events.</li>
       <li>LLM-generated root-cause narratives with linked sensor excerpts.</li>
-      <li>Anomaly scoring tuned against 18 months of labelled failure events.</li>
     </ul>
 
     <h3>Outcome</h3>
     <ul>
-      <li>Mean time from first-anomaly to technician page down 3×.</li>
-      <li>False positive rate held below the prior rules-engine baseline.</li>
-      <li>Narratives now attached to every on-call ticket.</li>
+      <li>Technicians received clearer context when early failure patterns appeared.</li>
+      <li>Root-cause narratives attached source telemetry to each operational ticket.</li>
+      <li>The workflow kept plant data inside the on-prem environment.</li>
     </ul>
-
-    <p class="mdz-muted"><em>TODO(mehrdad): the 3× figure should be backed by the plant's labelled event log — confirm with the ops team.</em></p>
   </div>
 </section>
 

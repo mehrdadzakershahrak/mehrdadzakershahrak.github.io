@@ -24,6 +24,7 @@ exclude:
   - MythosBridge/
   - node_modules/
   - README.md
+  - test-results/
   - vendor/
 
 collections:

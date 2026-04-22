@@ -2,6 +2,7 @@ const { defineConfig } = require("@playwright/test");
 
 module.exports = defineConfig({
   testDir: "./tests/e2e",
+  outputDir: process.env.PLAYWRIGHT_OUTPUT_DIR || "/tmp/mdz-playwright-results",
   timeout: 30_000,
   reporter: "list",
   use: {

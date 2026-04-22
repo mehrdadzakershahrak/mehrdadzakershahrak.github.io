@@ -493,6 +493,7 @@ button,
 
 @media (min-width: 64em) {
   body.home-page .page,
+  body.work-page .page,
   body.home-page .page__related,
   body.home-page .archive {
     float: none;
@@ -7711,25 +7712,12 @@ h6,
 }
 
 /* =========================================================================
-   Stage-8 IA surfaces: work page + placeholder hints.
+   Stage-8 IA surfaces: work page proof and case-study sections.
    ========================================================================= */
 
 .mdz-home-proof-note {
   margin-top: var(--sp-5);
   font-size: var(--fs-sm);
-}
-
-.mdz-home-stat-card__value[data-mdz-placeholder]::after {
-  content: " ·";
-  color: var(--color-highlight);
-  margin-left: 0.2rem;
-}
-/* Visually flag placeholder copy blocks only when editing (behind a
-   body class you can toggle locally). Ships invisible in production. */
-body.mdz-editing [data-mdz-placeholder],
-body.mdz-editing [data-mdz-todo] {
-  outline: 2px dashed var(--color-warning);
-  outline-offset: 4px;
 }
 
 .mdz-band--case .mdz-band__inner {
