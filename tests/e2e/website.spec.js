@@ -4,8 +4,11 @@ const PRODUCT_URL = "https://idx.mehrdadzaker.com/v2/portal";
 const HOMEPAGE_TITLE = "Mehrdad Zaker — Private AI Systems That Ship";
 const HOMEPAGE_DESCRIPTION =
   "Private AI systems that verify every answer, protect sensitive documents, and run in production. Consulting, custom AI systems, and the IDX platform.";
-const HOMEPAGE_H1 =
-  "With 10 digits, I can index ~2^40 possibilities.";
+const HOMEPAGE_HERO_VERBS = ["encode", "represent", "address", "index", "enumerate", "parameterize"];
+const HOMEPAGE_H1 = new RegExp(
+  `With 10 digits, I can (${HOMEPAGE_HERO_VERBS.join("|")})\\s*a 40-bit space(?:—|-)over a trillion states`,
+  "i"
+);
 const IDX_DESCRIPTION =
   "IDX lets document-heavy teams ask questions, verify source pages, and track ingest in one workspace.";
 const IDX_H1 = "Get answers you can verify before you act.";
@@ -216,7 +219,7 @@ const CUSTOM_H1_PAGES = [
     path: "/",
     // Editorial homepage hero. The <br> splits the title so match with
     // flexible whitespace.
-    headingPattern: /With 10 digits, I can index\s*~2\^40 possibilities\./,
+    headingPattern: HOMEPAGE_H1,
   },
   {
     path: "/about/",
