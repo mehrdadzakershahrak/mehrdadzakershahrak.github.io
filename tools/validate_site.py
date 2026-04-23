@@ -301,7 +301,6 @@ def check_podcast_metadata(path: Path) -> list[str]:
 
 IGNORED_DIRS = {
     ".git",
-    ".claude",
     "node_modules",
     "_site",
     "vendor",
@@ -311,7 +310,11 @@ IGNORED_DIRS = {
 
 def walk(root: Path):
     for p in root.rglob("*"):
-        if any(part in IGNORED_DIRS for part in p.parts):
+        relative_parts = p.relative_to(root).parts
+        if any(
+            part in IGNORED_DIRS or part.startswith(".")
+            for part in relative_parts[:-1]
+        ):
             continue
         if p.is_file():
             yield p

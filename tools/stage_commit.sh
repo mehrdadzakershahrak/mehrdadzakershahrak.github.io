@@ -37,9 +37,6 @@ if [[ -n "$BODY" ]]; then
 
 $BODY"
 fi
-MSG="$MSG
-
-Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>"
 
 COMMIT=$(printf "%s" "$MSG" | git commit-tree "$TREE" -p "$PARENT")
 
