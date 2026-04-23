@@ -32,6 +32,7 @@ suppress_default_h1: true
   <span class="eh-nav__brand-inline">Sections</span>
   <span class="eh-nav__rule" aria-hidden="true"></span>
   <a href="#home"    class="eh-nav__mobile-link is-active" data-eh-nav-link data-target="home">Index</a>
+  <a href="#about"   class="eh-nav__mobile-link"           data-eh-nav-link data-target="about">About</a>
   <a href="#now"     class="eh-nav__mobile-link"           data-eh-nav-link data-target="now">Now</a>
   <a href="#work"    class="eh-nav__mobile-link"           data-eh-nav-link data-target="work">Work</a>
   <a href="#writing" class="eh-nav__mobile-link"           data-eh-nav-link data-target="writing">Writing</a>
@@ -52,26 +53,32 @@ suppress_default_h1: true
         </a>
       </li>
       <li class="eh-nav__item">
-        <a href="#now" class="eh-nav__link" data-eh-nav-link data-target="now">
+        <a href="#about" class="eh-nav__link" data-eh-nav-link data-target="about">
           <span class="eh-nav__num">01</span>
+          <span class="eh-nav__label">About</span>
+        </a>
+      </li>
+      <li class="eh-nav__item">
+        <a href="#now" class="eh-nav__link" data-eh-nav-link data-target="now">
+          <span class="eh-nav__num">02</span>
           <span class="eh-nav__label">Now</span>
         </a>
       </li>
       <li class="eh-nav__item">
         <a href="#work" class="eh-nav__link" data-eh-nav-link data-target="work">
-          <span class="eh-nav__num">02</span>
+          <span class="eh-nav__num">03</span>
           <span class="eh-nav__label">Work</span>
         </a>
       </li>
       <li class="eh-nav__item">
         <a href="#writing" class="eh-nav__link" data-eh-nav-link data-target="writing">
-          <span class="eh-nav__num">03</span>
+          <span class="eh-nav__num">04</span>
           <span class="eh-nav__label">Writing</span>
         </a>
       </li>
       <li class="eh-nav__item">
         <a href="#contact" class="eh-nav__link" data-eh-nav-link data-target="contact">
-          <span class="eh-nav__num">04</span>
+          <span class="eh-nav__num">05</span>
           <span class="eh-nav__label">Elsewhere</span>
         </a>
       </li>
@@ -122,6 +129,9 @@ suppress_default_h1: true
            data-analytics="cta_contact_click" data-analytics-label="hero">Get in touch</a>
       </div>
     </section>
+
+    {%- comment -%} ─── About ─── {%- endcomment -%}
+    {% include about_me_section.html section_id="about" title_id="eh-about-title" heading_tag="h2" variant="home" show_rule=true lazy_images=true %}
 
     {%- comment -%} ─── Now ─── {%- endcomment -%}
     <section id="now" class="eh-now" aria-labelledby="eh-now-title">

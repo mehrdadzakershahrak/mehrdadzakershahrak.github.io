@@ -426,6 +426,10 @@ test("homepage exposes the updated SEO title, description, and aligned hero copy
   await expect(page).toHaveTitle(HOMEPAGE_TITLE);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", HOMEPAGE_DESCRIPTION);
   await expect(page.getByRole("heading", { level: 1, name: HOMEPAGE_H1 })).toBeVisible();
+  await expect(page.locator("h1")).toHaveCount(1);
+  await expect(page.locator("#about")).toBeVisible();
+  await expect(page.locator("#about")).toContainText("I work at the point where AI stops being a concept");
+  await expect(page.getByRole("heading", { level: 2, name: /Get to know\s+Dr\. Mehrdad Zaker/ })).toBeVisible();
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", new RegExp(`${DEFAULT_SOCIAL_IMAGE_PATH}$`));
   await expect(page.locator('meta[name="twitter:image"]')).toHaveAttribute("content", new RegExp(`${DEFAULT_SOCIAL_IMAGE_PATH}$`));
   await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute("href", "/assets/images/apple-touch-icon.png");
@@ -437,6 +441,9 @@ test("homepage editorial navigation uses the flat public order", async ({ page }
 
   const navItems = await page.locator(".eh-masthead__nav .eh-masthead__link").allTextContents();
   expect(navItems.map((item) => item.trim())).toEqual(["Work", "Writing", "Resources", "About", "Contact"]);
+
+  const sectionItems = await page.locator(".eh-grid > .eh-nav .eh-nav__label").allTextContents();
+  expect(sectionItems.map((item) => item.trim())).toEqual(["Index", "About", "Now", "Work", "Writing", "Elsewhere"]);
 
   const toggle = page.locator("#eh-theme-toggle");
   await expect(toggle).toBeVisible();

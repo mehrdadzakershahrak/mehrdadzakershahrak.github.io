@@ -237,7 +237,14 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   margin: 0 auto;
 }
 
-.eh-main { min-width: 0; }
+#main.eh-main {
+  clear: none;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  padding-inline: 0;
+  animation: none;
+}
 
 /* =========================================================================
    Side nav — desktop
@@ -783,6 +790,7 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   }
   .eh-hero__title { font-size: 60px; }
   .eh-contact__lead { font-size: 44px; }
+  .eh-about--home .eh-about__hero-title { font-size: 46px; }
 }
 
 /* =========================================================================
@@ -1882,6 +1890,22 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   display: flex;
   flex-direction: column;
   gap: 40px;
+  min-width: 0;
+}
+
+.eh-about--home {
+  scroll-margin-top: 104px;
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+.eh-about--home .eh-rule {
+  margin-bottom: 0;
+}
+
+.eh-about--home .eh-about__hero-card,
+.eh-about--home .eh-about__hero-image {
+  min-height: 460px;
 }
 
 .eh-about__hero-card {
@@ -1905,7 +1929,8 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   inset: auto 0 0;
   padding: 34px;
   color: #fffdf8;
-  background: linear-gradient(to top, rgba(11, 9, 6, 0.72), rgba(11, 9, 6, 0));
+  background-color: rgb(11, 9, 6);
+  background-image: linear-gradient(to top, rgba(11, 9, 6, 0.72), rgba(11, 9, 6, 0));
 }
 
 .eh-about__hero-kicker,
@@ -1924,12 +1949,14 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   font-weight: 500;
   line-height: 0.98;
   letter-spacing: 0;
+  color: #fffdf8;
 }
 
 .eh-about__content {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  min-width: 0;
 }
 
 .eh-about__panel {
@@ -1988,11 +2015,15 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
 .eh-about__gallery {
   overflow: hidden;
   padding: 8px 0 0;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .eh-about__gallery-row {
   overflow: hidden;
   margin-top: 14px;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .eh-about__gallery-track {
@@ -2219,6 +2250,16 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   .eh-about__hero-card,
   .eh-about__hero-image {
     min-height: 440px;
+  }
+
+  .eh-about--home {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .eh-about--home .eh-about__hero-card,
+  .eh-about--home .eh-about__hero-image {
+    min-height: 400px;
   }
 
   .eh-about__hero-overlay {
