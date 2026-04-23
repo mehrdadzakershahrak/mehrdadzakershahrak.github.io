@@ -2,16 +2,27 @@
 title: "Private vs. Cloud AI: Tradeoffs for Regulated Industries"
 description: "A practical comparison of private, cloud, and hybrid AI deployment models for regulated or security-sensitive teams."
 excerpt: "Regulated teams should choose private, cloud, or hybrid AI based on data exposure, governance, latency, cost, model quality, and operational maturity."
+permalink: /resources/private-vs-cloud-ai-regulated-industries/
 date: 2026-04-19
 last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
+content_type: "guide"
+audience: "Regulated or security-sensitive teams choosing an AI deployment model"
 pillar: "Private vs. Cloud AI"
 order: 5
 problem_label: "Regulated tradeoffs"
+resource_guide: true
+classes: wide resource-entry-page ai-material-page
+toc_label: "In this guide"
+topics:
+  - "Governance"
+  - "Private Cloud"
+  - "Regulated AI"
 ui_tags:
   - "Governance"
   - "Private Cloud"
   - "Regulated AI"
+image_placeholder: "Deployment boundary"
 resource_cta:
   title: "Draw the deployment boundary before choosing tools"
   copy: "Use the private AI deployment path to map data exposure, runtime options, governance gates, and hybrid tradeoffs before architecture hardens."

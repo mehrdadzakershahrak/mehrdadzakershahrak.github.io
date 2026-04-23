@@ -2,16 +2,27 @@
 title: "Evaluating AI System Reliability Before Deployment"
 description: "A production-focused evaluation guide for private AI systems, covering retrieval, answer quality, permissions, latency, security, and rollout readiness."
 excerpt: "AI reliability evaluation should separate retrieval, answer faithfulness, security boundaries, operational behavior, and workflow acceptance before launch."
+permalink: /resources/ai-system-reliability-evaluation-before-deployment/
 date: 2026-04-19
 last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
+content_type: "guide"
+audience: "Teams setting launch gates for AI systems"
 pillar: "AI Reliability Evaluation"
 order: 4
 problem_label: "Reliability"
+resource_guide: true
+classes: wide resource-entry-page ai-material-page
+toc_label: "In this guide"
+topics:
+  - "Evaluation"
+  - "Reliability"
+  - "Launch Gates"
 ui_tags:
   - "Evaluation"
   - "Reliability"
   - "Launch Gates"
+image_placeholder: "Evaluation gate"
 resource_cta:
   title: "Pressure-test the system before launch"
   copy: "Send the workflow, corpus shape, and failure modes through a focused review before the AI system reaches real users."

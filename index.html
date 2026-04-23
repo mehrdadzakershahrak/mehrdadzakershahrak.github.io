@@ -18,7 +18,7 @@ suppress_default_h1: true
 
 {%- assign work_items   = site.data.home_work    -%}
 {%- assign now_data     = site.data.home_now     -%}
-{%- assign writing_all  = site.newsletter_entries | concat: site.resource_guides | sort: 'date' | reverse -%}
+{%- assign writing_all  = site.ai_material | sort: 'date' | reverse -%}
 {%- assign writing_list = writing_all | slice: 0, 5 -%}
 {%- assign work_count   = work_items | size -%}
 
@@ -216,12 +216,10 @@ suppress_default_h1: true
 
       <ul class="eh-writing__list">
         {%- for entry in writing_list -%}
-          {%- assign is_guide = false -%}
-          {%- for g in site.resource_guides -%}
-            {%- if g.url == entry.url -%}{%- assign is_guide = true -%}{%- endif -%}
-          {%- endfor -%}
-          {%- if is_guide -%}
+          {%- if entry.content_type == "guide" -%}
             {%- assign tag_label = "Guide" -%}
+          {%- elsif entry.content_type == "reference" -%}
+            {%- assign tag_label = "Reference" -%}
           {%- else -%}
             {%- assign tag_label = "Newsletter" -%}
           {%- endif -%}

@@ -86,6 +86,15 @@ layout: default
               {% endif %}
             </div>
           {% endif %}
+          {% if page.image %}
+            <div class="eh-material-media eh-material-media--header">
+              <img src="{{ page.image | relative_url }}" alt="{{ page.image_alt | escape }}" loading="lazy">
+            </div>
+          {% elsif page.image_placeholder %}
+            <div class="eh-material-placeholder eh-material-placeholder--header" aria-hidden="true">
+              <span>{{ page.image_placeholder }}</span>
+            </div>
+          {% endif %}
         </header>
       {% endunless %}
 
@@ -100,6 +109,17 @@ layout: default
         <div class="eh-reading-layout">
           <div class="{{ body_class }} e-content" itemprop="text">
             {{ content }}
+            {% if page.cta %}
+              {% assign cta_url = page.cta.url | default: "/contact/" %}
+              <section class="eh-cta-panel" aria-label="Related next step">
+                <div>
+                  <p class="eh-eyebrow">Next step</p>
+                  <h2>{{ page.cta.title }}</h2>
+                  <p>{{ page.cta.copy }}</p>
+                </div>
+                <a class="eh-btn" href="{{ cta_url | relative_url }}">{{ page.cta.label | default: "Start here" }}</a>
+              </section>
+            {% endif %}
             {% if page.link %}
               <p><a href="{{ page.link }}" class="eh-btn">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></p>
             {% endif %}
@@ -114,6 +134,17 @@ layout: default
       {% else %}
         <div class="{{ body_class }} e-content" itemprop="text">
           {{ content }}
+          {% if page.cta %}
+            {% assign cta_url = page.cta.url | default: "/contact/" %}
+            <section class="eh-cta-panel" aria-label="Related next step">
+              <div>
+                <p class="eh-eyebrow">Next step</p>
+                <h2>{{ page.cta.title }}</h2>
+                <p>{{ page.cta.copy }}</p>
+              </div>
+              <a class="eh-btn" href="{{ cta_url | relative_url }}">{{ page.cta.label | default: "Start here" }}</a>
+            </section>
+          {% endif %}
           {% if page.link %}
             <p><a href="{{ page.link }}" class="eh-btn">{{ site.data.ui-text[locale].ext_link_label | default: "Direct Link" }}</a></p>
           {% endif %}

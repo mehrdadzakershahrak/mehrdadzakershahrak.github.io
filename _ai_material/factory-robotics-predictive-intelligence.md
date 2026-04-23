@@ -1,8 +1,30 @@
 ---
 title: "Factory Robotics Needs Predictive Intelligence, Not Just More Hardware"
+permalink: /newsletter/factory-robotics-predictive-intelligence/
 date: 2026-04-14
+last_modified_at: 2026-04-14
+author: "Mehrdad Zaker"
 excerpt: "Factories can scale robotics quickly, but the durable edge comes from anticipatory models that surface failure signatures before breakdown."
 description: "Why predictive intelligence and system architecture matter more than raw robotics deployment speed."
+content_type: "note"
+audience: "Teams planning robotics, telemetry, and predictive operations"
+problem_label: "Predictive robotics"
+classes: wide newsletter-entry-page ai-material-page
+toc_label: "In this issue"
+topics:
+  - "Robotics"
+  - "Predictive Intelligence"
+  - "Operations"
+ui_tags:
+  - "Robotics"
+  - "Prediction"
+  - "Operations"
+image_placeholder: "Predictive robotics loop"
+cta:
+  title: "Connect robotics signals to operational decisions"
+  copy: "Use a systems review when sensing, telemetry, prediction, and intervention logic need to work as one loop."
+  url: "/ai-robotics-solutions/"
+  label: "Explore robotics work"
 ---
 
 Factories are scaling robotics faster than ever. Cells that once took months to justify and deploy are now being approved as standard capacity investments. That shift matters, but hardware volume alone does not create a durable advantage.

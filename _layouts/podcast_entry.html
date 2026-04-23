@@ -21,7 +21,7 @@ layout: default
         <img
           class="eh-podcast-entry__image"
           src="{{ page.image_url | relative_url }}"
-          alt="{{ page.title | escape }} artwork"
+          alt="{{ page.image_alt | default: page.title | escape }}"
         >
       </div>
     </div>
@@ -50,6 +50,11 @@ layout: default
   {% if page.topic %}
     <div class="eh-chip-row">
       <span class="eh-chip">{{ page.topic }}</span>
+      {% for topic in page.topics limit: 3 %}
+        {% unless topic == page.topic %}
+          <span class="eh-chip">{{ topic }}</span>
+        {% endunless %}
+      {% endfor %}
     </div>
   {% endif %}
 

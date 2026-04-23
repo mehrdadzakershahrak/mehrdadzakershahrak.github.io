@@ -5,7 +5,7 @@ permalink: /newsletter/
 classes: wide
 ---
 
-{% assign issues = site.newsletter_entries | sort: "date" | reverse %}
+{% assign issues = site.ai_material | where: "content_type", "note" | sort: "date" | reverse %}
 {% assign latest_issue = issues | first %}
 
 Practical notes on AI systems, robotics, deployment architecture, and product execution. This section now works as the public home for long-form updates and short issue-style essays.
@@ -16,6 +16,14 @@ Practical notes on AI systems, robotics, deployment architecture, and product ex
 ### [{{ latest_issue.title }}]({{ latest_issue.url | relative_url }})
 
 {{ latest_issue.excerpt }}
+
+{% if latest_issue.ui_tags %}
+<p class="eh-chip-row">
+  {% for tag in latest_issue.ui_tags limit: 3 %}
+    <span class="eh-chip">{{ tag }}</span>
+  {% endfor %}
+</p>
+{% endif %}
 
 <p>
   <a class="eh-btn" href="{{ latest_issue.url | relative_url }}">Read the latest issue</a>
@@ -30,6 +38,14 @@ Practical notes on AI systems, robotics, deployment architecture, and product ex
 ### [{{ issue.title }}]({{ issue.url | relative_url }})
 
 {{ issue.excerpt }}
+
+{% if issue.ui_tags %}
+<p class="eh-chip-row">
+  {% for tag in issue.ui_tags limit: 3 %}
+    <span class="eh-chip">{{ tag }}</span>
+  {% endfor %}
+</p>
+{% endif %}
 {% endfor %}
 {% endif %}
 

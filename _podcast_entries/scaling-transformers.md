@@ -1,8 +1,17 @@
 ---
 title: "Scaling Transformers"
 date: 2026-03-07
+last_modified_at: 2026-03-07
+author: "Mehrdad Zaker"
+description: "A short podcast entry on transformer scaling and reasoning-oriented learning patterns."
+excerpt: "Transformer scaling and reasoning frameworks matter when teams need to understand how model behavior changes as systems grow."
+content_type: "episode"
 topic: "Foundation Models"
+topics:
+  - "Foundation Models"
+  - "Reasoning"
 image_url: "/assets/images/podcast-scaling-transformers-poster.svg"
+image_alt: "Scaling Transformers podcast artwork"
 watch_url: "https://youtu.be/yAZyIWbNeOI"
 watch_label: "Watch on YouTube"
 ---

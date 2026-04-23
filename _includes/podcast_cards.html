@@ -9,9 +9,13 @@
             <img
               class="eh-podcast-card__image"
               src="{{ episode.image_url | relative_url }}"
-              alt="{{ episode.title | escape }} artwork"
+              alt="{{ episode.image_alt | default: episode.title | escape }}"
               loading="lazy"
             >
+          {% else %}
+            <div class="eh-material-placeholder" aria-hidden="true">
+              <span>{{ episode.topic | default: "Podcast" }}</span>
+            </div>
           {% endif %}
         </div>
 

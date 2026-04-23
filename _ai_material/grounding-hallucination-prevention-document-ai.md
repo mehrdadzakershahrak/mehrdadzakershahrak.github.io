@@ -2,16 +2,27 @@
 title: "Grounding and Hallucination Prevention in Document-Heavy AI"
 description: "How to reduce hallucinations in document-heavy AI systems with retrieval design, evidence preservation, citation checks, and answer evaluation."
 excerpt: "Document-heavy AI systems need retrieval, citation, and evaluation patterns that make answers traceable to source evidence."
+permalink: /resources/grounding-hallucination-prevention-document-ai/
 date: 2026-04-19
 last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
+content_type: "guide"
+audience: "Teams building document-grounded AI workflows"
 pillar: "Grounding and Hallucination Prevention"
 order: 2
 problem_label: "Hallucinations"
+resource_guide: true
+classes: wide resource-entry-page ai-material-page
+toc_label: "In this guide"
+topics:
+  - "Grounding"
+  - "Hallucination Prevention"
+  - "Document AI"
 ui_tags:
   - "Grounding"
   - "Citations"
   - "Document AI"
+image_placeholder: "Evidence and citation path"
 resource_cta:
   title: "Make document answers verifiable"
   copy: "Use IDX when the workflow needs grounded answers, page-level citations, and faster source review over dense documents."

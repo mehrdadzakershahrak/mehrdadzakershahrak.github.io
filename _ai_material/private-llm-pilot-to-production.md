@@ -2,16 +2,27 @@
 title: "How to Move a Private LLM from Pilot to Production"
 description: "A practical guide for turning a private LLM prototype into a production-ready system with retrieval, evaluation, deployment controls, and rollout discipline."
 excerpt: "Private LLM pilots fail when teams defer retrieval quality, evaluation, security review, and production constraints until after the demo."
+permalink: /resources/private-llm-pilot-to-production/
 date: 2026-04-19
 last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
+content_type: "guide"
+audience: "Teams moving a private LLM pilot toward production"
 pillar: "Private LLM Deployment"
 order: 1
 problem_label: "Pilot stuck"
+resource_guide: true
+classes: wide resource-entry-page ai-material-page
+toc_label: "In this guide"
+topics:
+  - "Private LLM"
+  - "RAG"
+  - "Production AI"
 ui_tags:
   - "Private LLM"
   - "RAG"
   - "Production"
+image_placeholder: "Private LLM production path"
 resource_cta:
   title: "Turn the pilot into a controlled deployment"
   copy: "Use the private AI deployment path when the demo works but retrieval, permissions, evaluation, or infrastructure still need production shape."

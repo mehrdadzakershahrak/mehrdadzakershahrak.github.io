@@ -153,9 +153,161 @@ def check_json(path: Path) -> list[str]:
     return []
 
 
+# ---------- Collection metadata ----------
+
+FRONT_MATTER_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*\n", re.DOTALL)
+FRONT_MATTER_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+):(?:\s*(.*))?$")
+VALID_AI_MATERIAL_TYPES = {"guide", "note", "reference", "explainer"}
+
+AI_MATERIAL_REQUIRED = {
+    "title",
+    "description",
+    "excerpt",
+    "permalink",
+    "date",
+    "last_modified_at",
+    "author",
+    "content_type",
+    "audience",
+    "topics",
+}
+RESOURCE_GUIDE_REQUIRED = {
+    "pillar",
+    "order",
+    "problem_label",
+    "ui_tags",
+    "resource_cta",
+    "faqs",
+}
+PODCAST_REQUIRED = {
+    "title",
+    "description",
+    "excerpt",
+    "date",
+    "last_modified_at",
+    "author",
+    "content_type",
+    "topic",
+    "topics",
+}
+
+
+def parse_front_matter(path: Path) -> tuple[dict[str, dict[str, object]], list[str]]:
+    text = path.read_text(encoding="utf-8", errors="replace")
+    match = FRONT_MATTER_RE.match(text)
+    if not match:
+        return {}, [f"{path}: missing YAML front matter"]
+
+    fields: dict[str, dict[str, object]] = {}
+    current_key: str | None = None
+    for lineno, line in enumerate(match.group(1).splitlines(), 2):
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        key_match = FRONT_MATTER_KEY_RE.match(line)
+        if key_match and not line.startswith((" ", "\t")):
+            current_key = key_match.group(1)
+            fields[current_key] = {
+                "value": (key_match.group(2) or "").strip(),
+                "line": lineno,
+                "has_block": False,
+            }
+            continue
+        if current_key and line.startswith((" ", "\t")) and line.strip():
+            fields[current_key]["has_block"] = True
+    return fields, []
+
+
+def has_front_matter_value(fields: dict[str, dict[str, object]], key: str) -> bool:
+    if key not in fields:
+        return False
+    value = str(fields[key].get("value", "")).strip()
+    if fields[key].get("has_block"):
+        return True
+    if value in {"", "[]", "{}", '""', "''"}:
+        return False
+    return True
+
+
+def front_matter_scalar(fields: dict[str, dict[str, object]], key: str) -> str:
+    if key not in fields:
+        return ""
+    value = str(fields[key].get("value", "")).strip()
+    return value.strip("\"'")
+
+
+def require_front_matter_fields(
+    path: Path,
+    fields: dict[str, dict[str, object]],
+    required: set[str],
+) -> list[str]:
+    errors: list[str] = []
+    for key in sorted(required):
+        if not has_front_matter_value(fields, key):
+            errors.append(f"{path}: missing required front matter field `{key}`")
+    return errors
+
+
+def check_ai_material_metadata(path: Path) -> list[str]:
+    fields, errors = parse_front_matter(path)
+    if errors:
+        return errors
+
+    errors.extend(require_front_matter_fields(path, fields, AI_MATERIAL_REQUIRED))
+
+    content_type = front_matter_scalar(fields, "content_type")
+    if content_type and content_type not in VALID_AI_MATERIAL_TYPES:
+        errors.append(
+            f"{path}: content_type `{content_type}` must be one of "
+            f"{', '.join(sorted(VALID_AI_MATERIAL_TYPES))}"
+        )
+
+    permalink = front_matter_scalar(fields, "permalink")
+    if permalink and (not permalink.startswith("/") or not permalink.endswith("/")):
+        errors.append(f"{path}: permalink must start and end with `/`")
+
+    if has_front_matter_value(fields, "image") and not has_front_matter_value(fields, "image_alt"):
+        errors.append(f"{path}: image_alt is required when image is set")
+
+    resource_guide = front_matter_scalar(fields, "resource_guide").lower() == "true"
+    if resource_guide:
+        errors.extend(require_front_matter_fields(path, fields, RESOURCE_GUIDE_REQUIRED))
+        if content_type and content_type != "guide":
+            errors.append(f"{path}: resource_guide pages must use content_type `guide`")
+
+    if content_type == "note" and not has_front_matter_value(fields, "cta"):
+        errors.append(f"{path}: newsletter notes must include a cta block")
+
+    return errors
+
+
+def check_podcast_metadata(path: Path) -> list[str]:
+    fields, errors = parse_front_matter(path)
+    if errors:
+        return errors
+
+    errors.extend(require_front_matter_fields(path, fields, PODCAST_REQUIRED))
+
+    content_type = front_matter_scalar(fields, "content_type")
+    if content_type and content_type != "episode":
+        errors.append(f"{path}: podcast entries must use content_type `episode`")
+
+    if has_front_matter_value(fields, "image_url") and not has_front_matter_value(fields, "image_alt"):
+        errors.append(f"{path}: image_alt is required when image_url is set")
+
+    return errors
+
+
 # ---------- runner ----------
 
-IGNORED_DIRS = {".git", "node_modules", "_site", "vendor", "MythosBridge", "test-results"}
+IGNORED_DIRS = {
+    ".git",
+    ".claude",
+    "node_modules",
+    "_site",
+    "vendor",
+    "MythosBridge",
+    "test-results",
+}
 
 def walk(root: Path):
     for p in root.rglob("*"):
@@ -179,6 +331,10 @@ def main() -> int:
             errors.extend(check_js(p))
         elif ext == ".json":
             errors.extend(check_json(p))
+        if p.suffix.lower() == ".md" and "_ai_material" in p.parts:
+            errors.extend(check_ai_material_metadata(p))
+        elif p.suffix.lower() == ".md" and "_podcast_entries" in p.parts:
+            errors.extend(check_podcast_metadata(p))
     if errors:
         print("Validation FAILED:\n", file=sys.stderr)
         for e in errors:

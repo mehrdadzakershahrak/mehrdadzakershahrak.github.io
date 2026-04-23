@@ -5,7 +5,7 @@ permalink: /newsletter/archive/
 classes: wide
 ---
 
-{% assign issues = site.newsletter_entries | sort: "date" | reverse %}
+{% assign issues = site.ai_material | where: "content_type", "note" | sort: "date" | reverse %}
 
 ## Archive
 

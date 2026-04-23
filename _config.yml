@@ -28,40 +28,28 @@ exclude:
   - vendor/
 
 collections:
+  ai_material:
+    output: true
   podcast_entries:
     output: true
     permalink: /podcast/:name/
-  newsletter_entries:
-    output: true
-    permalink: /newsletter/:name/
-  resource_guides:
-    output: true
-    permalink: /resources/:name/
 
 defaults:
+  - scope:
+      path: ""
+      type: ai_material
+    values:
+      layout: single
+      classes: wide ai-material-page
+      toc: true
+      toc_label: "On this page"
+      author: "Mehrdad Zaker"
   - scope:
       path: ""
       type: podcast_entries
     values:
       layout: podcast_entry
       classes: wide podcast-entry-page
-  - scope:
-      path: ""
-      type: newsletter_entries
-    values:
-      layout: single
-      classes: wide newsletter-entry-page
-      toc: true
-      toc_label: "In this issue"
-  - scope:
-      path: ""
-      type: resource_guides
-    values:
-      layout: single
-      classes: wide resource-entry-page
-      toc: true
-      toc_label: "In this guide"
-      resource_guide: true
 
 # Site features
 search: false

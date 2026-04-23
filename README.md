@@ -15,7 +15,7 @@ This repo expects `ruby 3.2.11` from `.ruby-version` and `bundler 4.0.7`. Using 
 If you use `rbenv`, bootstrap the local toolchain with:
 
 ```bash
-cd /Users/mehrdad/Downloads/mehrdadzakershahrak.github.io
+cd /Users/mehrdadz/Downloads/mehrdadzakershahrak.github.io
 PATH="/opt/homebrew/bin:$PATH" rbenv install -s "$(cat .ruby-version)"
 PATH="/opt/homebrew/bin:$PATH" rbenv local "$(cat .ruby-version)"
 gem install bundler -v 4.0.7
@@ -25,9 +25,30 @@ bundle _4.0.7_ install
 Then run Jekyll locally:
 
 ```bash
-cd /Users/mehrdad/Downloads/mehrdadzakershahrak.github.io
+cd /Users/mehrdadz/Downloads/mehrdadzakershahrak.github.io
 bundle _4.0.7_ exec jekyll serve --host 127.0.0.1 --port 4000
 ```
+
+## Content Authoring
+Written AI material lives in `_ai_material/`. Use this collection for guides, notes, explainers, and references. Preserve public URLs with explicit `permalink` values, including existing `/resources/.../` and `/newsletter/.../` paths.
+
+Required front matter for AI material:
+
+- `title`, `description`, `excerpt`, `permalink`
+- `date`, `last_modified_at`, `author`
+- `content_type`: `guide`, `note`, `reference`, or `explainer`
+- `audience`, `topics`
+- `image_alt` when `image` is set
+
+Resource guides also need `resource_guide: true`, `pillar`, `order`, `problem_label`, `ui_tags`, `resource_cta`, and `faqs`. Notes should include a `cta` so newsletter entries always have a next step.
+
+Images are optional. Prefer minimal imagery: set `image` and `image_alt` when a final asset exists, or set `image_placeholder` for a restrained editorial placeholder. Missing images are a valid content state and should not block publishing.
+
+Use these references before adding material:
+
+- Public authoring guide: `/docs/content-authoring/`
+- AI material template: `_drafts/ai-material-template.md`
+- Podcast entry template: `_drafts/podcast-entry-template.md`
 
 ## Website E2E
 The website Playwright suite validates the static v2 handoff contract:
@@ -35,11 +56,13 @@ The website Playwright suite validates the static v2 handoff contract:
 - legacy query params are ignored
 - `/login/` redirects directly to product-domain auth
 - `/idx/assistant/` stays a public IDX landing page with the current CTA contract
+- AI material appears in the resource hub, newsletter, homepage writing feed, sitemap, and local search data
+- Primary routes remain readable in light and dark mode
 
 Run the suite:
 
 ```bash
-cd /Users/mehrdad/Downloads/mehrdadzakershahrak.github.io
+cd /Users/mehrdadz/Downloads/mehrdadzakershahrak.github.io
 PATH="/opt/homebrew/bin:$PATH" npm install
 PATH="/opt/homebrew/bin:$PATH" npx playwright install chromium
 PATH="/opt/homebrew/bin:$PATH" npm run test:e2e
@@ -62,7 +85,8 @@ curl -X POST "https://api.indexnow.org/indexnow" \
       "https://www.mehrdadzaker.com/resources/grounding-hallucination-prevention-document-ai/",
       "https://www.mehrdadzaker.com/resources/secure-enterprise-rag-architecture/",
       "https://www.mehrdadzaker.com/resources/ai-system-reliability-evaluation-before-deployment/",
-      "https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/"
+      "https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/",
+      "https://www.mehrdadzaker.com/resources/local-llm-practical-guide/"
     ]
   }'
 ```
@@ -70,6 +94,6 @@ curl -X POST "https://api.indexnow.org/indexnow" \
 Bing Webmaster Tools sitemap and URL submission still requires access to the verified site-owner account.
 
 ## Notes
-- Product implementation work belongs in [neuralint-platform](/Users/mehrdad/Downloads/neuralint-platform).
+- Product implementation work belongs in [neuralint-platform](/Users/mehrdadz/Downloads/neuralint-platform).
 - If public copy on this site mentions a website-hosted dashboard or website-hosted sign-in, that copy is stale and should be updated to point to `idx.mehrdadzaker.com`.
 - The static site no longer carries the legacy auth-service, auth-link, or demo-chat runtime. IDX sign-in and authenticated product access live on `idx.mehrdadzaker.com`.

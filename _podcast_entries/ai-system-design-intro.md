@@ -1,8 +1,17 @@
 ---
 title: "AI System Design Intro"
 date: 2026-03-07
+last_modified_at: 2026-03-07
+author: "Mehrdad Zaker"
+description: "A short podcast entry on moving AI ideas from prototypes into systems that can survive real operational use."
+excerpt: "AI system design starts when a promising model or prototype has to become a reliable workflow, interface, and operating path."
+content_type: "episode"
 topic: "System Design"
+topics:
+  - "System Design"
+  - "Production AI"
 image_url: "/assets/images/podcast-ai-system-design-intro.webp"
+image_alt: "AI System Design Intro podcast artwork"
 watch_url: "https://youtu.be/fvRNitI9Aro"
 watch_label: "Watch on YouTube"
 ---

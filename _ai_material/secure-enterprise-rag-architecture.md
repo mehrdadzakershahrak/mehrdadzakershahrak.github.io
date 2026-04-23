@@ -2,16 +2,27 @@
 title: "RAG Architecture for Secure Enterprise Workflows"
 description: "A secure enterprise RAG architecture guide covering ingestion, permissions, retrieval, prompt boundaries, evaluation, monitoring, and rollout controls."
 excerpt: "Enterprise RAG has to join retrieval quality with access control, prompt-injection resistance, observability, and production workflow design."
+permalink: /resources/secure-enterprise-rag-architecture/
 date: 2026-04-19
 last_modified_at: 2026-04-19
 author: "Mehrdad Zaker"
+content_type: "guide"
+audience: "Teams designing secure retrieval over enterprise data"
 pillar: "Secure Enterprise RAG"
 order: 3
 problem_label: "Secure RAG"
+resource_guide: true
+classes: wide resource-entry-page ai-material-page
+toc_label: "In this guide"
+topics:
+  - "Secure RAG"
+  - "Access Control"
+  - "Prompt Injection"
 ui_tags:
   - "Secure RAG"
   - "Access Control"
   - "Prompt Injection"
+image_placeholder: "Secure retrieval boundary"
 resource_cta:
   title: "Design retrieval around the workflow boundary"
   copy: "Use custom AI systems support when RAG has to combine permissions, evidence, model routing, and operational review in one governed workflow."

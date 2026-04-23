@@ -5,7 +5,7 @@
 {% assign card_items = feed | where: "type", "card" %}
 
 {% if resource_item %}
-  {% assign resource_guides = site.resource_guides | sort: "order" %}
+  {% assign resource_guides = site.ai_material | where: "resource_guide", true | sort: "order" %}
   {% assign feature_guide = resource_guides | first %}
   {% assign support_guide = resource_guides | where: "order", 2 | first %}
   <section class="eh-home-resource-feature" aria-labelledby="home-resource-feature-title">

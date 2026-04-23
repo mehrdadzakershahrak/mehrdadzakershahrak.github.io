@@ -1,8 +1,30 @@
 ---
 title: "Why Most Private AI Deployments Fail Before They Ship in 2026"
+permalink: /newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/
 date: 2026-04-15
+last_modified_at: 2026-04-15
+author: "Mehrdad Zaker"
 excerpt: "Most private AI deployments do not fail because the model is weak. They fail because retrieval, data, evaluation, infrastructure, and privacy were never production-ready."
 description: "Why private LLM deployments stall between demo and production, and what teams that ship do differently."
+content_type: "note"
+audience: "Teams diagnosing stalled private AI deployments"
+problem_label: "Deployment failure"
+classes: wide newsletter-entry-page ai-material-page
+toc_label: "In this issue"
+topics:
+  - "Private AI"
+  - "Deployment"
+  - "Evaluation"
+ui_tags:
+  - "Private AI"
+  - "Deployment"
+  - "Evaluation"
+image_placeholder: "Deployment failure map"
+cta:
+  title: "Find the layer that is blocking production"
+  copy: "Use a focused review when retrieval, data, evaluation, deployment, or privacy constraints are stopping the system from shipping."
+  url: "/contact/"
+  label: "Review the deployment"
 ---
 
 Most private AI deployments do not fail in a dramatic way. The demo lands, the prototype looks credible, and then the system quietly stops moving once real documents, real users, and real security requirements show up.

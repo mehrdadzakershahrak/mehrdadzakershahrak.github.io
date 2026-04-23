@@ -21,6 +21,7 @@ const PUBLIC_DRAFT_MARKERS = [
   "Figures are illustrative",
 ];
 const OLD_PUBLIC_UI_HTML_MARKERS = [
+  'data-mdz-',
   'data-mdz-placeholder',
   'class="page__content',
   'class="page__title',
@@ -159,6 +160,30 @@ const RESOURCE_GUIDES = [
     internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
   },
 ];
+const AI_MATERIAL_REFERENCES = [
+  {
+    path: "/resources/local-llm-practical-guide/",
+    title: "The Practical Guide to Running Local LLMs",
+    description:
+      "A practical reference for choosing local LLM hardware, runtimes, quantization, model sizes, serving patterns, and common production mistakes.",
+    topics: ["Local LLM", "Runtimes", "Hardware"],
+  },
+];
+const NEWSLETTER_AI_MATERIAL = [
+  {
+    path: "/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/",
+    title: "Why Most Private AI Deployments Fail Before They Ship in 2026",
+  },
+  {
+    path: "/newsletter/factory-robotics-predictive-intelligence/",
+    title: "Factory Robotics Needs Predictive Intelligence, Not Just More Hardware",
+  },
+];
+const ALL_AI_MATERIAL = [
+  ...RESOURCE_GUIDES.map((guide) => ({ path: guide.path, title: guide.title })),
+  ...AI_MATERIAL_REFERENCES.map((reference) => ({ path: reference.path, title: reference.title })),
+  ...NEWSLETTER_AI_MATERIAL,
+];
 const RESOURCE_UI_VIEWPORTS = [
   { width: 390, height: 844 },
   { width: 768, height: 1024 },
@@ -167,7 +192,13 @@ const RESOURCE_UI_VIEWPORTS = [
 const PRIMARY_PUBLIC_UI_ROUTES = [
   { path: "/", heading: HOMEPAGE_H1 },
   { path: "/work/", heading: "Engagements where private AI shipped." },
+  { path: "/newsletter/", heading: "Newsletter" },
+  { path: "/newsletter/archive/", heading: "Newsletter Archive" },
+  { path: NEWSLETTER_AI_MATERIAL[0].path, heading: NEWSLETTER_AI_MATERIAL[0].title },
+  { path: NEWSLETTER_AI_MATERIAL[1].path, heading: NEWSLETTER_AI_MATERIAL[1].title },
+  { path: "/podcast/", heading: "Podcast" },
   { path: "/resources/", heading: "Private AI Resource Hub" },
+  { path: AI_MATERIAL_REFERENCES[0].path, heading: AI_MATERIAL_REFERENCES[0].title },
   { path: "/idx/", heading: IDX_H1 },
   { path: "/idx/assistant/", heading: IDX_H1 },
   { path: "/private-ai-deployment/", heading: "Private AI Deployment" },
@@ -177,6 +208,7 @@ const PRIMARY_PUBLIC_UI_ROUTES = [
   { path: "/contact/", heading: "Bring a concrete AI, deployment, or workflow problem." },
   { path: "/search/", heading: "Search" },
   { path: "/docs/ui-backlog/", heading: "Current UI Backlog" },
+  { path: "/docs/content-authoring/", heading: "Content Authoring Guide" },
 ];
 const PRIMARY_PUBLIC_UI_PATHS = PRIMARY_PUBLIC_UI_ROUTES.map((route) => route.path);
 const CUSTOM_H1_PAGES = [
@@ -224,6 +256,138 @@ async function expectNoHorizontalOverflow(page) {
     return Math.max(root.scrollWidth, document.body.scrollWidth) - root.clientWidth;
   });
   expect(overflow).toBeLessThanOrEqual(2);
+}
+
+async function expectReadableEditorialSurfaces(page, path) {
+  for (const theme of ["light", "dark"]) {
+    await page.goto(path);
+    await page.addStyleTag({
+      content:
+        "*,*::before,*::after{transition-duration:0s!important;transition-delay:0s!important;animation-duration:0s!important;animation-delay:0s!important;}",
+    });
+    await page.evaluate((nextTheme) => {
+      document.documentElement.setAttribute("data-theme", nextTheme);
+      localStorage.setItem("eh-theme", nextTheme);
+    }, theme);
+    await page.waitForTimeout(20);
+
+    const failures = await page.evaluate(() => {
+      const parseColor = (value) => {
+        const rgbMatch = value.match(/rgba?\(([^)]+)\)/);
+        if (!rgbMatch) return null;
+        const parts = rgbMatch[1].replace(/\//g, " ").split(/[,\s]+/).filter(Boolean);
+        const channel = (part) => {
+          if (part.endsWith("%")) return Math.round((Number(part.slice(0, -1)) / 100) * 255);
+          return Number(part);
+        };
+        const alpha = (part) => {
+          if (part === undefined) return 1;
+          if (part.endsWith("%")) return Number(part.slice(0, -1)) / 100;
+          return Number(part);
+        };
+        if (parts.length < 3) return null;
+        return {
+          r: channel(parts[0]),
+          g: channel(parts[1]),
+          b: channel(parts[2]),
+          a: alpha(parts[3]),
+        };
+      };
+      const blend = (front, back) => {
+        const alpha = front.a + back.a * (1 - front.a);
+        if (alpha <= 0) return { r: 255, g: 255, b: 255, a: 1 };
+        return {
+          r: Math.round((front.r * front.a + back.r * back.a * (1 - front.a)) / alpha),
+          g: Math.round((front.g * front.a + back.g * back.a * (1 - front.a)) / alpha),
+          b: Math.round((front.b * front.a + back.b * back.a * (1 - front.a)) / alpha),
+          a: alpha,
+        };
+      };
+      const luminance = (color) => {
+        const channel = (value) => {
+          const normalized = value / 255;
+          return normalized <= 0.03928
+            ? normalized / 12.92
+            : ((normalized + 0.055) / 1.055) ** 2.4;
+        };
+        return 0.2126 * channel(color.r) + 0.7152 * channel(color.g) + 0.0722 * channel(color.b);
+      };
+      const contrastRatio = (front, back) => {
+        const first = luminance(front);
+        const second = luminance(back);
+        return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+      };
+      const backgroundFor = (element) => {
+        const layers = [];
+        let current = element;
+        while (current && current.nodeType === Node.ELEMENT_NODE) {
+          const color = parseColor(getComputedStyle(current).backgroundColor);
+          if (color && color.a > 0) layers.push(color);
+          current = current.parentElement;
+        }
+        return layers.reverse().reduce((back, front) => blend(front, back), { r: 255, g: 255, b: 255, a: 1 });
+      };
+      const isVisible = (element) => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.width > 0 &&
+          rect.height > 0 &&
+          style.display !== "none" &&
+          style.visibility !== "hidden" &&
+          Number(style.opacity) > 0.05
+        );
+      };
+
+      const selectors = [
+        "h1",
+        "h2",
+        "h3",
+        "p",
+        "a",
+        "button",
+        "label",
+        "input",
+        "textarea",
+        "code",
+        "pre",
+        "th",
+        "td",
+        ".eh-btn",
+        ".eh-btn--secondary",
+        ".eh-chip",
+        ".eh-meta span",
+        ".eh-meta time",
+        ".eh-card",
+        ".eh-guide-card",
+        ".eh-cta-panel",
+        ".eh-material-placeholder span",
+      ];
+      const elements = [...new Set(selectors.flatMap((selector) => [...document.querySelectorAll(selector)]))];
+      return elements
+        .filter((element) => isVisible(element) && (element.innerText || element.value || "").trim().length > 0)
+        .map((element) => {
+          const style = getComputedStyle(element);
+          const foreground = parseColor(style.color);
+          if (!foreground) {
+            return `${element.tagName.toLowerCase()} has unparseable text color: ${style.color}`;
+          }
+          if (foreground.a <= 0.02) {
+            return `${element.tagName.toLowerCase()} has transparent text`;
+          }
+          const background = backgroundFor(element);
+          const contrast = contrastRatio(blend(foreground, background), background);
+          if (contrast < 2.4) {
+            const label = (element.innerText || element.value || element.tagName).trim().slice(0, 60);
+            return `${element.tagName.toLowerCase()} contrast ${contrast.toFixed(2)}: ${label}`;
+          }
+          return null;
+        })
+        .filter(Boolean);
+    });
+
+    expect(failures).toEqual([]);
+  }
 }
 
 function isLocalUrl(url) {
@@ -454,8 +618,8 @@ test("llms.txt is published with service and contact guidance", async ({ request
   expect(text).toContain("https://www.mehrdadzaker.com/private-ai-deployment/");
   expect(text).toContain("https://www.mehrdadzaker.com/custom-ai-systems/");
   expect(text).toContain("https://www.mehrdadzaker.com/resources/");
-  for (const guide of RESOURCE_GUIDES) {
-    expect(text).toContain(`https://www.mehrdadzaker.com${guide.path}`);
+  for (const item of ALL_AI_MATERIAL) {
+    expect(text).toContain(`https://www.mehrdadzaker.com${item.path}`);
   }
 });
 
@@ -480,6 +644,9 @@ test("resources hub lists the private AI pillar guides and service paths", async
   for (const guide of RESOURCE_GUIDES) {
     await expect(page.getByRole("link", { name: guide.title }).first()).toHaveAttribute("href", guide.path);
   }
+  for (const reference of AI_MATERIAL_REFERENCES) {
+    await expect(page.getByRole("link", { name: reference.title }).first()).toHaveAttribute("href", reference.path);
+  }
 });
 
 test("resources hub layout stays intentional across desktop and mobile", async ({ page }) => {
@@ -491,6 +658,7 @@ test("resources hub layout stays intentional across desktop and mobile", async (
     await expect(page.locator(".eh-resource-hub .eh-showcase__hero")).toBeVisible();
     await expect(page.locator(".eh-problem-strip")).toBeVisible();
     await expect(page.locator(".eh-guide-card")).toHaveCount(RESOURCE_GUIDES.length);
+    await expect(page.locator(".eh-material-placeholder").first()).toBeVisible();
 
     await expect(page.locator(".eh-guide-card").first()).toBeVisible();
   }
@@ -592,7 +760,32 @@ test("resource UI changes do not introduce horizontal overflow on primary pages"
   }
 });
 
-test("resource guides are discoverable through sitemap and local search data", async ({ request }) => {
+test("unified AI material appears across hubs, sitemap, and local search data", async ({ request }) => {
+  const homeResponse = await request.get("/");
+  expect(homeResponse.ok()).toBeTruthy();
+  const home = await homeResponse.text();
+  expect(home).toContain(AI_MATERIAL_REFERENCES[0].title);
+  expect(home).toContain(AI_MATERIAL_REFERENCES[0].path);
+
+  const resourcesResponse = await request.get("/resources/");
+  expect(resourcesResponse.ok()).toBeTruthy();
+  const resources = await resourcesResponse.text();
+  for (const reference of AI_MATERIAL_REFERENCES) {
+    expect(resources).toContain(reference.title);
+    expect(resources).toContain(reference.path);
+    for (const topic of reference.topics) {
+      expect(resources).toContain(topic);
+    }
+  }
+
+  const newsletterResponse = await request.get("/newsletter/");
+  expect(newsletterResponse.ok()).toBeTruthy();
+  const newsletter = await newsletterResponse.text();
+  for (const note of NEWSLETTER_AI_MATERIAL) {
+    expect(newsletter).toContain(note.title);
+    expect(newsletter).toContain(note.path);
+  }
+
   const sitemapResponse = await request.get("/sitemap.xml");
   expect(sitemapResponse.ok()).toBeTruthy();
   const sitemap = await sitemapResponse.text();
@@ -601,10 +794,35 @@ test("resource guides are discoverable through sitemap and local search data", a
   expect(searchStoreResponse.ok()).toBeTruthy();
   const searchStore = await searchStoreResponse.text();
 
-  for (const guide of RESOURCE_GUIDES) {
-    expect(sitemap).toContain(guide.path);
-    expect(searchStore).toContain(guide.title);
-    expect(searchStore).toContain(guide.path);
+  for (const item of ALL_AI_MATERIAL) {
+    expect(sitemap).toContain(item.path);
+    expect(searchStore).toContain(item.title);
+    expect(searchStore).toContain(item.path);
+  }
+});
+
+test("minimal image placeholders render as intentional editorial components", async ({ page }) => {
+  await page.goto("/resources/");
+  await expect(page.locator(".eh-material-placeholder").filter({ hasText: "Local inference stack" })).toBeVisible();
+  await expect(page.locator("img[src=''], img:not([alt])")).toHaveCount(0);
+
+  await page.goto(AI_MATERIAL_REFERENCES[0].path);
+  await expect(page.locator(".eh-material-placeholder--header")).toContainText("Local inference stack");
+  await expect(page.locator("img[src=''], img:not([alt])")).toHaveCount(0);
+});
+
+test("editorial components remain readable in light and dark mode", async ({ page }) => {
+  const readabilityRoutes = [
+    "/",
+    "/resources/",
+    AI_MATERIAL_REFERENCES[0].path,
+    "/newsletter/",
+    "/contact/",
+    "/search/?q=private",
+  ];
+
+  for (const path of readabilityRoutes) {
+    await expectReadableEditorialSurfaces(page, path);
   }
 });
 

@@ -7,8 +7,13 @@ classes: wide resources-hub-page
 suppress_default_h1: true
 ---
 
-{% assign guides = site.resource_guides | sort: "order" %}
+{% assign guides = site.ai_material | where: "resource_guide", true | sort: "order" %}
+{% assign references = site.ai_material | where: "content_type", "reference" | sort: "date" | reverse %}
 {% assign primary_guide = guides | first %}
+{% assign faq_count = 0 %}
+{% for guide in guides %}
+  {% assign faq_count = faq_count | plus: guide.faqs.size %}
+{% endfor %}
 
 <section class="eh-resource-hub">
   <section class="eh-showcase__hero" aria-labelledby="resource-hub-title">
@@ -16,7 +21,7 @@ suppress_default_h1: true
       <p class="eh-eyebrow">Private AI Resource Hub</p>
       <h1 id="resource-hub-title" class="eh-title">Private AI Resource Hub</h1>
       <p class="eh-dek">
-        Five source-backed guides for teams moving private LLMs, secure RAG, document grounding, and evaluation from prototype into controlled production.
+        Source-backed guides and practical references for teams moving private LLMs, secure RAG, document grounding, and evaluation from prototype into controlled production.
       </p>
       <div class="eh-action-row">
         <a class="eh-btn" href="{{ primary_guide.url | relative_url }}">Start with the production guide</a>
@@ -25,16 +30,16 @@ suppress_default_h1: true
     </div>
     <div class="eh-metric-grid eh-metric-grid--stacked" aria-label="Resource hub profile">
       <article class="eh-metric-card">
-        <strong>5</strong>
+        <strong>{{ guides | size }}</strong>
         <span>Pillar guides</span>
       </article>
       <article class="eh-metric-card">
-        <strong>20</strong>
+        <strong>{{ faq_count }}</strong>
         <span>FAQ answers</span>
       </article>
       <article class="eh-metric-card">
-        <strong>2+</strong>
-        <span>Cited sources per guide</span>
+        <strong>{{ references | size }}</strong>
+        <span>Technical references</span>
       </article>
     </div>
   </section>
@@ -60,6 +65,15 @@ suppress_default_h1: true
     <div class="eh-guide-grid">
       {% for guide in guides %}
         <article class="eh-guide-card">
+          {% if guide.image %}
+            <div class="eh-material-media">
+              <img src="{{ guide.image | relative_url }}" alt="{{ guide.image_alt | escape }}" loading="lazy">
+            </div>
+          {% elsif guide.image_placeholder %}
+            <div class="eh-material-placeholder" aria-hidden="true">
+              <span>{{ guide.image_placeholder }}</span>
+            </div>
+          {% endif %}
           <div class="eh-guide-card__top">
             <span>{{ forloop.index | prepend: "0" | slice: -2, 2 }}</span>
             <span>{{ guide.pillar | default: "Resource Guide" }}</span>
@@ -82,6 +96,45 @@ suppress_default_h1: true
       {% endfor %}
     </div>
   </section>
+
+  {% if references and references.size > 0 %}
+    <section class="eh-section" aria-labelledby="resource-reference-list-title">
+      <div class="eh-section-head">
+        <p class="eh-eyebrow">Technical references</p>
+        <h2 id="resource-reference-list-title">Keep implementation notes separate from service pages</h2>
+        <p>
+          References stay in the AI material library so service pages can stay focused while technical notes remain easy to expand.
+        </p>
+      </div>
+
+      <div class="eh-card-grid">
+        {% for item in references %}
+          <article class="eh-card">
+            {% if item.image %}
+              <div class="eh-material-media">
+                <img src="{{ item.image | relative_url }}" alt="{{ item.image_alt | escape }}" loading="lazy">
+              </div>
+            {% elsif item.image_placeholder %}
+              <div class="eh-material-placeholder" aria-hidden="true">
+                <span>{{ item.image_placeholder }}</span>
+              </div>
+            {% endif %}
+            <p class="eh-eyebrow">{{ item.problem_label | default: "Reference" }}</p>
+            <h3><a href="{{ item.url | relative_url }}">{{ item.title }}</a></h3>
+            <p>{{ item.excerpt | default: item.description }}</p>
+            {% if item.ui_tags %}
+              <div class="eh-chip-row" aria-label="Reference topics">
+                {% for tag in item.ui_tags limit: 3 %}
+                  <span class="eh-chip">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+            <a class="eh-btn eh-btn--secondary" href="{{ item.url | relative_url }}">Read reference</a>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
 
   <section class="eh-cta-panel" aria-labelledby="resource-service-map-title">
     <div>

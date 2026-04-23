@@ -1,4 +1,4 @@
-{% assign resource_guides = site.resource_guides | sort: "order" %}
+{% assign resource_guides = site.ai_material | where: "resource_guide", true | sort: "order" %}
 {% assign next_order = page.order | plus: 1 %}
 {% assign next_guide = resource_guides | where: "order", next_order | first %}
 {% unless next_guide %}
