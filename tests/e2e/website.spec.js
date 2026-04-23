@@ -5,7 +5,7 @@ const HOMEPAGE_TITLE = "Mehrdad Zaker — Private AI Systems That Ship";
 const HOMEPAGE_DESCRIPTION =
   "Private AI systems that verify every answer, protect sensitive documents, and run in production. Consulting, custom AI systems, and the IDX platform.";
 const HOMEPAGE_H1 =
-  "Ship private AI that verifies every answer.";
+  "I can count to 1023 with 10 fingers.";
 const IDX_DESCRIPTION =
   "IDX lets document-heavy teams ask questions, verify source pages, and track ingest in one workspace.";
 const IDX_H1 = "Get answers you can verify before you act.";
@@ -214,9 +214,9 @@ const PRIMARY_PUBLIC_UI_PATHS = PRIMARY_PUBLIC_UI_ROUTES.map((route) => route.pa
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
-    // Editorial homepage hero, Stage 14+. The <br> splits the title so match
-    // each half independently.
-    headingPattern: /Ship private AI that\s*verifies every answer\./,
+    // Editorial homepage hero. The <br> splits the title so match with
+    // flexible whitespace.
+    headingPattern: /I can count to 1023\s*with 10 fingers\./,
   },
   {
     path: "/about/",

@@ -410,6 +410,15 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   color: var(--eh-accent);
 }
 
+.eh-hero__undertitle {
+  max-width: 560px;
+  margin: 24px 0 0;
+  color: var(--eh-ink);
+  font-family: var(--eh-ff-mono);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
 .eh-hero__copy {
   display: grid;
   grid-template-columns: 1fr 1fr;
