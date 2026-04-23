@@ -37,32 +37,32 @@ $(document).ready(function() {
         })
       });
     resultdiv.empty();
-    resultdiv.prepend('<p class="results__found">'+result.length+' Result(s) found</p>');
+    resultdiv.prepend('<p class="eh-search-results__count">'+result.length+' result'+(result.length === 1 ? '' : 's')+' found</p>');
     for (var item in result) {
       var ref = result[item].ref;
       var summary = store[ref].excerpt || store[ref].content || '';
       if(store[ref].teaser){
         var searchitem =
-          '<div class="list__item">'+
-            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
-              '<h2 class="archive__item-title" itemprop="headline">'+
+          '<div class="eh-search-results__item">'+
+            '<article class="eh-search-result" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="eh-search-result__title" itemprop="headline">'+
                 '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
               '</h2>'+
-              '<div class="archive__item-teaser">'+
+              '<div class="eh-search-result__teaser">'+
                 '<img src="'+store[ref].teaser+'" alt="">'+
               '</div>'+
-              '<p class="archive__item-excerpt" itemprop="description">'+summary.split(" ").splice(0,20).join(" ")+'...</p>'+
+              '<p class="eh-search-result__excerpt" itemprop="description">'+summary.split(" ").splice(0,20).join(" ")+'...</p>'+
             '</article>'+
           '</div>';
       }
       else{
     	  var searchitem =
-          '<div class="list__item">'+
-            '<article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">'+
-              '<h2 class="archive__item-title" itemprop="headline">'+
+          '<div class="eh-search-results__item">'+
+            '<article class="eh-search-result" itemscope itemtype="https://schema.org/CreativeWork">'+
+              '<h2 class="eh-search-result__title" itemprop="headline">'+
                 '<a href="'+store[ref].url+'" rel="permalink">'+store[ref].title+'</a>'+
               '</h2>'+
-              '<p class="archive__item-excerpt" itemprop="description">'+summary.split(" ").splice(0,20).join(" ")+'...</p>'+
+              '<p class="eh-search-result__excerpt" itemprop="description">'+summary.split(" ").splice(0,20).join(" ")+'...</p>'+
             '</article>'+
           '</div>';
       }

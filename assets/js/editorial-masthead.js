@@ -6,8 +6,7 @@
  *      _includes/head/custom.html).
  *   2. Burger → mobile nav sheet — toggles [hidden] + aria-expanded.
  *
- * Designed to coexist with masthead-menu.js (legacy) and editorial-home.js
- * (homepage-specific).
+ * Runs alongside editorial-home.js on the homepage.
  */
 (function () {
   "use strict";

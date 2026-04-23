@@ -1,0 +1,29 @@
+---
+layout: default
+---
+
+<main id="main" class="eh-document eh-document--search" role="main">
+  <article class="eh-article eh-search-page" itemscope itemtype="https://schema.org/SearchResultsPage">
+    <header class="eh-article-header">
+      <p class="eh-eyebrow">{{ page.eyebrow | default: "Search" }}</p>
+      <h1 id="main-title" class="eh-title" itemprop="headline">{{ page.title | default: "Search the site" }}</h1>
+      {% if page.description %}
+        <p class="eh-dek">{{ page.description }}</p>
+      {% endif %}
+    </header>
+
+    <section class="eh-search-panel" aria-label="Site search">
+      <label class="eh-search-panel__label" for="search">Search query</label>
+      <input
+        type="search"
+        id="search"
+        class="eh-search-panel__input"
+        name="q"
+        placeholder="Search by topic, page, or workflow"
+        autocomplete="off"
+        autocapitalize="none"
+        spellcheck="false">
+      <div id="results" class="eh-search-results" aria-live="polite" aria-atomic="false"></div>
+    </section>
+  </article>
+</main>

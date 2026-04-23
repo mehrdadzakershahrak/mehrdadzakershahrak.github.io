@@ -1,9 +1,9 @@
 /**
- * Site-wide analytics dispatcher (Stage 12).
+ * Site-wide analytics dispatcher.
  *
  * Listens for clicks on any element carrying a data-analytics attribute and
  * emits the event through whatever analytics backend happens to be loaded
- * (gtag, dataLayer, plausible) plus a CustomEvent ('mdz:analytics') on
+ * (gtag, dataLayer, plausible) plus a CustomEvent ('eh:analytics') on
  * window so future integrations can subscribe without another redeploy.
  *
  * Event shape:
@@ -19,8 +19,6 @@
  *   cta_work_click          — "read the full story" / work-page CTAs
  *   idx_demo_start          — IDX demo entry points
  *   newsletter_subscribe    — newsletter sign-ups
- *   rag_demo_tab            — switching questions in the static RAG demo
- *   faq_open                — expanding an FAQ item
  *   theme_toggle            — user flipped dark/light
  *   nav_click               — primary nav link
  *   search_submit           — homepage search form submit
@@ -44,7 +42,7 @@
   function dispatch(payload) {
     // 1) CustomEvent so page-specific code can subscribe without racing us
     try {
-      window.dispatchEvent(new CustomEvent("mdz:analytics", { detail: payload }));
+      window.dispatchEvent(new CustomEvent("eh:analytics", { detail: payload }));
     } catch (e) { /* old browsers: no-op */ }
 
     // 2) Google Analytics (gtag) — if loaded, fire an event
@@ -114,67 +112,6 @@
     });
   });
 
-  // Theme toggle — hook into the aria-pressed mutation set by masthead-menu.js
-  var toggle = document.querySelector("[data-mdz-theme-toggle]");
-  if (toggle && typeof MutationObserver !== "undefined") {
-    var lastTheme = null;
-    var observer = new MutationObserver(function () {
-      var theme = document.documentElement.getAttribute("data-theme") || "unknown";
-      if (theme === lastTheme) return;
-      lastTheme = theme;
-      // skip the initial attribute set that fires during boot
-      if (!observer._booted) {
-        observer._booted = true;
-        return;
-      }
-      dispatch({
-        name: "theme_toggle",
-        source: "masthead",
-        href: null,
-        meta: { theme: theme },
-      });
-    });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
-  }
-
-  // FAQ accordion opens — track which question gets expanded
-  Array.prototype.forEach.call(
-    document.querySelectorAll("details.mdz-home-faq-item__details"),
-    function (details, index) {
-      details.addEventListener("toggle", function () {
-        if (!details.open) return;
-        var q = details.querySelector(".mdz-home-faq-item__question");
-        dispatch({
-          name: "faq_open",
-          source: "home_faq",
-          href: null,
-          meta: {
-            index: String(index),
-            question: q ? q.textContent.trim() : "",
-          },
-        });
-      });
-    }
-  );
-
-  // RAG demo tab switches
-  Array.prototype.forEach.call(
-    document.querySelectorAll("[data-mdz-rag-tab]"),
-    function (tab) {
-      tab.addEventListener("click", function () {
-        dispatch({
-          name: "rag_demo_tab",
-          source: "home_rag_demo",
-          href: null,
-          meta: { tab: tab.getAttribute("data-mdz-rag-tab") },
-        });
-      });
-    }
-  );
-
   // Expose for debugging / hand-rolled events from console
-  window.mdzAnalytics = { dispatch: dispatch };
+  window.ehAnalytics = { dispatch: dispatch };
 })();

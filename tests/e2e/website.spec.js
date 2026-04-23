@@ -20,6 +20,17 @@ const PUBLIC_DRAFT_MARKERS = [
   "placeholder engagements",
   "Figures are illustrative",
 ];
+const OLD_PUBLIC_UI_HTML_MARKERS = [
+  'data-mdz-placeholder',
+  'class="page__content',
+  'class="page__title',
+  'class="sidebar__right',
+  'class="page__footer',
+  'class="archive"',
+  'class="archive__',
+  'class="mdz-',
+  ' mdz-',
+];
 const HOMEPAGE_PERSON_SCHEMA = {
   "@type": "Person",
   name: "Mehrdad Zaker",
@@ -153,6 +164,21 @@ const RESOURCE_UI_VIEWPORTS = [
   { width: 768, height: 1024 },
   { width: 1440, height: 900 },
 ];
+const PRIMARY_PUBLIC_UI_ROUTES = [
+  { path: "/", heading: HOMEPAGE_H1 },
+  { path: "/work/", heading: "Engagements where private AI shipped." },
+  { path: "/resources/", heading: "Private AI Resource Hub" },
+  { path: "/idx/", heading: IDX_H1 },
+  { path: "/idx/assistant/", heading: IDX_H1 },
+  { path: "/private-ai-deployment/", heading: "Private AI Deployment" },
+  { path: "/custom-ai-systems/", heading: "Custom AI Systems" },
+  { path: "/ai-robotics-solutions/", heading: "AI and robotics work that starts from the workflow." },
+  { path: "/about/", heading: /Get to know\s+Dr\. Mehrdad Zaker/ },
+  { path: "/contact/", heading: "Bring a concrete AI, deployment, or workflow problem." },
+  { path: "/search/", heading: "Search" },
+  { path: "/docs/ui-backlog/", heading: "Current UI Backlog" },
+];
+const PRIMARY_PUBLIC_UI_PATHS = PRIMARY_PUBLIC_UI_ROUTES.map((route) => route.path);
 const CUSTOM_H1_PAGES = [
   {
     path: "/",
@@ -321,31 +347,27 @@ test("work page is generated and homepage work section is reachable", async ({ r
 });
 
 test("public UI pages do not expose draft copy markers", async ({ request, page }) => {
-  const pages = [
-    "/",
-    "/work/",
-    "/resources/",
-    "/idx/",
-    "/idx/assistant/",
-    "/private-ai-deployment/",
-    "/custom-ai-systems/",
-    "/ai-robotics-solutions/",
-    "/about/",
-    "/contact/",
-  ];
-
-  for (const path of pages) {
+  for (const path of PRIMARY_PUBLIC_UI_PATHS) {
     const response = await request.get(path);
     expect(response.ok()).toBeTruthy();
 
     const html = await response.text();
+    expect(countHeadingTags(html, 1)).toBe(1);
     for (const marker of PUBLIC_DRAFT_MARKERS) {
+      expect(html).not.toContain(marker);
+    }
+    for (const marker of OLD_PUBLIC_UI_HTML_MARKERS) {
       expect(html).not.toContain(marker);
     }
 
     await page.goto(path);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     await expect(page.locator("[data-mdz-placeholder]")).toHaveCount(0);
-    await expect(page.locator('[class^="mdz-"], [class*=" mdz-"], .page__content, .sidebar__right, .page__footer')).toHaveCount(0);
+    await expect(
+      page.locator(
+        '[class^="mdz-"], [class*=" mdz-"], .page__content, .page__title, .sidebar__right, .page__footer, .archive, [class^="archive__"], [class*=" archive__"]'
+      )
+    ).toHaveCount(0);
   }
 });
 
@@ -366,20 +388,7 @@ test("core UI pages load without browser errors or broken local resources", asyn
     }
   });
 
-  const pages = [
-    "/",
-    "/work/",
-    "/resources/",
-    "/idx/",
-    "/idx/assistant/",
-    "/private-ai-deployment/",
-    "/custom-ai-systems/",
-    "/ai-robotics-solutions/",
-    "/about/",
-    "/contact/",
-  ];
-
-  for (const path of pages) {
+  for (const path of PRIMARY_PUBLIC_UI_PATHS) {
     await page.goto(path, { waitUntil: "networkidle" });
   }
 
@@ -418,9 +427,16 @@ test("homepage keeps search assets off the page while search layout still loads 
   expect(searchHtml).toContain("lunr.min.js");
   expect(searchHtml).toContain("lunr-store.js");
   expect(searchHtml).not.toContain('class="search-content"');
+  expect(searchHtml).toContain("eh-search-page");
+  expect(searchHtml).toContain("eh-search-panel");
+  expect(searchHtml).not.toContain('class="archive"');
+  expect(searchHtml).not.toContain('class="page__title');
 
   await page.goto("/search/?q=private%20deployment");
   await expect(page.locator("input#search")).toHaveValue("private deployment");
+  await expect(page.locator(".eh-search-results__count")).toContainText(/result(s)? found/);
+  await expect(page.locator(".eh-search-result").first()).toBeVisible();
+  await expect(page.locator(".archive, [class^='archive__'], [class*=' archive__']")).toHaveCount(0);
 });
 
 test("llms.txt is published with service and contact guidance", async ({ request }) => {
@@ -561,28 +577,16 @@ test("resource guide reading layout exposes content before oversized navigation"
 });
 
 test("resource UI changes do not introduce horizontal overflow on primary pages", async ({ page }) => {
-  const pages = [
-    { path: "/", heading: HOMEPAGE_H1 },
-    { path: "/work/", heading: "Engagements where private AI shipped." },
-    { path: "/resources/", heading: "Private AI Resource Hub" },
-    { path: "/idx/", heading: IDX_H1 },
-    { path: "/idx/assistant/", heading: IDX_H1 },
-    { path: "/private-ai-deployment/", heading: "Private AI Deployment" },
-    { path: "/custom-ai-systems/", heading: "Custom AI Systems" },
-    { path: "/ai-robotics-solutions/", heading: "AI and robotics work that starts from the workflow." },
-    { path: "/about/", heading: /Get to know\s+Dr\. Mehrdad Zaker/ },
-    { path: "/contact/", heading: "Bring a concrete AI, deployment, or workflow problem." },
-  ];
-
   for (const viewport of [
     { width: 390, height: 844 },
     { width: 768, height: 1024 },
     { width: 1440, height: 900 },
   ]) {
     await page.setViewportSize(viewport);
-    for (const pageUnderTest of pages) {
+    for (const pageUnderTest of PRIMARY_PUBLIC_UI_ROUTES) {
       await page.goto(pageUnderTest.path);
       await expectNoHorizontalOverflow(page);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
       await expect(page.getByRole("heading", { level: 1, name: pageUnderTest.heading })).toBeVisible();
     }
   }
