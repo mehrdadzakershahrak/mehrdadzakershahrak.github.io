@@ -3,7 +3,7 @@ name: Rotate Hero Verb
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 * * * *"
+    - cron: "0 */6 * * *"
 
 permissions:
   contents: write
@@ -24,23 +24,10 @@ jobs:
           ref: gh-pages
           fetch-depth: 0
 
-      - name: Add scheduled jitter
-        if: github.event_name == 'schedule'
-        run: |
-          delay="$(( RANDOM % 2400 ))"
-          echo "Sleeping ${delay}s to vary commit time."
-          sleep "$delay"
-
       - name: Rotate hero verb
         id: rotate
         run: |
-          chance="0.30"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            chance="1.0"
-          fi
-
-          python3 tools/rotate_hero_verb.py --chance "$chance"
-
+          python3 tools/rotate_hero_verb.py
           current="$(python3 tools/rotate_hero_verb.py --current-verb)"
           echo "current=${current}" >> "$GITHUB_OUTPUT"
 
