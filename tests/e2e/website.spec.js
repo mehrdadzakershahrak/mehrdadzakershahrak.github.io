@@ -4,7 +4,7 @@ const PRODUCT_URL = "https://idx.mehrdadzaker.com/v2/portal";
 const HOMEPAGE_TITLE = "Mehrdad Zaker — Private AI Systems That Ship";
 const HOMEPAGE_DESCRIPTION =
   "Private AI systems that verify every answer, protect sensitive documents, and run in production. Consulting, custom AI systems, and the IDX platform.";
-const HOMEPAGE_HERO_VERBS = ["shaping", "framing", "informing", "guiding", "influencing"];
+const HOMEPAGE_HERO_VERBS = ["shaping", "framing", "forming", "guiding", "influencing"];
 const HOMEPAGE_H1 = new RegExp(
   `Played a part in (${HOMEPAGE_HERO_VERBS.join("|")}) the principles behind\\s*the G, P, and T in ChatGPT\\.`,
   "i"

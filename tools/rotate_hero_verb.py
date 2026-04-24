@@ -12,7 +12,7 @@ from pathlib import Path
 VERBS = (
     "shaping",
     "framing",
-    "informing",
+    "forming",
     "guiding",
     "influencing",
 )
