@@ -10,16 +10,14 @@ import sys
 from pathlib import Path
 
 VERBS = (
-    "encode",
-    "represent",
-    "address",
-    "index",
-    "enumerate",
-    "parameterize",
+    "shaping",
+    "framing",
+    "informing",
+    "guiding",
+    "influencing",
 )
-
 HERO_RE = re.compile(
-    r"(With 10 digits, I can )(" + "|".join(VERBS) + r")(<br>)"
+    r"(Played a part in )(" + "|".join(VERBS) + r")( the principles behind<br>)"
 )
 
 
