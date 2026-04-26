@@ -880,7 +880,14 @@ test("idx product page stays public and does not load retired guidance or dashbo
   const html = await response.text();
   expect(html).toContain("eh-showcase--idx");
   expect(html).toContain("Open IDX dashboard");
+  expect(html).toContain("Proof Assets");
+  expect(html).toContain("Measurable Review");
+  expect(html).toContain("Safety Boundary");
+  expect(html).toContain("Anonymized Workflow Proof");
+  expect(html).toContain("Objection Proof");
   expect(html).toContain("Operational Links");
+  expect(html).toContain("/products/idx/trust/");
+  expect(html).toContain("idx-proof-answer-citation.svg");
   expect(html).not.toContain("Industry Guidance");
   expect(html).not.toContain("idx-guidance.js");
   expect(html).not.toContain("idx-dashboard.js");
@@ -897,6 +904,12 @@ test("idx product page stays public and does not load retired guidance or dashbo
   await expect(hero.getByRole("link", { name: "Open IDX dashboard" })).toHaveAttribute("href", "/idx/dashboard/");
   await expect(hero.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/login/");
   await expect(hero.getByRole("link", { name: "Private deployment" })).toHaveAttribute("href", "/private-ai-deployment/");
+  await expect(page.getByRole("heading", { name: "Show the source trail before asking buyers to believe the claim." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Use demo fields until real telemetry is approved for publication." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Make the data flow easy to check before a buyer uploads real work." })).toBeVisible();
+  await expect(page.getByText("Operations Coordinator")).toBeVisible();
+  await expect(page.getByText("Can I verify answers?")).toBeVisible();
+  await expect(page.locator('a[href="/products/idx/trust/"]').first()).toBeVisible();
   await expect(page.locator('a[href="/idx/support/"]').first()).toBeVisible();
   await expect(page.locator('a[href="/idx/privacy/"]').first()).toBeVisible();
   await expect(page.locator('a[href="/idx/terms/"]').first()).toBeVisible();
@@ -918,6 +931,26 @@ test("idx product page remains usable on mobile and the dashboard CTA still hand
   await page.waitForURL(PRODUCT_URL);
   expect(page.url()).toBe(PRODUCT_URL);
   await expect(page.getByText("IDX v2 portal")).toBeVisible();
+});
+
+test("idx trust page explains the public site and product host boundary", async ({ request, page }) => {
+  const response = await request.get("/products/idx/trust/");
+  expect(response.ok()).toBeTruthy();
+
+  const html = await response.text();
+  expect(html).toContain("IDX Trust and Data Flow");
+  expect(html).toContain("idx.mehrdadzaker.com");
+  expect(html).toContain("/idx/privacy/");
+  expect(html).toContain("/idx/terms/");
+
+  await page.goto("/products/idx/trust/");
+
+  await expect(page.getByRole("heading", { name: "Confirm the data boundary before real documents enter the workflow." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "What runs on the public site versus the live product host." })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "A safe first review starts with approved material." })).toBeVisible();
+  await expect(page.locator('a[href="/idx/dashboard/"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/idx/privacy/"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/idx/terms/"]').first()).toBeVisible();
 });
 
 test("deployment failure article bridges to IDX while keeping the final consulting CTA", async ({ request, page }) => {

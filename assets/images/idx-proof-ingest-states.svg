@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic IDX ingest state dashboard</title>
+  <desc id="desc">A synthetic product proof visual showing uploaded document states, compile progress, and recovery visibility.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef4ef"/>
+      <stop offset="1" stop-color="#f5ead5"/>
+    </linearGradient>
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#17342c" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="960" height="600" rx="28" fill="url(#bg)"/>
+  <rect x="64" y="58" width="832" height="484" rx="22" fill="#fffdf8" stroke="#d8cab7" filter="url(#shadow)"/>
+  <text x="100" y="116" fill="#203f39" font-family="Georgia, serif" font-size="32">Visible ingest states</text>
+  <text x="100" y="148" fill="#607067" font-family="Arial, sans-serif" font-size="15">Demo packet: vendor onboarding PDFs, policy addenda, renewal notes</text>
+  <rect x="100" y="188" width="760" height="56" rx="14" fill="#eef5ee" stroke="#c8d8cb"/>
+  <text x="124" y="222" fill="#203f39" font-family="Arial, sans-serif" font-size="16" font-weight="700">Vendor-security-overview.pdf</text>
+  <rect x="648" y="203" width="144" height="26" rx="13" fill="#dcefe3"/>
+  <text x="680" y="222" fill="#1e5d3f" font-family="Arial, sans-serif" font-size="13" font-weight="700">Compiled</text>
+  <rect x="100" y="262" width="760" height="56" rx="14" fill="#fffaf0" stroke="#dccfb8"/>
+  <text x="124" y="296" fill="#203f39" font-family="Arial, sans-serif" font-size="16" font-weight="700">Renewal-redlines-q2.pdf</text>
+  <rect x="648" y="277" width="144" height="26" rx="13" fill="#fae7bc"/>
+  <text x="681" y="296" fill="#765515" font-family="Arial, sans-serif" font-size="13" font-weight="700">Compiling</text>
+  <rect x="100" y="336" width="760" height="56" rx="14" fill="#fff8f2" stroke="#e3c4ac"/>
+  <text x="124" y="370" fill="#203f39" font-family="Arial, sans-serif" font-size="16" font-weight="700">Legacy-vendor-terms.pdf</text>
+  <rect x="648" y="351" width="144" height="26" rx="13" fill="#f4d9cf"/>
+  <text x="696" y="370" fill="#86452c" font-family="Arial, sans-serif" font-size="13" font-weight="700">Stalled</text>
+  <rect x="100" y="428" width="228" height="58" rx="14" fill="#203f39"/>
+  <text x="126" y="455" fill="#fff8e8" font-family="Arial, sans-serif" font-size="13">Tracked state changes</text>
+  <text x="126" y="475" fill="#f1d9aa" font-family="Georgia, serif" font-size="22">upload -> compile -> ready</text>
+  <rect x="362" y="428" width="228" height="58" rx="14" fill="#f7ead3" stroke="#d9c098"/>
+  <text x="388" y="455" fill="#4c4437" font-family="Arial, sans-serif" font-size="13">Failure visibility</text>
+  <text x="388" y="475" fill="#203f39" font-family="Georgia, serif" font-size="22">stalls are not hidden</text>
+  <rect x="624" y="428" width="236" height="58" rx="14" fill="#edf5f0" stroke="#c4d7ca"/>
+  <text x="650" y="455" fill="#4c5f55" font-family="Arial, sans-serif" font-size="13">Recovery path</text>
+  <text x="650" y="475" fill="#203f39" font-family="Georgia, serif" font-size="22">retry with context</text>
+  <text x="100" y="520" fill="#6f786f" font-family="Arial, sans-serif" font-size="13">Synthetic/redacted demo visual. Replace with a live product screenshot when approved.</text>
+</svg>

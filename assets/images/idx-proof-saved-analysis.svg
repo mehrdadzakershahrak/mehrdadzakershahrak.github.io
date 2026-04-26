@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic IDX saved analysis page</title>
+  <desc id="desc">A synthetic product proof visual showing an analysis page saved from source-backed findings.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef4ef"/>
+      <stop offset="1" stop-color="#f6efe3"/>
+    </linearGradient>
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#17342c" flood-opacity="0.14"/>
+    </filter>
+  </defs>
+  <rect width="960" height="600" rx="28" fill="url(#bg)"/>
+  <rect x="74" y="58" width="812" height="484" rx="22" fill="#fffdf8" stroke="#d8cab7" filter="url(#shadow)"/>
+  <rect x="112" y="100" width="220" height="28" rx="14" fill="#203f39"/>
+  <text x="138" y="119" fill="#fff8e8" font-family="Arial, sans-serif" font-size="13">Saved analysis page</text>
+  <text x="112" y="174" fill="#203f39" font-family="Georgia, serif" font-size="34">Vendor renewal review</text>
+  <text x="112" y="208" fill="#607067" font-family="Arial, sans-serif" font-size="15">Reusable page assembled from cited findings and source links</text>
+  <rect x="112" y="252" width="300" height="164" rx="16" fill="#eef5ee" stroke="#c8d8cb"/>
+  <text x="140" y="288" fill="#203f39" font-family="Georgia, serif" font-size="22">Finding</text>
+  <text x="140" y="322" fill="#4f6157" font-family="Arial, sans-serif" font-size="14">Incident notice changed from 72</text>
+  <text x="140" y="344" fill="#4f6157" font-family="Arial, sans-serif" font-size="14">hours to 24 hours in the renewal</text>
+  <text x="140" y="366" fill="#4f6157" font-family="Arial, sans-serif" font-size="14">packet.</text>
+  <rect x="140" y="384" width="108" height="26" rx="13" fill="#203f39"/>
+  <text x="162" y="402" fill="#fff8e8" font-family="Arial, sans-serif" font-size="12">Page 14</text>
+  <rect x="452" y="252" width="300" height="164" rx="16" fill="#fffaf0" stroke="#dccfb8"/>
+  <text x="480" y="288" fill="#203f39" font-family="Georgia, serif" font-size="22">Open questions</text>
+  <text x="480" y="322" fill="#4f6157" font-family="Arial, sans-serif" font-size="14">Confirm whether the support SLA</text>
+  <text x="480" y="344" fill="#4f6157" font-family="Arial, sans-serif" font-size="14">language conflicts with the new</text>
+  <text x="480" y="366" fill="#4f6157" font-family="Arial, sans-serif" font-size="14">notice requirement.</text>
+  <rect x="480" y="384" width="112" height="26" rx="13" fill="#f1e4ce" stroke="#d2b987"/>
+  <text x="501" y="402" fill="#5f4b24" font-family="Arial, sans-serif" font-size="12">Page 22</text>
+  <rect x="112" y="452" width="640" height="34" rx="17" fill="#f3eadb" stroke="#d8cab7"/>
+  <text x="140" y="474" fill="#4f6157" font-family="Arial, sans-serif" font-size="13">Every saved note keeps the source trail nearby for later review.</text>
+  <text x="112" y="520" fill="#6f786f" font-family="Arial, sans-serif" font-size="13">Synthetic/redacted demo visual. Replace with a live product screenshot when approved.</text>
+</svg>
