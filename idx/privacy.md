@@ -8,7 +8,7 @@ footer_variant: idx
 
 This IDX Privacy page explains how information is handled across the IDX surfaces currently exposed by Mehrdad Zaker:
 
-- public informational pages on this site, such as [IDX Overview]({{ '/idx/assistant/' | relative_url }})
+- public informational pages on this site, such as [Product Catalogue]({{ '/products/' | relative_url }}) and [IDX]({{ '/products/idx/' | relative_url }})
 - redirect and handoff pages on this site, such as [Login]({{ '/login/' | relative_url }}) and [IDX Dashboard]({{ '/idx/dashboard/' | relative_url }})
 - the separate IDX application, authentication, and ChatGPT-connected workflows served from [`https://idx.mehrdadzaker.com`](https://idx.mehrdadzaker.com)
 
@@ -16,7 +16,7 @@ These surfaces do not all return or display the same data. Public site pages are
 
 ## Public IDX Pages
 
-Public IDX pages on this site, including `/idx/assistant/`, can be viewed without signing in. Those pages may still involve normal website request processing such as IP address, browser details, page requests, and basic operational logging.
+Public IDX pages on this site, including `/products/idx/`, can be viewed without signing in. Those pages may still involve normal website request processing such as IP address, browser details, page requests, and basic operational logging.
 
 ## Handoff Pages On This Site
 

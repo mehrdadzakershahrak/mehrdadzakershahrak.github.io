@@ -105,7 +105,7 @@ For document-heavy workflows, preserve page numbers, headings, section IDs, tabl
 
 Use representative queries with expected source passages. A retrieval test should fail if the right passage is absent, buried too low, or mixed with irrelevant text that changes the answer. This test does not require a model. It tests the evidence supply chain directly.
 
-After retrieval is stable, test the generated answer for faithfulness, completeness, refusal behavior, and citation correctness. For document review workflows where page-level verification matters, [IDX]({{ '/idx/assistant/' | relative_url }}) is the productized path on this site.
+After retrieval is stable, test the generated answer for faithfulness, completeness, refusal behavior, and citation correctness. For document review workflows where page-level verification matters, [IDX]({{ '/products/idx/' | relative_url }}) is the productized path on this site.
 
 ## Step 3: Build an evaluation harness
 

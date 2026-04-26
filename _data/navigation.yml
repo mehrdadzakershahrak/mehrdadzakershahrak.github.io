@@ -6,9 +6,9 @@
 # history at commit 2ed9cf2 — restore from there if a deeper IA is needed.
 
 main:
-  - title: "Work"
-    key: work
-    url: /ai-robotics-solutions/
+  - title: "Product Catalogue"
+    key: product_catalogue
+    url: /products/
 
   - title: "Writing"
     key: writing

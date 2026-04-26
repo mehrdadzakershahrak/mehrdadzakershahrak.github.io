@@ -16,7 +16,7 @@ suppress_default_h1: true
         AI and robotics work best when they improve a real business process. They should reduce manual work, speed up choices, or make operations more reliable.
       </p>
       <p class="eh-summary">
-        If you already have a concrete problem, start with <a href="{{ '/contact/' | relative_url }}">Contact</a>. If documents are the bottleneck, start with <a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a>.
+        If you already have a concrete problem, start with <a href="{{ '/contact/' | relative_url }}">Contact</a>. If documents are the bottleneck, start with <a href="{{ '/products/idx/' | relative_url }}">IDX</a>.
       </p>
     </div>
     <aside class="eh-side-panel">
@@ -49,9 +49,9 @@ suppress_default_h1: true
       </div>
       <div class="eh-card-grid">
         <article class="eh-card">
-          <h3><a href="{{ '/idx/assistant/' | relative_url }}">IDX Overview</a></h3>
+          <h3><a href="{{ '/products/idx/' | relative_url }}">IDX</a></h3>
           <p>See how IDX keeps document answers tied to source pages.</p>
-          <a class="eh-btn eh-btn--secondary" href="{{ '/idx/assistant/' | relative_url }}">Explore IDX</a>
+          <a class="eh-btn eh-btn--secondary" href="{{ '/products/idx/' | relative_url }}">View product</a>
         </article>
         <article class="eh-card">
           <h3><a href="{{ '/idx/dashboard/' | relative_url }}">IDX Dashboard</a></h3>

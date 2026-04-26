@@ -9,9 +9,11 @@ const HOMEPAGE_H1 = new RegExp(
   `Played a part in (${HOMEPAGE_HERO_VERBS.join("|")}) the principles behind\\s*the G, P, and T in ChatGPT\\.`,
   "i"
 );
+const PRODUCT_CATALOGUE_H1 = "Products built around real workflow constraints.";
 const IDX_DESCRIPTION =
   "IDX lets document-heavy teams ask questions, verify source pages, and track ingest in one workspace.";
-const IDX_H1 = "Get answers you can verify before you act.";
+const IDX_H1 = "IDX";
+const IDX_TAGLINE = "Get answers you can verify before you act.";
 const FAILURE_ARTICLE_PATH = "/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/";
 const DEFAULT_SOCIAL_IMAGE_PATH = "/assets/images/private-ai-consulting-header-1200.png";
 const LINKEDIN_PROFILE_URL = "https://www.linkedin.com/in/mehrdadzaker";
@@ -87,7 +89,7 @@ const RESOURCE_GUIDES = [
       "https://www.gartner.com/en/articles/genai-project-failure",
       "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
     ],
-    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/products/idx/", "/contact/"],
   },
   {
     path: "/resources/grounding-hallucination-prevention-document-ai/",
@@ -105,7 +107,7 @@ const RESOURCE_GUIDES = [
       "https://arxiv.org/abs/2312.10997",
       "https://aclanthology.org/2024.naacl-long.20/",
     ],
-    internalLinks: ["/idx/assistant/", "/custom-ai-systems/"],
+    internalLinks: ["/products/idx/", "/custom-ai-systems/"],
   },
   {
     path: "/resources/secure-enterprise-rag-architecture/",
@@ -123,7 +125,7 @@ const RESOURCE_GUIDES = [
       "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
       "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
     ],
-    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/products/idx/", "/contact/"],
   },
   {
     path: "/resources/ai-system-reliability-evaluation-before-deployment/",
@@ -141,7 +143,7 @@ const RESOURCE_GUIDES = [
       "https://www.nist.gov/itl/ai-risk-management-framework",
       "https://aclanthology.org/2024.naacl-long.20/",
     ],
-    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/"],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/products/idx/"],
   },
   {
     path: "/resources/private-vs-cloud-ai-regulated-industries/",
@@ -160,7 +162,7 @@ const RESOURCE_GUIDES = [
       "https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai",
       "https://www.nist.gov/itl/ai-risk-management-framework",
     ],
-    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/idx/assistant/", "/contact/"],
+    internalLinks: ["/private-ai-deployment/", "/custom-ai-systems/", "/products/idx/", "/contact/"],
   },
 ];
 const AI_MATERIAL_REFERENCES = [
@@ -200,10 +202,10 @@ const PRIMARY_PUBLIC_UI_ROUTES = [
   { path: NEWSLETTER_AI_MATERIAL[0].path, heading: NEWSLETTER_AI_MATERIAL[0].title },
   { path: NEWSLETTER_AI_MATERIAL[1].path, heading: NEWSLETTER_AI_MATERIAL[1].title },
   { path: "/podcast/", heading: "Podcast" },
+  { path: "/products/", heading: PRODUCT_CATALOGUE_H1 },
+  { path: "/products/idx/", heading: IDX_H1 },
   { path: "/resources/", heading: "Private AI Resource Hub" },
   { path: AI_MATERIAL_REFERENCES[0].path, heading: AI_MATERIAL_REFERENCES[0].title },
-  { path: "/idx/", heading: IDX_H1 },
-  { path: "/idx/assistant/", heading: IDX_H1 },
   { path: "/private-ai-deployment/", heading: "Private AI Deployment" },
   { path: "/custom-ai-systems/", heading: "Custom AI Systems" },
   { path: "/ai-robotics-solutions/", heading: "AI and robotics work that starts from the workflow." },
@@ -230,12 +232,16 @@ const CUSTOM_H1_PAGES = [
     headingPattern: /Bring a concrete AI, deployment, or workflow problem\./,
   },
   {
+    path: "/products/",
+    headingPattern: /Products built around real workflow constraints\./,
+  },
+  {
     path: "/idx/support/",
     headingPattern: /Get help with IDX access, document workflows, or rollout questions\./,
   },
   {
-    path: "/idx/assistant/",
-    headingPattern: /Get answers you can verify before you act\./,
+    path: "/products/idx/",
+    headingPattern: /^IDX$/,
   },
 ];
 
@@ -443,7 +449,7 @@ test("homepage editorial navigation uses the flat public order", async ({ page }
   await page.goto("/");
 
   const navItems = await page.locator(".eh-masthead__nav .eh-masthead__link").allTextContents();
-  expect(navItems.map((item) => item.trim())).toEqual(["Work", "Writing", "Resources", "About", "Contact"]);
+  expect(navItems.map((item) => item.trim())).toEqual(["Product Catalogue", "Writing", "Resources", "About", "Contact"]);
 
   const sectionItems = await page.locator(".eh-grid > .eh-nav .eh-nav__label").allTextContents();
   expect(sectionItems.map((item) => item.trim())).toEqual(["Index", "About", "Now", "Work", "Writing", "Elsewhere"]);
@@ -513,7 +519,7 @@ test("work page is generated and homepage work section is reachable", async ({ r
   const workLinks = await page.locator("#work a[href^='/']").evaluateAll((links) =>
     links.map((link) => link.getAttribute("href"))
   );
-  expect(workLinks).toContain("/idx/");
+  expect(workLinks).toContain("/products/idx/");
   for (const href of [...new Set(workLinks)]) {
     const response = await request.get(href);
     expect(response.ok()).toBeTruthy();
@@ -623,7 +629,8 @@ test("llms.txt is published with service and contact guidance", async ({ request
   expect(text).toContain("source-backed private AI statistics");
   expect(text).toContain("FAQ coverage for custom AI systems");
   expect(text).toContain("https://www.mehrdadzaker.com/contact/");
-  expect(text).toContain("https://www.mehrdadzaker.com/idx/assistant/");
+  expect(text).toContain("https://www.mehrdadzaker.com/products/");
+  expect(text).toContain("https://www.mehrdadzaker.com/products/idx/");
   expect(text).toContain("https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/");
   expect(text).toContain("https://www.mehrdadzaker.com/private-ai-deployment/");
   expect(text).toContain("https://www.mehrdadzaker.com/custom-ai-systems/");
@@ -644,7 +651,7 @@ test("resources hub lists the private AI pillar guides and service paths", async
   expect(html).toContain("eh-problem-strip");
   expect(html).toContain("/private-ai-deployment/");
   expect(html).toContain("/custom-ai-systems/");
-  expect(html).toContain("/idx/assistant/");
+  expect(html).toContain("/products/idx/");
   expect(html).toContain("/ai-robotics-solutions/");
   expect(html).toContain("/contact/");
 
@@ -836,36 +843,71 @@ test("editorial components remain readable in light and dark mode", async ({ pag
   }
 });
 
-test("idx landing page stays public and does not load retired guidance or dashboard bundles", async ({ request, page }) => {
-  const response = await request.get("/idx/assistant/");
+test("product catalogue hub lists IDX as a canonical product entry", async ({ request, page }) => {
+  const response = await request.get("/products/");
+  expect(response.ok()).toBeTruthy();
+
+  const html = await response.text();
+  expect(html).toContain("Product Catalogue");
+  expect(html).toContain("/products/idx/");
+  expect(html).toContain("Grounded answers for document-heavy review");
+
+  await page.goto("/products/");
+  await expect(page.getByRole("heading", { level: 1, name: PRODUCT_CATALOGUE_H1 })).toBeVisible();
+  await expect(page.getByRole("link", { name: "IDX" }).first()).toHaveAttribute("href", "/products/idx/");
+  await expect(page.getByRole("link", { name: "View product" })).toHaveAttribute("href", "/products/idx/");
+});
+
+test("legacy public IDX routes redirect to the canonical product page", async ({ request, page }) => {
+  for (const legacyPath of ["/idx/", "/idx/assistant/"]) {
+    const response = await request.get(legacyPath);
+    expect(response.ok()).toBeTruthy();
+
+    const html = await response.text();
+    expect(html).toContain("/products/idx/");
+    expect(html).toContain('rel="canonical"');
+
+    await page.goto(legacyPath);
+    await page.waitForURL(/\/products\/idx\/$/);
+    expect(page.url()).toMatch(/\/products\/idx\/$/);
+  }
+});
+
+test("idx product page stays public and does not load retired guidance or dashboard bundles", async ({ request, page }) => {
+  const response = await request.get("/products/idx/");
   expect(response.ok()).toBeTruthy();
 
   const html = await response.text();
   expect(html).toContain("eh-showcase--idx");
   expect(html).toContain("Open IDX dashboard");
+  expect(html).toContain("Operational Links");
   expect(html).not.toContain("Industry Guidance");
   expect(html).not.toContain("idx-guidance.js");
   expect(html).not.toContain("idx-dashboard.js");
   expect(html).not.toContain("data-idx-guidance");
 
-  await page.goto("/idx/assistant/");
+  await page.goto("/products/idx/");
 
   const hero = page.locator(".eh-showcase--idx .eh-showcase__hero");
 
   await expect(page).toHaveTitle(/IDX/);
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", IDX_DESCRIPTION);
   await expect(hero.getByRole("heading", { name: IDX_H1 })).toBeVisible();
+  await expect(hero.getByText(IDX_TAGLINE)).toBeVisible();
   await expect(hero.getByRole("link", { name: "Open IDX dashboard" })).toHaveAttribute("href", "/idx/dashboard/");
   await expect(hero.getByRole("link", { name: "Sign in" })).toHaveAttribute("href", "/login/");
   await expect(hero.getByRole("link", { name: "Private deployment" })).toHaveAttribute("href", "/private-ai-deployment/");
+  await expect(page.locator('a[href="/idx/support/"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/idx/privacy/"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/idx/terms/"]').first()).toBeVisible();
   await expect(page.locator('script[src*="idx-dashboard.js"]')).toHaveCount(0);
 });
 
-test("idx landing page remains usable on mobile and the dashboard CTA still hands off to the product host", async ({ page }) => {
+test("idx product page remains usable on mobile and the dashboard CTA still hands off to the product host", async ({ page }) => {
   await mockIdxHost(page, "IDX v2", "IDX v2 portal");
 
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto("/idx/assistant/");
+  await page.goto("/products/idx/");
 
   const hero = page.locator(".eh-showcase--idx .eh-showcase__hero");
 
@@ -883,10 +925,10 @@ test("deployment failure article bridges to IDX while keeping the final consulti
   expect(response.ok()).toBeTruthy();
 
   const html = await response.text();
-  expect(html).toContain("/idx/assistant/");
+  expect(html).toContain("/products/idx/");
   expect(html).toContain("Get in touch");
 
   await page.goto(FAILURE_ARTICLE_PATH);
-  await expect(page.locator(".eh-prose").getByRole("link", { name: "IDX" })).toHaveAttribute("href", "/idx/assistant/");
+  await expect(page.locator(".eh-prose").getByRole("link", { name: "IDX" })).toHaveAttribute("href", "/products/idx/");
   await expect(page.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "/contact/");
 });

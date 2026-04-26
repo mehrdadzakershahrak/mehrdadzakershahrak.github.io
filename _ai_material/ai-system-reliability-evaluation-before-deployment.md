@@ -209,7 +209,7 @@ The gate should match the workflow. A low-risk internal drafting assistant does 
 
 Start with a small group and known corpus. Monitor failures, collect feedback, and add regression tests before expanding. Reliability improves fastest when launch is treated as an observation period.
 
-For document-heavy use cases where source review is the immediate bottleneck, [IDX]({{ '/idx/assistant/' | relative_url }}) may be the fastest starting path. For custom systems, the same reliability ideas should be built into the implementation plan.
+For document-heavy use cases where source review is the immediate bottleneck, [IDX]({{ '/products/idx/' | relative_url }}) may be the fastest starting path. For custom systems, the same reliability ideas should be built into the implementation plan.
 
 ### Keep evaluation alive
 

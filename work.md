@@ -19,7 +19,7 @@ suppress_default_h1: true
     <aside class="eh-side-panel" aria-label="Work focus">
       <p class="eh-eyebrow">Flat Site Order</p>
       <ol class="eh-mini-index">
-        <li><a href="{{ '/ai-robotics-solutions/' | relative_url }}">Work</a></li>
+        <li><a href="{{ '/products/' | relative_url }}">Product Catalogue</a></li>
         <li><a href="{{ '/newsletter/' | relative_url }}">Writing</a></li>
         <li><a href="{{ '/resources/' | relative_url }}">Resources</a></li>
         <li><a href="{{ '/about/' | relative_url }}">About</a></li>

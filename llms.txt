@@ -28,9 +28,10 @@ The public website does not host the live authenticated IDX product experience. 
 - [Private vs. Cloud AI: Tradeoffs for Regulated Industries](https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/): Deployment-model comparison for regulated teams choosing private, cloud, or hybrid AI architectures.
 - [The Practical Guide to Running Local LLMs](https://www.mehrdadzaker.com/resources/local-llm-practical-guide/): Technical reference for local LLM hardware, runtimes, quantization, model sizes, serving patterns, and common production mistakes.
 
-## Document Grounding With IDX
+## Product Catalogue
 
-- [IDX Overview](https://www.mehrdadzaker.com/idx/assistant/): Product overview for grounded answers, page-level verification, and visible ingest states in document-heavy review. Use this when the problem is document review, source citation, or evidence inspection.
+- [Product Catalogue](https://www.mehrdadzaker.com/products/): Hub for public product profiles on this site.
+- [IDX](https://www.mehrdadzaker.com/products/idx/): Product overview for grounded answers, page-level verification, and visible ingest states in document-heavy review. Use this when the problem is document review, source citation, or evidence inspection.
 - [IDX Dashboard Handoff](https://www.mehrdadzaker.com/idx/dashboard/): Redirect entry point into the live IDX product host.
 - [Newsletter](https://www.mehrdadzaker.com/newsletter/): Long-form writing on private AI systems, robotics, and production architecture.
 - [Why Most Private AI Deployments Fail Before They Ship in 2026](https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/): Notes on why private deployments stall between demo and production.

@@ -85,6 +85,6 @@ If you want to use this program, send a short note through [Contact]({{ '/contac
 
 ## Learn more
 
-- [IDX Overview]({{ '/idx/assistant/' | relative_url }}) for the IDX document-workflow path
+- [IDX]({{ '/products/idx/' | relative_url }}) for the IDX document-workflow path
 - [About]({{ '/about/' | relative_url }}) for broader background and delivery context
 - [Contact]({{ '/contact/' | relative_url }}) for direct introductions

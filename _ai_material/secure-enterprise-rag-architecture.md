@@ -47,7 +47,7 @@ faqs:
 
 Retrieval-augmented generation helps teams answer questions from internal knowledge, policies, contracts, technical records, support tickets, and research files. In enterprise environments, the challenge is not only relevance. The system must retrieve the right evidence for the right user, keep sensitive data inside approved boundaries, resist malicious instructions in documents, and produce answers that can be reviewed.
 
-This guide describes a practical secure RAG architecture. It fits teams evaluating [private AI deployment]({{ '/private-ai-deployment/' | relative_url }}), building [custom AI systems]({{ '/custom-ai-systems/' | relative_url }}), or deciding whether a document-heavy workflow should start with [IDX]({{ '/idx/assistant/' | relative_url }}).
+This guide describes a practical secure RAG architecture. It fits teams evaluating [private AI deployment]({{ '/private-ai-deployment/' | relative_url }}), building [custom AI systems]({{ '/custom-ai-systems/' | relative_url }}), or deciding whether a document-heavy workflow should start with [IDX]({{ '/products/idx/' | relative_url }}).
 
 ## The secure RAG design principle
 
@@ -103,7 +103,7 @@ If chunks can be copied into a separate vector index without their security meta
 
 Enterprise documents are messy. Ingestion may normalize text, extract tables, OCR scans, split sections, and remove boilerplate. That is acceptable only if provenance remains intact. A reviewer should be able to trace an answer back to a document, page, section, and version.
 
-For PDFs and review workflows, page-level references are especially important. If source verification is central to the workflow, use a product path such as [IDX for grounded document review]({{ '/idx/assistant/' | relative_url }}) or build equivalent viewer-linked citations into the custom system.
+For PDFs and review workflows, page-level references are especially important. If source verification is central to the workflow, use a product path such as [IDX for grounded document review]({{ '/products/idx/' | relative_url }}) or build equivalent viewer-linked citations into the custom system.
 
 ### Sanitize and label untrusted content
 

@@ -144,7 +144,7 @@ suppress_default_h1: true
     <div class="eh-link-cloud">
       <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI deployment</a>
       <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI systems</a>
-      <a href="{{ '/idx/assistant/' | relative_url }}">IDX document review</a>
+      <a href="{{ '/products/idx/' | relative_url }}">IDX document review</a>
       <a href="{{ '/ai-robotics-solutions/' | relative_url }}">Solutions</a>
       <a href="{{ '/contact/' | relative_url }}">Contact</a>
     </div>

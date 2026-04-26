@@ -1,12 +1,13 @@
+{%- assign product = site.data.products | where: "key", "idx" | first -%}
 <section class="eh-showcase eh-showcase--idx">
-  <section class="eh-showcase__hero" aria-labelledby="idx-hero-title">
+  <section class="eh-showcase__hero" aria-labelledby="idx-product-title">
     <div class="eh-showcase__copy">
-      <p class="eh-eyebrow">IDX</p>
-      <h1 id="idx-hero-title" class="eh-title">Get answers you can verify before you act.</h1>
+      <p class="eh-eyebrow">Product Catalogue</p>
+      <h1 id="idx-product-title" class="eh-title">{{ product.title }}</h1>
       <p class="eh-dek">
-        IDX helps teams ask questions about PDFs and open the source page behind each answer. Review moves faster because evidence stays close.
+        Get answers you can verify before you act.
       </p>
-      <p class="eh-summary">Use IDX when a document answer needs proof. It keeps answers, source pages, and review status in one place.</p>
+      <p class="eh-summary">{{ product.summary }}</p>
       <div class="eh-action-row">
         <a class="eh-btn" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX dashboard</a>
         <a class="eh-btn eh-btn--secondary" href="{{ '/login/' | relative_url }}">Sign in</a>
@@ -29,7 +30,7 @@
     </div>
 
     <aside class="eh-side-panel" aria-label="IDX workflow overview">
-      <p class="eh-eyebrow">Inside The Workspace</p>
+      <p class="eh-eyebrow">Product Profile</p>
       <h2>Built for review teams that cannot afford opaque answers.</h2>
       <ul class="eh-check-list">
         <li>Upload a focused document set into one library.</li>
@@ -112,14 +113,34 @@
     </div>
   </section>
 
+  <section class="eh-section" aria-labelledby="idx-operate-title">
+    <div class="eh-section-head">
+      <p class="eh-eyebrow">Operational Links</p>
+      <h2 id="idx-operate-title">Keep the public product page separate from the live operational surfaces.</h2>
+      <p>
+        The product page explains fit and workflow. Dashboard access, support, and policy surfaces stay on their operational routes.
+      </p>
+    </div>
+    <div class="eh-card-grid">
+      {% for link in product.secondary_links %}
+        <article class="eh-card">
+          <h3><a href="{{ link.url | relative_url }}">{{ link.label }}</a></h3>
+          <p>{{ link.description }}</p>
+          <a class="eh-btn eh-btn--secondary" href="{{ link.url | relative_url }}">{{ link.label }}</a>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
   <section class="eh-cta-panel" aria-labelledby="idx-cta-title">
     <div>
       <p class="eh-eyebrow">Start Here</p>
       <h2 id="idx-cta-title">Start with the document workflow that needs evidence, not more chat.</h2>
-      <p>Use the public overview to confirm fit. Then move into the dashboard when the work depends on evidence.</p>
+      <p>Use the product page to confirm fit. Then move into the dashboard when the work depends on evidence.</p>
     </div>
     <div class="eh-action-row">
       <a class="eh-btn" href="{{ '/idx/dashboard/' | relative_url }}">Go to dashboard</a>
+      <a class="eh-btn eh-btn--secondary" href="{{ '/products/' | relative_url }}">Back to catalogue</a>
       <a class="eh-btn eh-btn--secondary" href="{{ '/contact/' | relative_url }}">Talk to Mehrdad</a>
     </div>
   </section>

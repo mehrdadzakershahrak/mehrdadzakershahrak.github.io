@@ -1,0 +1,27 @@
+- key: idx
+  order: 1
+  title: "IDX"
+  eyebrow: "Source-Backed Document Review"
+  url: "/products/idx/"
+  summary: "Grounded answers for document-heavy review, with page-level verification, visible ingest states, and workspace-native evidence."
+  cta_label: "View product"
+  cta_url: "/products/idx/"
+  status: "Live product"
+  availability: "Public product page + live portal handoff"
+  tags:
+    - "Grounded answers"
+    - "Page citations"
+    - "Visible ingest"
+  secondary_links:
+    - label: "Open dashboard"
+      url: "/idx/dashboard/"
+      description: "Secure handoff into the live IDX portal on the product host."
+    - label: "Support"
+      url: "/idx/support/"
+      description: "Operational help for access, uploads, readiness, search, and workflow fit."
+    - label: "Privacy"
+      url: "/idx/privacy/"
+      description: "How IDX handles public pages, redirects, app access, and uploaded document workflows."
+    - label: "Terms"
+      url: "/idx/terms/"
+      description: "Usage terms for the public IDX pages and linked product surfaces."

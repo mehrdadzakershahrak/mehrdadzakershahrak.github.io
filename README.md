@@ -4,7 +4,8 @@ This repo is now a static marketing and guidance surface only. The live LLM Wiki
 
 ## Production surface
 - Public guidance and marketing pages remain on `www.mehrdadzaker.com`.
-- `/idx/assistant/` is the public IDX landing page.
+- `/products/idx/` is the canonical public IDX product page.
+- `/idx/` and `/idx/assistant/` redirect to `/products/idx/`.
 - `/idx/dashboard/` is a thin redirect/handoff page to `https://idx.mehrdadzaker.com/v2/portal`.
 - `/login/` redirects to `https://idx.mehrdadzaker.com/auth/login`.
 - The website no longer gates access with its own auth flow for the v2 product.
@@ -55,7 +56,8 @@ The website Playwright suite validates the static v2 handoff contract:
 - `/idx/dashboard/` renders the wrapper and redirects directly to the product host
 - legacy query params are ignored
 - `/login/` redirects directly to product-domain auth
-- `/idx/assistant/` stays a public IDX landing page with the current CTA contract
+- `/products/idx/` stays the canonical public IDX product page
+- `/idx/` and `/idx/assistant/` redirect to the canonical product page
 - AI material appears in the resource hub, newsletter, homepage writing feed, sitemap, and local search data
 - Primary routes remain readable in light and dark mode
 

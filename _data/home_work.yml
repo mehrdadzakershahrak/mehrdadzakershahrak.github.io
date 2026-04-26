@@ -43,5 +43,5 @@
     assistants — retrieval with source evidence, guarded prompting,
     reviewable transcripts, and deployment targets that stay inside the
     customer's environment.
-  url: /idx/
+  url: /products/idx/
   stack: ["Retrieval", "Evals", "Governance"]

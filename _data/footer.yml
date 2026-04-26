@@ -18,8 +18,8 @@ columns:
 
   - title: "IDX"
     links:
-      - label: "IDX Overview"
-        url: "/idx/assistant/"
+      - label: "IDX"
+        url: "/products/idx/"
       - label: "IDX Dashboard"
         url: "/idx/dashboard/"
       - label: "Private Deployment"
