@@ -452,7 +452,7 @@ test("homepage editorial navigation uses the flat public order", async ({ page }
   expect(navItems.map((item) => item.trim())).toEqual(["Product Catalogue", "Writing", "Resources", "About", "Contact"]);
 
   const sectionItems = await page.locator(".eh-grid > .eh-nav .eh-nav__label").allTextContents();
-  expect(sectionItems.map((item) => item.trim())).toEqual(["Index", "About", "Now", "Work", "Writing", "Elsewhere"]);
+  expect(sectionItems.map((item) => item.trim())).toEqual(["Index", "About", "Now", "Product Catalogue", "Writing", "Contact"]);
 
   const toggle = page.locator("#eh-theme-toggle");
   await expect(toggle).toBeVisible();
