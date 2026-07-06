@@ -82,8 +82,9 @@ suppress_default_h1: true
 
     <div class="eh-exec-list">
       {%- for w in work_items -%}
-        <a class="eh-exec-row" href="{{ w.url | default: '/work/' | relative_url }}" data-analytics="work_click" data-analytics-label="{{ w.url | default: w.title | slugify }}">
-          <span>{{ w.title }}</span>
+        <a class="eh-exec-row eh-exec-row--marked" href="{{ w.url | default: '/work/' | relative_url }}" data-analytics="work_click" data-analytics-label="{{ w.url | default: w.title | slugify }}">
+          {% include work_mark.html mark=w.mark %}
+          <span class="eh-exec-row__title">{{ w.title }}</span>
           <em>{{ w.kind }}</em>
         </a>
       {%- endfor -%}
@@ -99,7 +100,7 @@ suppress_default_h1: true
     <div class="eh-exec-list">
       {%- for entry in writing_list -%}
         <a class="eh-exec-row" href="{{ entry.url | relative_url }}" data-analytics="writing_click" data-analytics-label="{{ entry.url | slugify }}">
-          <span>{{ entry.title }}</span>
+          <span class="eh-exec-row__title">{{ entry.title }}</span>
           <em>{{ entry.content_type | default: "Note" | capitalize }}</em>
         </a>
       {%- endfor -%}

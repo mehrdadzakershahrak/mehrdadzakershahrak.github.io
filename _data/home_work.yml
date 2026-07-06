@@ -1,41 +1,60 @@
-# Work entries rendered by the editorial homepage.
+# Work entries rendered by the executive homepage and work page.
 
 - year: "2026"
   title: "Private AI deployment"
-  kind: "Architecture and implementation"
-  blurb: >
+  mark: "bounded-stack"
+  kind: "Architecture, evaluation, deployment boundaries"
+  brief: >
     Move LLM systems from pilot to production with grounded retrieval,
-    reviewable evaluations, tenant isolation, and operational controls that
-    stand up to security and reliability review.
-  url: /private-ai-deployment/
-  stack: ["Retrieval", "Evaluation", "Guardrails", "Observability"]
+    reviewable evaluations, tenant isolation, and deployment controls that
+    survive security and reliability review.
+  url: /work/#private-ai-deployment
+  evidence:
+    - "Grounded retrieval and citation paths for reviewable answers."
+    - "Evaluation gates for answer quality, adversarial questions, and workflow fit."
+    - "Deployment boundaries designed around tenant isolation, access control, and operational ownership."
+  stack: ["Retrieval", "Evaluation", "Security", "Operations"]
 
 - year: "2026"
-  title: "Workflow-specific AI systems"
-  kind: "Applied AI systems"
-  blurb: >
-    Build the AI around one real workflow instead of a generic chat box.
-    Structured extraction, long-tail retrieval, and agentic loops that
-    finish the job with traceable answers and human review.
-  url: /custom-ai-systems/
-  stack: ["Structured outputs", "Agents", "Human review"]
+  title: "AI runtime reliability controls"
+  mark: "control-loop"
+  kind: "Evaluation, observability, guardrails"
+  brief: >
+    Design the operational controls around AI systems: semantic rate limits,
+    token budgets, model performance monitoring, error recovery, prompt-chain
+    control, and parallel inference orchestration.
+  url: /work/#ai-runtime-reliability-controls
+  evidence:
+    - "Runtime controls for cost, latency, rate limits, and failure recovery."
+    - "Monitoring patterns that make model behavior visible before it becomes an incident."
+    - "Guardrail and orchestration patterns for production LLM workflows."
+  stack: ["Runtime controls", "Monitoring", "Guardrails", "Orchestration"]
 
 - year: "2025"
   title: "S&P 500-scale production ML"
-  kind: "Search, ranking, and recommendations"
-  blurb: >
+  mark: "ranking-ladder"
+  kind: "Search, ranking, recommendations"
+  brief: >
     Production machine-learning systems for relevance, ranking,
-    recommendations, experimentation, and operational reliability at
-    enterprise scale.
-  url: /work/
+    recommendations, experimentation, and reliability at enterprise scale.
+  url: /work/#s-p-500-scale-production-ml
+  evidence:
+    - "Ranking and recommendation systems operated under production latency and reliability constraints."
+    - "Experimentation and relevance loops tied to measurable user and business behavior."
+    - "Operational ML practices for monitoring, release discipline, and long-tail quality."
   stack: ["Search", "Ranking", "Experimentation", "Reliability"]
 
 - year: "2025"
-  title: "Robotics and autonomy"
-  kind: "Research and systems"
-  blurb: >
-    Robotics and autonomous-system work spanning ROS, SLAM, planning,
-    reinforcement learning, VR-operated robotic arms, and multi-agent
-    environments.
-  url: /work/
-  stack: ["ROS", "SLAM", "Planning", "Autonomy"]
+  title: "Human-AI and robot teaming explainability"
+  mark: "team-plan"
+  kind: "Planning, trust, robotics"
+  brief: >
+    Research and systems work on explainable agents, human-robot teaming,
+    plan explicability, progressive explanations, and human-AI interaction
+    in LLM-based systems.
+  url: /work/#human-ai-and-robot-teaming-explainability
+  evidence:
+    - "Interactive plan explicability for human-robot teams with asymmetric information."
+    - "Online, progressive, and hierarchical explanation generation to reduce cognitive load."
+    - "Human-AI interaction work connecting LLM systems to agency, judgment, and trust."
+  stack: ["Planning", "Explainability", "Human-AI", "Robotics"]

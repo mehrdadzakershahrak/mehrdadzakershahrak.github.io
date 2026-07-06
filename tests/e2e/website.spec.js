@@ -56,7 +56,32 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.getByText("Deep Learning Specialization")).toBeVisible();
   await expect(page.getByText("Stanford Machine Learning")).toBeVisible();
 
-  await expect(page.locator(".eh-exec-row").filter({ hasText: "Private AI deployment" })).toBeVisible();
+  const workTitles = await page.locator("#work .eh-exec-row__title").allTextContents();
+  expect(workTitles.map((title) => title.trim())).toEqual([
+    "Private AI deployment",
+    "AI runtime reliability controls",
+    "S&P 500-scale production ML",
+    "Human-AI and robot teaming explainability",
+  ]);
+
+  const workKinds = await page.locator("#work .eh-exec-row > em").allTextContents();
+  expect(workKinds.map((kind) => kind.trim())).toEqual([
+    "Architecture, evaluation, deployment boundaries",
+    "Evaluation, observability, guardrails",
+    "Search, ranking, recommendations",
+    "Planning, trust, robotics",
+  ]);
+
+  await expect(page.locator("#work .eh-work-mark")).toHaveCount(4);
+  await expect(page.locator("#work")).not.toContainText("Workflow-specific AI systems");
+  await expect(page.locator("#work")).not.toContainText("Robotics and autonomy");
+  const workLinks = await page.locator("#work .eh-exec-row").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+  expect(workLinks).toEqual([
+    "/work/#private-ai-deployment",
+    "/work/#ai-runtime-reliability-controls",
+    "/work/#s-p-500-scale-production-ml",
+    "/work/#human-ai-and-robot-teaming-explainability",
+  ]);
   await expect(page.locator(".eh-exec-row").filter({ hasText: "The Practical Guide to Running Local LLMs" })).toBeVisible();
 
   const body = page.locator("body");
@@ -73,6 +98,34 @@ test("primary routes render on the editorial shell", async ({ page }) => {
     await expect(page.locator(".eh-masthead")).toBeVisible();
     await expect(page.locator(".eh-site-footer")).toBeVisible();
   }
+});
+
+test("work page renders the four minimal project briefs", async ({ page }) => {
+  await page.goto("/work/");
+
+  const briefs = page.locator(".eh-work-brief");
+  await expect(briefs).toHaveCount(4);
+  await expect(page.locator(".eh-work-brief .eh-work-mark")).toHaveCount(4);
+
+  const briefTitles = await page.locator(".eh-work-brief h3").allTextContents();
+  expect(briefTitles.map((title) => title.trim())).toEqual([
+    "Private AI deployment",
+    "AI runtime reliability controls",
+    "S&P 500-scale production ML",
+    "Human-AI and robot teaming explainability",
+  ]);
+
+  await expect(page.getByText("Grounded retrieval and citation paths for reviewable answers.")).toBeVisible();
+  await expect(page.getByText("Runtime controls for cost, latency, rate limits, and failure recovery.")).toBeVisible();
+  await expect(page.getByText("Ranking and recommendation systems operated under production latency and reliability constraints.")).toBeVisible();
+  await expect(page.getByText("Human-AI interaction work connecting LLM systems to agency, judgment, and trust.")).toBeVisible();
+
+  const body = page.locator("body");
+  await expect(body).not.toContainText("Financial services");
+  await expect(body).not.toContainText("Healthcare");
+  await expect(body).not.toContainText("Industrial");
+  await expect(body).not.toContainText("Product Catalogue");
+  await expect(body).not.toContainText("Grainger");
 });
 
 test("retired product, login, and search routes are gone", async ({ request }) => {
