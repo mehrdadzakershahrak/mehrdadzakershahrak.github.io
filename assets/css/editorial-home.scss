@@ -503,6 +503,248 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   border-bottom: none;
 }
 
+/* =========================================================================
+   Executive homepage — strict, single-column profile
+   ========================================================================= */
+#main.eh-exec-home {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 72px 40px 104px;
+}
+
+.eh-exec-hero {
+  padding: 36px 0 48px;
+  border-bottom: 1px solid var(--eh-rule);
+}
+
+.eh-exec-title {
+  margin: 0;
+  color: var(--eh-ink);
+  font-family: var(--eh-ff-serif);
+  font-size: 72px;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.eh-exec-position {
+  max-width: 720px;
+  margin: 26px 0 0;
+  color: var(--eh-ink);
+  font-family: var(--eh-ff-serif);
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+
+.eh-exec-proof {
+  max-width: 680px;
+  margin: 20px 0 0;
+  color: var(--eh-ink-soft);
+  font-family: var(--eh-ff-sans);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.eh-exec-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  margin-top: 34px;
+}
+
+.eh-exec-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 34px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--eh-rule);
+  color: var(--eh-ink-mute);
+  font-family: var(--eh-ff-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.eh-exec-meta span + span::before {
+  content: "/";
+  margin-right: 18px;
+  color: var(--eh-rule-strong);
+}
+
+.eh-exec-section {
+  padding: 42px 0;
+  border-bottom: 1px solid var(--eh-rule);
+}
+
+.eh-exec-section__head {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.eh-exec-section h2,
+.eh-about-drop summary span:first-child {
+  margin: 0;
+  color: var(--eh-ink);
+  font-family: var(--eh-ff-serif);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.eh-about-drop {
+  color: var(--eh-ink);
+}
+
+.eh-about-drop summary {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+}
+
+.eh-about-drop summary::-webkit-details-marker {
+  display: none;
+}
+
+.eh-about-drop summary::after {
+  content: "+";
+  color: var(--eh-ink-mute);
+  font-family: var(--eh-ff-mono);
+  font-size: 18px;
+  line-height: 1;
+}
+
+.eh-about-drop[open] summary::after {
+  content: "-";
+}
+
+.eh-about-drop__hint {
+  color: var(--eh-ink-mute);
+  font-family: var(--eh-ff-sans);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.eh-about-drop__body {
+  margin-top: 26px;
+}
+
+.eh-about-drop__body > p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--eh-ink-soft);
+  font-family: var(--eh-ff-sans);
+  font-size: 17px;
+  line-height: 1.72;
+}
+
+.eh-about-drop__rows {
+  margin-top: 24px;
+  border-top: 1px solid var(--eh-rule);
+}
+
+.eh-about-drop__row {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.26fr) 1fr;
+  gap: 24px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--eh-rule);
+}
+
+.eh-about-drop__row strong {
+  color: var(--eh-ink);
+  font-family: var(--eh-ff-sans);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.eh-about-drop__row span {
+  color: var(--eh-ink-soft);
+  font-family: var(--eh-ff-sans);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.eh-about-drop__row a {
+  color: var(--eh-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--eh-rule);
+}
+
+.eh-about-drop__row a:hover {
+  color: var(--eh-accent);
+  border-bottom-color: var(--eh-accent);
+}
+
+.eh-exec-list {
+  border-top: 1px solid var(--eh-rule);
+}
+
+.eh-exec-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 0.32fr);
+  gap: 28px;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--eh-rule);
+  color: var(--eh-ink);
+  text-decoration: none;
+}
+
+.eh-exec-row:hover span {
+  color: var(--eh-accent);
+}
+
+.eh-exec-row span {
+  font-family: var(--eh-ff-serif);
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1.2;
+  transition: color .15s;
+}
+
+.eh-exec-row em {
+  color: var(--eh-ink-mute);
+  font-family: var(--eh-ff-sans);
+  font-size: 14px;
+  font-style: normal;
+  line-height: 1.45;
+  text-align: right;
+}
+
+.eh-exec-contact {
+  border-bottom: none;
+}
+
+.eh-exec-contact p {
+  max-width: 620px;
+  margin: 12px 0 0;
+  color: var(--eh-ink-soft);
+  font-family: var(--eh-ff-sans);
+  font-size: 17px;
+  line-height: 1.68;
+}
+
+.eh-exec-contact__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  align-items: center;
+  margin-top: 28px;
+}
+
 .eh-section-h2 {
   font-family: var(--eh-ff-serif);
   font-weight: 400;
@@ -843,6 +1085,74 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   .eh-hero__title { font-size: 40px; }
   .eh-hero__copy { grid-template-columns: 1fr; gap: 24px; margin-top: 32px; }
   .eh-hero__actions { margin-top: 32px; }
+
+  #main.eh-exec-home {
+    padding: 42px 20px 68px;
+  }
+
+  .eh-exec-hero {
+    padding: 20px 0 38px;
+  }
+
+  .eh-exec-title {
+    font-size: 44px;
+  }
+
+  .eh-exec-position {
+    margin-top: 20px;
+    font-size: 24px;
+  }
+
+  .eh-exec-proof,
+  .eh-exec-contact p,
+  .eh-about-drop__body > p {
+    font-size: 16px;
+  }
+
+  .eh-exec-actions {
+    margin-top: 28px;
+  }
+
+  .eh-exec-meta {
+    gap: 6px 12px;
+    font-size: 11px;
+  }
+
+  .eh-exec-meta span + span::before {
+    margin-right: 12px;
+  }
+
+  .eh-exec-section {
+    padding: 34px 0;
+  }
+
+  .eh-exec-section__head,
+  .eh-about-drop summary {
+    align-items: flex-start;
+  }
+
+  .eh-exec-section h2,
+  .eh-about-drop summary span:first-child {
+    font-size: 25px;
+  }
+
+  .eh-about-drop__hint {
+    display: none;
+  }
+
+  .eh-about-drop__row,
+  .eh-exec-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .eh-exec-row span {
+    font-size: 20px;
+  }
+
+  .eh-exec-row em {
+    text-align: left;
+  }
 
   .eh-section-h2 { font-size: 26px; }
 
