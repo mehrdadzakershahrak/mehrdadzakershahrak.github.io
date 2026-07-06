@@ -31,21 +31,33 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
 
   await expect(page).toHaveTitle(/Mehrdad Zaker/);
   await expect(page.getByRole("heading", { name: "Mehrdad Zaker", level: 1 })).toBeVisible();
-  await expect(page.getByText("AI systems engineer working across LLMs, production ML, and robotics.")).toBeVisible();
+  await expect(page.getByText("Senior AI systems advisor for teams moving LLMs, ML, and automation from promise to production.")).toBeVisible();
+  await expect(page.getByText("I help technical leaders make AI systems reliable, grounded, observable, and operationally sane.")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Email Mehrdad" })).toHaveAttribute("href", /mailto:/);
 
   const navItems = await page.locator(".eh-masthead__nav a").allTextContents();
   expect(navItems.map((item) => item.trim())).toEqual(["Work", "Writing", "About", "Contact"]);
 
-  const sectionItems = await page.locator(".eh-nav:not(.eh-nav--mobile) .eh-nav__label").allTextContents();
-  expect(sectionItems.map((item) => item.trim())).toEqual(["Index", "About", "Work", "Writing", "Contact"]);
+  await expect(page.locator(".eh-nav")).toHaveCount(0);
+  await expect(page.locator(".eh-proof-strip")).toHaveCount(0);
+  await expect(page.locator(".eh-focus")).toHaveCount(0);
+  await expect(page.locator(".eh-contact__grid")).toHaveCount(0);
 
-  await expect(page.locator(".eh-proof-strip")).toContainText("Ph.D. Computer Science");
-  await expect(page.locator(".eh-proof-strip")).toContainText("Founding AI Engineer");
-  await expect(page.locator(".eh-proof-strip")).toContainText("S&P 500-scale ML");
-  await expect(page.locator(".eh-proof-strip")).toContainText("Robotics + autonomy");
-  await expect(page.getByRole("heading", { name: "Credentials" })).toBeVisible();
+  await expect(page.locator(".eh-exec-meta")).toContainText("Ph.D. CS");
+  await expect(page.locator(".eh-exec-meta")).toContainText("Founding AI Engineer");
+  await expect(page.locator(".eh-exec-meta")).toContainText("S&P 500-scale ML");
+  await expect(page.locator(".eh-exec-meta")).toContainText("Robotics");
+
+  const about = page.locator(".eh-about-drop");
+  await expect(about).not.toHaveAttribute("open", "");
+  await expect(page.getByText("Deep Learning Specialization")).toBeHidden();
+  await about.locator("summary").click();
+  await expect(about).toHaveAttribute("open", "");
   await expect(page.getByText("Deep Learning Specialization")).toBeVisible();
-  await expect(page.getByText("Stanford University / Coursera, 2018")).toBeVisible();
+  await expect(page.getByText("Stanford Machine Learning")).toBeVisible();
+
+  await expect(page.locator(".eh-exec-row").filter({ hasText: "Private AI deployment" })).toBeVisible();
+  await expect(page.locator(".eh-exec-row").filter({ hasText: "The Practical Guide to Running Local LLMs" })).toBeVisible();
 
   const body = page.locator("body");
   await expect(body).not.toContainText("Product Catalogue");

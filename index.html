@@ -7,257 +7,115 @@ classes: wide home-page
 suppress_default_h1: true
 ---
 
-{%- assign work_items = site.data.home_work -%}
+{%- assign work_items = site.data.home_work | slice: 0, 4 -%}
 {%- assign writing_all = site.ai_material | sort: 'date' | reverse -%}
-{%- assign writing_list = writing_all | slice: 0, 4 -%}
-{%- assign work_count = work_items | size -%}
+{%- assign writing_list = writing_all | slice: 0, 3 -%}
 
-<nav class="eh-nav eh-nav--mobile eh-sectionnav--mobile" aria-label="Page sections">
-  <span class="eh-nav__brand-inline">Sections</span>
-  <span class="eh-nav__rule" aria-hidden="true"></span>
-  <a href="#home" class="eh-nav__mobile-link is-active" data-eh-nav-link data-target="home">Index</a>
-  <a href="#about" class="eh-nav__mobile-link" data-eh-nav-link data-target="about">About</a>
-  <a href="#work" class="eh-nav__mobile-link" data-eh-nav-link data-target="work">Work</a>
-  <a href="#writing" class="eh-nav__mobile-link" data-eh-nav-link data-target="writing">Writing</a>
-  <a href="#contact" class="eh-nav__mobile-link" data-eh-nav-link data-target="contact">Contact</a>
-</nav>
+<main class="eh-main eh-exec-home" id="main" role="main">
+  <section class="eh-exec-hero" aria-labelledby="eh-home-title">
+    <h1 id="eh-home-title" class="eh-exec-title">Mehrdad Zaker</h1>
 
-<div class="eh-grid">
-  <nav class="eh-nav" aria-label="Page sections">
-    <p class="eh-nav__brand">Mehrdad<br>Zaker</p>
-    <div class="eh-eyebrow eh-nav__sublabel">AI systems · robotics</div>
+    <p class="eh-exec-position">
+      Senior AI systems advisor for teams moving LLMs, ML, and automation from promise to production.
+    </p>
 
-    <ul class="eh-nav__list">
-      <li class="eh-nav__item">
-        <a href="#home" class="eh-nav__link is-active" data-eh-nav-link data-target="home">
-          <span class="eh-nav__num">00</span>
-          <span class="eh-nav__label">Index</span>
-        </a>
-      </li>
-      <li class="eh-nav__item">
-        <a href="#about" class="eh-nav__link" data-eh-nav-link data-target="about">
-          <span class="eh-nav__num">01</span>
-          <span class="eh-nav__label">About</span>
-        </a>
-      </li>
-      <li class="eh-nav__item">
-        <a href="#work" class="eh-nav__link" data-eh-nav-link data-target="work">
-          <span class="eh-nav__num">02</span>
-          <span class="eh-nav__label">Work</span>
-        </a>
-      </li>
-      <li class="eh-nav__item">
-        <a href="#writing" class="eh-nav__link" data-eh-nav-link data-target="writing">
-          <span class="eh-nav__num">03</span>
-          <span class="eh-nav__label">Writing</span>
-        </a>
-      </li>
-      <li class="eh-nav__item">
-        <a href="#contact" class="eh-nav__link" data-eh-nav-link data-target="contact">
-          <span class="eh-nav__num">04</span>
-          <span class="eh-nav__label">Contact</span>
-        </a>
-      </li>
-    </ul>
+    <p class="eh-exec-proof">
+      I help technical leaders make AI systems reliable, grounded, observable, and operationally sane.
+    </p>
 
-    <div class="eh-nav__block">
-      <span class="eh-eyebrow">Profile</span>
-      <div class="eh-nav__block-line">Ph.D. CS</div>
-      <div class="eh-nav__block-sub">LLMs · ML · autonomy</div>
+    <div class="eh-exec-actions">
+      <a class="eh-btn" href="mailto:{{ site.contact_email }}" data-analytics="cta_contact_click" data-analytics-label="hero_email">
+        Email Mehrdad
+      </a>
+      <a class="eh-link" href="{{ '/work/' | relative_url }}" data-analytics="nav_click" data-analytics-label="hero_work">View work</a>
     </div>
-  </nav>
 
-  <main class="eh-main" id="main" role="main">
-    <section id="home" class="eh-hero" aria-labelledby="eh-home-title">
-      <h1 id="eh-home-title" class="eh-hero__title">Mehrdad Zaker</h1>
+    <p class="eh-exec-meta" aria-label="Professional highlights">
+      <span>Ph.D. CS</span>
+      <span>Founding AI Engineer</span>
+      <span>S&amp;P 500-scale ML</span>
+      <span>Robotics</span>
+    </p>
+  </section>
 
-      <p class="eh-hero__undertitle">
-        AI systems engineer working across LLMs, production ML, and robotics.
-      </p>
+  <section id="about" class="eh-exec-section" aria-label="About Mehrdad Zaker">
+    <details class="eh-about-drop">
+      <summary>
+        <span>About</span>
+        <span class="eh-about-drop__hint">Education, credentials, systems background</span>
+      </summary>
 
-      <div class="eh-hero__copy">
+      <div class="eh-about-drop__body">
         <p>
-          I help teams turn promising AI ideas into systems that hold up under
-          real operating constraints: retrieval quality, evaluation, latency,
-          security, data boundaries, and human review.
+          I work where AI stops being a demo and starts becoming a system people can rely on:
+          retrieval quality, evaluation, latency, data access, security review, interface design,
+          and operational ownership.
         </p>
-        <p>
-          The work spans foundation-model systems, search and ranking,
-          source-grounded workflows, robotics, autonomy, and technical
-          leadership for teams that need durable execution more than theater.
-        </p>
-      </div>
 
-      <div class="eh-hero__actions">
-        <a href="#contact" class="eh-btn" data-eh-nav-link data-target="contact" data-analytics="cta_contact_click" data-analytics-label="hero">
-          Contact
-          <span class="eh-btn__arrow" aria-hidden="true">↓</span>
+        <div class="eh-about-drop__rows">
+          <div class="eh-about-drop__row">
+            <strong>Education</strong>
+            <span>Ph.D. Computer Science, Arizona State University</span>
+          </div>
+          <div class="eh-about-drop__row">
+            <strong>Credentials</strong>
+            <span>
+              <a href="https://coursera.org/verify/specialization/ZYN9D5TXPX2F">Deep Learning Specialization</a>
+              ·
+              <a href="https://coursera.org/verify/VZ3V6T4QSEZ2">Stanford Machine Learning</a>
+            </span>
+          </div>
+          <div class="eh-about-drop__row">
+            <strong>Systems</strong>
+            <span>LLMs, RAG, production ML, search, ranking, robotics, ROS, SLAM, and autonomy</span>
+          </div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section id="work" class="eh-exec-section" aria-labelledby="eh-work-title">
+    <div class="eh-exec-section__head">
+      <h2 id="eh-work-title">Selected work</h2>
+      <a class="eh-link" href="{{ '/work/' | relative_url }}">All work</a>
+    </div>
+
+    <div class="eh-exec-list">
+      {%- for w in work_items -%}
+        <a class="eh-exec-row" href="{{ w.url | default: '/work/' | relative_url }}" data-analytics="work_click" data-analytics-label="{{ w.url | default: w.title | slugify }}">
+          <span>{{ w.title }}</span>
+          <em>{{ w.kind }}</em>
         </a>
-        <a href="#writing" class="eh-link" data-eh-nav-link data-target="writing" data-analytics="nav_click" data-analytics-label="hero_writing">Writing</a>
-      </div>
+      {%- endfor -%}
+    </div>
+  </section>
 
-      <div class="eh-proof-strip" aria-label="Professional highlights">
-        <span>Ph.D. Computer Science</span>
-        <span>Founding AI Engineer</span>
-        <span>S&amp;P 500-scale ML</span>
-        <span>Robotics + autonomy</span>
-      </div>
-    </section>
+  <section id="writing" class="eh-exec-section" aria-labelledby="eh-writing-title">
+    <div class="eh-exec-section__head">
+      <h2 id="eh-writing-title">Writing</h2>
+      <a class="eh-link" href="{{ '/newsletter/' | relative_url }}">All writing</a>
+    </div>
 
-    {% include about_me_section.html section_id="about" title_id="eh-about-title" heading_tag="h2" variant="home" show_rule=true compact=true %}
-
-    <section class="eh-focus" aria-labelledby="eh-focus-title">
-      <div class="eh-rule">
-        <span class="eh-eyebrow">Focus</span>
-        <span class="eh-rule__line" aria-hidden="true"></span>
-      </div>
-
-      <h2 id="eh-focus-title" class="eh-section-h2">
-        A small set of problems I keep returning to.
-      </h2>
-
-      <div class="eh-focus__list">
-        <article class="eh-focus__item">
-          <h3>AI systems</h3>
-          <p>LLM applications, RAG, evaluations, agents, source grounding, and deployment boundaries.</p>
-        </article>
-        <article class="eh-focus__item">
-          <h3>Production ML</h3>
-          <p>Search, ranking, recommendations, experimentation, reliability, and systems that operate at enterprise scale.</p>
-        </article>
-        <article class="eh-focus__item">
-          <h3>Robotics and autonomy</h3>
-          <p>ROS, SLAM, planning, reinforcement learning, and model-driven workflows that meet the physical world.</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="work" class="eh-work" aria-labelledby="eh-work-title">
-      <div class="eh-rule">
-        <span class="eh-eyebrow">Work</span>
-        <span class="eh-rule__line" aria-hidden="true"></span>
-      </div>
-
-      <div class="eh-work__head">
-        <h2 id="eh-work-title" class="eh-section-h2">
-          Selected systems work, described without product theater.
-        </h2>
-        <span class="eh-work__count">{{ work_count }} entries</span>
-      </div>
-
-      <ul class="eh-work__list">
-        {%- for w in work_items -%}
-          <li class="eh-work__row{% if forloop.last %} eh-work__row--last-rule{% endif %}"
-              data-eh-work-row
-              aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
-              data-analytics="work_expand"
-              data-analytics-label="{{ w.url | default: w.title | slugify }}">
-            <span class="eh-work__year">{{ w.year }}</span>
-            <div>
-              <div class="eh-work__title">{{ w.title }}</div>
-              <div class="eh-work__kind">{{ w.kind }}</div>
-
-              <div class="eh-work__detail">
-                <p class="eh-work__blurb">
-                  {{ w.blurb | strip_newlines }}
-                  {%- if w.url %}
-                    <a class="eh-link" href="{{ w.url | relative_url }}">Read more</a>
-                  {%- endif %}
-                </p>
-                {%- if w.stack and w.stack.size > 0 -%}
-                  <div class="eh-work__stack">
-                    {%- for t in w.stack -%}
-                      <span class="eh-work__tag">{{ t }}</span>
-                    {%- endfor -%}
-                  </div>
-                {%- endif -%}
-              </div>
-            </div>
-            <span class="eh-work__expand" aria-hidden="true">+</span>
-          </li>
-        {%- endfor -%}
-      </ul>
-
-      <p class="eh-work__foot">
-        A fuller anonymized record is available on the
-        <a class="eh-link" href="{{ '/work/' | relative_url }}">work page</a>.
-      </p>
-    </section>
-
-    <section id="writing" class="eh-writing" aria-labelledby="eh-writing-title">
-      <div class="eh-rule">
-        <span class="eh-eyebrow">Writing</span>
-        <span class="eh-rule__line" aria-hidden="true"></span>
-      </div>
-
-      <h2 id="eh-writing-title" class="eh-section-h2">
-        Notes on systems, reliability, and applied AI.
-      </h2>
-
-      <ul class="eh-writing__list">
-        {%- for entry in writing_list -%}
-          {%- if entry.content_type == "guide" -%}
-            {%- assign tag_label = "Guide" -%}
-          {%- elsif entry.content_type == "reference" -%}
-            {%- assign tag_label = "Reference" -%}
-          {%- else -%}
-            {%- assign tag_label = "Note" -%}
-          {%- endif -%}
-          {%- assign words = entry.content | strip_html | number_of_words -%}
-          {%- assign mins = words | divided_by: 220 -%}
-          {%- if mins < 1 -%}{%- assign mins = 1 -%}{%- endif -%}
-
-          <a href="{{ entry.url | relative_url }}"
-             class="eh-writing__row{% if forloop.last %} eh-writing__row--last{% endif %}"
-             data-analytics="writing_click"
-             data-analytics-label="{{ entry.url | slugify }}">
-            <span class="eh-writing__date">{{ entry.date | date: '%Y·%m·%d' }}</span>
-            <span class="eh-writing__title">{{ entry.title }}</span>
-            <span class="eh-writing__tag">{{ tag_label }}</span>
-            <span class="eh-writing__read">{{ mins }} min</span>
-          </a>
-        {%- endfor -%}
-      </ul>
-    </section>
-
-    <section id="contact" class="eh-contact" aria-labelledby="eh-contact-title">
-      <div class="eh-rule">
-        <span class="eh-eyebrow">Contact</span>
-        <span class="eh-rule__line" aria-hidden="true"></span>
-      </div>
-
-      <h2 id="eh-contact-title" class="eh-contact__lead">
-        The best way to reach me is<br>
-        <span class="eh-contact__lead-accent">an actual email</span>.
-      </h2>
-
-      <div class="eh-contact__grid">
-        <a class="eh-contact__item eh-contact__item--left" href="mailto:{{ site.contact_email }}" data-analytics="cta_contact_click" data-analytics-label="email">
-          <span class="eh-eyebrow">Email</span>
-          <span class="eh-contact__value">{{ site.contact_email }}</span>
-          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
+    <div class="eh-exec-list">
+      {%- for entry in writing_list -%}
+        <a class="eh-exec-row" href="{{ entry.url | relative_url }}" data-analytics="writing_click" data-analytics-label="{{ entry.url | slugify }}">
+          <span>{{ entry.title }}</span>
+          <em>{{ entry.content_type | default: "Note" | capitalize }}</em>
         </a>
+      {%- endfor -%}
+    </div>
+  </section>
 
-        <a class="eh-contact__item eh-contact__item--right" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-label="brief">
-          <span class="eh-eyebrow">Brief</span>
-          <span class="eh-contact__value">Share context</span>
-          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
-        </a>
+  <section id="contact" class="eh-exec-section eh-exec-contact" aria-labelledby="eh-contact-title">
+    <h2 id="eh-contact-title">Contact</h2>
+    <p>The best way to reach me is a direct email with the problem, context, and constraint.</p>
 
-        <a class="eh-contact__item eh-contact__item--left" href="https://www.linkedin.com/in/mehrdadzaker" rel="me">
-          <span class="eh-eyebrow">LinkedIn</span>
-          <span class="eh-contact__value">mehrdadzaker</span>
-          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
-        </a>
-
-        <a class="eh-contact__item eh-contact__item--right" href="https://github.com/mehrdadzakershahrak" rel="me">
-          <span class="eh-eyebrow">GitHub</span>
-          <span class="eh-contact__value">mehrdadzakershahrak</span>
-          <span class="eh-contact__arrow" aria-hidden="true">↗</span>
-        </a>
-
-        <div class="eh-contact__last-rule" aria-hidden="true"></div>
-      </div>
-    </section>
-  </main>
-</div>
+    <div class="eh-exec-contact__links">
+      <a class="eh-btn" href="mailto:{{ site.contact_email }}" data-analytics="cta_contact_click" data-analytics-label="footer_email">
+        {{ site.contact_email }}
+      </a>
+      <a class="eh-link" href="https://www.linkedin.com/in/mehrdadzaker" rel="me">LinkedIn</a>
+      <a class="eh-link" href="https://github.com/mehrdadzakershahrak" rel="me">GitHub</a>
+    </div>
+  </section>
+</main>
