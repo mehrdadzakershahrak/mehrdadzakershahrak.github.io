@@ -43,6 +43,9 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.locator(".eh-proof-strip")).toContainText("Founding AI Engineer");
   await expect(page.locator(".eh-proof-strip")).toContainText("S&P 500-scale ML");
   await expect(page.locator(".eh-proof-strip")).toContainText("Robotics + autonomy");
+  await expect(page.getByRole("heading", { name: "Credentials" })).toBeVisible();
+  await expect(page.getByText("Deep Learning Specialization")).toBeVisible();
+  await expect(page.getByText("Stanford University / Coursera, 2018")).toBeVisible();
 
   const body = page.locator("body");
   await expect(body).not.toContainText("Product Catalogue");
