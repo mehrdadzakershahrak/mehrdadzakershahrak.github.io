@@ -1,5 +1,5 @@
 title: Mehrdad Zaker
-description: Industry guidance, IDX dashboard workflows, private AI deployment, and custom AI systems.
+description: AI systems, production ML, robotics, and technical leadership.
 baseurl: ""
 url: "https://www.mehrdadzaker.com"
 markdown: kramdown
@@ -18,13 +18,32 @@ plugins:
 
 exclude:
   - .bundle/
+  - .bundle
+  - .jekyll-cache/
+  - .jekyll-cache
+  - _site/
+  - _site
   - Gemfile
   - Gemfile.lock
   - gemfiles/
+  - gemfiles
+  - auth-service
   - MythosBridge/
+  - MythosBridge
   - node_modules/
+  - node_modules
+  - assets/js/lunr
+  - assets/js/lunr/**
+  - auth-service/
+  - auth-service/**
+  - node_modules/**
+  - package-lock.json
+  - package.json
+  - playwright.config.js
   - README.md
   - test-results/
+  - tests/
+  - tools/
   - vendor/
 
 collections:
@@ -57,7 +76,7 @@ search: false
 # Site-specific settings
 contact_email: "mehrdadz@neuralint.io"
 logo_mark: "/assets/images/logo-mark.svg"
-default_social_image: "/assets/images/private-ai-consulting-header-1200.png"
+default_social_image: "/assets/images/about-profile-2026.jpg"
 
 # Lead capture + demo chat (set these)
 leads_endpoint: ""

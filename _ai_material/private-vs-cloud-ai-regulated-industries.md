@@ -176,7 +176,7 @@ Hybrid architectures are common: private retrieval and evaluation, controlled mo
 
 Legal workflows depend heavily on documents, citations, privilege, client boundaries, and matter-level permissions. A model that sees documents from the wrong matter is a serious failure even if the final answer looks harmless.
 
-Private RAG, strict workspace isolation, and page-level citations are usually more important than broad autonomous agents. For uploaded PDFs and source-backed review, [IDX]({{ '/products/idx/' | relative_url }}) is the public product path on this site.
+Private RAG, strict workspace isolation, and page-level citations are usually more important than broad autonomous agents. For uploaded PDFs and source-backed review, the important design choice is whether the system preserves matter boundaries and page-level evidence from ingestion through UI.
 
 ### Manufacturing and operations
 

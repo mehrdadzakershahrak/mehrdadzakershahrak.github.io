@@ -11,7 +11,7 @@ last_modified_at: 2026-04-23
 
 Last updated: 2026-04-23
 
-The public site uses one written AI library for guides, notes, explainers, and references. Add new written material to `_ai_material/`, preserve the public URL with an explicit `permalink`, and choose the smallest metadata set that makes the page useful in hubs, search, sitemap output, and structured data.
+The public site uses one written AI library for guides, notes, explainers, and references. Add new written material to `_ai_material/`, preserve the public URL with an explicit `permalink`, and choose the smallest metadata set that makes the page useful in hubs, sitemap output, and structured data.
 
 ## Written AI Material
 
@@ -76,7 +76,7 @@ Hubs read from metadata instead of hand-maintained lists:
 - `/resources/` shows `resource_guide: true` guides and `content_type: reference` entries.
 - `/newsletter/` and `/newsletter/archive/` show `content_type: note` entries.
 - Homepage Writing pulls from `_ai_material/` by date.
-- Local search and sitemap output include published collection documents automatically.
+- Sitemap output includes published collection documents automatically.
 
 ## Sources And Claims
 

@@ -2,29 +2,18 @@ brand:
   home_url: "/"
   logo: "/assets/images/logo-mark.svg"
   name: "Mehrdad Zaker"
-  tagline: "AI systems, IDX document workflows, private deployment, and robotics consulting for real-world operations."
+  tagline: "AI systems, production ML, robotics, and technical leadership."
 
 columns:
-  - title: "Solutions"
+  - title: "Site"
     links:
-      - label: "Overview"
-        url: "/ai-robotics-solutions/"
-      - label: "Private AI Deployment"
-        url: "/private-ai-deployment/"
-      - label: "Custom AI Systems"
-        url: "/custom-ai-systems/"
-      - label: "Autonomous Systems"
-        url: "/robotics/autonomous-systems/"
-
-  - title: "IDX"
-    links:
-      - label: "IDX"
-        url: "/products/idx/"
-      - label: "IDX Dashboard"
-        url: "/idx/dashboard/"
-      - label: "Private Deployment"
-        url: "/private-ai-deployment/"
-      - label: "Contact Mehrdad"
+      - label: "Work"
+        url: "/work/"
+      - label: "Writing"
+        url: "/newsletter/"
+      - label: "About"
+        url: "/about/"
+      - label: "Contact"
         url: "/contact/"
 
   - title: "Explore"
@@ -48,13 +37,9 @@ cta_cards:
     label: "Start a Conversation"
     url: "/contact/"
     variant: "solid"
-  - eyebrow: "IDX"
-    label: "Open IDX Dashboard"
-    url: "/idx/dashboard/"
-    variant: "outline"
-  - eyebrow: "Solutions"
-    label: "View Solutions"
-    url: "/ai-robotics-solutions/"
+  - eyebrow: "Writing"
+    label: "Read Notes"
+    url: "/newsletter/"
     variant: "outline"
 
 social_links:
@@ -70,4 +55,4 @@ social_links:
 
 legal:
   copyright: "Mehrdad Zaker. All rights reserved."
-  secondary_text: "Use of this site is subject to published privacy, access, and demo usage terms."
+  secondary_text: "A minimal personal site for technical work and writing."

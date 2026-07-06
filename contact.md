@@ -9,14 +9,14 @@ suppress_default_h1: true
 <section class="eh-contact-page">
   <section class="eh-showcase__hero" aria-labelledby="contact-title">
     <div class="eh-showcase__copy">
-      <p class="eh-eyebrow">Work with Mehrdad</p>
-      <h1 id="contact-title" class="eh-title">Bring a concrete AI, deployment, or workflow problem.</h1>
+      <p class="eh-eyebrow">Contact</p>
+      <h1 id="contact-title" class="eh-title">Bring a concrete AI systems problem.</h1>
       <p class="eh-dek">
-        The best fit is a team that needs practical help with private AI deployment, custom AI systems, retrieval-backed workflows, or robotics-adjacent automation where reliability and operational fit matter.
+        The best fit is a team that needs practical help with LLM systems, production ML, robotics-adjacent automation, or technical direction where reliability and operational fit matter.
       </p>
       <div class="eh-action-row">
         <a class="eh-btn" href="mailto:{{ site.contact_email }}">Email {{ site.contact_email }}</a>
-        <a class="eh-btn eh-btn--secondary" href="{{ '/ai-robotics-solutions/' | relative_url }}">View solutions</a>
+        <a class="eh-btn eh-btn--secondary" href="{{ '/work/' | relative_url }}">View work</a>
       </div>
     </div>
   </section>
@@ -25,10 +25,10 @@ suppress_default_h1: true
     <section class="eh-card">
       <h2>Good reasons to reach out</h2>
       <ul>
-        <li>Private or hybrid AI deployment decisions</li>
-        <li>Agentic workflows that need clearer system design</li>
-        <li>Retrieval, evaluation, and source-grounded reasoning work</li>
+        <li>LLM or retrieval systems that need clearer architecture</li>
+        <li>Production ML workflows with reliability or evaluation gaps</li>
         <li>Robotics or automation systems that need stronger AI integration</li>
+        <li>Technical leadership for a high-stakes AI build</li>
       </ul>
     </section>
 
@@ -37,7 +37,7 @@ suppress_default_h1: true
       <ul>
         <li>Your workflow or use case</li>
         <li>The deployment, privacy, or reliability constraints that matter</li>
-        <li>What stage the system is in now</li>
+        <li>The current stage of the system</li>
         <li>The decision, deliverable, or next step you need</li>
       </ul>
     </section>

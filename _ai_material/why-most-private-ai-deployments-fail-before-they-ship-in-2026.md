@@ -140,7 +140,7 @@ They treat privacy as a design constraint. Access rules, auditability, and data 
 
 If a private AI deployment is stuck, the answer is usually not a better model. It is a more honest look at the surrounding system.
 
-When the immediate blockage is document grounding, page-level verification, or ingest visibility, [IDX]({{ '/products/idx/' | relative_url }}) is the productized pattern on this site. It is built for uploaded PDFs and review workflows where the answer, the cited page, and the document state all need to stay in the same workspace.
+When the immediate blockage is document grounding, page-level verification, or ingest visibility, the system should keep the answer, cited page, and document state close together. Do not bolt that review path on after users already distrust the workflow.
 
 ## FAQs
 

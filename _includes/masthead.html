@@ -4,7 +4,7 @@
   Layout:
     Left   → wordmark (MZ · mehrdadzaker.com), links to /
     Center → flat nav from _data/navigation.yml  (hidden on mobile; becomes sheet)
-    Right  → availability chip + theme toggle
+    Right  → theme toggle
 
   Styled under .eh-topbar / .eh-masthead rules in editorial-home.scss +
   a small block appended below for the shared non-home cases. Uses the
@@ -37,11 +37,6 @@
   </nav>
 
   <div class="eh-masthead__right">
-    <span class="eh-topbar__status" aria-label="Availability">
-      <span class="eh-dot" aria-hidden="true"></span>
-      <span class="eh-masthead__status-text">Available · Q3 2026</span>
-    </span>
-
     <button type="button"
             class="eh-masthead__theme-toggle"
             id="eh-theme-toggle"

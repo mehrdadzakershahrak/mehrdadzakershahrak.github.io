@@ -1,49 +1,32 @@
 # Mehrdad Zaker
 
-> Mehrdad Zaker is a private AI consulting practice for teams that need grounded answers, reliable deployment paths, and AI systems that can survive production pressure.
+> Mehrdad Zaker is an AI systems engineer working across LLMs, production ML, robotics, and technical leadership.
 
-Use this file as a concise guide to the public site. Start with the outcome you need: a private AI system that can ship, a document workflow that stays grounded in the source, a custom AI system built around a real workflow, or a direct explanation of why a deployment is stalling.
-
-The public website does not host the live authenticated IDX product experience. Public product guidance lives on the marketing site, while the live IDX portal and sign-in flow live on the IDX product host.
+Use this file as a concise guide to the public site. The site is a minimalist personal technical profile, not a product catalogue.
 
 ## Start Here
 
-- [Homepage](https://www.mehrdadzaker.com/): Outcome-led overview of the consulting practice, source-backed private AI statistics, first-person expertise context, and FAQ coverage for custom AI systems, private deployment, RAG, evaluation, and fit.
-- [Private AI Resource Hub](https://www.mehrdadzaker.com/resources/): Source-backed guide hub for private LLM production, document grounding, secure enterprise RAG, reliability evaluation, and regulated-industry deployment choices.
-- [Why Most Private AI Deployments Fail Before They Ship in 2026](https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/): Best entry point when the question is why a private AI system is stalled between demo and production.
-- [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete deployment, retrieval, evaluation, or workflow problem.
+- [Homepage](https://www.mehrdadzaker.com/): Minimal profile, credibility strip, focus areas, selected work, writing, and contact.
+- [Work](https://www.mehrdadzaker.com/work/): Selected anonymized systems work across AI systems, production ML, and robotics.
+- [Writing](https://www.mehrdadzaker.com/newsletter/): Notes and guides on applied AI systems, deployment, reliability, and robotics.
+- [About](https://www.mehrdadzaker.com/about/): Short biography, education, skills, and outside-work interests.
+- [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete AI systems problem.
 
-## Consulting Paths
+## Focus Areas
 
-- [Private AI Deployment](https://www.mehrdadzaker.com/private-ai-deployment/): Service path for private, hybrid, and local AI systems that need controlled data flow, grounded answers, deployment review, and production rollout discipline.
-- [Custom AI Systems](https://www.mehrdadzaker.com/custom-ai-systems/): Delivery approach for workflow-specific AI systems, RAG pipelines, source-grounded assistants, tool-using workflows, evaluation harnesses, and internal tools.
-- [Solutions](https://www.mehrdadzaker.com/ai-robotics-solutions/): Broader view across private AI systems, robotics-adjacent work, and productized workflows.
+- AI systems: LLM applications, RAG, evaluations, agents, source grounding, and deployment boundaries.
+- Production ML: search, ranking, recommendations, experimentation, and reliability at enterprise scale.
+- Robotics and autonomy: ROS, SLAM, planning, reinforcement learning, robotic manipulation, and multi-agent environments.
 
-## Private AI Resource Guides
+## Resource Guides
 
-- [How to Move a Private LLM from Pilot to Production](https://www.mehrdadzaker.com/resources/private-llm-pilot-to-production/): Production-readiness guide for private LLM pilots, retrieval inspection, evaluation harnesses, deployment constraints, and controlled rollout.
-- [Grounding and Hallucination Prevention in Document-Heavy AI](https://www.mehrdadzaker.com/resources/grounding-hallucination-prevention-document-ai/): Practical guide to source grounding, citation precision, retrieval tests, no-answer behavior, and hallucination prevention.
-- [RAG Architecture for Secure Enterprise Workflows](https://www.mehrdadzaker.com/resources/secure-enterprise-rag-architecture/): Secure RAG reference for identity, permissions, ingestion metadata, prompt boundaries, output validation, and monitoring.
-- [Evaluating AI System Reliability Before Deployment](https://www.mehrdadzaker.com/resources/ai-system-reliability-evaluation-before-deployment/): Evaluation guide covering retrieval quality, answer faithfulness, permission boundaries, latency, security, and release gates.
-- [Private vs. Cloud AI: Tradeoffs for Regulated Industries](https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/): Deployment-model comparison for regulated teams choosing private, cloud, or hybrid AI architectures.
-- [The Practical Guide to Running Local LLMs](https://www.mehrdadzaker.com/resources/local-llm-practical-guide/): Technical reference for local LLM hardware, runtimes, quantization, model sizes, serving patterns, and common production mistakes.
+- [How to Move a Private LLM from Pilot to Production](https://www.mehrdadzaker.com/resources/private-llm-pilot-to-production/)
+- [Grounding and Hallucination Prevention in Document-Heavy AI](https://www.mehrdadzaker.com/resources/grounding-hallucination-prevention-document-ai/)
+- [RAG Architecture for Secure Enterprise Workflows](https://www.mehrdadzaker.com/resources/secure-enterprise-rag-architecture/)
+- [Evaluating AI System Reliability Before Deployment](https://www.mehrdadzaker.com/resources/ai-system-reliability-evaluation-before-deployment/)
+- [Private vs. Cloud AI: Tradeoffs for Regulated Industries](https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/)
+- [The Practical Guide to Running Local LLMs](https://www.mehrdadzaker.com/resources/local-llm-practical-guide/)
 
-## Product Catalogue
+## Removed Surfaces
 
-- [Product Catalogue](https://www.mehrdadzaker.com/products/): Hub for public product profiles on this site.
-- [IDX](https://www.mehrdadzaker.com/products/idx/): Product overview for grounded answers, page-level verification, and visible ingest states in document-heavy review. Use this when the problem is document review, source citation, or evidence inspection.
-- [IDX Dashboard Handoff](https://www.mehrdadzaker.com/idx/dashboard/): Redirect entry point into the live IDX product host.
-- [Newsletter](https://www.mehrdadzaker.com/newsletter/): Long-form writing on private AI systems, robotics, and production architecture.
-- [Why Most Private AI Deployments Fail Before They Ship in 2026](https://www.mehrdadzaker.com/newsletter/why-most-private-ai-deployments-fail-before-they-ship-in-2026/): Notes on why private deployments stall between demo and production.
-- [Factory Robotics Needs Predictive Intelligence, Not Just More Hardware](https://www.mehrdadzaker.com/newsletter/factory-robotics-predictive-intelligence/): Notes on robotics, predictive signals, and operational intelligence.
-
-## Source-Backed Context
-
-- The homepage cites Gartner, Cisco, IBM, Stanford HAI, Google Search Central, and the GEO paper for public claims about AI project failure, privacy risk, AI governance, enterprise adoption, structured data, and generative engine visibility.
-- Public statistics are used conservatively. The site avoids invented client outcomes and unsupported claims about guaranteed search or AI citation uplift.
-
-## Additional Context
-
-- [Podcast](https://www.mehrdadzaker.com/podcast/): Applied AI and systems-oriented audio content.
-- [About](https://www.mehrdadzaker.com/about/): First-person background on research, systems perspective, production experience, private AI, RAG, ranking, robotics, and model-serving work.
-- [Industrial Robotics](https://www.mehrdadzaker.com/robotics/industrial-robotics/): Factory and operations automation positioning.
+The public site no longer exposes product catalogue, login, search, or product-specific pages. For this website, prefer the simplified personal routes listed above.

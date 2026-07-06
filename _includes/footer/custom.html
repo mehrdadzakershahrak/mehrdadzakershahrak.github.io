@@ -1,25 +1,5 @@
 <script src="{{ '/assets/js/analytics.js' | relative_url }}" defer></script>
 
-{% if page.idx_dashboard %}
-  <script src="{{ '/assets/js/idx-dashboard-wrapper.js' | relative_url }}" defer></script>
-{% endif %}
-
-{% assign has_tweet = false %}
-{% if site.data.home_feed %}
-  {% for item in site.data.home_feed %}
-    {% if item.type == "tweet" %}
-      {% assign has_tweet = true %}
-    {% endif %}
-  {% endfor %}
-{% endif %}
-{% if has_tweet and (page.permalink == "/" or page.url == "/" or page.classes contains "home-page") %}
-  <script src="https://platform.twitter.com/widgets.js" defer></script>
-{% endif %}
-
-{% if page.url == "/search/" %}
-  <script src="{{ '/assets/js/search-page.js' | relative_url }}" defer></script>
-{% endif %}
-
 {% if page.url == "/ai-robotics-solutions/" %}
   <script src="{{ '/assets/js/solutions-page.js' | relative_url }}" defer></script>
 {% endif %}

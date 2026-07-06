@@ -17,11 +17,9 @@
  * Conventions (keep names short + snake_case):
  *   cta_contact_click       — primary "start a conversation" CTA
  *   cta_work_click          — "read the full story" / work-page CTAs
- *   idx_demo_start          — IDX demo entry points
  *   newsletter_subscribe    — newsletter sign-ups
  *   theme_toggle            — user flipped dark/light
  *   nav_click               — primary nav link
- *   search_submit           — homepage search form submit
  */
 (function () {
   function collectMeta(el) {
@@ -100,7 +98,7 @@
     { capture: true }
   );
 
-  // Homepage search submit
+  // Optional form submit tracking.
   document.addEventListener("submit", function (event) {
     var form = event.target;
     if (!form || !form.matches || !form.matches("[data-analytics-submit]")) return;

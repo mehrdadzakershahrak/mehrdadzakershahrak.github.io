@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Work"
-description: "Selected engagements where private AI moved from pilot to production."
+description: "Selected AI systems, production ML, and robotics work."
 permalink: /work/
 classes: wide work-page
 suppress_default_h1: true
@@ -10,18 +10,17 @@ suppress_default_h1: true
 <section class="eh-showcase eh-showcase--work">
   <section class="eh-showcase__hero" aria-labelledby="work-hero-title">
     <div class="eh-showcase__copy">
-      <p class="eh-eyebrow">Proof of work</p>
-      <h1 id="work-hero-title" class="eh-title">Engagements where private AI shipped.</h1>
+      <p class="eh-eyebrow">Work</p>
+      <h1 id="work-hero-title" class="eh-title">Selected systems work.</h1>
       <p class="eh-dek">
-        A short, anonymized record of systems I've helped move from pilot to production. Each engagement centers on one constraint: regulation, deployment boundary, latency, or workflow fit.
+        A short, anonymized record across AI systems, production ML, and robotics. Each entry centers on one constraint: grounding, deployment boundary, latency, autonomy, or workflow fit.
       </p>
     </div>
     <aside class="eh-side-panel" aria-label="Work focus">
-      <p class="eh-eyebrow">Flat Site Order</p>
+      <p class="eh-eyebrow">Site</p>
       <ol class="eh-mini-index">
-        <li><a href="{{ '/products/' | relative_url }}">Product Catalogue</a></li>
+        <li><a href="{{ '/work/' | relative_url }}">Work</a></li>
         <li><a href="{{ '/newsletter/' | relative_url }}">Writing</a></li>
-        <li><a href="{{ '/resources/' | relative_url }}">Resources</a></li>
         <li><a href="{{ '/about/' | relative_url }}">About</a></li>
         <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
       </ol>

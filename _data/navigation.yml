@@ -1,22 +1,14 @@
-# Editorial navigation — flat, 5 items max.
+# Editorial navigation — intentionally small.
 # Used by _includes/masthead.html and _includes/footer.html.
-#
-# Full prior tree (Solutions + IDX dropdowns, 6-child Resources, Podcast,
-# Newsletter + Archive, Work, About, Contact, Search, Login) is in git
-# history at commit 2ed9cf2 — restore from there if a deeper IA is needed.
 
 main:
-  - title: "Product Catalogue"
-    key: product_catalogue
-    url: /products/
+  - title: "Work"
+    key: work
+    url: /work/
 
   - title: "Writing"
     key: writing
     url: /newsletter/
-
-  - title: "Resources"
-    key: resources
-    url: /resources/
 
   - title: "About"
     key: about

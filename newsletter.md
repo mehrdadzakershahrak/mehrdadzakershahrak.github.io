@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Newsletter"
+title: "Writing"
 permalink: /newsletter/
 classes: wide
 ---
@@ -8,10 +8,10 @@ classes: wide
 {% assign issues = site.ai_material | where: "content_type", "note" | sort: "date" | reverse %}
 {% assign latest_issue = issues | first %}
 
-Practical notes on AI systems, robotics, deployment architecture, and product execution. This section now works as the public home for long-form updates and short issue-style essays.
+Practical notes on AI systems, robotics, deployment architecture, and production reliability.
 
 {% if latest_issue %}
-## Latest issue
+## Selected writing
 
 ### [{{ latest_issue.title }}]({{ latest_issue.url | relative_url }})
 
@@ -61,7 +61,7 @@ Practical notes on AI systems, robotics, deployment architecture, and product ex
     style="border:1px solid rgba(0,0,0,0.12); border-radius: 12px;"
   ></iframe>
 {% else %}
-  <p>Public subscriptions are not open yet, but the writing archive is now live. For direct questions about a deployment, architecture review, or robotics workflow, use the contact page.</p>
+  <p>For direct questions about a deployment, architecture review, or robotics workflow, use the contact page.</p>
   <p>
     <a class="eh-btn" href="{{ '/newsletter/archive/' | relative_url }}">View the archive</a>
     <a class="eh-btn eh-btn--secondary" href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a>

@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "Solutions"
-description: "AI systems, private deployment, IDX document workflows, and robotics programs organized around real operational work."
+title: "Work Areas"
+description: "AI systems, production ML, and robotics programs organized around real operational work."
 permalink: /ai-robotics-solutions/
 classes: wide
 suppress_default_h1: true
@@ -16,7 +16,7 @@ suppress_default_h1: true
         AI and robotics work best when they improve a real business process. They should reduce manual work, speed up choices, or make operations more reliable.
       </p>
       <p class="eh-summary">
-        If you already have a concrete problem, start with <a href="{{ '/contact/' | relative_url }}">Contact</a>. If documents are the bottleneck, start with <a href="{{ '/products/idx/' | relative_url }}">IDX</a>.
+        If you already have a concrete problem, start with <a href="{{ '/contact/' | relative_url }}">Contact</a>.
       </p>
     </div>
     <aside class="eh-side-panel">
@@ -24,7 +24,7 @@ suppress_default_h1: true
       <ol class="eh-mini-index">
         <li><a href="#ai-systems">AI Systems</a></li>
         <li><a href="#robotics">Robotics</a></li>
-        <li><a href="{{ '/resources/' | relative_url }}">Resources</a></li>
+        <li><a href="{{ '/work/' | relative_url }}">Work</a></li>
         <li><a href="{{ '/about/' | relative_url }}">About</a></li>
         <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
       </ol>
@@ -48,16 +48,6 @@ suppress_default_h1: true
         <p>Start with documents, private deployment, or a custom workflow. The model is only one part; the workflow, controls, and review loop matter just as much.</p>
       </div>
       <div class="eh-card-grid">
-        <article class="eh-card">
-          <h3><a href="{{ '/products/idx/' | relative_url }}">IDX</a></h3>
-          <p>See how IDX keeps document answers tied to source pages.</p>
-          <a class="eh-btn eh-btn--secondary" href="{{ '/products/idx/' | relative_url }}">View product</a>
-        </article>
-        <article class="eh-card">
-          <h3><a href="{{ '/idx/dashboard/' | relative_url }}">IDX Dashboard</a></h3>
-          <p>Secure handoff into the live IDX portal on the product host.</p>
-          <a class="eh-btn eh-btn--secondary" href="{{ '/idx/dashboard/' | relative_url }}">Open IDX portal</a>
-        </article>
         <article class="eh-card">
           <h3><a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI Deployment</a></h3>
           <p>Plan secure, private, and hybrid deployment environments.</p>

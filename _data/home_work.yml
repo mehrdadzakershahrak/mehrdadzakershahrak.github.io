@@ -1,47 +1,41 @@
 # Work entries rendered by the editorial homepage.
-# Each row shows year · title · kind · blurb · stack tags (optional).
-# Edit freely — homepage picks up every entry in order.
 
 - year: "2026"
-  title: "Private AI deployment for regulated teams"
-  kind: "Consulting engagement"
+  title: "Private AI deployment"
+  kind: "Architecture and implementation"
   blurb: >
-    Move private LLM systems from pilot to production with grounded retrieval,
-    reviewable evaluations, tenant isolation, and operational controls that hold
-    up under real audit. Engagements range from 6-week deployment reviews to
-    multi-quarter builds.
+    Move LLM systems from pilot to production with grounded retrieval,
+    reviewable evaluations, tenant isolation, and operational controls that
+    stand up to security and reliability review.
   url: /private-ai-deployment/
   stack: ["Retrieval", "Evaluation", "Guardrails", "Observability"]
 
 - year: "2026"
-  title: "Custom AI systems around one real job"
-  kind: "Research → product"
+  title: "Workflow-specific AI systems"
+  kind: "Applied AI systems"
   blurb: >
     Build the AI around one real workflow instead of a generic chat box.
     Structured extraction, long-tail retrieval, and agentic loops that
-    finish the job with traceable answers. Designed for regulated document
-    volumes and human-in-the-loop review.
+    finish the job with traceable answers and human review.
   url: /custom-ai-systems/
-  stack: ["LayoutLM", "Structured outputs", "Human review"]
+  stack: ["Structured outputs", "Agents", "Human review"]
 
 - year: "2025"
-  title: "AI & robotics solutions for operations"
-  kind: "Program work"
+  title: "S&P 500-scale production ML"
+  kind: "Search, ranking, and recommendations"
   blurb: >
-    AI and robotics that improve a specific business process — reducing
-    manual work, accelerating decisions, or making operations measurably
-    more reliable. Focus on predictive intelligence, autonomy, and the
-    handoffs between models and people.
-  url: /ai-robotics-solutions/
-  stack: ["Predictive ML", "Autonomy", "Process design"]
+    Production machine-learning systems for relevance, ranking,
+    recommendations, experimentation, and operational reliability at
+    enterprise scale.
+  url: /work/
+  stack: ["Search", "Ranking", "Experimentation", "Reliability"]
 
 - year: "2025"
-  title: "IDX — private-AI control plane"
-  kind: "Product"
+  title: "Robotics and autonomy"
+  kind: "Research and systems"
   blurb: >
-    IDX gives teams a single place to run, evaluate, and govern private AI
-    assistants — retrieval with source evidence, guarded prompting,
-    reviewable transcripts, and deployment targets that stay inside the
-    customer's environment.
-  url: /products/idx/
-  stack: ["Retrieval", "Evals", "Governance"]
+    Robotics and autonomous-system work spanning ROS, SLAM, planning,
+    reinforcement learning, VR-operated robotic arms, and multi-agent
+    environments.
+  url: /work/
+  stack: ["ROS", "SLAM", "Planning", "Autonomy"]

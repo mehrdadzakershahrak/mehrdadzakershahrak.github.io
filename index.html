@@ -1,49 +1,31 @@
 ---
 layout: editorial-home
-title: "Mehrdad Zaker — Private AI Systems That Ship"
-description: "Private AI systems that verify every answer, protect sensitive documents, and run in production. Consulting, custom AI systems, and the IDX platform."
+title: "Mehrdad Zaker"
+description: "AI systems engineer working across LLMs, production ML, and robotics."
 permalink: /
 classes: wide home-page
 suppress_default_h1: true
 ---
 
-{%- comment -%}
-  Single-page editorial home. Ported from the design handoff.
-  Everything below is scoped under `.eh-*` classes defined in
-  /assets/css/editorial-home.css. Interactions live in editorial-home.js.
+{%- assign work_items = site.data.home_work -%}
+{%- assign writing_all = site.ai_material | sort: 'date' | reverse -%}
+{%- assign writing_list = writing_all | slice: 0, 4 -%}
+{%- assign work_count = work_items | size -%}
 
-  To edit: work entries → _data/home_work.yml
-           now items     → _data/home_now.yml
-{%- endcomment -%}
-
-{%- assign work_items   = site.data.home_work    -%}
-{%- assign now_data     = site.data.home_now     -%}
-{%- assign writing_all  = site.ai_material | sort: 'date' | reverse -%}
-{%- assign writing_list = writing_all | slice: 0, 5 -%}
-{%- assign work_count   = work_items | size -%}
-
-{%- comment -%}
-  Masthead (site-wide) is rendered by the layout via _includes/masthead.html.
-  No inline .eh-topbar here anymore.
-{%- endcomment -%}
-
-{%- comment -%} ─── Mobile horizontal section-nav (in-page only) ─── {%- endcomment -%}
 <nav class="eh-nav eh-nav--mobile eh-sectionnav--mobile" aria-label="Page sections">
   <span class="eh-nav__brand-inline">Sections</span>
   <span class="eh-nav__rule" aria-hidden="true"></span>
-  <a href="#home"    class="eh-nav__mobile-link is-active" data-eh-nav-link data-target="home">Index</a>
-  <a href="#about"   class="eh-nav__mobile-link"           data-eh-nav-link data-target="about">About</a>
-  <a href="#now"     class="eh-nav__mobile-link"           data-eh-nav-link data-target="now">Now</a>
-  <a href="#work"    class="eh-nav__mobile-link"           data-eh-nav-link data-target="work">Product Catalogue</a>
-  <a href="#writing" class="eh-nav__mobile-link"           data-eh-nav-link data-target="writing">Writing</a>
-  <a href="#contact" class="eh-nav__mobile-link"           data-eh-nav-link data-target="contact">Contact</a>
+  <a href="#home" class="eh-nav__mobile-link is-active" data-eh-nav-link data-target="home">Index</a>
+  <a href="#about" class="eh-nav__mobile-link" data-eh-nav-link data-target="about">About</a>
+  <a href="#work" class="eh-nav__mobile-link" data-eh-nav-link data-target="work">Work</a>
+  <a href="#writing" class="eh-nav__mobile-link" data-eh-nav-link data-target="writing">Writing</a>
+  <a href="#contact" class="eh-nav__mobile-link" data-eh-nav-link data-target="contact">Contact</a>
 </nav>
 
 <div class="eh-grid">
-  {%- comment -%} ─── Desktop side nav ─── {%- endcomment -%}
   <nav class="eh-nav" aria-label="Page sections">
     <p class="eh-nav__brand">Mehrdad<br>Zaker</p>
-    <div class="eh-eyebrow eh-nav__sublabel">Private AI · Consulting</div>
+    <div class="eh-eyebrow eh-nav__sublabel">AI systems · robotics</div>
 
     <ul class="eh-nav__list">
       <li class="eh-nav__item">
@@ -59,117 +41,106 @@ suppress_default_h1: true
         </a>
       </li>
       <li class="eh-nav__item">
-        <a href="#now" class="eh-nav__link" data-eh-nav-link data-target="now">
-          <span class="eh-nav__num">02</span>
-          <span class="eh-nav__label">Now</span>
-        </a>
-      </li>
-      <li class="eh-nav__item">
         <a href="#work" class="eh-nav__link" data-eh-nav-link data-target="work">
-          <span class="eh-nav__num">03</span>
-          <span class="eh-nav__label">Product Catalogue</span>
+          <span class="eh-nav__num">02</span>
+          <span class="eh-nav__label">Work</span>
         </a>
       </li>
       <li class="eh-nav__item">
         <a href="#writing" class="eh-nav__link" data-eh-nav-link data-target="writing">
-          <span class="eh-nav__num">04</span>
+          <span class="eh-nav__num">03</span>
           <span class="eh-nav__label">Writing</span>
         </a>
       </li>
       <li class="eh-nav__item">
         <a href="#contact" class="eh-nav__link" data-eh-nav-link data-target="contact">
-          <span class="eh-nav__num">05</span>
+          <span class="eh-nav__num">04</span>
           <span class="eh-nav__label">Contact</span>
         </a>
       </li>
     </ul>
 
     <div class="eh-nav__block">
-      <span class="eh-eyebrow">Available</span>
-      <div class="eh-nav__block-line"><span class="eh-dot" aria-hidden="true"></span> Q3 2026</div>
-      <div class="eh-nav__block-sub">1–2 engagements</div>
+      <span class="eh-eyebrow">Profile</span>
+      <div class="eh-nav__block-line">Ph.D. CS</div>
+      <div class="eh-nav__block-sub">LLMs · ML · autonomy</div>
     </div>
   </nav>
 
   <main class="eh-main" id="main" role="main">
-
-    {%- comment -%} ─── Hero ─── {%- endcomment -%}
     <section id="home" class="eh-hero" aria-labelledby="eh-home-title">
-      <p class="eh-eyebrow eh-hero__eyebrow">Chicago · Private AI consulting</p>
+      <h1 id="eh-home-title" class="eh-hero__title">Mehrdad Zaker</h1>
 
-      <h1 id="eh-home-title" class="eh-hero__title">
-        Played a part in guiding the principles behind<br>
-        <span class="eh-hero__title-accent">the G, P, and T in ChatGPT.</span>
-      </h1>
-
-      <p class="eh-hero__undertitle">Private AI systems that verify every answer.</p>
+      <p class="eh-hero__undertitle">
+        AI systems engineer working across LLMs, production ML, and robotics.
+      </p>
 
       <div class="eh-hero__copy">
         <p>
-          I'm <b>Mehrdad Zaker</b> — I help teams move private AI from pilot to
-          production. Grounded answers, protected documents, and operational
-          controls from day one.
+          I help teams turn promising AI ideas into systems that hold up under
+          real operating constraints: retrieval quality, evaluation, latency,
+          security, data boundaries, and human review.
         </p>
         <p>
-          A decade of research and shipped systems across retrieval,
-          structured extraction, and reliability evaluation. The goal is always
-          the same: AI people actually use, on work that actually matters.
+          The work spans foundation-model systems, search and ranking,
+          source-grounded workflows, robotics, autonomy, and technical
+          leadership for teams that need durable execution more than theater.
         </p>
       </div>
 
       <div class="eh-hero__actions">
-        <a href="#work" class="eh-btn"
-           data-eh-nav-link data-target="work"
-           data-analytics="cta_work_click" data-analytics-label="hero">
-          See recent work
+        <a href="#contact" class="eh-btn" data-eh-nav-link data-target="contact" data-analytics="cta_contact_click" data-analytics-label="hero">
+          Contact
           <span class="eh-btn__arrow" aria-hidden="true">↓</span>
         </a>
-        <a href="#contact" class="eh-link"
-           data-eh-nav-link data-target="contact"
-           data-analytics="cta_contact_click" data-analytics-label="hero">Get in touch</a>
+        <a href="#writing" class="eh-link" data-eh-nav-link data-target="writing" data-analytics="nav_click" data-analytics-label="hero_writing">Writing</a>
+      </div>
+
+      <div class="eh-proof-strip" aria-label="Professional highlights">
+        <span>Ph.D. Computer Science</span>
+        <span>Founding AI Engineer</span>
+        <span>S&amp;P 500-scale ML</span>
+        <span>Robotics + autonomy</span>
       </div>
     </section>
 
-    {%- comment -%} ─── About ─── {%- endcomment -%}
-    {% include about_me_section.html section_id="about" title_id="eh-about-title" heading_tag="h2" variant="home" show_rule=true lazy_images=true %}
+    {% include about_me_section.html section_id="about" title_id="eh-about-title" heading_tag="h2" variant="home" show_rule=true compact=true %}
 
-    {%- comment -%} ─── Now ─── {%- endcomment -%}
-    <section id="now" class="eh-now" aria-labelledby="eh-now-title">
+    <section class="eh-focus" aria-labelledby="eh-focus-title">
       <div class="eh-rule">
-        <span class="eh-eyebrow">Now</span>
+        <span class="eh-eyebrow">Focus</span>
         <span class="eh-rule__line" aria-hidden="true"></span>
       </div>
 
-      <h2 id="eh-now-title" class="eh-section-h2">
-        What I'm actually doing <em>this week</em>.
+      <h2 id="eh-focus-title" class="eh-section-h2">
+        A small set of problems I keep returning to.
       </h2>
-      <p class="eh-now__meta">
-        Last updated <span class="eh-now__meta-mono">{{ now_data.last_updated }}</span>
-        · Inspired by
-        <a class="eh-link" href="https://nownownow.com/about" target="_blank" rel="noreferrer">nownownow</a>
-      </p>
 
-      <div class="eh-now__grid">
-        {%- for item in now_data.items -%}
-          <div class="eh-now__item">
-            <span class="eh-eyebrow">{{ item.label }}</span>
-            <p class="eh-now__item-text">{{ item.text }}</p>
-          </div>
-        {%- endfor -%}
+      <div class="eh-focus__list">
+        <article class="eh-focus__item">
+          <h3>AI systems</h3>
+          <p>LLM applications, RAG, evaluations, agents, source grounding, and deployment boundaries.</p>
+        </article>
+        <article class="eh-focus__item">
+          <h3>Production ML</h3>
+          <p>Search, ranking, recommendations, experimentation, reliability, and systems that operate at enterprise scale.</p>
+        </article>
+        <article class="eh-focus__item">
+          <h3>Robotics and autonomy</h3>
+          <p>ROS, SLAM, planning, reinforcement learning, and model-driven workflows that meet the physical world.</p>
+        </article>
       </div>
     </section>
 
-    {%- comment -%} ─── Work ─── {%- endcomment -%}
     <section id="work" class="eh-work" aria-labelledby="eh-work-title">
       <div class="eh-rule">
-        <span class="eh-eyebrow">Product Catalogue And Work</span>
+        <span class="eh-eyebrow">Work</span>
         <span class="eh-rule__line" aria-hidden="true"></span>
       </div>
 
       <div class="eh-work__head">
         <h2 id="eh-work-title" class="eh-section-h2">
-          A decade of <em>research that shipped</em>, for teams who need
-          private AI to actually work.
+          Selected systems work, described without product theater.
         </h2>
         <span class="eh-work__count">{{ work_count }} entries</span>
       </div>
@@ -190,7 +161,7 @@ suppress_default_h1: true
                 <p class="eh-work__blurb">
                   {{ w.blurb | strip_newlines }}
                   {%- if w.url %}
-                    <a class="eh-link" href="{{ w.url | relative_url }}">Read more →</a>
+                    <a class="eh-link" href="{{ w.url | relative_url }}">Read more</a>
                   {%- endif %}
                 </p>
                 {%- if w.stack and w.stack.size > 0 -%}
@@ -208,14 +179,11 @@ suppress_default_h1: true
       </ul>
 
       <p class="eh-work__foot">
-        More on the consulting side at
-        <a class="eh-link" href="{{ '/ai-robotics-solutions/' | relative_url }}">/solutions</a>
-        and the IDX platform at
-        <a class="eh-link" href="{{ '/products/idx/' | relative_url }}">/products/idx</a>.
+        A fuller anonymized record is available on the
+        <a class="eh-link" href="{{ '/work/' | relative_url }}">work page</a>.
       </p>
     </section>
 
-    {%- comment -%} ─── Writing ─── {%- endcomment -%}
     <section id="writing" class="eh-writing" aria-labelledby="eh-writing-title">
       <div class="eh-rule">
         <span class="eh-eyebrow">Writing</span>
@@ -223,7 +191,7 @@ suppress_default_h1: true
       </div>
 
       <h2 id="eh-writing-title" class="eh-section-h2">
-        Long enough to be useful, <em>short enough to finish</em>.
+        Notes on systems, reliability, and applied AI.
       </h2>
 
       <ul class="eh-writing__list">
@@ -233,7 +201,7 @@ suppress_default_h1: true
           {%- elsif entry.content_type == "reference" -%}
             {%- assign tag_label = "Reference" -%}
           {%- else -%}
-            {%- assign tag_label = "Newsletter" -%}
+            {%- assign tag_label = "Note" -%}
           {%- endif -%}
           {%- assign words = entry.content | strip_html | number_of_words -%}
           {%- assign mins = words | divided_by: 220 -%}
@@ -252,10 +220,9 @@ suppress_default_h1: true
       </ul>
     </section>
 
-    {%- comment -%} ─── Elsewhere / Contact ─── {%- endcomment -%}
     <section id="contact" class="eh-contact" aria-labelledby="eh-contact-title">
       <div class="eh-rule">
-        <span class="eh-eyebrow">Elsewhere</span>
+        <span class="eh-eyebrow">Contact</span>
         <span class="eh-rule__line" aria-hidden="true"></span>
       </div>
 
@@ -265,45 +232,32 @@ suppress_default_h1: true
       </h2>
 
       <div class="eh-contact__grid">
-        <a class="eh-contact__item eh-contact__item--left"
-           href="mailto:{{ site.contact_email }}"
-           data-analytics="cta_contact_click" data-analytics-label="email">
+        <a class="eh-contact__item eh-contact__item--left" href="mailto:{{ site.contact_email }}" data-analytics="cta_contact_click" data-analytics-label="email">
           <span class="eh-eyebrow">Email</span>
           <span class="eh-contact__value">{{ site.contact_email }}</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
         </a>
 
-        <a class="eh-contact__item eh-contact__item--right"
-           href="{{ '/contact/' | relative_url }}"
-           data-analytics="cta_contact_click" data-analytics-label="brief">
+        <a class="eh-contact__item eh-contact__item--right" href="{{ '/contact/' | relative_url }}" data-analytics="cta_contact_click" data-analytics-label="brief">
           <span class="eh-eyebrow">Brief</span>
-          <span class="eh-contact__value">Share a project brief</span>
+          <span class="eh-contact__value">Share context</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
         </a>
 
-        <a class="eh-contact__item eh-contact__item--left"
-           href="{{ '/newsletter/' | relative_url }}"
-           data-analytics="nav_click" data-analytics-label="newsletter">
-          <span class="eh-eyebrow">Newsletter</span>
-          <span class="eh-contact__value">Notes on private AI</span>
+        <a class="eh-contact__item eh-contact__item--left" href="https://www.linkedin.com/in/mehrdadzaker" rel="me">
+          <span class="eh-eyebrow">LinkedIn</span>
+          <span class="eh-contact__value">mehrdadzaker</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
         </a>
 
-        <a class="eh-contact__item eh-contact__item--right"
-           href="{{ '/resources/' | relative_url }}"
-           data-analytics="nav_click" data-analytics-label="resources">
-          <span class="eh-eyebrow">Resources</span>
-          <span class="eh-contact__value">Deployment guides</span>
+        <a class="eh-contact__item eh-contact__item--right" href="https://github.com/mehrdadzakershahrak" rel="me">
+          <span class="eh-eyebrow">GitHub</span>
+          <span class="eh-contact__value">mehrdadzakershahrak</span>
           <span class="eh-contact__arrow" aria-hidden="true">↗</span>
         </a>
 
         <div class="eh-contact__last-rule" aria-hidden="true"></div>
       </div>
     </section>
-
-    {%- comment -%}
-      Site footer is rendered by the layout via _includes/footer.html.
-      No inline .eh-footer here anymore.
-    {%- endcomment -%}
   </main>
 </div>

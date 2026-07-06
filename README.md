@@ -1,37 +1,37 @@
-# mehrdadzaker.com (GitHub Pages)
+# mehrdadzaker.com
 
-This repo is now a static marketing and guidance surface only. The live LLM Wiki product, authentication flow, viewer, and MCP endpoints live on [idx.mehrdadzaker.com](https://idx.mehrdadzaker.com).
+Personal website for Mehrdad Zaker. The site is intentionally small: home, work, writing, about, and contact.
 
-## Production surface
-- Public guidance and marketing pages remain on `www.mehrdadzaker.com`.
-- `/products/idx/` is the canonical public IDX product page.
-- `/idx/` and `/idx/assistant/` redirect to `/products/idx/`.
-- `/idx/dashboard/` is a thin redirect/handoff page to `https://idx.mehrdadzaker.com/v2/portal`.
-- `/login/` redirects to `https://idx.mehrdadzaker.com/auth/login`.
-- The website no longer gates access with its own auth flow for the v2 product.
+## Production Surface
 
-## Local development
-This repo expects `ruby 3.2.11` from `.ruby-version` and `bundler 4.0.7`. Using macOS system Ruby `2.6.x` will not work with the current Bundler lock.
+- `/` presents the minimalist personal profile.
+- `/work/` contains selected anonymized systems work.
+- `/newsletter/` and `/newsletter/archive/` contain writing.
+- `/about/` contains a short biography and background.
+- `/contact/` is the direct contact path.
 
-If you use `rbenv`, bootstrap the local toolchain with:
+The site no longer publishes product catalogue, login, search, or product-specific routes.
+
+## Local Development
+
+This repo expects `ruby 3.2.11` from `.ruby-version` and `bundler 4.0.7`.
 
 ```bash
-cd /Users/mehrdadz/Downloads/mehrdadzakershahrak.github.io
 PATH="/opt/homebrew/bin:$PATH" rbenv install -s "$(cat .ruby-version)"
 PATH="/opt/homebrew/bin:$PATH" rbenv local "$(cat .ruby-version)"
 gem install bundler -v 4.0.7
 bundle _4.0.7_ install
 ```
 
-Then run Jekyll locally:
+Run Jekyll locally:
 
 ```bash
-cd /Users/mehrdadz/Downloads/mehrdadzakershahrak.github.io
 bundle _4.0.7_ exec jekyll serve --host 127.0.0.1 --port 4000
 ```
 
-## Content Authoring
-Written AI material lives in `_ai_material/`. Use this collection for guides, notes, explainers, and references. Preserve public URLs with explicit `permalink` values, including existing `/resources/.../` and `/newsletter/.../` paths.
+## Content
+
+Written AI material lives in `_ai_material/`. Use this collection for guides, notes, explainers, and references. Preserve public URLs with explicit `permalink` values.
 
 Required front matter for AI material:
 
@@ -41,61 +41,14 @@ Required front matter for AI material:
 - `audience`, `topics`
 - `image_alt` when `image` is set
 
-Resource guides also need `resource_guide: true`, `pillar`, `order`, `problem_label`, `ui_tags`, `resource_cta`, and `faqs`. Notes should include a `cta` so newsletter entries always have a next step.
+Images are optional. Prefer minimal imagery: use a final asset when it materially helps the page, or use a restrained editorial placeholder.
 
-Images are optional. Prefer minimal imagery: set `image` and `image_alt` when a final asset exists, or set `image_placeholder` for a restrained editorial placeholder. Missing images are a valid content state and should not block publishing.
-
-Use these references before adding material:
-
-- Public authoring guide: `/docs/content-authoring/`
-- AI material template: `_drafts/ai-material-template.md`
-- Podcast entry template: `_drafts/podcast-entry-template.md`
-
-## Website E2E
-The website Playwright suite validates the static v2 handoff contract:
-- `/idx/dashboard/` renders the wrapper and redirects directly to the product host
-- legacy query params are ignored
-- `/login/` redirects directly to product-domain auth
-- `/products/idx/` stays the canonical public IDX product page
-- `/idx/` and `/idx/assistant/` redirect to the canonical product page
-- AI material appears in the resource hub, newsletter, homepage writing feed, sitemap, and local search data
-- Primary routes remain readable in light and dark mode
-
-Run the suite:
+## E2E
 
 ```bash
-cd /Users/mehrdadz/Downloads/mehrdadzakershahrak.github.io
 PATH="/opt/homebrew/bin:$PATH" npm install
 PATH="/opt/homebrew/bin:$PATH" npx playwright install chromium
 PATH="/opt/homebrew/bin:$PATH" npm run test:e2e
 ```
 
-## Post-publish IndexNow
-
-The site includes an IndexNow verification key at `/36fd8da451bc4ac980e93670b46c9376.txt`. After the resource hub is deployed, submit the changed URLs with:
-
-```bash
-curl -X POST "https://api.indexnow.org/indexnow" \
-  -H "Content-Type: application/json; charset=utf-8" \
-  --data '{
-    "host": "www.mehrdadzaker.com",
-    "key": "36fd8da451bc4ac980e93670b46c9376",
-    "keyLocation": "https://www.mehrdadzaker.com/36fd8da451bc4ac980e93670b46c9376.txt",
-    "urlList": [
-      "https://www.mehrdadzaker.com/resources/",
-      "https://www.mehrdadzaker.com/resources/private-llm-pilot-to-production/",
-      "https://www.mehrdadzaker.com/resources/grounding-hallucination-prevention-document-ai/",
-      "https://www.mehrdadzaker.com/resources/secure-enterprise-rag-architecture/",
-      "https://www.mehrdadzaker.com/resources/ai-system-reliability-evaluation-before-deployment/",
-      "https://www.mehrdadzaker.com/resources/private-vs-cloud-ai-regulated-industries/",
-      "https://www.mehrdadzaker.com/resources/local-llm-practical-guide/"
-    ]
-  }'
-```
-
-Bing Webmaster Tools sitemap and URL submission still requires access to the verified site-owner account.
-
-## Notes
-- Product implementation work belongs in [neuralint-platform](/Users/mehrdadz/Downloads/neuralint-platform).
-- If public copy on this site mentions a website-hosted dashboard or website-hosted sign-in, that copy is stale and should be updated to point to `idx.mehrdadzaker.com`.
-- The static site no longer carries the legacy auth-service, auth-link, or demo-chat runtime. IDX sign-in and authenticated product access live on `idx.mehrdadzaker.com`.
+The tests should cover the simplified primary routes, navigation, homepage sections, and removal of retired product/login/search surfaces.

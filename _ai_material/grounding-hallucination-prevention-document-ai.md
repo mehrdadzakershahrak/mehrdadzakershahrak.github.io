@@ -25,9 +25,9 @@ ui_tags:
 image_placeholder: "Evidence and citation path"
 resource_cta:
   title: "Make document answers verifiable"
-  copy: "Use IDX when the workflow needs grounded answers, page-level citations, and faster source review over dense documents."
-  url: "/products/idx/"
-  label: "Explore IDX"
+  copy: "Design the workflow so grounded answers, page-level citations, and source review are part of the system from the start."
+  url: "/custom-ai-systems/"
+  label: "Design custom AI systems"
 faqs:
   - question: "What does grounding mean in a document AI system?"
     answer: >-
@@ -49,7 +49,7 @@ Grounding is not a cosmetic feature. For legal packets, policy libraries, resear
 
 Retrieval-augmented generation (RAG) is a strong starting pattern. A major [survey of RAG for large language models](https://arxiv.org/abs/2312.10997) describes how retrieval can address hallucination, stale knowledge, and untraceable reasoning by adding external knowledge at inference time. But RAG is not a guarantee. It gives the model evidence; it does not prove that the evidence is complete, correctly ranked, safe, or faithfully used.
 
-For teams building source-grounded assistants or document review workflows, [IDX]({{ '/products/idx/' | relative_url }}) is the productized document path on this site. For broader workflow-specific systems, [custom AI systems]({{ '/custom-ai-systems/' | relative_url }}) covers the implementation approach.
+For teams building source-grounded assistants or document review workflows, [custom AI systems]({{ '/custom-ai-systems/' | relative_url }}) covers the implementation approach.
 
 ## Why hallucinations happen in document workflows
 
