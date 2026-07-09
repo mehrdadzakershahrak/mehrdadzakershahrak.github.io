@@ -161,12 +161,13 @@
 
   function resizeLife() {
     var rect = lifeCanvas.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var maxDpr = rect.width > 640 ? 1.5 : 2;
+    dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
     lifeCanvas.width = Math.max(1, Math.floor(rect.width * dpr));
     lifeCanvas.height = Math.max(1, Math.floor(rect.height * dpr));
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    cell = rect.width < 520 ? 8 : 10;
+    cell = rect.width < 520 ? 8 : rect.width < 720 ? 10 : 12;
     cols = Math.max(24, Math.floor(rect.width / cell));
     rows = Math.max(20, Math.floor(rect.height / cell));
     current = new Uint8Array(cols * rows);
@@ -299,6 +300,12 @@
     var visualEase = 1 - Math.pow(0.001, delta / 240);
     var glowEase = Math.pow(0.001, delta / 700);
     var gap = cell > 8 ? 1.6 : 1;
+    var glowThreshold = 0.42;
+
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    ctx.shadowColor = "rgba(75, 220, 245, 0.62)";
+    ctx.shadowBlur = cell > 10 ? 14 : 11;
     for (var y = 0; y < rows; y++) {
       for (var x = 0; x < cols; x++) {
         var i = idx(x, y);
@@ -316,17 +323,38 @@
         var pulse = Math.max(0, glow[i] - 0.55) * 1.8;
         var size = (cell - gap) * (0.72 + presence * 0.28) + pulse;
         var inset = (cell - gap - size) / 2;
-        ctx.fillStyle = "hsla(" + hue + ", 86%, " + (52 + intensity * 18) + "%, " + alpha + ")";
-        ctx.shadowColor = "hsla(" + hue + ", 90%, 62%, " + Math.min(alpha, 0.65) + ")";
-        ctx.shadowBlur = 5 + presence * 9 + glow[i] * 6;
-        ctx.beginPath();
-        ctx.roundRect(px + inset, py + inset, size, size, Math.max(2, cell * 0.22));
-        ctx.fill();
+        if (glow[i] > glowThreshold) {
+          ctx.fillStyle = "hsla(" + hue + ", 92%, 62%, " + Math.min(0.32, glow[i] * 0.24) + ")";
+          ctx.beginPath();
+          ctx.roundRect(px + inset - 0.5, py + inset - 0.5, size + 1, size + 1, Math.max(2, cell * 0.24));
+          ctx.fill();
+        }
         glow[i] *= live ? Math.max(glowEase, 0.9) : glowEase;
         if (!live) age[i] *= glowEase;
       }
     }
+    ctx.restore();
+
     ctx.shadowBlur = 0;
+    for (var yy = 0; yy < rows; yy++) {
+      for (var xx = 0; xx < cols; xx++) {
+        var ii = idx(xx, yy);
+        var liveCell = current[ii] === 1;
+        if (!liveCell && visual[ii] <= 0.02) continue;
+        var visiblePresence = visual[ii];
+        var visibleIntensity = visiblePresence * (0.56 + Math.min(age[ii], 18) / 42);
+        var visibleHue = 184 + Math.min(age[ii], 20) * 3.6;
+        var visibleAlpha = Math.min(0.92, visiblePresence * 0.74);
+        var visiblePx = xx * cell + gap / 2;
+        var visiblePy = yy * cell + gap / 2;
+        var visibleSize = (cell - gap) * (0.72 + visiblePresence * 0.28);
+        var visibleInset = (cell - gap - visibleSize) / 2;
+        ctx.fillStyle = "hsla(" + visibleHue + ", 86%, " + (52 + visibleIntensity * 18) + "%, " + visibleAlpha + ")";
+        ctx.beginPath();
+        ctx.roundRect(visiblePx + visibleInset, visiblePy + visibleInset, visibleSize, visibleSize, Math.max(2, cell * 0.22));
+        ctx.fill();
+      }
+    }
   }
 
   function frame(now) {
