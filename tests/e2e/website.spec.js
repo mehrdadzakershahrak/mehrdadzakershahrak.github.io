@@ -48,6 +48,16 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.locator(".eh-exec-meta")).toContainText("S&P 500-scale ML");
   await expect(page.locator(".eh-exec-meta")).toContainText("Robotics");
 
+  const life = page.locator("#life");
+  await expect(life.getByRole("heading", { name: "Game of Life" })).toBeVisible();
+  await expect(life.locator("canvas")).toBeVisible();
+  await expect(life.getByRole("button", { name: "Pause" })).toBeVisible();
+  await expect(life.getByRole("button", { name: "Randomize" })).toBeVisible();
+  await expect(life.getByRole("button", { name: "Glider" })).toBeVisible();
+  await expect(life.getByRole("button", { name: "Pulsar" })).toBeVisible();
+  await expect(life.getByRole("button", { name: "Clear" })).toBeVisible();
+  await expect(life.getByLabel("Speed")).toBeVisible();
+
   const about = page.locator(".eh-about-drop");
   await expect(about).not.toHaveAttribute("open", "");
   await expect(page.getByText("Deep Learning Specialization")).toBeHidden();

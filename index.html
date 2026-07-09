@@ -38,6 +38,37 @@ suppress_default_h1: true
     </p>
   </section>
 
+  <section id="life" class="eh-exec-section eh-life" aria-labelledby="eh-life-title">
+    <div class="eh-exec-section__head eh-life__head">
+      <div>
+        <h2 id="eh-life-title">Game of Life</h2>
+        <p>Draw cells, seed a pattern, and watch the system settle into motion.</p>
+      </div>
+      <button class="eh-link eh-life__control eh-life__control--plain" type="button" data-life-toggle aria-pressed="true">
+        Pause
+      </button>
+    </div>
+
+    <div class="eh-life__stage" data-life-stage>
+      <canvas class="eh-life__canvas" data-life-canvas aria-label="Interactive Conway's Game of Life simulation"></canvas>
+      <div class="eh-life__hud" aria-hidden="true">
+        <span data-life-generation>0000</span>
+        <span>generations</span>
+      </div>
+    </div>
+
+    <div class="eh-life__toolbar" aria-label="Game of Life controls">
+      <button class="eh-life__control" type="button" data-life-random>Randomize</button>
+      <button class="eh-life__control" type="button" data-life-preset="glider">Glider</button>
+      <button class="eh-life__control" type="button" data-life-preset="pulsar">Pulsar</button>
+      <button class="eh-life__control" type="button" data-life-clear>Clear</button>
+      <label class="eh-life__speed">
+        <span>Speed</span>
+        <input type="range" min="4" max="18" value="9" step="1" data-life-speed>
+      </label>
+    </div>
+  </section>
+
   <section id="about" class="eh-exec-section" aria-label="About Mehrdad Zaker">
     <details class="eh-about-drop">
       <summary>
