@@ -517,6 +517,23 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   border-bottom: 1px solid var(--eh-rule);
 }
 
+.eh-exec-identity {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: 52px;
+  align-items: start;
+}
+
+.eh-exec-portrait {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: 8px;
+  background: var(--eh-paper-deep);
+  object-fit: cover;
+  object-position: center 30%;
+}
+
 .eh-exec-title {
   margin: 0;
   color: var(--eh-ink);
@@ -554,6 +571,26 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   gap: 18px;
   align-items: center;
   margin-top: 34px;
+}
+
+.eh-exec-lab {
+  max-width: 760px;
+  margin: 34px 0 0;
+  color: var(--eh-ink-soft);
+  font-family: var(--eh-ff-sans);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.eh-exec-lab a {
+  color: var(--eh-ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--eh-rule-strong);
+}
+
+.eh-exec-lab a:hover {
+  color: var(--eh-accent);
+  border-bottom-color: var(--eh-accent);
 }
 
 .eh-exec-meta {
@@ -2679,8 +2716,8 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   min-height: 520px;
   border-radius: 8px;
   background-color: var(--eh-paper-deep);
-  background-image: url("/assets/images/about-profile-2026.jpg");
-  background-position: center 42%;
+  background-image: url("/assets/images/mehrdad-zaker-headshot.jpeg");
+  background-position: center 30%;
   background-size: cover;
 }
 
@@ -2691,7 +2728,7 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   height: 100%;
   min-height: 0;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center 30%;
   display: block;
   z-index: 0;
 }
@@ -2953,6 +2990,16 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
 }
 
 @media (max-width: 759px) {
+  .eh-exec-identity {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .eh-exec-portrait {
+    order: -1;
+    width: min(66vw, 260px);
+  }
+
   .eh-document {
     padding: 36px 20px 60px;
   }

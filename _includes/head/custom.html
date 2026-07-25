@@ -41,18 +41,11 @@
       href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap">
 
 {% if is_home %}
-  {%- comment -%}
-    LCP hint for the homepage hero image. imagesrcset + imagesizes make the
-    preload participate in responsive-image selection instead of over-
-    fetching the 1200w asset on small screens.
-  {%- endcomment -%}
   <link
     rel="preload"
     as="image"
-    href="{{ '/assets/images/private-ai-consulting-header-960.webp' | relative_url }}"
-    imagesrcset="{{ '/assets/images/private-ai-consulting-header-640.webp' | relative_url }} 640w, {{ '/assets/images/private-ai-consulting-header-960.webp' | relative_url }} 960w, {{ '/assets/images/private-ai-consulting-header-1200.webp' | relative_url }} 1200w"
-    imagesizes="(max-width: 960px) 100vw, 40vw"
-    type="image/webp"
+    href="{{ '/assets/images/mehrdad-zaker-headshot.jpeg' | relative_url }}"
+    type="image/jpeg"
     fetchpriority="high">
 {% endif %}
 
@@ -72,10 +65,10 @@
   <meta property="og:image" content="{{ social_image | absolute_url }}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="{{ social_image | absolute_url }}">
-  <meta property="og:image:alt" content="Technical schematic showing private data flowing into an LLM engine and verified output.">
+  <meta property="og:image:alt" content="{{ site.default_social_image_alt }}">
   {% if social_image == site.default_social_image %}
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+    <meta property="og:image:width" content="{{ site.default_social_image_width }}">
+    <meta property="og:image:height" content="{{ site.default_social_image_height }}">
   {% endif %}
 {% endif %}
 

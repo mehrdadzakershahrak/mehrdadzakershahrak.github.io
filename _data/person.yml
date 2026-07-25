@@ -1,13 +1,16 @@
 name: "Mehrdad Zaker"
 url: "https://www.mehrdadzaker.com/"
-jobTitle: "AI Systems Engineer"
-description: "Mehrdad Zaker works across LLM systems, production ML, robotics, and technical leadership."
+jobTitle: "AI Systems Advisor and Researcher"
+description: "Mehrdad Zaker works across LLM systems, production ML, agent systems, robotics, and technical leadership."
 sameAs:
   - "https://www.linkedin.com/in/mehrdadzaker"
   - "https://twitter.com/mehrdadzaker"
   - "https://github.com/mehrdadzakershahrak"
 knowsAbout:
   - "AI Systems"
+  - "Agent Systems"
+  - "Reinforcement Learning"
+  - "Planning"
   - "Retrieval-Augmented Generation"
   - "Production Machine Learning"
   - "Robotics"

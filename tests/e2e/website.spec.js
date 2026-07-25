@@ -34,6 +34,8 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.getByText("Senior AI systems advisor for teams moving LLMs, ML, and automation from promise to production.")).toBeVisible();
   await expect(page.getByText("I help technical leaders make AI systems reliable, grounded, observable, and operationally sane.")).toBeVisible();
   await expect(page.getByRole("link", { name: "Email Mehrdad" })).toHaveAttribute("href", /mailto:/);
+  await expect(page.getByRole("img", { name: "Mehrdad Zaker" })).toHaveAttribute("src", "/assets/images/mehrdad-zaker-headshot.jpeg");
+  await expect(page.getByRole("link", { name: "Neural Intelligence Labs" })).toHaveAttribute("href", "https://neuralint.io");
 
   const navItems = await page.locator(".eh-masthead__nav a").allTextContents();
   expect(navItems.map((item) => item.trim())).toEqual(["Work", "Writing", "About", "Contact"]);
@@ -44,7 +46,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.locator(".eh-contact__grid")).toHaveCount(0);
 
   await expect(page.locator(".eh-exec-meta")).toContainText("Ph.D. CS");
-  await expect(page.locator(".eh-exec-meta")).toContainText("Founding AI Engineer");
+  await expect(page.locator(".eh-exec-meta")).toContainText("Founder, Neural Intelligence Labs");
   await expect(page.locator(".eh-exec-meta")).toContainText("S&P 500-scale ML");
   await expect(page.locator(".eh-exec-meta")).toContainText("Robotics");
 

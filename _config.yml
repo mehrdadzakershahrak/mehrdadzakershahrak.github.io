@@ -1,5 +1,5 @@
 title: Mehrdad Zaker
-description: AI systems, production ML, robotics, and technical leadership.
+description: AI systems, production ML, agent systems, robotics, and technical leadership.
 baseurl: ""
 url: "https://www.mehrdadzaker.com"
 markdown: kramdown
@@ -76,7 +76,10 @@ search: false
 # Site-specific settings
 contact_email: "mehrdadz@neuralint.io"
 logo_mark: "/assets/images/logo-mark.svg"
-default_social_image: "/assets/images/about-profile-2026.jpg"
+default_social_image: "/assets/images/mehrdad-zaker-headshot.jpeg"
+default_social_image_alt: "Portrait of Mehrdad Zaker"
+default_social_image_width: 1122
+default_social_image_height: 1402
 
 # Lead capture + demo chat (set these)
 leads_endpoint: ""
