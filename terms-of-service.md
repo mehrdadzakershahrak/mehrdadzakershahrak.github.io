@@ -1,38 +1,28 @@
 ---
 layout: single
 title: "Terms of Service"
+description: "Terms for using mehrdadzaker.com and its public content."
 permalink: /terms-of-service/
 classes: wide
 ---
 
-These Terms of Service govern your use of this website, its content, and its interactive features, including sign-in and demo experiences.
+These Terms govern your use of this public personal website, its writing, and its browser-based interactions.
 
 By accessing or using the site, you agree to these Terms. If you do not agree, do not use the site.
 
 ## Use of the Site
 
-You may use the site for lawful business, informational, and evaluation purposes. You agree not to:
+You may use the site for lawful informational, educational, and evaluation purposes. You agree not to:
 
 - misuse, disrupt, reverse engineer, scrape, or interfere with the site or its infrastructure
-- attempt unauthorized access to accounts, systems, or data
-- submit unlawful, infringing, abusive, deceptive, or harmful content
-- use the demos or site outputs in a way that violates law, regulation, contract, or professional obligations
+- attempt unauthorized access to the site's hosting or related systems
+- use the site's content in a way that violates law or third-party rights
 
-## Accounts and Access
+## Informational content
 
-Some features may require sign-in through Google. You are responsible for maintaining control of your Google account and for activity performed through your authenticated session.
+The site contains technical writing, summaries of professional work, external references, and an in-browser Game of Life simulation. Content is provided for general information and may be revised as the underlying work, research, or technology changes.
 
-We may suspend or restrict access where necessary for security, abuse prevention, legal compliance, or operational reasons.
-
-## Demo Content and No Professional Advice
-
-This site includes AI demos, examples, and experimental workflows. Outputs may be incomplete, incorrect, outdated, or unsuitable for your use case.
-
-Unless explicitly stated otherwise in a separate written agreement:
-
-- nothing on this site is legal, financial, medical, tax, educational, or other regulated professional advice
-- demo outputs are for illustration, evaluation, and workflow exploration only
-- you are responsible for independent review, validation, and human judgment before relying on any output
+Nothing on the site is legal, financial, medical, tax, or other regulated professional advice. You are responsible for independent review and judgment before relying on technical material in a real system.
 
 ## Intellectual Property
 
@@ -40,15 +30,9 @@ Unless otherwise stated, the site content, branding, writing, designs, software,
 
 You may not reproduce, republish, distribute, modify, or create derivative works from protected site materials except as permitted by law or by prior written permission.
 
-## User Inputs
-
-You retain responsibility for content you submit. By submitting content through the site, you represent that you have the right to provide it and that doing so does not violate law or third-party rights.
-
-You grant a limited right to process submitted content as needed to operate the site, provide responses, maintain security, and improve service quality.
-
 ## Availability and Changes
 
-The site may change at any time, including features, content, pricing, availability, or technical requirements. We do not guarantee uninterrupted availability.
+The site may change at any time, including its content, links, features, or availability. Uninterrupted access is not guaranteed.
 
 ## Disclaimer of Warranties
 
@@ -70,7 +54,7 @@ These Terms are governed by applicable law in the jurisdiction determined by the
 
 These Terms may be updated from time to time. Continued use of the site after updated Terms are posted constitutes acceptance of the revised Terms.
 
-**Effective date:** March 23, 2026
+**Effective date:** July 30, 2026
 
 ## Contact
 

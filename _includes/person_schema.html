@@ -5,9 +5,15 @@
   "@context": "https://schema.org",
   "@type": "Person",
   "name": {{ person.name | jsonify }},
+  "alternateName": {{ person.alternateName | jsonify }},
   "url": {{ person.url | jsonify }},
   "jobTitle": {{ person.jobTitle | jsonify }},
   "description": {{ person.description | jsonify }},
+  "worksFor": {
+    "@type": "Organization",
+    "name": {{ person.worksFor.name | jsonify }},
+    "url": {{ person.worksFor.url | jsonify }}
+  },
   "sameAs": [
     {%- for profile_url in person.sameAs %}
     {{ profile_url | jsonify }}{% unless forloop.last %},{% endunless %}

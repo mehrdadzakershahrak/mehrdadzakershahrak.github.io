@@ -1,22 +1,31 @@
 # Mehrdad Zaker
 
-> Mehrdad Zaker is an AI systems engineer working across LLMs, production ML, robotics, and technical leadership.
+> Mehrdad Zakershahrak, known publicly here as Mehrdad Zaker, is a founder and principal-level AI engineer and applied scientist building trustworthy AI systems from research through production.
 
 Use this file as a concise guide to the public site. The site is a minimalist personal technical profile, not a product catalogue.
 
 ## Start Here
 
 - [Homepage](https://www.mehrdadzaker.com/): Minimal profile, credibility strip, focus areas, selected work, writing, and contact.
-- [Work](https://www.mehrdadzaker.com/work/): Selected anonymized systems work across AI systems, production ML, and robotics.
+- [Work](https://www.mehrdadzaker.com/work/): CV-grounded work across private and agentic AI, production ML, human–AI interaction, and robotics.
 - [Writing](https://www.mehrdadzaker.com/newsletter/): Notes and guides on applied AI systems, deployment, reliability, and robotics.
-- [About](https://www.mehrdadzaker.com/about/): Short biography, education, skills, and outside-work interests.
+- [About](https://www.mehrdadzaker.com/about/): Current role, experience, research evidence, education, technical focus, and outside-work interests.
 - [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete AI systems problem.
+
+## Current Identity
+
+- Founder / Founding AI Engineer at Neural Intelligence Labs, 2025–Present.
+- Former Staff Applied ML Scientist at Grainger, 2021–2024.
+- Ph.D. in Computer Science from Arizona State University.
+- 350+ research citations and h-index 10.
+- Co-inventor on granted U.S. Patent No. 12,640,000.
+- Author of “Human–AI Interaction in LLM” in the 2026 Springer Handbook of Human-Centered Artificial Intelligence.
 
 ## Focus Areas
 
 - AI systems: LLM applications, RAG, evaluations, agents, source grounding, and deployment boundaries.
 - Production ML: search, ranking, recommendations, experimentation, and reliability at enterprise scale.
-- Robotics and autonomy: ROS, SLAM, planning, reinforcement learning, robotic manipulation, and multi-agent environments.
+- Decision systems and robotics: reinforcement learning, ROS, SLAM, planning, robotic manipulation, and multi-agent environments.
 
 ## Resource Guides
 

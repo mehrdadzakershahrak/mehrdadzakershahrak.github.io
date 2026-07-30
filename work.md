@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "Work"
-description: "Selected AI systems, production ML, and robotics work."
+description: "Selected work across private and agentic AI, production ML, human–AI interaction, and robotics."
 permalink: /work/
 classes: wide work-page
 suppress_default_h1: true
@@ -12,16 +12,16 @@ suppress_default_h1: true
 <section class="eh-showcase eh-showcase--work">
   <section class="eh-showcase__hero eh-showcase__hero--plain" aria-labelledby="work-hero-title">
     <div class="eh-showcase__copy">
-      <p class="eh-eyebrow">Work</p>
-      <h1 id="work-hero-title" class="eh-title">Selected systems work.</h1>
+      <p class="eh-eyebrow">Work and research</p>
+      <h1 id="work-hero-title" class="eh-title">From research to production.</h1>
       <p class="eh-dek">
-        Four concise, anonymized briefs across private deployment, AI runtime reliability, production ML, and human-AI or robot teaming.
+        A selected record of the systems I have built, the research I have published, and the technical work I lead now.
       </p>
     </div>
   </section>
 
   <section class="eh-section eh-work-briefs" aria-labelledby="work-briefs-title">
-    <h2 id="work-briefs-title">Project briefs</h2>
+    <h2 id="work-briefs-title">Selected work</h2>
 
     <div class="eh-work-briefs__list">
       {%- for item in work_items -%}
@@ -29,7 +29,7 @@ suppress_default_h1: true
           <div class="eh-work-brief__head">
             {% include work_mark.html mark=item.mark %}
             <div>
-              <p class="eh-eyebrow">{{ item.kind }}</p>
+              <p class="eh-eyebrow">{{ item.year }} · {{ item.kind }}</p>
               <h3>{{ item.title }}</h3>
             </div>
           </div>
@@ -41,6 +41,12 @@ suppress_default_h1: true
               <li>{{ point }}</li>
             {%- endfor -%}
           </ul>
+
+          {%- if item.source_url -%}
+            <p class="eh-work-brief__source">
+              <a href="{{ item.source_url }}" rel="noopener">{{ item.source_label | default: "Source" }}</a>
+            </p>
+          {%- endif -%}
         </article>
       {%- endfor -%}
     </div>

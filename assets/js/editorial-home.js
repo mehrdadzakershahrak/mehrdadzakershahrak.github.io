@@ -123,11 +123,15 @@
   if (!lifeCanvas) return;
 
   var lifeStage = document.querySelector("[data-life-stage]");
-  var toggleButton = document.querySelector("[data-life-toggle]");
+  var toggleButtons = Array.prototype.slice.call(
+    document.querySelectorAll("[data-life-toggle]")
+  );
   var randomButton = document.querySelector("[data-life-random]");
   var clearButton = document.querySelector("[data-life-clear]");
   var speedInput = document.querySelector("[data-life-speed]");
+  var speedValue = document.querySelector("[data-life-speed-value]");
   var generationLabel = document.querySelector("[data-life-generation]");
+  var statusLabel = document.querySelector("[data-life-status]");
   var presetButtons = Array.prototype.slice.call(
     document.querySelectorAll("[data-life-preset]")
   );
@@ -141,41 +145,119 @@
   var age = new Float32Array(0);
   var glow = new Float32Array(0);
   var visual = new Float32Array(0);
+  var activeCells = new Uint32Array(0);
+  var cellColors = [
+    "hsl(184, 86%, 61%)",
+    "hsl(194, 86%, 62%)",
+    "hsl(205, 86%, 63%)",
+    "hsl(216, 86%, 64%)",
+    "hsl(227, 86%, 65%)",
+    "hsl(238, 86%, 66%)",
+  ];
   var running = !reduced;
   var drawing = false;
+  var lastPaintedCell = -1;
+  var touchPointer = false;
+  var pointerStartX = 0;
+  var pointerStartY = 0;
+  var keyboardActive = false;
+  var keyboardX = 0;
+  var keyboardY = 0;
   var lastStep = 0;
   var lastFrame = 0;
+  var lastPaint = 0;
   var generation = 0;
   var tickMs = speedInput ? 1000 / Number(speedInput.value || 9) : 110;
-  var visible = true;
+  var inViewport = true;
+  var pageVisible = !document.hidden;
+  var frameRequest = 0;
+  var resizeRequest = 0;
+  var renderPending = true;
+  var mobileFrameMs = 1000 / 30;
 
   function idx(x, y) {
     return y * cols + x;
   }
 
-  function wrap(n, max) {
-    if (n < 0) return max - 1;
-    if (n >= max) return 0;
-    return n;
-  }
-
   function resizeLife() {
     var rect = lifeCanvas.getBoundingClientRect();
-    var maxDpr = rect.width > 640 ? 1.5 : 2;
-    dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
-    lifeCanvas.width = Math.max(1, Math.floor(rect.width * dpr));
-    lifeCanvas.height = Math.max(1, Math.floor(rect.height * dpr));
+    var newDpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    var bitmapWidth = Math.max(1, Math.floor(rect.width * newDpr));
+    var bitmapHeight = Math.max(1, Math.floor(rect.height * newDpr));
+    var newCell = rect.width < 520 ? 8 : rect.width < 720 ? 10 : 12;
+    var newCols = Math.max(24, Math.floor(rect.width / newCell));
+    var newRows = Math.max(20, Math.floor(rect.height / newCell));
+    var gridChanged = newCols !== cols || newRows !== rows;
+    var bitmapChanged =
+      lifeCanvas.width !== bitmapWidth || lifeCanvas.height !== bitmapHeight;
+
+    if (!gridChanged && !bitmapChanged && newCell === cell && newDpr === dpr) {
+      return;
+    }
+
+    var oldCurrent = current;
+    var oldAge = age;
+    var oldGlow = glow;
+    var oldVisual = visual;
+    var oldCols = cols;
+    var oldRows = rows;
+
+    dpr = newDpr;
+    if (bitmapChanged) {
+      lifeCanvas.width = bitmapWidth;
+      lifeCanvas.height = bitmapHeight;
+    }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    cell = rect.width < 520 ? 8 : rect.width < 720 ? 10 : 12;
-    cols = Math.max(24, Math.floor(rect.width / cell));
-    rows = Math.max(20, Math.floor(rect.height / cell));
-    current = new Uint8Array(cols * rows);
-    next = new Uint8Array(cols * rows);
-    age = new Float32Array(cols * rows);
-    glow = new Float32Array(cols * rows);
-    visual = new Float32Array(cols * rows);
-    seedRandom(0.21);
+    cell = newCell;
+    cols = newCols;
+    rows = newRows;
+
+    if (gridChanged) {
+      current = new Uint8Array(cols * rows);
+      next = new Uint8Array(cols * rows);
+      age = new Float32Array(cols * rows);
+      glow = new Float32Array(cols * rows);
+      visual = new Float32Array(cols * rows);
+      activeCells = new Uint32Array(cols * rows);
+
+      if (oldCurrent.length && oldCols && oldRows) {
+        var offsetX = Math.floor((cols - oldCols) / 2);
+        var offsetY = Math.floor((rows - oldRows) / 2);
+        keyboardX += offsetX;
+        keyboardY += offsetY;
+        for (var oldY = 0; oldY < oldRows; oldY++) {
+          var newY = oldY + offsetY;
+          if (newY < 0 || newY >= rows) continue;
+          for (var oldX = 0; oldX < oldCols; oldX++) {
+            var newX = oldX + offsetX;
+            if (newX < 0 || newX >= cols) continue;
+            var oldIndex = oldY * oldCols + oldX;
+            var newIndex = newY * cols + newX;
+            current[newIndex] = oldCurrent[oldIndex];
+            age[newIndex] = oldAge[oldIndex];
+            glow[newIndex] = oldGlow[oldIndex];
+            visual[newIndex] = oldVisual[oldIndex];
+          }
+        }
+      } else {
+        seedRandom(0.21);
+        keyboardX = Math.floor(cols / 2);
+        keyboardY = Math.floor(rows / 2);
+      }
+    }
+
+    keyboardX = Math.max(0, Math.min(cols - 1, keyboardX));
+    keyboardY = Math.max(0, Math.min(rows - 1, keyboardY));
+    requestRender();
+  }
+
+  function scheduleResize() {
+    if (resizeRequest) return;
+    resizeRequest = window.requestAnimationFrame(function () {
+      resizeRequest = 0;
+      resizeLife();
+    });
   }
 
   function setCell(x, y, alive) {
@@ -241,14 +323,22 @@
 
   function stepLife() {
     for (var y = 0; y < rows; y++) {
+      var rowAbove = (y === 0 ? rows - 1 : y - 1) * cols;
+      var rowHere = y * cols;
+      var rowBelow = (y === rows - 1 ? 0 : y + 1) * cols;
       for (var x = 0; x < cols; x++) {
-        var neighbors = 0;
-        for (var oy = -1; oy <= 1; oy++) {
-          for (var ox = -1; ox <= 1; ox++) {
-            if (ox || oy) neighbors += current[idx(wrap(x + ox, cols), wrap(y + oy, rows))];
-          }
-        }
-        var i = idx(x, y);
+        var left = x === 0 ? cols - 1 : x - 1;
+        var right = x === cols - 1 ? 0 : x + 1;
+        var neighbors =
+          current[rowAbove + left] +
+          current[rowAbove + x] +
+          current[rowAbove + right] +
+          current[rowHere + left] +
+          current[rowHere + right] +
+          current[rowBelow + left] +
+          current[rowBelow + x] +
+          current[rowBelow + right];
+        var i = rowHere + x;
         var alive = current[i] === 1;
         var born = !alive && neighbors === 3;
         var survives = alive && (neighbors === 2 || neighbors === 3);
@@ -274,15 +364,56 @@
   }
 
   function updateToggle() {
-    if (!toggleButton) return;
-    toggleButton.textContent = running ? "Pause" : "Play";
-    toggleButton.setAttribute("aria-pressed", running ? "true" : "false");
+    toggleButtons.forEach(function (button) {
+      button.textContent = running ? "Pause" : "Play";
+      button.setAttribute("aria-pressed", running ? "true" : "false");
+    });
+  }
+
+  function updateStatus(message) {
+    if (!statusLabel) return;
+    statusLabel.textContent =
+      message +
+      " Generation " +
+      generation +
+      ". Simulation " +
+      (running ? "running." : "paused.");
+  }
+
+  function canRender() {
+    return inViewport && pageVisible;
+  }
+
+  function requestFrame() {
+    if (!frameRequest && canRender() && (running || renderPending)) {
+      frameRequest = window.requestAnimationFrame(frame);
+    }
+  }
+
+  function requestRender() {
+    renderPending = true;
+    requestFrame();
+  }
+
+  function syncAnimation() {
+    if (!canRender() || (!running && !renderPending)) {
+      if (frameRequest) {
+        window.cancelAnimationFrame(frameRequest);
+        frameRequest = 0;
+      }
+      return;
+    }
+    requestFrame();
   }
 
   function paintAtEvent(event) {
     var rect = lifeCanvas.getBoundingClientRect();
     var x = Math.floor((event.clientX - rect.left) / cell);
     var y = Math.floor((event.clientY - rect.top) / cell);
+    if (x < 0 || y < 0 || x >= cols || y >= rows) return;
+    var center = idx(x, y);
+    if (center === lastPaintedCell) return;
+    lastPaintedCell = center;
     for (var oy = -1; oy <= 1; oy++) {
       for (var ox = -1; ox <= 1; ox++) {
         if (Math.abs(ox) + Math.abs(oy) < 3) setCell(x + ox, y + oy, true);
@@ -299,13 +430,16 @@
 
     var visualEase = 1 - Math.pow(0.001, delta / 240);
     var glowEase = Math.pow(0.001, delta / 700);
+    var liveGlowEase = Math.pow(0.9, delta / 16.67);
     var gap = cell > 8 ? 1.6 : 1;
     var glowThreshold = 0.42;
+    var activeCount = 0;
 
     ctx.save();
     ctx.globalCompositeOperation = "lighter";
     ctx.shadowColor = "rgba(75, 220, 245, 0.62)";
     ctx.shadowBlur = cell > 10 ? 14 : 11;
+    ctx.fillStyle = "rgb(96, 225, 245)";
     for (var y = 0; y < rows; y++) {
       for (var x = 0; x < cols; x++) {
         var i = idx(x, y);
@@ -314,129 +448,229 @@
         visual[i] += (target - visual[i]) * visualEase;
         if (!live && visual[i] < 0.01) visual[i] = 0;
         if (!live && glow[i] <= 0.02 && visual[i] <= 0.02) continue;
+        activeCells[activeCount++] = i;
         var presence = Math.max(visual[i], glow[i] * 0.35);
-        var intensity = presence * (0.56 + Math.min(age[i], 18) / 42);
-        var hue = 184 + Math.min(age[i], 20) * 3.6;
-        var alpha = Math.min(0.92, presence * 0.72 + Math.min(glow[i], 1) * 0.2);
         var px = x * cell + gap / 2;
         var py = y * cell + gap / 2;
         var pulse = Math.max(0, glow[i] - 0.55) * 1.8;
         var size = (cell - gap) * (0.72 + presence * 0.28) + pulse;
         var inset = (cell - gap - size) / 2;
         if (glow[i] > glowThreshold) {
-          ctx.fillStyle = "hsla(" + hue + ", 92%, 62%, " + Math.min(0.32, glow[i] * 0.24) + ")";
-          ctx.beginPath();
-          ctx.roundRect(px + inset - 0.5, py + inset - 0.5, size + 1, size + 1, Math.max(2, cell * 0.24));
-          ctx.fill();
+          ctx.globalAlpha = Math.min(0.32, glow[i] * 0.24);
+          ctx.fillRect(px + inset - 0.5, py + inset - 0.5, size + 1, size + 1);
         }
-        glow[i] *= live ? Math.max(glowEase, 0.9) : glowEase;
+        glow[i] *= live ? Math.max(glowEase, liveGlowEase) : glowEase;
         if (!live) age[i] *= glowEase;
       }
     }
     ctx.restore();
 
-    ctx.shadowBlur = 0;
-    for (var yy = 0; yy < rows; yy++) {
-      for (var xx = 0; xx < cols; xx++) {
-        var ii = idx(xx, yy);
-        var liveCell = current[ii] === 1;
-        if (!liveCell && visual[ii] <= 0.02) continue;
-        var visiblePresence = visual[ii];
-        var visibleIntensity = visiblePresence * (0.56 + Math.min(age[ii], 18) / 42);
-        var visibleHue = 184 + Math.min(age[ii], 20) * 3.6;
-        var visibleAlpha = Math.min(0.92, visiblePresence * 0.74);
-        var visiblePx = xx * cell + gap / 2;
-        var visiblePy = yy * cell + gap / 2;
-        var visibleSize = (cell - gap) * (0.72 + visiblePresence * 0.28);
-        var visibleInset = (cell - gap - visibleSize) / 2;
-        ctx.fillStyle = "hsla(" + visibleHue + ", 86%, " + (52 + visibleIntensity * 18) + "%, " + visibleAlpha + ")";
-        ctx.beginPath();
-        ctx.roundRect(visiblePx + visibleInset, visiblePy + visibleInset, visibleSize, visibleSize, Math.max(2, cell * 0.22));
-        ctx.fill();
-      }
+    ctx.save();
+    for (var n = 0; n < activeCount; n++) {
+      var ii = activeCells[n];
+      var visiblePresence = visual[ii];
+      if (visiblePresence <= 0.02) continue;
+      var xx = ii % cols;
+      var yy = Math.floor(ii / cols);
+      var visiblePx = xx * cell + gap / 2;
+      var visiblePy = yy * cell + gap / 2;
+      var visibleSize = (cell - gap) * (0.72 + visiblePresence * 0.28);
+      var visibleInset = (cell - gap - visibleSize) / 2;
+      var colorIndex = Math.min(
+        cellColors.length - 1,
+        Math.floor(Math.min(age[ii], 24) / 4)
+      );
+      ctx.fillStyle = cellColors[colorIndex];
+      ctx.globalAlpha = Math.min(0.92, visiblePresence * 0.74);
+      ctx.fillRect(
+        visiblePx + visibleInset,
+        visiblePy + visibleInset,
+        visibleSize,
+        visibleSize
+      );
+    }
+    ctx.restore();
+
+    if (keyboardActive) {
+      ctx.save();
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.92)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(
+        keyboardX * cell + 1,
+        keyboardY * cell + 1,
+        Math.max(2, cell - 2),
+        Math.max(2, cell - 2)
+      );
+      ctx.restore();
     }
   }
 
   function frame(now) {
+    frameRequest = 0;
+    if (!canRender()) return;
+
     var delta = lastFrame ? Math.min(now - lastFrame, 64) : 16;
     lastFrame = now;
-    if (visible && running && now - lastStep > tickMs) {
+    if (running && now - lastStep > tickMs) {
       stepLife();
       lastStep = now;
+      renderPending = true;
     }
-    drawLife(delta);
-    window.requestAnimationFrame(frame);
-  }
 
-  if (typeof ctx.roundRect !== "function") {
-    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
-      var radius = Math.min(r, w / 2, h / 2);
-      this.moveTo(x + radius, y);
-      this.arcTo(x + w, y, x + w, y + h, radius);
-      this.arcTo(x + w, y + h, x, y + h, radius);
-      this.arcTo(x, y + h, x, y, radius);
-      this.arcTo(x, y, x + w, y, radius);
-      return this;
-    };
+    var paintInterval = lifeCanvas.clientWidth < 720 ? mobileFrameMs : 0;
+    if (
+      renderPending &&
+      (!paintInterval || !lastPaint || now - lastPaint >= paintInterval)
+    ) {
+      drawLife(delta);
+      lastPaint = now;
+      renderPending = running;
+    }
+
+    requestFrame();
   }
 
   if (window.ResizeObserver && lifeStage) {
-    new ResizeObserver(resizeLife).observe(lifeStage);
+    new ResizeObserver(scheduleResize).observe(lifeStage);
   } else {
-    window.addEventListener("resize", resizeLife, { passive: true });
+    window.addEventListener("resize", scheduleResize, { passive: true });
   }
 
   if (window.IntersectionObserver && lifeStage) {
     new IntersectionObserver(function (entries) {
-      visible = entries[0] ? entries[0].isIntersecting : true;
+      inViewport = entries[0] ? entries[0].isIntersecting : true;
+      syncAnimation();
     }).observe(lifeStage);
   }
 
   document.addEventListener("visibilitychange", function () {
-    visible = !document.hidden;
+    pageVisible = !document.hidden;
+    syncAnimation();
   });
 
   lifeCanvas.addEventListener("pointerdown", function (event) {
-    drawing = true;
-    lifeCanvas.setPointerCapture(event.pointerId);
-    paintAtEvent(event);
+    touchPointer = event.pointerType === "touch";
+    drawing = !touchPointer;
+    lastPaintedCell = -1;
+    pointerStartX = event.clientX;
+    pointerStartY = event.clientY;
+    if (drawing) {
+      lifeCanvas.setPointerCapture(event.pointerId);
+      paintAtEvent(event);
+      requestRender();
+    }
   });
   lifeCanvas.addEventListener("pointermove", function (event) {
-    if (drawing) paintAtEvent(event);
+    if (touchPointer && !drawing) {
+      var deltaX = event.clientX - pointerStartX;
+      var deltaY = event.clientY - pointerStartY;
+      if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        drawing = true;
+        lifeCanvas.setPointerCapture(event.pointerId);
+      } else {
+        return;
+      }
+    }
+    if (drawing) {
+      paintAtEvent(event);
+      requestRender();
+    }
   });
-  lifeCanvas.addEventListener("pointerup", function () {
+  lifeCanvas.addEventListener("pointerup", function (event) {
+    if (
+      touchPointer &&
+      !drawing &&
+      Math.abs(event.clientX - pointerStartX) <= 8 &&
+      Math.abs(event.clientY - pointerStartY) <= 8
+    ) {
+      paintAtEvent(event);
+      requestRender();
+    }
     drawing = false;
+    touchPointer = false;
+    lastPaintedCell = -1;
   });
   lifeCanvas.addEventListener("pointercancel", function () {
     drawing = false;
+    touchPointer = false;
+    lastPaintedCell = -1;
   });
 
-  if (toggleButton) {
-    toggleButton.addEventListener("click", function () {
+  lifeCanvas.addEventListener("focus", function () {
+    keyboardActive = true;
+    requestRender();
+  });
+  lifeCanvas.addEventListener("blur", function () {
+    keyboardActive = false;
+    requestRender();
+  });
+  lifeCanvas.addEventListener("keydown", function (event) {
+    var handled = true;
+    if (event.key === "ArrowLeft") {
+      keyboardX = keyboardX === 0 ? cols - 1 : keyboardX - 1;
+    } else if (event.key === "ArrowRight") {
+      keyboardX = keyboardX === cols - 1 ? 0 : keyboardX + 1;
+    } else if (event.key === "ArrowUp") {
+      keyboardY = keyboardY === 0 ? rows - 1 : keyboardY - 1;
+    } else if (event.key === "ArrowDown") {
+      keyboardY = keyboardY === rows - 1 ? 0 : keyboardY + 1;
+    } else if (event.key === " " || event.key === "Enter") {
+      var keyboardIndex = idx(keyboardX, keyboardY);
+      setCell(keyboardX, keyboardY, current[keyboardIndex] !== 1);
+      updateStatus("Keyboard cell toggled.");
+    } else {
+      handled = false;
+    }
+    if (!handled) return;
+    event.preventDefault();
+    requestRender();
+  });
+
+  toggleButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
       running = !running;
+      lastStep = window.performance ? performance.now() : 0;
       updateToggle();
+      renderPending = running;
+      syncAnimation();
+      updateStatus(running ? "Simulation started." : "Simulation paused.");
+    });
+  });
+  if (randomButton) {
+    randomButton.addEventListener("click", function () {
+      seedRandom(0.23);
+      requestRender();
+      updateStatus("Board randomized.");
     });
   }
-  if (randomButton) randomButton.addEventListener("click", function () { seedRandom(0.23); });
   if (clearButton) {
     clearButton.addEventListener("click", function () {
       clearLife();
       running = false;
       updateToggle();
+      requestRender();
+      updateStatus("Board cleared.");
     });
   }
   if (speedInput) {
     speedInput.addEventListener("input", function () {
       tickMs = 1000 / Number(speedInput.value || 9);
+      if (speedValue) speedValue.textContent = speedInput.value + "/s";
+    });
+    speedInput.addEventListener("change", function () {
+      updateStatus("Speed set to " + speedInput.value + " generations per second.");
     });
   }
   presetButtons.forEach(function (button) {
     button.addEventListener("click", function () {
       seedPreset(button.getAttribute("data-life-preset"));
+      requestRender();
+      updateStatus(button.textContent.trim() + " pattern loaded.");
     });
   });
 
   resizeLife();
   updateToggle();
-  window.requestAnimationFrame(frame);
+  updateStatus("Board ready.");
+  requestFrame();
 })();

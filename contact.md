@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Contact"
+description: "Contact Mehrdad Zaker about trustworthy AI systems, production ML, robotics, or technical direction."
 permalink: /contact/
 classes: wide
 suppress_default_h1: true
@@ -10,9 +11,9 @@ suppress_default_h1: true
   <section class="eh-showcase__hero" aria-labelledby="contact-title">
     <div class="eh-showcase__copy">
       <p class="eh-eyebrow">Contact</p>
-      <h1 id="contact-title" class="eh-title">Bring a concrete AI systems problem.</h1>
+      <h1 id="contact-title" class="eh-title">Bring a concrete systems problem.</h1>
       <p class="eh-dek">
-        The best fit is a team that needs practical help with LLM systems, production ML, robotics-adjacent automation, or technical direction where reliability and operational fit matter.
+        The best fit is work involving private or agentic AI, production ML, robotics, or technical direction where reliability and operational fit matter.
       </p>
       <div class="eh-action-row">
         <a class="eh-btn" href="mailto:{{ site.contact_email }}">Email {{ site.contact_email }}</a>
@@ -26,6 +27,7 @@ suppress_default_h1: true
       <h2>Good reasons to reach out</h2>
       <ul>
         <li>LLM or retrieval systems that need clearer architecture</li>
+        <li>Agentic workflows that need evaluation, guardrails, or governance</li>
         <li>Production ML workflows with reliability or evaluation gaps</li>
         <li>Robotics or automation systems that need stronger AI integration</li>
         <li>Technical leadership for a high-stakes AI build</li>

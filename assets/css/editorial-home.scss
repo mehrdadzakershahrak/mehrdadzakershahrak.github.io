@@ -642,6 +642,19 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   padding-top: 48px;
 }
 
+.eh-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .eh-life__head {
   align-items: end;
 }
@@ -665,7 +678,7 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
     radial-gradient(circle at 24% 18%, rgba(var(--accent-rgb), 0.18), transparent 34%),
     linear-gradient(135deg, rgba(13, 18, 24, 0.98), rgba(23, 25, 33, 0.98) 46%, rgba(9, 13, 18, 0.98));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 22px 60px rgba(0, 0, 0, 0.12);
-  touch-action: none;
+  touch-action: pan-y pinch-zoom;
 }
 
 .eh-life__canvas {
@@ -673,6 +686,11 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   width: 100%;
   height: 360px;
   cursor: crosshair;
+}
+
+.eh-life__canvas:focus-visible {
+  outline: 2px solid var(--eh-accent);
+  outline-offset: -3px;
 }
 
 .eh-life__hud {
@@ -714,6 +732,7 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   font-size: 13px;
   font-weight: 500;
   line-height: 1;
+  min-height: 44px;
   padding: 10px 13px;
   transition: border-color .15s, color .15s, background-color .15s;
 }
@@ -729,7 +748,12 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   border: 0;
   border-bottom: 1px solid var(--eh-rule);
   border-radius: 0;
+  min-height: 44px;
   padding: 0 0 2px;
+}
+
+.eh-life__control--mobile-toggle {
+  display: none;
 }
 
 .eh-life__speed {
@@ -745,6 +769,11 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
 .eh-life__speed input {
   accent-color: var(--eh-accent);
   width: 128px;
+}
+
+.eh-life__speed output {
+  color: var(--eh-ink);
+  font-variant-numeric: tabular-nums;
 }
 
 .eh-about-drop {
@@ -1321,14 +1350,33 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   }
 
   .eh-life__speed {
+    grid-column: 1 / -1;
     width: 100%;
     justify-content: space-between;
     margin-left: 0;
+    min-height: 44px;
   }
 
   .eh-life__speed input {
     flex: 1;
     min-width: 130px;
+  }
+
+  .eh-life__toolbar {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .eh-life__toolbar .eh-life__control {
+    width: 100%;
+  }
+
+  .eh-life__head > .eh-life__control--plain {
+    display: none;
+  }
+
+  .eh-life__control--mobile-toggle {
+    display: block;
   }
 
   .eh-exec-section h2,

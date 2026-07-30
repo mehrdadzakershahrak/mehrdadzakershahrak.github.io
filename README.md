@@ -5,9 +5,9 @@ Personal website for Mehrdad Zaker. The site is intentionally small: home, work,
 ## Production Surface
 
 - `/` presents the minimalist personal profile.
-- `/work/` contains selected anonymized systems work.
+- `/work/` contains selected, CV-grounded work and research.
 - `/newsletter/` and `/newsletter/archive/` contain writing.
-- `/about/` contains a short biography and background.
+- `/about/` contains the current biography, experience, research evidence, education, and technical focus.
 - `/contact/` is the direct contact path.
 
 The site no longer publishes product catalogue, login, search, or product-specific routes.

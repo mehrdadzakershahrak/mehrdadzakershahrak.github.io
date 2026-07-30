@@ -1,60 +1,68 @@
-# Work entries rendered by the executive homepage and work page.
+# CV-grounded work entries rendered by the homepage and work page.
 
-- year: "2026"
-  title: "Private AI deployment"
+- year: "2025–Present"
+  title: "Neural Intelligence Labs"
   mark: "bounded-stack"
-  kind: "Architecture, evaluation, deployment boundaries"
+  kind: "Founder / Founding AI Engineer"
   brief: >
-    Move LLM systems from pilot to production with grounded retrieval,
-    reviewable evaluations, tenant isolation, and deployment controls that
-    survive security and reliability review.
-  url: /work/#private-ai-deployment
+    Architecture and technical strategy for private, source-grounded AI
+    workflows spanning retrieval, evaluation, guardrails, governance, and
+    controlled deployment.
+  url: /work/#neural-intelligence-labs
+  source_url: "https://www.neuralint.io/"
+  source_label: "Neural Intelligence Labs"
   evidence:
-    - "Grounded retrieval and citation paths for reviewable answers."
-    - "Evaluation gates for answer quality, adversarial questions, and workflow fit."
-    - "Deployment boundaries designed around tenant isolation, access control, and operational ownership."
-  stack: ["Retrieval", "Evaluation", "Security", "Operations"]
+    - "Defined the architecture for IDX, a private-AI control plane for source-grounded document workflows."
+    - "Established reusable patterns for agentic support and document reasoning."
+    - "Designed an Azure workflow orchestrating 40+ tools for end-to-end issue resolution."
+  stack: ["Private AI", "Agentic systems", "Evaluation", "Governance"]
 
-- year: "2026"
-  title: "AI runtime reliability controls"
-  mark: "control-loop"
-  kind: "Evaluation, observability, guardrails"
-  brief: >
-    Design the operational controls around AI systems: semantic rate limits,
-    token budgets, model performance monitoring, error recovery, prompt-chain
-    control, and parallel inference orchestration.
-  url: /work/#ai-runtime-reliability-controls
-  evidence:
-    - "Runtime controls for cost, latency, rate limits, and failure recovery."
-    - "Monitoring patterns that make model behavior visible before it becomes an incident."
-    - "Guardrail and orchestration patterns for production LLM workflows."
-  stack: ["Runtime controls", "Monitoring", "Guardrails", "Orchestration"]
-
-- year: "2025"
-  title: "S&P 500-scale production ML"
+- year: "2021–2024"
+  title: "Production ML at Grainger"
   mark: "ranking-ladder"
-  kind: "Search, ranking, recommendations"
+  kind: "Staff Applied ML Scientist"
   brief: >
-    Production machine-learning systems for relevance, ranking,
-    recommendations, experimentation, and reliability at enterprise scale.
-  url: /work/#s-p-500-scale-production-ml
+    Production machine-learning work across search, ranking, recommendations,
+    loss prevention, 3D vision, inventory control, and robotic automation.
+  url: /work/#production-ml-at-grainger
+  source_url: "https://www.grainger.com/"
+  source_label: "Grainger"
   evidence:
-    - "Ranking and recommendation systems operated under production latency and reliability constraints."
-    - "Experimentation and relevance loops tied to measurable user and business behavior."
-    - "Operational ML practices for monitoring, release discipline, and long-tail quality."
-  stack: ["Search", "Ranking", "Experimentation", "Reliability"]
+    - "Shaped and delivered production ML systems for search, ranking, and recommendations."
+    - "Developed a theft-detection model projected to reduce losses by millions of dollars."
+    - "Explored 3D vision for inventory control and robotic-arm automation."
+  stack: ["Search", "Ranking", "Recommendations", "Computer vision"]
 
-- year: "2025"
-  title: "Human-AI and robot teaming explainability"
+- year: "2016–2021"
+  title: "Human–AI and robot teaming research"
   mark: "team-plan"
-  kind: "Planning, trust, robotics"
+  kind: "Ph.D. research · Arizona State University"
   brief: >
-    Research and systems work on explainable agents, human-robot teaming,
-    plan explicability, progressive explanations, and human-AI interaction
-    in LLM-based systems.
-  url: /work/#human-ai-and-robot-teaming-explainability
+    Reinforcement-learning-based explanation systems for human-robot teams,
+    supported by a broader robotics portfolio spanning autonomy,
+    manipulation, and multi-agent planning.
+  url: /work/#human-ai-and-robot-teaming-research
+  source_url: "https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&hl=en"
+  source_label: "Google Scholar"
   evidence:
-    - "Interactive plan explicability for human-robot teams with asymmetric information."
-    - "Online, progressive, and hierarchical explanation generation to reduce cognitive load."
-    - "Human-AI interaction work connecting LLM systems to agency, judgment, and trust."
-  stack: ["Planning", "Explainability", "Human-AI", "Robotics"]
+    - "Peer-reviewed explanation and human-robot teaming research published at IROS and ICRA."
+    - "Robotics work spanning SLAM navigation, ROS autonomy, and VR-controlled UR5 manipulation."
+    - "Web-based multi-agent planning and progressive explanation generation."
+  stack: ["Reinforcement learning", "Explainability", "Robotics", "Planning"]
+
+- year: "Granted 2026"
+  title: "Robotic vending machine system"
+  mark: "control-loop"
+  kind: "U.S. Patent No. 12,640,000 · Co-inventor"
+  brief: >
+    A robotic vending system for autonomous product retrieval and delivery,
+    developed during my work at Grainger and granted as a U.S. patent on
+    May 26, 2026.
+  url: /work/#robotic-vending-machine-system
+  source_url: "https://patentsgazette.uspto.gov/week21/OG/html/1546-4/US12640000-20260526.html"
+  source_label: "USPTO patent record"
+  evidence:
+    - "Co-inventor on the granted robotic vending machine system patent."
+    - "The system combines storage, autonomous retrieval, and product delivery."
+    - "Patent assigned to W.W. Grainger, Inc."
+  stack: ["Robotics", "Automation", "Retrieval", "Systems engineering"]

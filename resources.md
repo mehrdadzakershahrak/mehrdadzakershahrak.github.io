@@ -142,9 +142,9 @@ suppress_default_h1: true
       <h2 id="resource-service-map-title">Pair the reading path with the right implementation path</h2>
     </div>
     <div class="eh-link-cloud">
-      <a href="{{ '/private-ai-deployment/' | relative_url }}">Private AI deployment</a>
-      <a href="{{ '/custom-ai-systems/' | relative_url }}">Custom AI systems</a>
-      <a href="{{ '/ai-robotics-solutions/' | relative_url }}">Solutions</a>
+      <a href="{{ '/work/' | relative_url }}">Selected work</a>
+      <a href="{{ '/about/' | relative_url }}">About Mehrdad</a>
+      <a href="{{ '/contact/' | relative_url }}">Contact</a>
       <a href="{{ '/contact/' | relative_url }}">Contact</a>
     </div>
   </section>

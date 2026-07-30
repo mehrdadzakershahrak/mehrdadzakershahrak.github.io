@@ -1,7 +1,7 @@
 ---
 layout: editorial-home
 title: "Mehrdad Zaker"
-description: "AI systems advisor, researcher, and founder working across LLMs, production ML, agent systems, and robotics."
+description: "Founder and principal-level AI engineer building trustworthy AI systems from research through production."
 permalink: /
 classes: wide home-page
 suppress_default_h1: true
@@ -18,11 +18,11 @@ suppress_default_h1: true
         <h1 id="eh-home-title" class="eh-exec-title">Mehrdad Zaker</h1>
 
         <p class="eh-exec-position">
-          Senior AI systems advisor for teams moving LLMs, ML, and automation from promise to production.
+          Founder and principal-level AI engineer building trustworthy AI systems from research through production.
         </p>
 
         <p class="eh-exec-proof">
-          I help technical leaders make AI systems reliable, grounded, observable, and operationally sane.
+          My work spans private and agentic AI, production ML, reinforcement learning, human–AI interaction, and robotics.
         </p>
 
         <div class="eh-exec-actions">
@@ -50,10 +50,10 @@ suppress_default_h1: true
     </p>
 
     <p class="eh-exec-meta" aria-label="Professional highlights">
-      <span>Ph.D. CS</span>
-      <span>Founder, Neural Intelligence Labs</span>
-      <span>S&amp;P 500-scale ML</span>
-      <span>Robotics</span>
+      <span>15+ years</span>
+      <span>Founder / Founding AI Engineer</span>
+      <span>Ph.D. CS · 350+ citations</span>
+      <span>U.S. Patent 12,640,000</span>
     </p>
   </section>
 
@@ -68,8 +68,22 @@ suppress_default_h1: true
       </button>
     </div>
 
+    <p id="life-instructions" class="eh-visually-hidden">
+      Use the arrow keys to move the drawing cursor. Press Space or Enter to toggle a cell.
+    </p>
+    <p id="life-status" class="eh-visually-hidden" data-life-status aria-live="polite">
+      Simulation running. Generation 0.
+    </p>
+
     <div class="eh-life__stage" data-life-stage>
-      <canvas class="eh-life__canvas" data-life-canvas aria-label="Interactive Conway's Game of Life simulation"></canvas>
+      <canvas
+        class="eh-life__canvas"
+        data-life-canvas
+        tabindex="0"
+        role="application"
+        aria-label="Interactive Conway's Game of Life simulation"
+        aria-describedby="life-instructions life-status"
+      ></canvas>
       <div class="eh-life__hud" aria-hidden="true">
         <span data-life-generation>0000</span>
         <span>generations</span>
@@ -77,12 +91,15 @@ suppress_default_h1: true
     </div>
 
     <div class="eh-life__toolbar" aria-label="Game of Life controls">
+      <button class="eh-life__control eh-life__control--mobile-toggle" type="button" data-life-toggle aria-pressed="true">
+        Pause
+      </button>
       <button class="eh-life__control" type="button" data-life-random>Randomize</button>
       <button class="eh-life__control" type="button" data-life-preset="glider">Glider</button>
       <button class="eh-life__control" type="button" data-life-preset="pulsar">Pulsar</button>
       <button class="eh-life__control" type="button" data-life-clear>Clear</button>
       <label class="eh-life__speed">
-        <span>Speed</span>
+        <span>Speed <output data-life-speed-value>9/s</output></span>
         <input type="range" min="4" max="18" value="9" step="1" data-life-speed>
       </label>
     </div>
@@ -92,34 +109,40 @@ suppress_default_h1: true
     <details class="eh-about-drop">
       <summary>
         <span>About</span>
-        <span class="eh-about-drop__hint">Education, credentials, systems background</span>
+        <span class="eh-about-drop__hint">Current role, research, and evidence</span>
       </summary>
 
       <div class="eh-about-drop__body">
         <p>
-          I work where AI stops being a demo and starts becoming a system people can rely on:
-          retrieval quality, evaluation, latency, data access, security review, interface design,
-          and operational ownership.
+          I’m Mehrdad Zakershahrak—Mehrdad Zaker on this site. I lead architecture
+          and technical strategy at Neural Intelligence Labs after earlier work in
+          production ML, robotics, human–AI interaction, and secure systems.
         </p>
 
         <div class="eh-about-drop__rows">
           <div class="eh-about-drop__row">
-            <strong>Education</strong>
-            <span>Ph.D. Computer Science, Arizona State University</span>
+            <strong>Current</strong>
+            <span>Founder / Founding AI Engineer, Neural Intelligence Labs</span>
           </div>
           <div class="eh-about-drop__row">
-            <strong>Credentials</strong>
+            <strong>Research</strong>
             <span>
-              <a href="https://coursera.org/verify/specialization/ZYN9D5TXPX2F">Deep Learning Specialization</a>
+              Ph.D. Computer Science, Arizona State University
               ·
-              <a href="https://coursera.org/verify/VZ3V6T4QSEZ2">Stanford Machine Learning</a>
+              <a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&amp;hl=en">350+ citations</a>
             </span>
           </div>
           <div class="eh-about-drop__row">
-            <strong>Systems</strong>
-            <span>LLMs, RAG, production ML, search, ranking, robotics, ROS, SLAM, and autonomy</span>
+            <strong>Evidence</strong>
+            <span>
+              <a href="https://patentsgazette.uspto.gov/week21/OG/html/1546-4/US12640000-20260526.html">Granted U.S. robotics patent</a>
+              ·
+              <a href="https://link.springer.com/referencework/10.1007/978-981-95-3658-0">Springer handbook chapter</a>
+            </span>
           </div>
         </div>
+
+        <p><a class="eh-link" href="{{ '/about/' | relative_url }}">Full biography and background</a></p>
       </div>
     </details>
   </section>
@@ -135,7 +158,7 @@ suppress_default_h1: true
         <a class="eh-exec-row eh-exec-row--marked" href="{{ w.url | default: '/work/' | relative_url }}" data-analytics="work_click" data-analytics-label="{{ w.url | default: w.title | slugify }}">
           {% include work_mark.html mark=w.mark %}
           <span class="eh-exec-row__title">{{ w.title }}</span>
-          <em>{{ w.kind }}</em>
+          <em>{{ w.year }} · {{ w.kind }}</em>
         </a>
       {%- endfor -%}
     </div>

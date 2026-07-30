@@ -1,5 +1,5 @@
 title: Mehrdad Zaker
-description: AI systems, production ML, agent systems, robotics, and technical leadership.
+description: Founder and principal-level AI engineer building trustworthy AI systems from research through production.
 baseurl: ""
 url: "https://www.mehrdadzaker.com"
 markdown: kramdown
@@ -80,10 +80,6 @@ default_social_image: "/assets/images/mehrdad-zaker-headshot.jpeg"
 default_social_image_alt: "Portrait of Mehrdad Zaker"
 default_social_image_width: 1122
 default_social_image_height: 1402
-
-# Lead capture + demo chat (set these)
-leads_endpoint: ""
-turnstile_site_key: ""
 
 # Newsletter (Substack) (set this)
 substack_subscribe_url: ""
