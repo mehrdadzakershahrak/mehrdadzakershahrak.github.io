@@ -3,6 +3,8 @@ layout: single
 title: "Current UI Backlog"
 description: "Stabilization backlog for the minimal public editorial UI."
 permalink: /docs/ui-backlog/
+sitemap: false
+robots: noindex,follow
 classes: wide ui-backlog-page
 toc: true
 toc_label: "Backlog sections"

@@ -59,6 +59,8 @@
 
 {% if page.demo_id %}
   <meta name="robots" content="index,follow">
+{% elsif page.robots %}
+  <meta name="robots" content="{{ page.robots }}">
 {% endif %}
 
 {% if social_image %}

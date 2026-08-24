@@ -2,6 +2,8 @@
 layout: single
 title: "Book (Coming Soon)"
 permalink: /book/
+sitemap: false
+robots: noindex,follow
 classes: wide
 ---
 

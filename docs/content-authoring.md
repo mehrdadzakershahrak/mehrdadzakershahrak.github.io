@@ -3,6 +3,8 @@ layout: single
 title: "Content Authoring Guide"
 description: "How to add AI material, podcast entries, citations, calls to action, and minimal image placeholders on the public site."
 permalink: /docs/content-authoring/
+sitemap: false
+robots: noindex,follow
 classes: wide content-authoring-page
 toc: true
 toc_label: "Authoring sections"

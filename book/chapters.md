@@ -2,6 +2,8 @@
 layout: single
 title: "Chapters"
 permalink: /book/chapters/
+sitemap: false
+robots: noindex,follow
 classes: wide
 ---
 

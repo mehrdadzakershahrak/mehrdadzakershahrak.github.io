@@ -9,6 +9,8 @@ columns:
     links:
       - label: "Work"
         url: "/work/"
+      - label: "Research"
+        url: "/research/"
       - label: "Writing"
         url: "/newsletter/"
       - label: "About"

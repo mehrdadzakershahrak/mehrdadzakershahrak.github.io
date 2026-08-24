@@ -8,6 +8,7 @@ Use this file as a concise guide to the public site. The site is a minimalist pe
 
 - [Homepage](https://www.mehrdadzaker.com/): Minimal profile, credibility strip, focus areas, selected work, writing, and contact.
 - [Work](https://www.mehrdadzaker.com/work/): CV-grounded work across private and agentic AI, production ML, human–AI interaction, and robotics.
+- [Research](https://www.mehrdadzaker.com/research/): Illustrated research portfolio spanning human–robot explanation, personalized summarization, interpretable learning, efficient language models, and hardware trust.
 - [Writing](https://www.mehrdadzaker.com/newsletter/): Notes and guides on applied AI systems, deployment, reliability, and robotics.
 - [About](https://www.mehrdadzaker.com/about/): Current role, experience, research evidence, education, technical focus, and outside-work interests.
 - [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete AI systems problem.

@@ -2,6 +2,8 @@
 layout: single
 title: "Purchase Links"
 permalink: /book/purchase-links/
+sitemap: false
+robots: noindex,follow
 classes: wide
 ---
 

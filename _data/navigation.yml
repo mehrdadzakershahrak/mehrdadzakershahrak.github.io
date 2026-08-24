@@ -6,6 +6,10 @@ main:
     key: work
     url: /work/
 
+  - title: "Research"
+    key: research
+    url: /research/
+
   - title: "Writing"
     key: writing
     url: /newsletter/

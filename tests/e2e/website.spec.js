@@ -3,6 +3,7 @@ const { test, expect } = require("@playwright/test");
 const PRIMARY_ROUTES = [
   { path: "/", heading: "Mehrdad Zaker" },
   { path: "/work/", heading: "From research to production." },
+  { path: "/research/", heading: "Research that makes intelligence legible." },
   { path: "/newsletter/", heading: "Writing" },
   { path: "/newsletter/archive/", heading: "Newsletter Archive" },
   { path: "/about/", heading: /Trustworthy AI,\s*from research\s*to production\./ },
@@ -14,9 +15,7 @@ const RETIRED_ROUTES = [
   "/products/",
   "/products/idx/",
   "/products/idx/trust/",
-  "/idx/",
   "/idx/assistant/",
-  "/idx/dashboard/",
   "/idx/support/",
   "/idx/privacy/",
   "/idx/terms/",
@@ -25,6 +24,8 @@ const RETIRED_ROUTES = [
   "/assets/js/idx-dashboard-wrapper.js",
   "/assets/js/search-page.js",
 ];
+
+const IDX_REDIRECT_ROUTES = ["/idx/", "/idx/dashboard/"];
 
 test("homepage presents the simplified personal profile", async ({ page }) => {
   await page.goto("/");
@@ -38,7 +39,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.getByRole("link", { name: "Neural Intelligence Labs", exact: true })).toHaveAttribute("href", "https://neuralint.io");
 
   const navItems = await page.locator(".eh-masthead__nav a").allTextContents();
-  expect(navItems.map((item) => item.trim())).toEqual(["Work", "Writing", "About", "Contact"]);
+  expect(navItems.map((item) => item.trim())).toEqual(["Work", "Research", "Writing", "About", "Contact"]);
 
   await expect(page.locator(".eh-nav")).toHaveCount(0);
   await expect(page.locator(".eh-proof-strip")).toHaveCount(0);
@@ -141,6 +142,48 @@ test("work page renders four CV-grounded work records", async ({ page }) => {
   await expect(body).not.toContainText("Product Catalogue");
 });
 
+test("research page presents five illustrated research programs", async ({ page }) => {
+  await page.goto("/research/");
+
+  const stories = page.locator(".eh-research-story");
+  const researchImages = page.locator(".eh-research-story__media img");
+  await expect(stories).toHaveCount(5);
+  await expect(researchImages).toHaveCount(5);
+  for (let index = 0; index < 5; index += 1) {
+    const image = researchImages.nth(index);
+    await image.scrollIntoViewIfNeeded();
+    await expect(image).toHaveJSProperty("complete", true);
+    expect(await image.evaluate((element) => [element.naturalWidth, element.naturalHeight])).toEqual([900, 900]);
+  }
+  await expect(page.getByRole("heading", { name: "Human–robot teaming and progressive explanation" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Personalized summarization and information retrieval" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Interpretable learning and model alignment" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Efficient language models from bytes to edge" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Hardware roots of trustworthy systems" })).toBeVisible();
+  await expect(page.getByRole("link", { name: /View Google Scholar/ })).toHaveAttribute("href", /scholar\.google\.com/);
+  await expect(page.getByRole("link", { name: /Order Matters/ })).toHaveAttribute("href", "https://arxiv.org/abs/2004.07822");
+  await expect(page.getByRole("link", { name: /Extractive Document Summarization/ })).toHaveAttribute("href", "https://doi.org/10.1109/ACCESS.2020.3012539");
+  await expect(page.locator(".eh-paper-tag--venue")).toHaveCount(15);
+  await expect(page.locator(".eh-paper-tag--year")).toHaveCount(15);
+  await expect(page.locator('.eh-paper-tag--venue').filter({ hasText: "ICRA" })).toBeVisible();
+  await expect(page.locator('.eh-paper-tag--year[data-year="2021"]')).toHaveCount(2);
+  const structuredData = await page.locator('script[type="application/ld+json"]').evaluateAll((scripts) =>
+    scripts.map((script) => JSON.parse(script.textContent))
+  );
+  const researchSchema = structuredData.find((item) => item["@type"] === "CollectionPage");
+  expect(researchSchema.hasPart).toHaveLength(5);
+  expect(researchSchema.hasPart.flatMap((project) => project.subjectOf)).toHaveLength(15);
+
+  for (const viewport of [
+    { width: 390, height: 844 },
+    { width: 820, height: 1180 },
+  ]) {
+    await page.setViewportSize(viewport);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(1);
+  }
+});
+
 test("about page presents the current identity and rejects legacy claims", async ({ page }) => {
   await page.goto("/about/");
 
@@ -160,6 +203,20 @@ test("retired product, login, and search routes are gone", async ({ request }) =
   for (const route of RETIRED_ROUTES) {
     const response = await request.get(route);
     expect(response.status(), route).toBe(404);
+  }
+});
+
+test("retired IDX routes resolve to the current work page", async ({ request }) => {
+  for (const route of IDX_REDIRECT_ROUTES) {
+    const response = await request.get(route);
+    expect(response.ok(), route).toBeTruthy();
+    const html = await response.text();
+    const canonicalMatch = html.match(/<link rel="canonical" href="([^"]+)">/);
+
+    expect(html, route).toContain('<meta http-equiv="refresh" content="0; url=/work/">');
+    expect(canonicalMatch, route).not.toBeNull();
+    expect(new URL(canonicalMatch[1]).pathname, route).toBe("/work/");
+    expect(html, route).toContain('<meta name="robots" content="noindex,follow">');
   }
 });
 
