@@ -17,6 +17,11 @@
             </li>
           {%- endif -%}
         {%- endfor -%}
+        <li><a href="{{ '/resources/' | relative_url }}">Resources</a></li>
+        <li><a href="{{ '/podcast/' | relative_url }}">Podcast</a></li>
+        <li><a href="{{ '/apps/' | relative_url }}">App support</a></li>
+        <li><a href="{{ '/privacy-policy/' | relative_url }}">Privacy</a></li>
+        <li><a href="{{ '/terms-of-service/' | relative_url }}">Terms</a></li>
         <li>
           <a href="mailto:{{ site.contact_email }}"
              data-analytics="footer_nav_click"

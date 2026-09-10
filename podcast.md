@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Podcast"
+description: "Short podcast entries on applied AI, transformer scaling, and the system-design decisions behind production AI."
 permalink: /podcast/
 classes: wide podcast-page
 ---
@@ -12,8 +13,8 @@ Start with the latest entries below.
 
 {% include podcast_cards.html %}
 
-## Explore the library
-- [Browse All Episodes]({{ '/podcast/episodes/' | relative_url }})
-- [Browse by Topic]({{ '/podcast/topics/' | relative_url }})
+## Topics
+- [Foundation Models: Scaling Transformers]({{ '/podcast/scaling-transformers/' | relative_url }})
+- [System Design: AI System Design Intro]({{ '/podcast/ai-system-design-intro/' | relative_url }})
 
 If an episode connects directly to a problem you are working on, continue with [Work]({{ '/work/' | relative_url }}) or reach out through [Contact]({{ '/contact/' | relative_url }}).

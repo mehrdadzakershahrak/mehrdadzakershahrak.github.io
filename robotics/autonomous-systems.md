@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Autonomous Systems"
+description: "Autonomous systems that connect sensing, planning, control, and operational safety with observable deployment workflows."
 permalink: /robotics/autonomous-systems/
 classes: wide
 ---

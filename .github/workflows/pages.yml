@@ -1,0 +1,71 @@
+name: Validate and deploy Pages
+
+on:
+  push:
+    branches: [gh-pages]
+  pull_request:
+    branches: [gh-pages]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.11'
+          bundler: '4.0.7'
+          bundler-cache: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: python3 tools/validate_site.py
+      - run: python3 -m unittest discover -s tests -p 'test_*.py'
+      - name: Build production artifact
+        run: bundle exec jekyll build --destination _site
+        env:
+          JEKYLL_ENV: production
+      - name: Check sitemap, canonicals, robots, links, and homepage reachability
+        run: python3 tools/check_indexing.py _site
+      - run: npx playwright install --with-deps chromium
+      - name: Test the validated artifact
+        run: |
+          python3 -m http.server 4000 --bind 127.0.0.1 --directory _site &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:4000/ >/dev/null; then break; fi
+            sleep 1
+          done
+          npx playwright test tests/e2e/website.spec.js
+        env:
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:4000
+      - uses: actions/upload-pages-artifact@v4
+        if: github.event_name != 'pull_request'
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/gh-pages'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy checked artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

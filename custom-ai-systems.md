@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Custom AI Systems"
+description: "Custom AI systems built around real workflows, with retrieval, evaluation, access controls, human review, and production monitoring."
 permalink: /custom-ai-systems/
 classes: wide
 ---

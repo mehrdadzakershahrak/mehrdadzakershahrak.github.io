@@ -8,3 +8,6 @@ node_modules
 .bundle
 test-results
 auth-service/.env
+
+__pycache__/
+*.pyc

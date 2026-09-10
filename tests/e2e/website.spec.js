@@ -5,7 +5,7 @@ const PRIMARY_ROUTES = [
   { path: "/work/", heading: "From research to production." },
   { path: "/research/", heading: "Research that makes intelligence legible." },
   { path: "/newsletter/", heading: "Writing" },
-  { path: "/newsletter/archive/", heading: "Newsletter Archive" },
+  { path: "/newsletter/archive/", heading: "Writing" },
   { path: "/about/", heading: /Trustworthy AI,\s*from research\s*to production\./ },
   { path: "/contact/", heading: "Bring a concrete systems problem." },
   { path: "/resources/", heading: "Private AI Resource Hub" },
@@ -216,7 +216,7 @@ test("retired IDX routes resolve to the current work page", async ({ request }) 
     expect(html, route).toContain('<meta http-equiv="refresh" content="0; url=/work/">');
     expect(canonicalMatch, route).not.toBeNull();
     expect(new URL(canonicalMatch[1]).pathname, route).toBe("/work/");
-    expect(html, route).toContain('<meta name="robots" content="noindex,follow">');
+    expect(html, route).not.toMatch(/<meta[^>]+name="robots"[^>]+noindex/);
   }
 });
 

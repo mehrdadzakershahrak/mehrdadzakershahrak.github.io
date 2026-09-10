@@ -6,10 +6,10 @@ module.exports = defineConfig({
   timeout: 30_000,
   reporter: "list",
   use: {
-    baseURL: "http://127.0.0.1:4000",
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || "http://127.0.0.1:4000",
     headless: true,
   },
-  webServer: [
+  webServer: process.env.PLAYWRIGHT_BASE_URL ? undefined : [
     {
       command: "bash tests/e2e/run-jekyll-e2e.sh",
       cwd: __dirname,

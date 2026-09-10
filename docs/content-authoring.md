@@ -76,7 +76,7 @@ Keep public URLs stable with explicit permalinks. Existing resource guides stay 
 Hubs read from metadata instead of hand-maintained lists:
 
 - `/resources/` shows `resource_guide: true` guides and `content_type: reference` entries.
-- `/newsletter/` and `/newsletter/archive/` show `content_type: note` entries.
+- `/newsletter/` shows all `content_type: note` entries. The former archive redirects there.
 - Homepage Writing pulls from `_ai_material/` by date.
 - Sitemap output includes published collection documents automatically.
 

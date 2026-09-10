@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "AI-Powered Robotics"
+description: "AI-powered robotics combining perception, sensing, reasoning, and operator support for adaptive physical automation."
 permalink: /robotics/ai-powered-robotics/
 classes: wide
 ---

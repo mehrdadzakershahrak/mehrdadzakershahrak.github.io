@@ -4,15 +4,14 @@
     <meta charset="utf-8">
     <title>{{ page.title | default: site.title | escape }}</title>
     {% assign redirect_target = page.redirect_to %}
-    {% assign canonical_target = page.redirect_to %}
+    {% assign canonical_target = page.redirect_to | split: "#" | first %}
     {% unless redirect_target contains '://' %}
       {% assign redirect_target = redirect_target | relative_url %}
-      {% assign canonical_target = page.redirect_to | absolute_url %}
+      {% assign canonical_target = canonical_target | absolute_url %}
     {% endunless %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="refresh" content="0; url={{ redirect_target | escape }}">
     <link rel="canonical" href="{{ canonical_target | escape }}">
-    <meta name="robots" content="noindex,follow">
     <script>
       window.location.replace({{ redirect_target | jsonify }});
     </script>

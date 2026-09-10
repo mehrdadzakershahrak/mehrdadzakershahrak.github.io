@@ -57,10 +57,8 @@
 <meta name="theme-color" content="#F7F8F8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#101314" media="(prefers-color-scheme: dark)">
 
-{% if page.demo_id %}
-  <meta name="robots" content="index,follow">
-{% elsif page.robots %}
-  <meta name="robots" content="{{ page.robots }}">
+{% if page.robots %}
+  <meta name="robots" content="{{ page.robots | escape }}">
 {% endif %}
 
 {% if social_image %}

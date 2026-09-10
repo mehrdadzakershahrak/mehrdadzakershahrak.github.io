@@ -83,3 +83,7 @@ default_social_image_height: 1402
 
 # Newsletter (Substack) (set this)
 substack_subscribe_url: ""
+
+# No Atom feed plugin is enabled.
+atom_feed:
+  hide: true

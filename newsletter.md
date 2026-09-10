@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Writing"
+description: "Practical writing by Mehrdad Zaker on private AI deployment, factory robotics, production reliability, and system architecture."
 permalink: /newsletter/
 classes: wide
 ---
@@ -27,14 +28,13 @@ Practical notes on AI systems, robotics, deployment architecture, and production
 
 <p>
   <a class="eh-btn" href="{{ latest_issue.url | relative_url }}">Read the latest issue</a>
-  <a class="eh-btn eh-btn--secondary" href="{{ '/newsletter/archive/' | relative_url }}">Browse the archive</a>
 </p>
 {% endif %}
 
 {% if issues.size > 1 %}
-## Recent issues
+## All earlier issues
 
-{% for issue in issues offset: 1 limit: 1 %}
+{% for issue in issues offset: 1 %}
 ### [{{ issue.title }}]({{ issue.url | relative_url }})
 
 {{ issue.excerpt }}
@@ -63,7 +63,6 @@ Practical notes on AI systems, robotics, deployment architecture, and production
 {% else %}
   <p>For direct questions about a deployment, architecture review, or robotics workflow, use the contact page.</p>
   <p>
-    <a class="eh-btn" href="{{ '/newsletter/archive/' | relative_url }}">View the archive</a>
     <a class="eh-btn eh-btn--secondary" href="{{ '/contact/' | relative_url }}">Contact Mehrdad</a>
   </p>
 {% endif %}

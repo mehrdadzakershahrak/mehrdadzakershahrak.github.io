@@ -1,6 +1,7 @@
 ---
 layout: single
 title: "Industrial Robotics"
+description: "Industrial robotics for manufacturing, inspection, assembly, and material handling, with reliability and maintainability in view."
 permalink: /robotics/industrial-robotics/
 classes: wide
 ---

@@ -7,7 +7,7 @@ Personal website for Mehrdad Zaker. The site is intentionally small: home, work,
 - `/` presents the minimalist personal profile.
 - `/work/` contains selected, CV-grounded work and research.
 - `/research/` presents five illustrated research programs with selected publication links.
-- `/newsletter/` and `/newsletter/archive/` contain writing.
+- `/newsletter/` contains all writing; the former archive redirects there.
 - `/about/` contains the current biography, experience, research evidence, education, and technical focus.
 - `/contact/` is the direct contact path.
 
