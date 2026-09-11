@@ -1,12 +1,12 @@
 ---
 layout: single
-title: "Private AI Deployment"
-description: "Deployment support for private, hybrid, and local AI systems that need controlled data flow, grounded answers, and production review."
+title: "Private AI Deployment: On-Premises & VPC"
+description: "Plan private AI deployment across on-premises, VPC, and hybrid environments, with clear data boundaries, model serving, evaluation, and rollout controls."
 permalink: /private-ai-deployment/
 classes: wide service-page
 ---
 
-Deploy AI inside an environment your team can approve and operate. Keep data controlled, test the answers, and launch with clear limits.
+Private AI deployment brings model inference, retrieval, and data access into an environment your team can approve and operate. I help teams choose between on-premises, VPC, and hybrid designs and define the evaluation and rollout controls needed for production.
 
 <p class="eh-summary">I help teams move private AI from pilot to production without turning the deployment model into guesswork. The work connects data boundaries, retrieval, evaluation, model serving, security review, and rollout.</p>
 
@@ -40,6 +40,15 @@ The result should be a system your team can explain, test, and maintain after th
 
 ## Deployment Patterns
 
+| Deployment pattern | Useful when | Operating responsibility |
+|---|---|---|
+| On-premises inference | Inference and source data must stay on infrastructure you control | Hardware capacity, model updates, access control, and recovery |
+| VPC or VNet inference | You need a controlled cloud network and managed infrastructure | Network boundaries, identity, storage, logging, and serving capacity |
+| Hybrid deployment | Private retrieval can be combined with explicitly approved hosted inference | Classify what can leave the boundary and enforce routing and logging rules |
+| Local inference | A bounded single-device or offline workflow is sufficient | Device resources, model quality, local storage, and updates |
+
+These are deployment choices, not automatic privacy or compliance guarantees. Verify the actual data path, access policy, provider terms, and operational controls.
+
 Typical patterns include:
 
 - private endpoints to managed model providers
@@ -49,6 +58,12 @@ Typical patterns include:
 - local LLM stacks for smaller assistants, internal tools, or cost-sensitive workloads
 
 The practical choice depends on data sensitivity, model quality needs, latency, team operations, and the cost of mistakes.
+
+## A private RAG deployment path
+
+A document assistant can keep source documents and retrieval inside the approved environment, authorize each request before retrieval, and send only permitted evidence to the selected model endpoint. Validate citations and no-answer cases before exposing answers to users. Record operational metrics without assuming source text is safe to log.
+
+See [secure enterprise RAG architecture]({{ '/resources/secure-enterprise-rag-architecture/' | relative_url }}) for the access boundary and [AI system reliability evaluation]({{ '/resources/ai-system-reliability-evaluation-before-deployment/' | relative_url }}) for release criteria.
 
 ## Related Reading
 

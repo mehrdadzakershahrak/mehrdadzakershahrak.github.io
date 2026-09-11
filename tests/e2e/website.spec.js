@@ -3,7 +3,7 @@ const { test, expect } = require("@playwright/test");
 const PRIMARY_ROUTES = [
   { path: "/", heading: "Mehrdad Zaker" },
   { path: "/work/", heading: "From research to production." },
-  { path: "/research/", heading: "Research that makes intelligence legible." },
+  { path: "/research/", heading: "Research by Mehrdad Zaker" },
   { path: "/newsletter/", heading: "Writing" },
   { path: "/newsletter/archive/", heading: "Writing" },
   { path: "/about/", heading: /Trustworthy AI,\s*from research\s*to production\./ },
@@ -32,7 +32,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
 
   await expect(page).toHaveTitle(/Mehrdad Zaker/);
   await expect(page.getByRole("heading", { name: "Mehrdad Zaker", level: 1 })).toBeVisible();
-  await expect(page.getByText("Founder and principal-level AI engineer building trustworthy AI systems from research through production.")).toBeVisible();
+  await expect(page.getByText("AI engineer, researcher, and founder building private AI and reliable agent systems from research through production.")).toBeVisible();
   await expect(page.getByText("My work spans private and agentic AI, production ML, reinforcement learning, human–AI interaction, and robotics.")).toBeVisible();
   await expect(page.getByRole("link", { name: "Email Mehrdad" })).toHaveAttribute("href", /mailto:/);
   await expect(page.getByRole("img", { name: "Mehrdad Zaker" })).toHaveAttribute("src", "/assets/images/mehrdad-zaker-headshot.jpeg");

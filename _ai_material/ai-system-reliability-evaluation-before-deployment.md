@@ -1,10 +1,10 @@
 ---
-title: "Evaluating AI System Reliability Before Deployment"
-description: "A production-focused evaluation guide for private AI systems, covering retrieval, answer quality, permissions, latency, security, and rollout readiness."
+title: "AI System Reliability Evaluation"
+description: "Evaluate AI reliability before deployment: retrieval, grounded answers, permissions, latency, failure handling, and clear release criteria."
 excerpt: "AI reliability evaluation should separate retrieval, answer faithfulness, security boundaries, operational behavior, and workflow acceptance before launch."
 permalink: /resources/ai-system-reliability-evaluation-before-deployment/
 date: 2026-04-19
-last_modified_at: 2026-04-19
+last_modified_at: 2026-09-11
 author: "Mehrdad Zaker"
 content_type: "guide"
 audience: "Teams setting launch gates for AI systems"
@@ -43,7 +43,9 @@ faqs:
       A narrow first release can start with 50-100 high-value cases if they cover common questions, edge cases, permission boundaries, no-answer cases, and known failure modes. The set should grow from production feedback.
 ---
 
-[IBM's 2025 Cost of a Data Breach analysis reports an average global breach cost of USD 4.44 million and says 63% of researched organizations had no AI governance policies in place to manage AI or prevent shadow AI](https://www.ibm.com/think/x-force/2025-cost-of-a-data-breach-navigating-ai). Reliability evaluation is one way to close that governance gap. Before an AI system reaches users, the team needs evidence that the system is accurate enough, constrained enough, observable enough, and safe enough for the workflow it serves.
+AI system reliability evaluation tests whether the whole workflow can meet its requirements before deployment. Check retrieval, grounded answers, permissions, latency, failure handling, and clear release criteria—not only the model's answer accuracy.
+
+Start with the [practical evaluation checklist](#practical-evaluation-checklist), then use the sections below to define the evidence for each release decision. For document workflows, pair this guide with [secure enterprise RAG architecture]({{ '/resources/secure-enterprise-rag-architecture/' | relative_url }}).
 
 Reliability is broader than model accuracy. A private AI system can use a strong model and still fail because retrieval misses evidence, citations are weak, permissions are wrong, latency collapses, logs capture sensitive data, or users rely on answers beyond the intended scope. Evaluation has to cover the whole system.
 

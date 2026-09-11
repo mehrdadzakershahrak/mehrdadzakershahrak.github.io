@@ -1,15 +1,14 @@
 ---
 layout: editorial-home
-title: "Mehrdad Zaker"
-description: "Founder and principal-level AI engineer building trustworthy AI systems from research through production."
+title: "AI Engineer & Researcher"
+description: "Mehrdad Zaker builds private AI and reliable agent systems. Explore his engineering work, research, and practical guides to RAG and AI deployment."
 permalink: /
 classes: wide home-page
 suppress_default_h1: true
 ---
 
 {%- assign work_items = site.data.home_work | slice: 0, 4 -%}
-{%- assign writing_all = site.ai_material | sort: 'date' | reverse -%}
-{%- assign writing_list = writing_all | slice: 0, 3 -%}
+{%- assign writing_paths = "/resources/secure-enterprise-rag-architecture/,/resources/ai-system-reliability-evaluation-before-deployment/,/resources/local-llm-practical-guide/" | split: "," -%}
 
 <main class="eh-main eh-exec-home" id="main" role="main">
   <section class="eh-exec-hero" aria-labelledby="eh-home-title">
@@ -18,7 +17,7 @@ suppress_default_h1: true
         <h1 id="eh-home-title" class="eh-exec-title">Mehrdad Zaker</h1>
 
         <p class="eh-exec-position">
-          Founder and principal-level AI engineer building trustworthy AI systems from research through production.
+          AI engineer, researcher, and founder building private AI and reliable agent systems from research through production.
         </p>
 
         <p class="eh-exec-proof">
@@ -171,7 +170,8 @@ suppress_default_h1: true
     </div>
 
     <div class="eh-exec-list">
-      {%- for entry in writing_list -%}
+      {%- for writing_path in writing_paths -%}
+        {%- assign entry = site.ai_material | where: "url", writing_path | first -%}
         <a class="eh-exec-row" href="{{ entry.url | relative_url }}" data-analytics="writing_click" data-analytics-label="{{ entry.url | slugify }}">
           <span class="eh-exec-row__title">{{ entry.title }}</span>
           <em>{{ entry.content_type | default: "Note" | capitalize }}</em>

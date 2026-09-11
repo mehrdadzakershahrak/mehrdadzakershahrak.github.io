@@ -1,10 +1,10 @@
 ---
-title: "RAG Architecture for Secure Enterprise Workflows"
-description: "A secure enterprise RAG architecture guide covering ingestion, permissions, retrieval, prompt boundaries, evaluation, monitoring, and rollout controls."
+title: "Secure Enterprise RAG Architecture"
+description: "How to secure enterprise RAG workflows with document permissions, retrieval controls, prompt-injection defenses, evaluation, and auditable evidence."
 excerpt: "Enterprise RAG has to join retrieval quality with access control, prompt-injection resistance, observability, and production workflow design."
 permalink: /resources/secure-enterprise-rag-architecture/
 date: 2026-04-19
-last_modified_at: 2026-04-19
+last_modified_at: 2026-09-11
 author: "Mehrdad Zaker"
 content_type: "guide"
 audience: "Teams designing secure retrieval over enterprise data"
@@ -43,7 +43,31 @@ faqs:
       No. A vector database can store metadata and support filters, but the system still needs an authoritative permission model tied to users, groups, documents, and source systems.
 ---
 
-[Cisco's 2025 Data Privacy Benchmark found that 90% of organizations see local data storage as inherently safer and 64% worry about inadvertently sharing sensitive information through GenAI tools](https://newsroom.cisco.com/c/r/newsroom/en/us/a/y2025/m04/cisco-2025-data-privacy-benchmark-study-privacy-landscape-grows-increasingly-complex-in-the-age-of-ai.html). Those numbers explain why secure enterprise RAG cannot be treated as a search feature with a chatbot on top. It is a data-access system, a generation system, and an operational control surface at the same time.
+Secure enterprise RAG starts with controlling which evidence a user can retrieve. This guide explains how to enforce document permissions, separate retrieved content from system instructions, test failures, and keep answers traceable to their sources.
+
+## How do you secure RAG workflows?
+
+Enforce authorization before retrieved content reaches the model. Preserve each document's permissions and provenance during ingestion, retrieve only authorized evidence, treat that evidence as untrusted input, and validate the answer and any proposed actions before they reach users or tools.
+
+1. Resolve the user's identity, tenant, and current document permissions.
+2. Filter retrieval using those permissions and retain source/version identifiers.
+3. Keep retrieved text separate from application-controlled instructions.
+4. Check citations, unsupported answers, and tool permissions.
+5. Test revoked access, prompt injection, missing evidence, and service failures before rollout.
+
+### Example: a revoked document permission
+
+Suppose an employee could read a contract yesterday but loses access today. Ask a question whose answer exists only in that contract. Inspect the retrieved chunks and model input: neither should contain the contract, even if its embedding remains in the index. A refusal after the model has already received the contract fails this test. This is an illustrative acceptance test, not a reported deployment result.
+
+```text
+User + identity → current authorization → permitted retrieval
+                                         ↓
+Source/version evidence → bounded model context → answer validation
+                                                 ↓
+                                    cited answer or no-answer path
+```
+
+Use the [AI system reliability evaluation guide]({{ '/resources/ai-system-reliability-evaluation-before-deployment/' | relative_url }}) to define release criteria for these failure cases.
 
 Retrieval-augmented generation helps teams answer questions from internal knowledge, policies, contracts, technical records, support tickets, and research files. In enterprise environments, the challenge is not only relevance. The system must retrieve the right evidence for the right user, keep sensitive data inside approved boundaries, resist malicious instructions in documents, and produce answers that can be reviewed.
 

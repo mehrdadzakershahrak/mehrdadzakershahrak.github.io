@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "Research"
-description: "Mehrdad Zaker’s research across explainable human–AI and robot teaming, personalized summarization, interpretable learning, efficient language models, and hardware trust."
+title: "AI & Human–Robot Interaction Research"
+description: "Explore Mehrdad Zaker’s research in explainable AI, human–robot teaming, personalized summarization, efficient language models, and hardware trust."
 permalink: /research/
 classes: wide research-page
 suppress_default_h1: true
@@ -14,7 +14,7 @@ suppress_default_h1: true
   <header class="eh-research__hero" aria-labelledby="research-title">
     <div class="eh-research__intro">
       <p class="eh-eyebrow">Research portfolio</p>
-      <h1 id="research-title" class="eh-title">Research that makes intelligence legible.</h1>
+      <h1 id="research-title" class="eh-title">Research by Mehrdad Zaker</h1>
       <p class="eh-dek">
         I study how people and intelligent systems can plan, explain, learn, and adapt together—from human–robot teams and personalized summaries to efficient language models and hardware trust.
       </p>
