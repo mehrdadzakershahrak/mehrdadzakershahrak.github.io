@@ -3198,6 +3198,89 @@ html:not([data-theme="dark"]) .eh-masthead__theme-icon--moon { display: block; }
   min-width: 0;
 }
 
+.eh-engineering-intro {
+  max-width: 780px;
+}
+
+.eh-engineering-intro h1 {
+  margin: 12px 0 20px;
+  font-family: var(--eh-ff-serif);
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 500;
+  line-height: 1.06;
+}
+
+.eh-engineering-intro > p:last-child {
+  margin: 0;
+  color: var(--eh-ink-soft);
+  font-size: 20px;
+  line-height: 1.65;
+}
+
+.eh-engineering-photos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.eh-engineering-photos figure {
+  display: block;
+  margin: 0;
+  width: auto;
+}
+
+.eh-engineering-photos img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.eh-engineering-photos figcaption {
+  margin-top: 10px;
+  color: var(--eh-ink-soft);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.eh-engineering-story {
+  max-width: 760px;
+  margin: 8px auto 28px;
+  color: var(--eh-ink-soft);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.eh-engineering-story section + section {
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: 1px solid var(--eh-rule);
+}
+
+.eh-engineering-story .eh-eyebrow {
+  margin: 0 0 10px;
+}
+
+.eh-engineering-story h2 {
+  margin: 0 0 16px;
+  color: var(--eh-ink);
+  font-family: var(--eh-ff-serif);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.eh-engineering-story p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .eh-engineering-photos { grid-template-columns: 1fr; }
+  .eh-engineering-intro > p:last-child { font-size: 18px; }
+  .eh-engineering-story { font-size: 17px; }
+  .eh-engineering-story h2 { font-size: 28px; }
+}
+
 .eh-about__panel {
   border: 1px solid var(--eh-rule);
   border-radius: 8px;

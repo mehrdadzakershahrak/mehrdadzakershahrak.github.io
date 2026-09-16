@@ -15,7 +15,7 @@ Use this file as a concise guide to the public site. The site is a minimalist pe
 
 ## Current Identity
 
-- Founder / Founding AI Engineer at Neural Intelligence Labs, 2025–Present.
+- Founder / Member of Technical Staff at Neural Intelligence Labs, 2025–Present.
 - Former Staff Applied ML Scientist at Grainger, 2021–2024.
 - Ph.D. in Computer Science from Arizona State University.
 - 350+ research citations and h-index 10.

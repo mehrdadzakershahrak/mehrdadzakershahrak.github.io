@@ -6,7 +6,7 @@ const PRIMARY_ROUTES = [
   { path: "/research/", heading: "Research by Mehrdad Zaker" },
   { path: "/newsletter/", heading: "Writing" },
   { path: "/newsletter/archive/", heading: "Writing" },
-  { path: "/about/", heading: /Trustworthy AI,\s*from research\s*to production\./ },
+  { path: "/about/", heading: /It started with a robot\./ },
   { path: "/contact/", heading: "Bring a concrete systems problem." },
   { path: "/resources/", heading: "Private AI Resource Hub" },
 ];
@@ -47,7 +47,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.locator(".eh-contact__grid")).toHaveCount(0);
 
   await expect(page.locator(".eh-exec-meta")).toContainText("15+ years");
-  await expect(page.locator(".eh-exec-meta")).toContainText("Founder / Founding AI Engineer");
+  await expect(page.locator(".eh-exec-meta")).toContainText("Founder / Member of Technical Staff");
   await expect(page.locator(".eh-exec-meta")).toContainText("Ph.D. CS · 350+ citations");
   await expect(page.locator(".eh-exec-meta")).toContainText("U.S. Patent 12,640,000");
 
@@ -63,10 +63,10 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
 
   const about = page.locator(".eh-about-drop");
   await expect(about).not.toHaveAttribute("open", "");
-  await expect(page.getByText("Founder / Founding AI Engineer, Neural Intelligence Labs")).toBeHidden();
+  await expect(page.getByText("Founder / Member of Technical Staff, Neural Intelligence Labs")).toBeHidden();
   await about.locator("summary").click();
   await expect(about).toHaveAttribute("open", "");
-  await expect(page.getByText("Founder / Founding AI Engineer, Neural Intelligence Labs")).toBeVisible();
+  await expect(page.getByText("Founder / Member of Technical Staff, Neural Intelligence Labs")).toBeVisible();
   await expect(page.getByRole("link", { name: "Granted U.S. robotics patent" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Springer handbook chapter" })).toBeVisible();
 
@@ -80,7 +80,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
 
   const workKinds = await page.locator("#work .eh-exec-row > em").allTextContents();
   expect(workKinds.map((kind) => kind.trim())).toEqual([
-    "2025–Present · Founder / Founding AI Engineer",
+    "2025–Present · Founder / Member of Technical Staff",
     "2021–2024 · Staff Applied ML Scientist",
     "2016–2021 · Ph.D. research · Arizona State University",
     "Granted 2026 · U.S. Patent No. 12,640,000 · Co-inventor",
@@ -188,8 +188,8 @@ test("about page presents the current identity and rejects legacy claims", async
   await page.goto("/about/");
 
   const body = page.locator("body");
-  await expect(body).toContainText("Mehrdad Zakershahrak—Mehrdad Zaker on this site");
-  await expect(body).toContainText("Founder / Founding AI Engineer at Neural Intelligence Labs");
+  await expect(body).toContainText("Mehrdad Zakershahrak, also known as Mehrdad Zaker");
+  await expect(body).toContainText("Founder / Member of Technical Staff");
   await expect(body).toContainText("Staff Applied ML Scientist at Grainger");
   await expect(body).toContainText("Shiraz University, 2006–2010");
   await expect(body).toContainText("U.S. Patent No. 12,640,000");

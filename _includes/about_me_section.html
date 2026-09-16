@@ -14,35 +14,61 @@
     </div>
   {%- endif -%}
 
-  <section class="eh-about__hero" aria-labelledby="{{ about_title_id }}">
-    <div class="eh-about__hero-card">
-      <img
-        src="{{ '/assets/images/mehrdad-zaker-headshot.jpeg' | relative_url }}"
-        alt="Mehrdad Zaker"
-        class="eh-about__hero-image"
-        width="1122"
-        height="1402"
-        decoding="async"
-        {% if lazy_images %}loading="lazy"{% endif %}
-      >
-      <div class="eh-about__hero-overlay">
-        <{{ about_heading_tag }} id="{{ about_title_id }}" class="eh-about__hero-title">
-          Trustworthy AI,<br>
-          from research<br>
-          to production.
-        </{{ about_heading_tag }}>
-      </div>
-    </div>
-  </section>
+  <header class="eh-engineering-intro">
+    <p class="eh-eyebrow">About me · An engineering life</p>
+    <{{ about_heading_tag }} id="{{ about_title_id }}">It started with a robot.</{{ about_heading_tag }}>
+    <p>I’m Mehrdad Zakershahrak, also known as Mehrdad Zaker. For roughly twenty years, I’ve followed the same curiosity: how can an idea become something that works in the world?</p>
+  </header>
+
+  <div class="eh-engineering-photos" aria-label="Photographs from my early robotics years">
+    <figure>
+      <img src="{{ '/assets/images/shiraz-robotics-humanoid.jpg' | relative_url }}" alt="Mehrdad beside a small humanoid robot on a competition field during his Shiraz University years" width="604" height="453" decoding="async"{% if lazy_images %} loading="lazy"{% endif %}>
+      <figcaption>My early robotics years, while studying at Shiraz University.</figcaption>
+    </figure>
+    <figure>
+      <img src="{{ '/assets/images/shiraz-robotics-at-work.jpg' | relative_url }}" alt="Mehrdad adjusting a humanoid robot on the green competition field, with people watching nearby" width="604" height="453" decoding="async"{% if lazy_images %} loading="lazy"{% endif %}>
+      <figcaption>Working on the robot at the edge of the field.</figcaption>
+    </figure>
+  </div>
 
   <div class="eh-about__content">
-    <section class="eh-about__panel eh-about__panel--story">
-      <p>I’m Mehrdad Zakershahrak—Mehrdad Zaker on this site—a founder, principal-level AI engineer, and applied scientist with more than 15 years across software, machine learning, robotics, and secure systems.</p>
-      <p>I currently lead architecture and technical strategy as Founder / Founding AI Engineer at Neural Intelligence Labs. Before that, I was a Staff Applied ML Scientist at Grainger, where I worked on production search, ranking, recommendations, loss prevention, 3D vision, and robotic automation.</p>
-      <p>My work connects private and agentic AI, production ML, reinforcement learning, human–AI interaction, and robotics. The common thread is trustworthy systems: grounding, evaluation, safety, observability, and operational ownership treated as part of the architecture rather than added after a demo.</p>
-      <p>I hold a Ph.D. in Computer Science from Arizona State University. My research has received 350+ citations, and I am a co-inventor on granted U.S. Patent No. 12,640,000.</p>
-      <p>This site is the canonical home for my biography, professional history, writing, and talks. My current research program, open systems, and maker portfolio live at <a href="https://neuralint.io">Neural Intelligence Labs</a>.</p>
-    </section>
+    <div class="eh-engineering-story">
+      <section aria-labelledby="story-start">
+        <p class="eh-eyebrow">Shiraz · Beginning in 2006</p>
+        <h2 id="story-start">Learning by making things move</h2>
+        <p>I joined a robotics team at Shiraz University while studying computer engineering. The small humanoid robots in these photographs brought software, electronics, vision, and movement into the same problem. That was what drew me in: designing something, trying it on real hardware, and finding out what needed to change.</p>
+        <p>After finishing my bachelor’s in 2010, I started a business selling automatic openers for gates and garage doors. It was an early move from university projects to useful everyday automation, and my first experience building a company around a practical engineering product.</p>
+      </section>
+
+      <section aria-labelledby="story-hardware">
+        <p class="eh-eyebrow">Graduate study · 2010–2016</p>
+        <h2 id="story-hardware">Following the idea into the hardware</h2>
+        <p>After a master’s in information technology at K. N. Toosi University of Technology, I moved to the United States and studied computer science at the University of Nebraska–Lincoln. My work there included machine learning and computer vision algorithms on FPGAs, continuing the connection between algorithms and hardware that had interested me in robotics.</p>
+        <p>My Nebraska thesis focused on secure, lightweight hardware authentication using physically unclonable functions. Alongside the vision work, it gave me another way to think about a complete system: both what it can do and what makes its underlying hardware trustworthy.</p>
+      </section>
+
+      <section aria-labelledby="story-people">
+        <p class="eh-eyebrow">Arizona State University · 2016–2021</p>
+        <h2 id="story-people">Bringing people into the system</h2>
+        <p>My Ph.D. widened the question from how a machine behaves to how people and intelligent systems work together. My dissertation, <em>Towards Human-Machine Symbiosis: Design for Effective AI Facilitation</em>, explored that broader relationship. Robotics was one part of it: a concrete setting for studying planning, explanation, and collaboration.</p>
+        <p>I developed methods for explaining an AI system’s plans progressively, with attention to the person trying to understand them. Alongside that research, I built prototypes for autonomous navigation, robot mapping, VR control of a UR5 arm, and multi-agent planning. The papers and the working systems were complementary ways to investigate the same ideas.</p>
+        <p><a href="{{ '/research/' | relative_url }}">Explore the research</a> · <a href="https://www.youtube.com/watch?v=cCr1lNx5OU4">Watch the search and rescue simulation</a> · <a href="https://www.youtube.com/watch?v=kF1w5hdzJ48">Watch UR5 AR control</a></p>
+      </section>
+
+      <section aria-labelledby="story-industry">
+        <p class="eh-eyebrow">Grainger · 2021–2024</p>
+        <h2 id="story-industry">Engineering for everyday use</h2>
+        <p>As a Staff Applied ML Scientist at Grainger, I worked on production search, ranking, and recommendation systems. I also explored 3D vision and robotic automation for distribution centers and co-invented a robotic vending system, later granted as a U.S. patent. The problems ranged from helping someone find a product to designing how a machine could retrieve it.</p>
+      </section>
+
+      <section aria-labelledby="story-now">
+        <p class="eh-eyebrow">Neural Intelligence Labs · 2025–Present</p>
+        <h2 id="story-now">Building a company, still building things</h2>
+        <p>I founded <a href="https://neuralint.io">Neural Intelligence Labs</a> to bring research and product engineering together. As Founder / Member of Technical Staff, I work directly on the systems: Hormuz, an open-source gateway for managing access, budgets, and privacy around AI coding tools; IDX, for working with documents and their sources; and Fixo, an agentic technical support workflow.</p>
+        <p>The medium has expanded from robots and electronics to learning systems, software tools, and apps. I still enjoy the same part of the work: finding a problem worth solving, designing a possible answer, and staying with it through the details that make it useful.</p>
+        <p><a href="https://usehormuz.github.io/">Explore Hormuz</a> · <a href="{{ '/work/' | relative_url }}">Selected engineering work</a></p>
+      </section>
+    </div>
 
     <div class="eh-about__detail-grid">
       <section class="eh-about__panel" aria-labelledby="about-current-title">
@@ -50,7 +76,7 @@
         <div class="eh-about__item-list">
           <article class="eh-about__item">
             <h3>Neural Intelligence Labs</h3>
-            <p>Founder / Founding AI Engineer, 2025–Present</p>
+            <p>Founder / Member of Technical Staff, 2025–Present</p>
           </article>
           <article class="eh-about__item">
             <h3>Grainger</h3>
