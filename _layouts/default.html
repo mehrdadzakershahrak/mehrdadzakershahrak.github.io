@@ -13,7 +13,7 @@
       token aliases used on every route. Homepage-only sections (.eh-hero,
       .eh-work, etc.) remain as unused CSS on inner routes; harmless.
     {%- endcomment -%}
-    <link rel="stylesheet" href="{{ '/assets/css/editorial-home.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/editorial-home.css' | relative_url }}?v={{ site.time | date: '%s' }}">
   </head>
 
   <body class="eh-body layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}" dir="{% if site.rtl %}rtl{% else %}ltr{% endif %}">

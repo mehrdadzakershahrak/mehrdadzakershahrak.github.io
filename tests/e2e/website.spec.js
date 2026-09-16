@@ -191,12 +191,32 @@ test("about page presents the current identity and rejects legacy claims", async
   await expect(body).toContainText("Mehrdad Zakershahrak, also known as Mehrdad Zaker");
   await expect(body).toContainText("Founder / Member of Technical Staff");
   await expect(body).toContainText("Staff Applied ML Scientist at Grainger");
-  await expect(body).toContainText("Shiraz University, 2006–2010");
+  await expect(body).toContainText("RoboCup Humanoid KidSize league");
   await expect(body).toContainText("U.S. Patent No. 12,640,000");
   await expect(body).toContainText("Human–AI Interaction in LLM");
   await expect(body).not.toContainText("Pahlavi University");
   await expect(body).not.toContainText("patent application");
   await expect(body).not.toContainText("forthcoming");
+
+  // Catch missing or stale story styles, even when the text still renders.
+  await expect(page.locator('link[href*="editorial-home.css"]')).toHaveAttribute("href", /\?v=\d+/);
+  const photos = page.locator(".eh-engineering-photos");
+  await expect(photos).toHaveCSS("display", "grid");
+  await expect(page.locator(".eh-demo-card")).toHaveCount(2);
+  await expect(page.locator(".eh-project-card")).toHaveCount(3);
+  for (const image of await page.locator(".eh-engineering-photos img, .eh-demo-card img").all()) {
+    await image.scrollIntoViewIfNeeded();
+    await expect.poll(() => image.evaluate((img) => img.complete && img.naturalWidth > 0)).toBeTruthy();
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  const cards = await page.locator(".eh-demo-card").evaluateAll((items) => items.map((item) => {
+    const rect = item.getBoundingClientRect();
+    return { top: rect.top, left: rect.left, bottom: rect.bottom };
+  }));
+  expect(cards[1].top).toBeGreaterThan(cards[0].bottom);
+  expect(cards[1].left).toBe(cards[0].left);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - innerWidth)).toBeLessThanOrEqual(1);
+
 });
 
 test("retired product, login, and search routes are gone", async ({ request }) => {

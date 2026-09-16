@@ -23,11 +23,11 @@
   <div class="eh-engineering-photos" aria-label="Photographs from my early robotics years">
     <figure>
       <img src="{{ '/assets/images/shiraz-robotics-humanoid.jpg' | relative_url }}" alt="Mehrdad beside a small humanoid robot on a competition field during his Shiraz University years" width="604" height="453" decoding="async"{% if lazy_images %} loading="lazy"{% endif %}>
-      <figcaption>My early robotics years, while studying at Shiraz University.</figcaption>
+      <figcaption>RoboCup Humanoid KidSize league, during my Shiraz University years.</figcaption>
     </figure>
     <figure>
       <img src="{{ '/assets/images/shiraz-robotics-at-work.jpg' | relative_url }}" alt="Mehrdad adjusting a humanoid robot on the green competition field, with people watching nearby" width="604" height="453" decoding="async"{% if lazy_images %} loading="lazy"{% endif %}>
-      <figcaption>Working on the robot at the edge of the field.</figcaption>
+      <figcaption>On the field with the robot whose vision and path planning I built.</figcaption>
     </figure>
   </div>
 
@@ -35,158 +35,131 @@
     <div class="eh-engineering-story">
       <section aria-labelledby="story-start">
         <p class="eh-eyebrow">Shiraz · Beginning in 2006</p>
-        <h2 id="story-start">Learning by making things move</h2>
-        <p>I joined a robotics team at Shiraz University while studying computer engineering. The small humanoid robots in these photographs brought software, electronics, vision, and movement into the same problem. That was what drew me in: designing something, trying it on real hardware, and finding out what needed to change.</p>
-        <p>After finishing my bachelor’s in 2010, I started a business selling automatic openers for gates and garage doors. It was an early move from university projects to useful everyday automation, and my first experience building a company around a practical engineering product.</p>
+        <h2 id="story-start">Teaching a robot to see and find its way</h2>
+        <p>At Shiraz University, I joined a team competing in the RoboCup Humanoid KidSize league. I built the robot’s vision and path-planning algorithms and implemented them on its onboard hardware. Seeing the code guide a physical machine made engineering feel immediate: every design choice had to work on the robot.</p>
+        <p>After my bachelor’s in 2010, I started a business selling automatic openers for gates and garage doors. It was my first company, built around a practical use for automation.</p>
       </section>
 
       <section aria-labelledby="story-hardware">
         <p class="eh-eyebrow">Graduate study · 2010–2016</p>
-        <h2 id="story-hardware">Following the idea into the hardware</h2>
-        <p>After a master’s in information technology at K. N. Toosi University of Technology, I moved to the United States and studied computer science at the University of Nebraska–Lincoln. My work there included machine learning and computer vision algorithms on FPGAs, continuing the connection between algorithms and hardware that had interested me in robotics.</p>
-        <p>My Nebraska thesis focused on secure, lightweight hardware authentication using physically unclonable functions. Alongside the vision work, it gave me another way to think about a complete system: both what it can do and what makes its underlying hardware trustworthy.</p>
+        <h2 id="story-hardware">From robot hardware to embedded learning</h2>
+        <p>That experience became a foundation for implementing machine learning models on FPGAs and embedded devices. After a master’s at K. N. Toosi University of Technology, I moved to the United States for a computer science master’s at the University of Nebraska–Lincoln. My work included ML and vision on FPGAs; my thesis focused on secure hardware authentication using physically unclonable functions.</p>
       </section>
 
       <section aria-labelledby="story-people">
         <p class="eh-eyebrow">Arizona State University · 2016–2021</p>
         <h2 id="story-people">Bringing people into the system</h2>
-        <p>My Ph.D. widened the question from how a machine behaves to how people and intelligent systems work together. My dissertation, <em>Towards Human-Machine Symbiosis: Design for Effective AI Facilitation</em>, explored that broader relationship. Robotics was one part of it: a concrete setting for studying planning, explanation, and collaboration.</p>
-        <p>I developed methods for explaining an AI system’s plans progressively, with attention to the person trying to understand them. Alongside that research, I built prototypes for autonomous navigation, robot mapping, VR control of a UR5 arm, and multi-agent planning. The papers and the working systems were complementary ways to investigate the same ideas.</p>
-        <p><a href="{{ '/research/' | relative_url }}">Explore the research</a> · <a href="https://www.youtube.com/watch?v=cCr1lNx5OU4">Watch the search and rescue simulation</a> · <a href="https://www.youtube.com/watch?v=kF1w5hdzJ48">Watch UR5 AR control</a></p>
+        <p>My Ph.D. expanded that interest into human–AI interaction: how people understand, guide, and collaborate with intelligent systems. I developed methods for explaining AI plans progressively, with attention to the person receiving the explanation. Robotics provided one setting within that broader research, alongside work on planning and learning.</p>
+        <p>I also built working prototypes for navigation, manipulation, and interaction. These two demos show that side of the work.</p>
+        <div class="eh-demo-grid">
+          <a class="eh-demo-card" href="https://www.youtube.com/watch?v=cCr1lNx5OU4">
+            <div class="eh-demo-card__image">
+              <img src="{{ '/assets/images/demo-search-rescue.jpg' | relative_url }}" alt="Search and rescue simulation demo" width="480" height="360" loading="lazy" decoding="async">
+              <span class="eh-demo-card__play" aria-hidden="true">▶</span>
+            </div>
+            <div class="eh-demo-card__copy">
+              <h3>Search and rescue</h3>
+              <p>An interactive simulation I built to study human–robot interaction.</p>
+              <span class="eh-card-link">Watch demo on YouTube ↗</span>
+            </div>
+          </a>
+          <a class="eh-demo-card" href="https://www.youtube.com/watch?v=kF1w5hdzJ48">
+            <div class="eh-demo-card__image">
+              <img src="{{ '/assets/images/demo-ur5-ar.jpg' | relative_url }}" alt="UR5 robotic arm AR control demo" width="480" height="360" loading="lazy" decoding="async">
+              <span class="eh-demo-card__play" aria-hidden="true">▶</span>
+            </div>
+            <div class="eh-demo-card__copy">
+              <h3>UR5 AR control</h3>
+              <p>A robot control prototype connecting an augmented reality interface to a physical arm.</p>
+              <span class="eh-card-link">Watch demo on YouTube ↗</span>
+            </div>
+          </a>
+        </div>
+        <p><a href="{{ '/research/' | relative_url }}">Explore the research and papers</a></p>
       </section>
 
       <section aria-labelledby="story-industry">
         <p class="eh-eyebrow">Grainger · 2021–2024</p>
         <h2 id="story-industry">Engineering for everyday use</h2>
-        <p>As a Staff Applied ML Scientist at Grainger, I worked on production search, ranking, and recommendation systems. I also explored 3D vision and robotic automation for distribution centers and co-invented a robotic vending system, later granted as a U.S. patent. The problems ranged from helping someone find a product to designing how a machine could retrieve it.</p>
+        <p>As a Staff Applied ML Scientist at Grainger, I built production search, ranking, and recommendation systems. I also explored 3D vision and robotic automation for distribution centers and co-invented a robotic vending system. The problems ranged from helping someone find a product to designing how a machine could retrieve it.</p>
       </section>
 
       <section aria-labelledby="story-now">
         <p class="eh-eyebrow">Neural Intelligence Labs · 2025–Present</p>
         <h2 id="story-now">Building a company, still building things</h2>
-        <p>I founded <a href="https://neuralint.io">Neural Intelligence Labs</a> to bring research and product engineering together. As Founder / Member of Technical Staff, I work directly on the systems: Hormuz, an open-source gateway for managing access, budgets, and privacy around AI coding tools; IDX, for working with documents and their sources; and Fixo, an agentic technical support workflow.</p>
-        <p>The medium has expanded from robots and electronics to learning systems, software tools, and apps. I still enjoy the same part of the work: finding a problem worth solving, designing a possible answer, and staying with it through the details that make it useful.</p>
-        <p><a href="https://usehormuz.github.io/">Explore Hormuz</a> · <a href="{{ '/work/' | relative_url }}">Selected engineering work</a></p>
+        <p>I founded <a href="https://neuralint.io">Neural Intelligence Labs</a> to bring research and product engineering together. As Founder / Member of Technical Staff, I work directly on tools that make AI useful in everyday workflows.</p>
+        <div class="eh-project-grid">
+          <article class="eh-project-card">
+            <div class="eh-project-visual eh-project-visual--gateway" aria-label="AI coding tools pass through access, budget, and privacy controls before reaching a model">
+              <span class="eh-visual-node">Codex · Claude Code</span>
+              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
+              <span class="eh-visual-gate">Access · Budget · Privacy</span>
+              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
+              <span class="eh-visual-node">AI models</span>
+            </div>
+            <h3>Hormuz</h3>
+            <p>Give teams control over AI coding tools. I built a gateway for access policies, spending limits, and secret redaction.</p>
+            <a class="eh-card-link" href="https://usehormuz.github.io/">Explore Hormuz ↗</a>
+          </article>
+          <article class="eh-project-card">
+            <div class="eh-project-visual eh-project-visual--sources" aria-label="Documents connect an answer to its sources">
+              <span class="eh-visual-documents" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="eh-visual-node">Your documents</span>
+              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
+              <span class="eh-visual-gate">Answer + sources</span>
+            </div>
+            <h3>IDX</h3>
+            <p>Work with private documents and trace answers to their sources. I designed the system architecture.</p>
+          </article>
+          <article class="eh-project-card">
+            <div class="eh-project-visual eh-project-visual--support" aria-label="A technical issue enters an agent workflow that coordinates tools">
+              <span class="eh-visual-node">Technical issue</span>
+              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
+              <span class="eh-visual-gate">Agent workflow</span>
+              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
+              <span class="eh-visual-node">40+ tools</span>
+            </div>
+            <h3>Fixo</h3>
+            <p>Coordinate tools to resolve technical issues. I built an Azure support workflow connecting more than 40 tools.</p>
+          </article>
+        </div>
+        <p>I still enjoy following an idea through the details that make it useful, whether the result is a robot, an embedded model, or a software tool.</p>
+        <p><a href="{{ '/work/' | relative_url }}">More about my engineering work</a></p>
       </section>
     </div>
 
     <div class="eh-about__detail-grid">
-      <section class="eh-about__panel" aria-labelledby="about-current-title">
-        <h2 id="about-current-title">Experience</h2>
-        <div class="eh-about__item-list">
-          <article class="eh-about__item">
-            <h3>Neural Intelligence Labs</h3>
-            <p>Founder / Member of Technical Staff, 2025–Present</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Grainger</h3>
-            <p>Staff Applied ML Scientist, 2021–2024</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Arizona State University</h3>
-            <p>Research Assistant, Computer Science, 2016–2021</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>University of Nebraska–Lincoln</h3>
-            <p>Research Assistant, Computer Science, 2014–2016</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Pardazesh Tasvir</h3>
-            <p>Senior Software Engineer, 2007–2014</p>
-          </article>
-        </div>
+      <section class="eh-about__panel" aria-labelledby="about-background-title">
+        <h2 id="about-background-title">Background at a glance</h2>
+        <ol class="eh-background-list">
+          <li><span>2006–2010</span><p>B.S. Computer Engineering · Shiraz University</p></li>
+          <li><span>2007–2014</span><p>Software engineering · Pardazesh Tasvir</p></li>
+          <li><span>2010–2012</span><p>M.Sc. Information Technology · K. N. Toosi</p></li>
+          <li><span>2014–2016</span><p>M.Sc. Computer Science · Nebraska–Lincoln</p></li>
+          <li><span>2016–2021</span><p>Ph.D. Computer Science · Arizona State</p></li>
+          <li><span>2021–2024</span><p>Staff Applied ML Scientist · Grainger</p></li>
+          <li><span>2025–Now</span><p>Founder · Neural Intelligence Labs</p></li>
+        </ol>
       </section>
-
       <section class="eh-about__panel" aria-labelledby="about-evidence-title">
-        <h2 id="about-evidence-title">Research and evidence</h2>
-        <div class="eh-about__item-list">
-          <article class="eh-about__item">
-            <h3>350+ citations · h-index 10</h3>
-            <p>Peer-reviewed work across human–AI interaction, robotics, reinforcement learning, summarization, and hardware security. <a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&amp;hl=en">Google Scholar</a></p>
-          </article>
-          <article class="eh-about__item">
-            <h3>U.S. Patent No. 12,640,000</h3>
-            <p>Co-inventor, “Robotic Vending Machine System,” granted May 26, 2026. <a href="https://patentsgazette.uspto.gov/week21/OG/html/1546-4/US12640000-20260526.html">USPTO record</a></p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Human–AI Interaction in LLM</h3>
-            <p>Chapter in the <em>Springer Handbook of Human-Centered Artificial Intelligence</em>, published 2026. <a href="https://link.springer.com/referencework/10.1007/978-981-95-3658-0">Springer</a></p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Peer-reviewed venues</h3>
-            <p>Selected publications appeared at IROS, ICRA, IEEE Access, ICWS, and IJCNN.</p>
-          </article>
+        <h2 id="about-evidence-title">Selected research and invention</h2>
+        <div class="eh-about__item">
+          <h3>Robotic vending machine system</h3>
+          <p>Co-inventor · U.S. Patent No. 12,640,000, granted May 26, 2026. <a href="https://patentsgazette.uspto.gov/week21/OG/html/1546-4/US12640000-20260526.html">Patent record ↗</a></p>
         </div>
-      </section>
-
-      <section class="eh-about__panel" aria-labelledby="about-education-title">
-        <h2 id="about-education-title">Education</h2>
-        <div class="eh-about__item-list">
-          <article class="eh-about__item">
-            <h3>Computer Science, Ph.D.</h3>
-            <p>Arizona State University, 2016–2021</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Computer Science, M.Sc.</h3>
-            <p>University of Nebraska–Lincoln, 2014–2016</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Information Technology, M.Sc.</h3>
-            <p>K. N. Toosi University of Technology, 2010–2012</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Computer Engineering, B.S.</h3>
-            <p>Shiraz University, 2006–2010</p>
-          </article>
+        <div class="eh-about__item">
+          <h3>Human–AI Interaction in LLM</h3>
+          <p>My chapter in Springer’s <em>Handbook of Human-Centered Artificial Intelligence</em>. <a href="https://doi.org/10.1007/978-981-97-8440-0_72-1">Read the chapter ↗</a></p>
         </div>
-      </section>
-
-      <section class="eh-about__panel" aria-labelledby="about-focus-title">
-        <h2 id="about-focus-title">Technical focus</h2>
-        <div class="eh-about__item-list">
-          <article class="eh-about__item">
-            <h3>AI systems</h3>
-            <p>Foundation models, RAG, agentic and tool-using AI, evaluation, safety, and governance.</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Decision systems</h3>
-            <p>Reinforcement learning, sequential decision-making, contextual bandits, ranking, search, and recommendations.</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Platforms</h3>
-            <p>Data and feature platforms, model serving, distributed architecture, reliability, privacy, latency, and cost.</p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Robotics and secure systems</h3>
-            <p>ROS, SLAM, robotic manipulation, multi-agent planning, hardware security, and autonomous systems.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="eh-about__panel" aria-labelledby="about-life-title">
-        <h2 id="about-life-title">Outside work</h2>
-        <div class="eh-about__item-list">
-          <article class="eh-about__item">
-            <h3>Practice beyond engineering</h3>
-            <p>Martial arts, chess, santoor, and amateur radio reward the same patience, precision, and respect for complex systems that I bring to technical work.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="eh-about__panel" aria-labelledby="about-credentials-title">
-        <h2 id="about-credentials-title">Credentials</h2>
-        <div class="eh-about__item-list">
-          <article class="eh-about__item">
-            <h3>Deep Learning Specialization</h3>
-            <p>DeepLearning.AI / Coursera, 2021 · <a href="https://coursera.org/verify/specialization/ZYN9D5TXPX2F">Verify</a></p>
-          </article>
-          <article class="eh-about__item">
-            <h3>Machine Learning</h3>
-            <p>Stanford University / Coursera, 2018 · <a href="https://coursera.org/verify/VZ3V6T4QSEZ2">Verify</a></p>
-          </article>
+        <div class="eh-about__item">
+          <h3>Human–AI interaction and learning</h3>
+          <p>Research in explanation, planning, and collaboration, including work at ICRA and IROS. <a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&amp;hl=en">Publication record ↗</a></p>
         </div>
       </section>
     </div>
-
+    <section class="eh-about-outside" aria-labelledby="about-life-title">
+      <h2 id="about-life-title">Outside work</h2>
+      <p>I practice martial arts, play chess and santoor, and enjoy amateur radio.</p>
+    </section>
   </div>
 </section>
