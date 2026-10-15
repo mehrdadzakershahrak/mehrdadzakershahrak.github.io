@@ -41,6 +41,7 @@ Additional reviewed implementation states: `theme-final-full-desktop.png`, `them
 3. **P2: About heading offset.** A legacy 780px parent width shifted the introduction 279px off viewport center. Removed that width constraint and centered its retained paragraph. The public heading-center test first failed, then passed; `theme-about-desktop.png` and `theme-about-mobile.png` show the correction.
 4. **P2: Work title collapse after decorative marks were hidden.** Review found an obsolete 32px/28px icon column receiving the remaining heading. A browser test confirmed a 32px-wide heading before the fix. Reset the header to a single flexible column and aligned its text/evidence. The same test now passes at desktop/mobile widths; fresh Work captures confirm readable headings.
 5. **Indexing correction.** Excluded the artwork provenance note and this QA report from Jekyll output. The final crawl graph contains 31 sitemap URLs and 46 HTML pages with zero indexing errors.
+6. **Build-host date consistency.** The first CI run found UTC offsets in article JSON-LD where the baseline used Chicago offsets. A local `TZ=UTC` production build reproduced the exact failure. Pinning `timezone: America/Chicago` in Jekyll makes the same UTC-host build pass all 42 browser checks without changing article text or calendar dates.
 
 ## Intentional differences and limits
 

@@ -2,6 +2,8 @@ title: Mehrdad Zaker
 description: Founder and principal-level AI engineer building trustworthy AI systems from research through production.
 baseurl: ""
 url: "https://www.mehrdadzaker.com"
+# Keep publication dates consistent across local and GitHub build hosts.
+timezone: America/Chicago
 markdown: kramdown
 kramdown:
   input: GFM
