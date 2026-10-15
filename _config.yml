@@ -41,6 +41,8 @@ exclude:
   - package.json
   - playwright.config.js
   - README.md
+  - design-qa.md
+  - assets/images/haley-reference/README.md
   - test-results/
   - tests/
   - tools/
@@ -74,7 +76,6 @@ defaults:
 search: false
 
 # Site-specific settings
-contact_email: "mehrdadz@neuralint.io"
 logo_mark: "/assets/images/logo-mark.svg"
 default_social_image: "/assets/images/mehrdad-zaker-headshot.jpeg"
 default_social_image_alt: "Portrait of Mehrdad Zaker"

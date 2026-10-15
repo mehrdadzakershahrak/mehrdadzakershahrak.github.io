@@ -63,5 +63,5 @@ released.
 ## Contact
 
 For privacy questions, email
-[{{ site.contact_email }}](mailto:{{ site.contact_email }}) or visit
+[Mehrdad]({{ '/contact/#email' | relative_url }}) or visit
 [Lady Support]({{ '/apps/lady/support/' | relative_url }}).

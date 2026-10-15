@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MZ Vellum — an editable type project</title>
+  <link rel="icon" href="data:,">
+  <style>
+    @font-face { font-family:"MZ Vellum Display"; src:url("MZVellumDisplay-Regular.woff2") format("woff2"); font-weight:400; font-style:normal; font-display:swap; }
+    @font-face { font-family:"MZ Vellum Text"; src:url("MZVellumText-Light.woff2") format("woff2"); font-weight:300; font-style:normal; font-display:swap; }
+    @font-face { font-family:"MZ Vellum Text"; src:url("MZVellumText-LightItalic.woff2") format("woff2"); font-weight:300; font-style:italic; font-display:swap; }
+    :root { color-scheme:dark; --paper:#143930; --ink:#f8f2de; --muted:#bead89; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:300 21px/1.5 "MZ Vellum Text",Georgia,serif; }
+    main { max-width:1280px; margin:auto; padding:0 48px 64px; }
+    a { color:inherit; text-underline-offset:3px; }
+    a:hover { text-decoration-thickness:2px; }
+    a:focus-visible { outline:1px solid; outline-offset:5px; }
+    .meta { font:400 11px/1.5 ui-monospace,monospace; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+    header { padding:26px 0 36px; border-bottom:1px solid; }
+    .mast { display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .downloads { display:flex; gap:24px; flex-wrap:wrap; font-size:16px; }
+    h1 { font:400 clamp(70px,9vw,128px)/1.25 "MZ Vellum Display",serif; letter-spacing:-.015em; margin:40px 0 8px; }
+    .intro { max-width:700px; margin:0; font-size:24px; }
+    h2 { margin:0 0 22px; font-weight:300; font-size:32px; }
+    h3 { font-size:21px; font-weight:300; margin:8px 0; }
+    section { padding:32px 0; border-bottom:1px solid; }
+    .display { font-family:"MZ Vellum Display",serif; font-weight:400; }
+    .display-line { margin:12px 0; font-size:clamp(42px,6vw,80px); line-height:1.4; overflow-wrap:anywhere; }
+    .alphabet { font-size:32px; line-height:1.8; letter-spacing:.045em; overflow-wrap:anywhere; margin:12px 0; }
+    .columns { display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+    .columns > * { min-width:0; }
+    .sample { margin:12px 0; }
+    .caption { font-size:13px; }
+    .body-copy { font-size:21px; }
+    .italic { font-style:italic; }
+    .small { font-size:16px; }
+    .controls { display:flex; flex-wrap:wrap; gap:20px 32px; margin-bottom:20px; }
+    .controls .field { display:grid; gap:8px; }
+    .controls label { font:13px/1.4 ui-monospace,monospace; }
+    select, input, textarea { color:var(--ink); background:var(--paper); border:1px solid var(--muted); border-radius:4px; }
+    select, input { font:300 18px/1.4 "MZ Vellum Text",Georgia,serif; padding:8px 12px; }
+    input { width:100px; }
+    textarea { width:100%; min-height:220px; resize:vertical; padding:24px; font:400 80px/1.5 "MZ Vellum Display",Georgia,serif; }
+    footer { padding-top:26px; max-width:800px; font-size:16px; }
+    @media(max-width:650px) {
+      main { padding:0 26px 40px; }
+      .mast { align-items:flex-start; flex-direction:column; gap:16px; }
+      .downloads { gap:20px; }
+      h1 { margin-top:28px; }
+      .intro { font-size:21px; }
+      .columns { grid-template-columns:1fr; gap:28px; }
+      .alphabet { font-size:26px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="mast">
+      <span class="meta">A personal type project · 2026 · Edition 01</span>
+      <nav class="downloads" aria-label="Font downloads">
+        <a href="MZVellumDisplay-Regular.ttf" download>Display TTF</a>
+        <a href="MZVellumText-Light.ttf" download>Text TTF</a>
+        <a href="MZVellumText-LightItalic.ttf" download>Italic TTF</a>
+      </nav>
+    </div>
+    <h1>MZ Vellum</h1>
+    <p class="intro">Pointed arches, quiet serifs, and ink on forest vellum. Two families to read, use, and make your own.</p>
+  </header>
+  <section aria-labelledby="try-heading">
+    <h2 id="try-heading">Try your own words</h2>
+    <div class="controls">
+      <div class="field">
+        <label for="font-face">Font face</label>
+        <select id="font-face">
+          <option value="display">Display Regular</option>
+          <option value="text">Text Light</option>
+          <option value="italic">Text Light Italic</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="font-size">Font size in pixels</label>
+        <input id="font-size" type="number" min="12" max="160" step="1" value="80">
+      </div>
+    </div>
+    <textarea aria-label="Your specimen" spellcheck="false">Mehrdad Zaker</textarea>
+  </section>
+  <section aria-labelledby="display-heading">
+    <span class="meta">01 · Independently drawn · Regular 400</span>
+    <h2 id="display-heading">Vellum Display</h2>
+    <p class="display display-line">Mehrdad Zaker</p>
+    <p class="display alphabet">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 &amp; @ ? ! “ ” — …</p>
+  </section>
+  <section aria-labelledby="text-heading">
+    <span class="meta">02 · Cormorant derivative · Light 300</span>
+    <h2 id="text-heading">Vellum Text</h2>
+    <div class="columns">
+      <div>
+        <h3>A room for thought</h3>
+        <p class="body-copy sample">The garden holds a quiet kind of order. Light moves across the leaves; a sentence finds its rhythm. Each letter should leave enough space for the next idea.</p>
+        <p class="small sample">16 px · AVATAR To Wa. An office of affinity, difficult questions, and curious minds.</p>
+        <p class="caption sample">13 px · Notes from the margin · 15 October 2026</p>
+      </div>
+      <div class="italic">
+        <h3>A true, drawn italic</h3>
+        <p class="body-copy sample">The garden holds a quiet kind of order. Light moves across the leaves; a sentence finds its rhythm. Each letter should leave enough space for the next idea.</p>
+        <p class="small sample">16 px · AVATAR To Wa. An office of affinity, difficult questions, and curious minds.</p>
+        <p class="caption sample">13 px · Notes from the margin · 15 October 2026</p>
+      </div>
+    </div>
+  </section>
+  <section aria-labelledby="accents-heading">
+    <span class="meta">03 · Latin repertoire</span>
+    <h2 id="accents-heading">Accents &amp; punctuation</h2>
+    <div class="columns">
+      <div class="display alphabet">
+        <p>ÀÁÂÃÄÅ ÆÇ ÈÉÊË ÌÍÎÏ ÐÑÒÓÔÕÖØ ÙÚÛÜ ÝÞß</p>
+        <p>Āā Ăă Ąą Ćć Čč Đđ Ęę Ěě Ľľ Łł Œœ Őő Řř Šš Ůů Űű Žž</p>
+        <p>Șș Țț Ģģ Ķķ Ļļ Ņņ Ŗŗ</p>
+      </div>
+      <div class="alphabet">
+        <p>Ångström, façade, œuvre, Straße, Łódź, cœur, São Tomé.</p>
+        <p class="italic">“Curious minds” — € £ ¥ ¼ ½ ¾ © ® ¶ § †</p>
+        <p>Il1 · AV WA To Te · fi fl ffi ffl · é é · Å Å</p>
+      </div>
+    </div>
+  </section>
+  <footer>
+    <p>MZ Vellum Display has original outlines. MZ Vellum Text customizes the open Cormorant Garamond Light family, retaining its glyph set and OpenType layout. Both families are supplied under the SIL Open Font License 1.1.</p>
+    <p><a href="OFL-Display.txt">Display license</a> · <a href="OFL-Cormorant.txt">Text license &amp; attribution</a></p>
+  </footer>
+</main>
+<script>
+  const face = document.getElementById("font-face");
+  const size = document.getElementById("font-size");
+  const editor = document.querySelector("textarea");
+  function updateSpecimen() {
+    editor.style.fontFamily = face.value === "display" ? '"MZ Vellum Display", Georgia, serif' : '"MZ Vellum Text", Georgia, serif';
+    editor.style.fontStyle = face.value === "italic" ? "italic" : "normal";
+    editor.style.fontWeight = face.value === "display" ? "400" : "300";
+    editor.style.fontSize = Math.max(12, Math.min(160, Number(size.value) || 80)) + "px";
+  }
+  face.addEventListener("change", updateSpecimen);
+  size.addEventListener("input", updateSpecimen);
+</script>
+</body>
+</html>

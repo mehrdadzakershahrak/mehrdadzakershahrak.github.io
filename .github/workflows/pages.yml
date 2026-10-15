@@ -47,7 +47,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4000/ >/dev/null; then break; fi
             sleep 1
           done
-          npx playwright test tests/e2e/website.spec.js
+          npx playwright test tests/e2e
         env:
           PLAYWRIGHT_BASE_URL: http://127.0.0.1:4000
       - uses: actions/upload-pages-artifact@v4

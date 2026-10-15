@@ -44,4 +44,4 @@ This Privacy Policy may be updated from time to time. The updated version will b
 
 ## Contact
 
-For privacy-related questions, contact [{{ site.contact_email }}](mailto:{{ site.contact_email }}).
+For privacy-related questions, contact [Mehrdad]({{ '/contact/#email' | relative_url }}).

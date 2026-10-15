@@ -58,4 +58,4 @@ These Terms may be updated from time to time. Continued use of the site after up
 
 ## Contact
 
-For questions about these Terms, contact [{{ site.contact_email }}](mailto:{{ site.contact_email }}).
+For questions about these Terms, contact [Mehrdad]({{ '/contact/#email' | relative_url }}).

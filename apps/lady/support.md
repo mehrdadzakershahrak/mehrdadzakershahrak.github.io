@@ -9,7 +9,7 @@ classes: wide
 Lady helps parents turn repeated reminders throughout the family day into
 scheduled Google Home announcements.
 
-For help, email [{{ site.contact_email }}](mailto:{{ site.contact_email }}).
+For help, email [Mehrdad]({{ '/contact/#email' | relative_url }}).
 Include the Lady version, iOS version, iPhone model, and a short description of
 what happened. Do not include passwords, OAuth credentials, or sensitive family
 details.

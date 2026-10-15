@@ -11,6 +11,24 @@
 (function () {
   "use strict";
 
+  // The letter keycaps are shortcuts, except while a visitor is using a control.
+  var navigation = document.querySelector(".eh-masthead__nav");
+  if (navigation) navigation.addEventListener("keydown", function (event) {
+    if (event.defaultPrevented || event.isComposing || event.repeat ||
+        event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+    var target = event.target;
+    if (target && (target.isContentEditable ||
+        target.closest("input, textarea, select, button, canvas, [role='application'], [contenteditable]"))) return;
+    var links = navigation.querySelectorAll("[data-nav-shortcut]");
+    for (var i = 0; i < links.length; i++) {
+      if (links[i].getAttribute("data-nav-shortcut") === event.key.toLowerCase()) {
+        event.preventDefault();
+        links[i].click();
+        return;
+      }
+    }
+  });
+
   /* -------------------------------------------------------------- */
   /* Theme toggle                                                   */
   /* -------------------------------------------------------------- */

@@ -25,13 +25,54 @@ suppress_default_h1: true
         </p>
 
         <div class="eh-exec-actions">
-          <a class="eh-btn" href="mailto:{{ site.contact_email }}" data-analytics="cta_contact_click" data-analytics-label="hero_email">
+          <a class="eh-btn" href="{{ '/contact/#email' | relative_url }}" data-analytics="cta_contact_click" data-analytics-label="hero_email">
             Email Mehrdad
           </a>
           <a class="eh-link" href="{{ '/work/' | relative_url }}" data-analytics="nav_click" data-analytics-label="hero_work">View work</a>
         </div>
       </div>
 
+
+    </div>
+
+
+  </section>
+
+  <section id="work" class="eh-exec-section" aria-labelledby="eh-work-title">
+    <div class="eh-exec-section__head">
+      <h2 id="eh-work-title">Selected work</h2>
+      <a class="eh-link" href="{{ '/work/' | relative_url }}">All work</a>
+    </div>
+
+    <div class="eh-exec-list">
+      {%- for w in work_items -%}
+        <a class="eh-exec-row eh-exec-row--marked" href="{{ w.url | default: '/work/' | relative_url }}" data-analytics="work_click" data-analytics-label="{{ w.url | default: w.title | slugify }}">
+          {% include work_mark.html mark=w.mark %}
+          <span class="eh-exec-row__title">{{ w.title }}</span>
+          <em>{{ w.year }} · {{ w.kind }}</em>
+        </a>
+      {%- endfor -%}
+    </div>
+  </section>
+
+  <section id="writing" class="eh-exec-section" aria-labelledby="eh-writing-title">
+    <div class="eh-exec-section__head">
+      <h2 id="eh-writing-title">Writing</h2>
+      <a class="eh-link" href="{{ '/newsletter/' | relative_url }}">All writing</a>
+    </div>
+
+    <div class="eh-exec-list">
+      {%- for writing_path in writing_paths -%}
+        {%- assign entry = site.ai_material | where: "url", writing_path | first -%}
+        <a class="eh-exec-row" href="{{ entry.url | relative_url }}" data-analytics="writing_click" data-analytics-label="{{ entry.url | slugify }}">
+          <span class="eh-exec-row__title">{{ entry.title }}</span>
+          <em>{{ entry.content_type | default: "Note" | capitalize }}</em>
+        </a>
+      {%- endfor -%}
+    </div>
+  </section>
+
+  <section class="eh-profile-notes" aria-label="Profile notes">
       <img
         class="eh-exec-portrait"
         src="{{ '/assets/images/mehrdad-zaker-headshot.jpeg' | relative_url }}"
@@ -41,8 +82,6 @@ suppress_default_h1: true
         decoding="async"
         fetchpriority="high"
       >
-    </div>
-
     <p class="eh-exec-lab">
       I founded <a href="https://neuralint.io" data-analytics="nav_click" data-analytics-label="hero_neural_intelligence_labs">Neural Intelligence Labs</a>
       for research, open systems, and the maker portfolio. This site is the home for my professional work, biography, and writing.
@@ -52,7 +91,7 @@ suppress_default_h1: true
       <span>15+ years</span>
       <span>Founder / Member of Technical Staff</span>
       <span>Ph.D. CS · 350+ citations</span>
-      <span>U.S. Patent 12,640,000</span>
+      <span>Robotics and invention</span>
     </p>
   </section>
 
@@ -115,7 +154,7 @@ suppress_default_h1: true
         <p>
           I started with a robotics team at Shiraz University in 2006. That curiosity
           led me through a first business in gate automation, graduate research in
-          hardware and human–AI interaction, production ML at Grainger, and founding
+          hardware and human–AI interaction, production ML, and founding
           Neural Intelligence Labs. I’m still drawn to the same thing: turning an
           idea into something useful.
         </p>
@@ -136,8 +175,6 @@ suppress_default_h1: true
           <div class="eh-about-drop__row">
             <strong>Evidence</strong>
             <span>
-              <a href="https://patentsgazette.uspto.gov/week21/OG/html/1546-4/US12640000-20260526.html">Granted U.S. robotics patent</a>
-              ·
               <a href="https://link.springer.com/referencework/10.1007/978-981-95-3658-0">Springer handbook chapter</a>
             </span>
           </div>
@@ -148,47 +185,13 @@ suppress_default_h1: true
     </details>
   </section>
 
-  <section id="work" class="eh-exec-section" aria-labelledby="eh-work-title">
-    <div class="eh-exec-section__head">
-      <h2 id="eh-work-title">Selected work</h2>
-      <a class="eh-link" href="{{ '/work/' | relative_url }}">All work</a>
-    </div>
-
-    <div class="eh-exec-list">
-      {%- for w in work_items -%}
-        <a class="eh-exec-row eh-exec-row--marked" href="{{ w.url | default: '/work/' | relative_url }}" data-analytics="work_click" data-analytics-label="{{ w.url | default: w.title | slugify }}">
-          {% include work_mark.html mark=w.mark %}
-          <span class="eh-exec-row__title">{{ w.title }}</span>
-          <em>{{ w.year }} · {{ w.kind }}</em>
-        </a>
-      {%- endfor -%}
-    </div>
-  </section>
-
-  <section id="writing" class="eh-exec-section" aria-labelledby="eh-writing-title">
-    <div class="eh-exec-section__head">
-      <h2 id="eh-writing-title">Writing</h2>
-      <a class="eh-link" href="{{ '/newsletter/' | relative_url }}">All writing</a>
-    </div>
-
-    <div class="eh-exec-list">
-      {%- for writing_path in writing_paths -%}
-        {%- assign entry = site.ai_material | where: "url", writing_path | first -%}
-        <a class="eh-exec-row" href="{{ entry.url | relative_url }}" data-analytics="writing_click" data-analytics-label="{{ entry.url | slugify }}">
-          <span class="eh-exec-row__title">{{ entry.title }}</span>
-          <em>{{ entry.content_type | default: "Note" | capitalize }}</em>
-        </a>
-      {%- endfor -%}
-    </div>
-  </section>
-
   <section id="contact" class="eh-exec-section eh-exec-contact" aria-labelledby="eh-contact-title">
     <h2 id="eh-contact-title">Contact</h2>
     <p>The best way to reach me is a direct email with the problem, context, and constraint.</p>
 
     <div class="eh-exec-contact__links">
-      <a class="eh-btn" href="mailto:{{ site.contact_email }}" data-analytics="cta_contact_click" data-analytics-label="footer_email">
-        {{ site.contact_email }}
+      <a class="eh-btn" href="{{ '/contact/#email' | relative_url }}" data-analytics="cta_contact_click" data-analytics-label="footer_email">
+        Reveal email
       </a>
       <a class="eh-link" href="https://www.linkedin.com/in/mehrdadzaker" rel="me">LinkedIn</a>
       <a class="eh-link" href="https://github.com/mehrdadzakershahrak" rel="me">GitHub</a>

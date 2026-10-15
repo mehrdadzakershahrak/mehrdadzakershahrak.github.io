@@ -8,7 +8,7 @@ Personal website for Mehrdad Zaker. The site is intentionally small: home, work,
 - `/work/` contains selected, CV-grounded work and research.
 - `/research/` presents five illustrated research programs with selected publication links.
 - `/newsletter/` contains all writing; the former archive redirects there.
-- `/about/` contains the current biography, experience, research evidence, education, and technical focus.
+- `/about/` presents the engineering story, project examples, research evidence, education, and technical focus.
 - `/contact/` is the direct contact path.
 
 The site no longer publishes product catalogue, login, search, or product-specific routes.

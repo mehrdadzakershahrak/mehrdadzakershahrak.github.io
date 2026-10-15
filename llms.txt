@@ -10,16 +10,16 @@ Use this file as a concise guide to the public site. The site is a minimalist pe
 - [Work](https://www.mehrdadzaker.com/work/): CV-grounded work across private and agentic AI, production ML, human–AI interaction, and robotics.
 - [Research](https://www.mehrdadzaker.com/research/): Illustrated research portfolio spanning human–robot explanation, personalized summarization, interpretable learning, efficient language models, and hardware trust.
 - [Writing](https://www.mehrdadzaker.com/newsletter/): Notes and guides on applied AI systems, deployment, reliability, and robotics.
-- [About](https://www.mehrdadzaker.com/about/): Current role, experience, research evidence, education, technical focus, and outside-work interests.
+- [About](https://www.mehrdadzaker.com/about/): Engineering story, project examples, research evidence, education, and outside-work interests.
 - [Contact](https://www.mehrdadzaker.com/contact/): Direct route for a concrete AI systems problem.
 
 ## Current Identity
 
 - Founder / Member of Technical Staff at Neural Intelligence Labs, 2025–Present.
-- Former Staff Applied ML Scientist at Grainger, 2021–2024.
+- Built production search, ranking, and recommendation systems as a Staff Applied ML Scientist.
 - Ph.D. in Computer Science from Arizona State University.
 - 350+ research citations and h-index 10.
-- Co-inventor on granted U.S. Patent No. 12,640,000.
+- Co-inventor of autonomous robotic retrieval and delivery systems.
 - Author of “Human–AI Interaction in LLM” in the 2026 Springer Handbook of Human-Centered Artificial Intelligence.
 
 ## Focus Areas

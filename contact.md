@@ -5,6 +5,7 @@ description: "Contact Mehrdad Zaker about trustworthy AI systems, production ML,
 permalink: /contact/
 classes: wide
 suppress_default_h1: true
+email_gate: true
 ---
 
 <section class="eh-contact-page">
@@ -16,10 +17,26 @@ suppress_default_h1: true
         The best fit is work involving private or agentic AI, production ML, robotics, or technical direction where reliability and operational fit matter.
       </p>
       <div class="eh-action-row">
-        <a class="eh-btn" href="mailto:{{ site.contact_email }}">Email {{ site.contact_email }}</a>
+        <a class="eh-btn" href="{{ '/contact/#email' | relative_url }}">Email Mehrdad</a>
         <a class="eh-btn eh-btn--secondary" href="{{ '/work/' | relative_url }}">View work</a>
       </div>
     </div>
+  </section>
+
+  <section id="email" class="eh-email-gate" aria-label="Email verification" data-email-gate data-contact-address="{{ site.data.contact.address_encoded }}">
+    <h2>Reveal my email</h2>
+    <p id="email-check-hint">Answer a quick question to reveal my email address.</p>
+    <form class="eh-email-gate__form" hidden>
+      <label for="email-check-answer" data-email-question></label>
+      <input id="email-check-answer" name="answer" type="number" inputmode="numeric" min="0" max="99" step="1" required autocomplete="off" aria-describedby="email-check-hint email-check-status">
+      <div class="eh-email-gate__controls">
+        <button class="eh-btn" type="submit">Reveal email</button>
+        <button class="eh-link" type="button" data-email-refresh>New question</button>
+      </div>
+    </form>
+    <p id="email-check-status" role="status" aria-live="polite"></p>
+    <a class="eh-link eh-email-gate__result" data-email-result hidden></a>
+    <noscript><p>Enable JavaScript to reveal my email, or <a href="https://www.linkedin.com/in/mehrdadzaker">contact me on LinkedIn</a>.</p></noscript>
   </section>
 
   <div class="eh-card-grid">
@@ -51,7 +68,7 @@ suppress_default_h1: true
       The goal of the first exchange is to determine fit quickly and keep the conversation technically grounded. Expect a concise response oriented around scope, next steps, or the fastest way to get useful signal on the problem.
     </p>
     <p>
-      Email <a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a> when you are ready.
+      Email <a href="{{ '/contact/#email' | relative_url }}">Mehrdad</a> when you are ready.
     </p>
   </section>
 </section>

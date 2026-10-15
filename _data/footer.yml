@@ -46,7 +46,7 @@ cta_cards:
 
 social_links:
   - label: "Email"
-    url: "mailto:mehrdadz@neuralint.io"
+    url: "/contact/#email"
     icon_key: "email"
   - label: "LinkedIn"
     url: "https://www.linkedin.com/in/mehrdadzaker"

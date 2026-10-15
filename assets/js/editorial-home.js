@@ -147,12 +147,20 @@
   var visual = new Float32Array(0);
   var activeCells = new Uint32Array(0);
   var cellColors = [
-    "hsl(184, 86%, 61%)",
-    "hsl(194, 86%, 62%)",
-    "hsl(205, 86%, 63%)",
-    "hsl(216, 86%, 64%)",
-    "hsl(227, 86%, 65%)",
-    "hsl(238, 86%, 66%)",
+    "#456859",
+    "#71816b",
+    "#9b9b7a",
+    "#bead89",
+    "#ddd2b1",
+    "#f8f2de",
+  ];
+  var lightCellColors = [
+    "#8a977f",
+    "#71866f",
+    "#56765f",
+    "#456859",
+    "#2c5040",
+    "#143930",
   ];
   var running = !reduced;
   var drawing = false;
@@ -422,10 +430,12 @@
   }
 
   function drawLife(delta) {
+    var lightTheme = document.documentElement.getAttribute("data-theme") === "light";
+    var palette = lightTheme ? lightCellColors : cellColors;
     var width = lifeCanvas.clientWidth;
     var height = lifeCanvas.clientHeight;
     ctx.clearRect(0, 0, width, height);
-    ctx.fillStyle = "rgba(7, 11, 16, 0.18)";
+    ctx.fillStyle = lightTheme ? "rgba(20, 57, 48, 0.025)" : "rgba(20, 57, 48, 0.08)";
     ctx.fillRect(0, 0, width, height);
 
     var visualEase = 1 - Math.pow(0.001, delta / 240);
@@ -436,10 +446,9 @@
     var activeCount = 0;
 
     ctx.save();
-    ctx.globalCompositeOperation = "lighter";
-    ctx.shadowColor = "rgba(75, 220, 245, 0.62)";
-    ctx.shadowBlur = cell > 10 ? 14 : 11;
-    ctx.fillStyle = "rgb(96, 225, 245)";
+    ctx.globalCompositeOperation = "source-over";
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = lightTheme ? "#456859" : "#bead89";
     for (var y = 0; y < rows; y++) {
       for (var x = 0; x < cols; x++) {
         var i = idx(x, y);
@@ -477,10 +486,10 @@
       var visibleSize = (cell - gap) * (0.72 + visiblePresence * 0.28);
       var visibleInset = (cell - gap - visibleSize) / 2;
       var colorIndex = Math.min(
-        cellColors.length - 1,
+        palette.length - 1,
         Math.floor(Math.min(age[ii], 24) / 4)
       );
-      ctx.fillStyle = cellColors[colorIndex];
+      ctx.fillStyle = palette[colorIndex];
       ctx.globalAlpha = Math.min(0.92, visiblePresence * 0.74);
       ctx.fillRect(
         visiblePx + visibleInset,
@@ -493,7 +502,7 @@
 
     if (keyboardActive) {
       ctx.save();
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.92)";
+      ctx.strokeStyle = lightTheme ? "#143930" : "#f8f2de";
       ctx.lineWidth = 2;
       ctx.strokeRect(
         keyboardX * cell + 1,
@@ -547,6 +556,9 @@
     pageVisible = !document.hidden;
     syncAnimation();
   });
+
+  var themeToggle = document.getElementById("eh-theme-toggle");
+  if (themeToggle) themeToggle.addEventListener("click", requestRender);
 
   lifeCanvas.addEventListener("pointerdown", function (event) {
     touchPointer = event.pointerType === "touch";

@@ -9,7 +9,7 @@ classes: wide
 Trailhead turns focused work into a simulated national-park hike and keeps the
 active journey visible in the app and as a Lock Screen Live Activity.
 
-For help, email [{{ site.contact_email }}](mailto:{{ site.contact_email }}).
+For help, email [Mehrdad]({{ '/contact/#email' | relative_url }}).
 Include the Trailhead version, iOS version, iPhone model, and a brief description
 of what happened. Do not include passwords or sensitive task text.
 

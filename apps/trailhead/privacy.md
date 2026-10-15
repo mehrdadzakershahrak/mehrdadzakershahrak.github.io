@@ -66,5 +66,5 @@ is released.
 ## Contact
 
 For privacy questions, email
-[{{ site.contact_email }}](mailto:{{ site.contact_email }}) or visit
+[Mehrdad]({{ '/contact/#email' | relative_url }}) or visit
 [Trailhead Support]({{ '/apps/trailhead/support/' | relative_url }}).

@@ -67,4 +67,4 @@ The stack depends on the environment. A project may use RAG tools, vector databa
 The important choice is not the trendiest tool. It is the smallest reliable architecture that gives the team control.
 
 ## Contact
-If you already have a use case in motion, reach out through [Contact]({{ '/contact/' | relative_url }}) or email <a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a>.
+If you already have a use case in motion, reach out through [Contact]({{ '/contact/' | relative_url }}) or email <a href="{{ '/contact/#email' | relative_url }}">Mehrdad</a>.

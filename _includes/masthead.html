@@ -26,9 +26,12 @@
           <li class="eh-masthead__item">
             <a class="eh-masthead__link{% if is_active %} is-active{% endif %}"
                href="{{ item.url | relative_url }}"
+               aria-keyshortcuts="{{ item.shortcut | downcase }}"
+               data-nav-shortcut="{{ item.shortcut | downcase }}"
                data-analytics="nav_click"
                data-analytics-label="{{ item.key | default: item.title | downcase | replace: ' ', '_' }}">
               {{ item.title }}
+              <kbd aria-hidden="true" data-theme-decoration>{{ item.shortcut }}</kbd>
             </a>
           </li>
         {%- endif -%}

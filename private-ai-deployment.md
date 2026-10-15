@@ -73,4 +73,4 @@ See [secure enterprise RAG architecture]({{ '/resources/secure-enterprise-rag-ar
 
 ## Contact
 
-Use [Contact]({{ '/contact/' | relative_url }}) for project details, or email <a href="mailto:{{ site.contact_email }}">{{ site.contact_email }}</a>.
+Use [Contact]({{ '/contact/' | relative_url }}) for project details, or email <a href="{{ '/contact/#email' | relative_url }}">Mehrdad</a>.

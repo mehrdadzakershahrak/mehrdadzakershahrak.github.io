@@ -4,20 +4,25 @@
 main:
   - title: "Work"
     key: work
+    shortcut: W
     url: /work/
 
   - title: "Research"
     key: research
+    shortcut: R
     url: /research/
 
   - title: "Writing"
     key: writing
+    shortcut: T
     url: /newsletter/
 
   - title: "About"
     key: about
+    shortcut: A
     url: /about/
 
   - title: "Contact"
     key: contact
+    shortcut: C
     url: /contact/

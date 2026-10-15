@@ -34,12 +34,12 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Mehrdad Zaker", level: 1 })).toBeVisible();
   await expect(page.getByText("AI engineer, researcher, and founder building private AI and reliable agent systems from research through production.")).toBeVisible();
   await expect(page.getByText("My work spans private and agentic AI, production ML, reinforcement learning, human–AI interaction, and robotics.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Email Mehrdad" })).toHaveAttribute("href", /mailto:/);
+  await expect(page.getByRole("link", { name: "Email Mehrdad" })).toHaveAttribute("href", "/contact/#email");
   await expect(page.getByRole("img", { name: "Mehrdad Zaker" })).toHaveAttribute("src", "/assets/images/mehrdad-zaker-headshot.jpeg");
   await expect(page.getByRole("link", { name: "Neural Intelligence Labs", exact: true })).toHaveAttribute("href", "https://neuralint.io");
 
-  const navItems = await page.locator(".eh-masthead__nav a").allTextContents();
-  expect(navItems.map((item) => item.trim())).toEqual(["Work", "Research", "Writing", "About", "Contact"]);
+  const navItems = await page.getByRole("navigation", { name: "Primary", exact: true }).getByRole("link").all();
+  for (const [i, name] of ["Work", "Research", "Writing", "About", "Contact"].entries()) await expect(navItems[i]).toHaveAccessibleName(name);
 
   await expect(page.locator(".eh-nav")).toHaveCount(0);
   await expect(page.locator(".eh-proof-strip")).toHaveCount(0);
@@ -49,7 +49,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.locator(".eh-exec-meta")).toContainText("15+ years");
   await expect(page.locator(".eh-exec-meta")).toContainText("Founder / Member of Technical Staff");
   await expect(page.locator(".eh-exec-meta")).toContainText("Ph.D. CS · 350+ citations");
-  await expect(page.locator(".eh-exec-meta")).toContainText("U.S. Patent 12,640,000");
+  await expect(page.locator(".eh-exec-meta")).toContainText("Robotics and invention");
 
   const life = page.locator("#life");
   await expect(life.getByRole("heading", { name: "Game of Life" })).toBeVisible();
@@ -67,15 +67,14 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await about.locator("summary").click();
   await expect(about).toHaveAttribute("open", "");
   await expect(page.getByText("Founder / Member of Technical Staff, Neural Intelligence Labs")).toBeVisible();
-  await expect(page.getByRole("link", { name: "Granted U.S. robotics patent" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Springer handbook chapter" })).toBeVisible();
 
   const workTitles = await page.locator("#work .eh-exec-row__title").allTextContents();
   expect(workTitles.map((title) => title.trim())).toEqual([
     "Neural Intelligence Labs",
-    "Production ML at Grainger",
+    "Enterprise search and recommendations",
     "Human–AI and robot teaming research",
-    "Robotic vending machine system",
+    "Autonomous robotic retrieval",
   ]);
 
   const workKinds = await page.locator("#work .eh-exec-row > em").allTextContents();
@@ -83,7 +82,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
     "2025–Present · Founder / Member of Technical Staff",
     "2021–2024 · Staff Applied ML Scientist",
     "2016–2021 · Ph.D. research · Arizona State University",
-    "Granted 2026 · U.S. Patent No. 12,640,000 · Co-inventor",
+    "Robotics · Co-inventor",
   ]);
 
   await expect(page.locator("#work .eh-work-mark")).toHaveCount(4);
@@ -92,9 +91,9 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   const workLinks = await page.locator("#work .eh-exec-row").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   expect(workLinks).toEqual([
     "/work/#neural-intelligence-labs",
-    "/work/#production-ml-at-grainger",
+    "/work/#enterprise-search-and-recommendations",
     "/work/#human-ai-and-robot-teaming-research",
-    "/work/#robotic-vending-machine-system",
+    "/work/#autonomous-robotic-retrieval",
   ]);
   await expect(page.locator(".eh-exec-row").filter({ hasText: "The Practical Guide to Running Local LLMs" })).toBeVisible();
 
@@ -124,16 +123,16 @@ test("work page renders four CV-grounded work records", async ({ page }) => {
   const briefTitles = await page.locator(".eh-work-brief h3").allTextContents();
   expect(briefTitles.map((title) => title.trim())).toEqual([
     "Neural Intelligence Labs",
-    "Production ML at Grainger",
+    "Enterprise search and recommendations",
     "Human–AI and robot teaming research",
-    "Robotic vending machine system",
+    "Autonomous robotic retrieval",
   ]);
 
   await expect(page.getByText("Defined the architecture for IDX, a private-AI control plane for source-grounded document workflows.")).toBeVisible();
   await expect(page.getByText("Shaped and delivered production ML systems for search, ranking, and recommendations.")).toBeVisible();
   await expect(page.getByText("Peer-reviewed explanation and human-robot teaming research published at IROS and ICRA.")).toBeVisible();
-  await expect(page.getByText("Co-inventor on the granted robotic vending machine system patent.")).toBeVisible();
-  await expect(page.getByRole("link", { name: "USPTO patent record" })).toHaveAttribute("href", /US12640000/);
+  await expect(page.getByText("Co-inventor of autonomous robotic retrieval and delivery systems.")).toBeVisible();
+  await expect(page.getByRole("link", { name: "USPTO patent record" })).toHaveCount(0);
 
   const body = page.locator("body");
   await expect(body).not.toContainText("Financial services");
@@ -190,9 +189,9 @@ test("about page presents the current identity and rejects legacy claims", async
   const body = page.locator("body");
   await expect(body).toContainText("Mehrdad Zakershahrak, also known as Mehrdad Zaker");
   await expect(body).toContainText("Founder / Member of Technical Staff");
-  await expect(body).toContainText("Staff Applied ML Scientist at Grainger");
+  await expect(body).toContainText("Staff Applied ML Scientist");
   await expect(body).toContainText("RoboCup Humanoid KidSize league");
-  await expect(body).toContainText("U.S. Patent No. 12,640,000");
+  await expect(body).toContainText("autonomous robotic retrieval and delivery systems");
   await expect(body).toContainText("Human–AI Interaction in LLM");
   await expect(body).not.toContainText("Pahlavi University");
   await expect(body).not.toContainText("patent application");

@@ -18,15 +18,13 @@
   stack: ["Private AI", "Agentic systems", "Evaluation", "Governance"]
 
 - year: "2021–2024"
-  title: "Production ML at Grainger"
+  title: "Enterprise search and recommendations"
   mark: "ranking-ladder"
   kind: "Staff Applied ML Scientist"
   brief: >
-    Production machine-learning work across search, ranking, recommendations,
-    loss prevention, 3D vision, inventory control, and robotic automation.
-  url: /work/#production-ml-at-grainger
-  source_url: "https://www.grainger.com/"
-  source_label: "Grainger"
+    Production machine-learning work across search, ranking, recommendations, loss prevention, 3D vision,
+    inventory control, and robotic automation.
+  url: /work/#enterprise-search-and-recommendations
   evidence:
     - "Shaped and delivered production ML systems for search, ranking, and recommendations."
     - "Developed a theft-detection model projected to reduce losses by millions of dollars."
@@ -50,19 +48,14 @@
     - "Web-based multi-agent planning and progressive explanation generation."
   stack: ["Reinforcement learning", "Explainability", "Robotics", "Planning"]
 
-- year: "Granted 2026"
-  title: "Robotic vending machine system"
+- year: "Robotics"
+  title: "Autonomous robotic retrieval"
   mark: "control-loop"
-  kind: "U.S. Patent No. 12,640,000 · Co-inventor"
+  kind: "Co-inventor"
   brief: >
-    A robotic vending system for autonomous product retrieval and delivery,
-    developed during my work at Grainger and granted as a U.S. patent on
-    May 26, 2026.
-  url: /work/#robotic-vending-machine-system
-  source_url: "https://patentsgazette.uspto.gov/week21/OG/html/1546-4/US12640000-20260526.html"
-  source_label: "USPTO patent record"
+    A robotic system for autonomous product retrieval and delivery.
+  url: /work/#autonomous-robotic-retrieval
   evidence:
-    - "Co-inventor on the granted robotic vending machine system patent."
+    - "Co-inventor of autonomous robotic retrieval and delivery systems."
     - "The system combines storage, autonomous retrieval, and product delivery."
-    - "Patent assigned to W.W. Grainger, Inc."
   stack: ["Robotics", "Automation", "Retrieval", "Systems engineering"]

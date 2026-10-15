@@ -25,12 +25,12 @@ suppress_default_h1: true
 
     <div class="eh-work-briefs__list">
       {%- for item in work_items -%}
-        <article class="eh-work-brief" id="{{ item.title | slugify }}">
+        <article class="eh-work-brief" id="{{ item.title | slugify }}" aria-labelledby="{{ item.title | slugify }}-title">
           <div class="eh-work-brief__head">
             {% include work_mark.html mark=item.mark %}
             <div>
               <p class="eh-eyebrow">{{ item.year }} · {{ item.kind }}</p>
-              <h3>{{ item.title }}</h3>
+              <h3 id="{{ item.title | slugify }}-title">{{ item.title }}</h3>
             </div>
           </div>
 
@@ -55,7 +55,7 @@ suppress_default_h1: true
   <section class="eh-work-contact" aria-label="Contact">
     <p>
       For a concrete AI systems constraint, email
-      <a href="mailto:{{ site.contact_email }}" data-analytics="cta_contact_click" data-analytics-source="work">{{ site.contact_email }}</a>.
+      <a href="{{ '/contact/#email' | relative_url }}" data-analytics="cta_contact_click" data-analytics-source="work">Mehrdad</a>.
     </p>
   </section>
 </section>

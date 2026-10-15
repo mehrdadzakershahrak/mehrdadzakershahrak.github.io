@@ -1,0 +1,399 @@
+/* Hailey Park manuscript treatment for the existing document routes.
+   Content, imagery, route structure and interaction hooks stay in place. */
+.eh-body #main.eh-document {
+  max-width: none;
+  margin: 0;
+  padding: 51px var(--hp-gutter) 64px;
+}
+
+.eh-body .eh-document {
+  font-family: var(--hp-editorial);
+  font-size: 21px;
+  font-weight: 300;
+  line-height: 1.6;
+
+  :is(h1, h2, h3, h4, h5, h6, p, li, summary, button, input, textarea, select) {
+    font-family: var(--hp-editorial);
+    font-weight: 300;
+  }
+
+  :is(p, li) {
+    color: var(--eh-ink);
+    font-size: 21px;
+    line-height: 1.6;
+  }
+
+  :is(strong, b) {
+    font-weight: 300;
+  }
+
+  :is(h1, h2, h3, h4, h5, h6) {
+    color: var(--eh-ink);
+    letter-spacing: 0.005em;
+    line-height: 1.2;
+  }
+
+  :is(h1, h2) { font-size: 32px; }
+  :is(h3, h4) { font-size: 27px; }
+  :is(h5, h6) { font-size: 21px; }
+
+  .eh-title {
+    max-width: 850px;
+    font-family: var(--hp-editorial);
+    font-size: 32px;
+    font-weight: 300;
+    line-height: 1.1;
+  }
+
+  :is(.eh-showcase__hero, .eh-research__hero, .eh-engineering-intro) h1 {
+    max-width: none;
+    margin: 32px auto;
+    font: 400 96px/1.04 var(--hp-display);
+    letter-spacing: -0.01em;
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  :is(.eh-showcase__hero, .eh-research__hero) { grid-template-columns: 1fr; }
+  :is(.eh-showcase__copy, .eh-research__hero > div) { max-width: none; }
+  .eh-engineering-intro { max-width: none; }
+  .eh-engineering-intro > p:last-child {
+    max-width: 70ch;
+    margin-inline: auto;
+    text-align: center;
+  }
+  :is(.eh-showcase__hero, .eh-research__hero, .eh-engineering-intro) :is(.eh-eyebrow, .eh-dek, .eh-action-row) {
+    text-align: center;
+    justify-content: center;
+    margin-inline: auto;
+  }
+
+  :is(.eh-dek, .eh-summary) {
+    color: var(--eh-ink);
+    font-size: 21px;
+    line-height: 1.6;
+  }
+
+  .eh-prose {
+    max-width: none;
+    font-family: var(--hp-editorial);
+    font-size: 21px;
+    line-height: 1.6;
+  }
+
+  .eh-article-header { max-width: none; }
+  .eh-reading-layout { grid-template-columns: minmax(0, 1fr) 260px; gap: 26px; }
+
+  :is(.eh-showcase, .eh-resource-hub, .eh-contact-page, .eh-research, .eh-about) {
+    gap: 51px;
+  }
+
+  /* Major divisions carry a thin line with crosshair terminals. */
+  :is(.eh-article-header, .eh-showcase__hero, .eh-research__hero, .eh-engineering-intro) {
+    position: relative;
+    border-bottom: 1px solid var(--eh-rule-strong);
+    padding-bottom: 51px;
+  }
+
+  .eh-article-header { margin-bottom: 51px; }
+
+  :is(.eh-article-header, .eh-showcase__hero, .eh-research__hero, .eh-engineering-intro)::before,
+  :is(.eh-article-header, .eh-showcase__hero, .eh-research__hero, .eh-engineering-intro)::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    width: 11px;
+    height: 11px;
+    background: var(--hp-cross) center / contain no-repeat;
+    pointer-events: none;
+  }
+
+  :is(.eh-article-header, .eh-showcase__hero, .eh-research__hero, .eh-engineering-intro)::before { left: -5px; }
+  :is(.eh-article-header, .eh-showcase__hero, .eh-research__hero, .eh-engineering-intro)::after { right: -5px; }
+
+  /* Text entries sit on the canvas without card elevation or colored fills. */
+  :is(.eh-side-panel, .eh-panel, .eh-card, .eh-guide-card, .eh-metric-card,
+      .eh-next-card, .eh-status-panel, .eh-research-profile,
+      .eh-about__panel, .eh-demo-card, .eh-project-card, .eh-podcast-card,
+      .eh-search-panel, .eh-proof-metric, .eh-proof-shot, .eh-trust-flow article,
+      .eh-faq-list details) {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  :is(.eh-card, .eh-panel, .eh-guide-card, .eh-metric-card, .eh-side-panel,
+      .eh-research-profile, .eh-next-card, .eh-about__panel, .eh-project-card,
+      .eh-podcast-card, .eh-search-panel) {
+    padding: 0;
+  }
+
+  :is(.eh-card-grid, .eh-guide-grid, .eh-metric-grid, .eh-demo-grid,
+      .eh-project-grid, .eh-podcast-stack, .eh-proof-grid, .eh-proof-metrics,
+      .eh-trust-flow) {
+    gap: 51px 26px;
+  }
+
+  .eh-research-profile::before { display: none; }
+
+  .eh-work-brief__head { grid-template-columns: minmax(0, 1fr); }
+  .eh-work-brief > p,
+  .eh-work-brief ul { margin-left: 0; }
+
+  :is(.eh-eyebrow, .eh-meta, .eh-chip, .eh-guide-card__top,
+      .eh-research-profile__label, .eh-research-story__meta,
+      .eh-research-story__papers-label, .eh-paper-meta, .eh-paper-tag,
+      .eh-podcast-entry__date-badge, .eh-search-panel__label,
+      .eh-search-results__count, .eh-material-placeholder span,
+      .eh-about__hero-kicker, .eh-about__gallery-kicker,
+      .eh-background-list span, .eh-mini-index) {
+    color: var(--eh-ink-mute);
+    font-family: var(--hp-editorial);
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.005em;
+    line-height: 1.5;
+  }
+
+  :is(.eh-chip, .eh-paper-tag) {
+    min-height: 0;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+  }
+
+  :is(.eh-paper-tag--venue, .eh-paper-tag--year) {
+    border: 0;
+    background: transparent;
+  }
+
+  :is(.eh-research-profile__stats span, .eh-research-profile__venues,
+      .eh-proof-shot figcaption span, .eh-engineering-photos figcaption,
+      .eh-metric-card span,
+      .eh-problem-strip a span, .eh-step__index, .eh-proof-metric span,
+      .eh-trust-flow article > span) {
+    color: var(--eh-ink-mute);
+    font-family: var(--hp-editorial);
+    font-size: 15px;
+    font-weight: 300;
+  }
+
+  .eh-chip-row { gap: 11px; }
+
+  /* References retain their underlines as the primary link affordance. */
+  a {
+    color: var(--eh-ink);
+    text-decoration-color: var(--eh-ink);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.12em;
+  }
+
+  a:hover {
+    color: var(--eh-ink);
+    text-decoration-color: var(--eh-ink);
+    text-decoration-thickness: 2px;
+  }
+
+  a.eh-btn,
+  a.eh-btn:hover {
+    background: transparent;
+    color: var(--eh-ink);
+    border-color: var(--eh-ink);
+    text-decoration: none;
+  }
+
+  :is(.eh-work-contact a, .eh-research-profile__link, .eh-research__thread a) {
+    border-bottom-color: var(--eh-ink);
+    font-family: var(--hp-editorial);
+    font-size: 19px;
+  }
+
+  :is(.eh-work-contact a, .eh-research-profile__link, .eh-research__thread a):hover {
+    border-bottom-color: var(--eh-ink);
+    border-bottom-width: 2px;
+  }
+
+  .eh-research-story { --research-accent: var(--eh-ink-mute); }
+
+  .eh-research-story__papers a,
+  .eh-research-story__papers a:hover {
+    border-color: var(--eh-rule);
+    border-radius: 0;
+    background: transparent;
+    font-family: var(--hp-editorial);
+    font-size: 19px;
+    font-weight: 300;
+  }
+
+  .eh-paper-meta__arrow { color: var(--eh-ink-mute); }
+
+  .eh-research-story__papers a > span {
+    font: 300 21px/1.44 var(--hp-editorial);
+    letter-spacing: 0.004em;
+  }
+
+  :is(.eh-research-story__media, .eh-material-media, .eh-material-placeholder,
+      .eh-podcast-card__media, .eh-podcast-entry__media, .eh-demo-card__image,
+      .eh-search-result__teaser,
+      .eh-about__hero-card, .eh-about__gallery-card) {
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .eh-research-story__media::after { display: none; }
+
+  .eh-research-story__media img { filter: none; }
+  .eh-visual-documents i { background: transparent; }
+
+  .eh-material-placeholder {
+    border-color: var(--eh-rule);
+    background-image: none;
+  }
+
+  .eh-about__hero-overlay {
+    color: var(--eh-ink);
+    background-color: var(--eh-paper);
+    background-image: none;
+    border-top: 1px solid var(--eh-rule);
+  }
+
+  .eh-about__hero-title {
+    color: var(--eh-ink);
+    font-weight: 300;
+  }
+
+  .eh-engineering-photos img { border-radius: 0; }
+
+  .eh-demo-card__play {
+    border: 1px solid var(--eh-ink);
+    border-radius: 4.8px;
+    background: var(--eh-paper);
+    color: var(--eh-ink);
+  }
+
+  :is(.eh-demo-card__copy, .eh-project-card) { padding: 18px 0; }
+
+  :is(.eh-product-bar__mark, .eh-visual-node, .eh-visual-gate) {
+    border: 1px solid var(--eh-rule-strong);
+    border-radius: 4.8px;
+    background: transparent;
+    color: var(--eh-ink);
+    font-weight: 300;
+  }
+
+  .eh-tabs__tablist {
+    border-radius: 4.8px;
+    background: transparent;
+  }
+
+  .eh-tabs__tab {
+    border: 1px solid transparent;
+    border-radius: 4.8px;
+    color: var(--eh-ink);
+    font-size: 19px;
+  }
+
+  .eh-tabs__tab.is-active {
+    border-color: var(--eh-ink);
+    background: transparent;
+    color: var(--eh-ink);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+  }
+
+  :is(.eh-problem-strip a, .eh-link-cloud a) {
+    border-color: var(--eh-rule-strong);
+    border-radius: 4.8px;
+    background: transparent;
+    font-family: var(--hp-editorial);
+    font-size: 19px;
+  }
+
+  :is(.eh-toc, .eh-toc-mobile) {
+    border-color: var(--eh-rule);
+    border-radius: 0;
+    background: transparent;
+  }
+
+  :is(.eh-toc__title, .eh-toc-mobile summary) {
+    font-family: var(--hp-editorial);
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  .eh-toc a {
+    color: var(--eh-ink-mute);
+    font-family: var(--hp-editorial);
+    font-size: 17px;
+  }
+
+  :is(.eh-prose pre, .eh-content pre, .eh-prose code, .eh-content code) {
+    border-color: var(--eh-rule);
+    border-radius: 4.8px;
+    background: transparent;
+    color: var(--eh-ink);
+  }
+
+  :is(div.highlighter-rouge, figure.highlight, .highlight) {
+    background: transparent;
+    color: var(--eh-ink);
+    box-shadow: none;
+    border-radius: 4.8px;
+  }
+
+  .highlight span { color: var(--eh-ink); }
+  .highlight :is(.c, .c1, .cm, .cp, .cs, .s, .s1, .s2, .sb, .sc, .sd, .se, .sh, .si, .sr, .ss) { color: var(--eh-ink-mute); }
+
+  :is(.eh-prose thead, .eh-content thead, .eh-prose th, .eh-content th) {
+    background: transparent;
+  }
+
+  :is(.eh-prose th, .eh-content th, .eh-prose td, .eh-content td) {
+    color: var(--eh-ink);
+    font-weight: 300;
+  }
+
+  .eh-search-panel__input {
+    border-color: var(--eh-ink);
+    border-radius: 4.8px;
+    background: transparent;
+    color: var(--eh-ink);
+    font-family: var(--hp-editorial);
+    font-size: 20px;
+    font-weight: 300;
+  }
+
+  :is(a, button, input, textarea, select, summary):focus-visible {
+    outline: 2px solid var(--eh-ink);
+    outline-offset: 4px;
+  }
+}
+
+@media (max-width: 759px) {
+  .eh-body .eh-document :is(.eh-showcase__hero, .eh-research__hero, .eh-engineering-intro) h1 {
+    font-size: clamp(44px, 14.4vw, 68px);
+    line-height: 1.1;
+    overflow-wrap: normal;
+  }
+}
+
+@media (max-width: 759px) {
+  .eh-body .eh-document {
+    :is(p, li, .eh-prose) { font-size: 19px; }
+    .eh-title { font-size: 32px; }
+    :is(.eh-dek, .eh-summary) { font-size: 20px; }
+    :is(.eh-card-grid, .eh-guide-grid, .eh-metric-grid, .eh-demo-grid,
+        .eh-project-grid, .eh-podcast-stack, .eh-proof-grid, .eh-proof-metrics,
+        .eh-trust-flow) { gap: 32px 26px; }
+    .eh-work-brief > p,
+    .eh-work-brief ul { margin-left: 0; }
+    .eh-research-story h2 { font-size: 27px; }
+  }
+}
+
+@media (max-width: 1099px) {
+  .eh-body .eh-document .eh-reading-layout { grid-template-columns: minmax(0, 1fr); }
+}
