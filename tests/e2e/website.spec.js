@@ -35,7 +35,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.getByText("AI engineer, researcher, and founder building private AI and reliable agent systems from research through production.")).toBeVisible();
   await expect(page.getByText("My work spans private and agentic AI, production ML, reinforcement learning, human–AI interaction, and robotics.")).toBeVisible();
   await expect(page.getByRole("link", { name: "Email Mehrdad" })).toHaveAttribute("href", "/contact/#email");
-  await expect(page.getByRole("img", { name: "Mehrdad Zaker" })).toHaveAttribute("src", "/assets/images/mehrdad-zaker-headshot.jpeg");
+  await expect(page.getByRole("img", { name: "Mehrdad Zaker" })).toHaveAttribute("src", "/assets/images/mehrdad-zaker-three-quarter-transparent.webp");
   await expect(page.getByRole("link", { name: "Neural Intelligence Labs", exact: true })).toHaveAttribute("href", "https://neuralint.io");
 
   const navItems = await page.getByRole("navigation", { name: "Primary", exact: true }).getByRole("link").all();
