@@ -52,76 +52,68 @@ test("navigation shortcuts work without interrupting the interactive canvas", as
   await expect(page).toHaveURL(/\/newsletter\/$/);
 });
 
-test("the homepage presents a centered nameplate with italic side notes and the work index first", async ({ page }) => {
+test("the homepage introduces Mehrdad with a readable portrait and a direct contact path", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto("/");
   await page.evaluate(() => document.fonts.ready);
   const name = page.getByRole("heading", { name: "Mehrdad Zaker", exact: true, level: 1 });
-  const introduction = page.getByText("AI engineer, researcher, and founder building private AI and reliable agent systems from research through production.", { exact: true });
-  const scope = page.getByText("My work spans private and agentic AI, production ML, reinforcement learning, human–AI interaction, and robotics.", { exact: true });
-  await expect(introduction).toHaveCSS("font-style", "italic");
-  await expect(scope).toHaveCSS("font-style", "italic");
-  const boxes = await Promise.all([name, introduction, scope].map((element) => element.boundingBox()));
-  const center = boxes[0].y + boxes[0].height / 2;
-  expect(boxes[1].x + boxes[1].width).toBeLessThan(boxes[0].x);
-  expect(boxes[2].x).toBeGreaterThan(boxes[0].x + boxes[0].width);
-  for (const box of boxes.slice(1)) expect(Math.abs(box.y + box.height / 2 - center)).toBeLessThan(1);
-  const work = await page.getByRole("heading", { name: "Selected work", exact: true }).boundingBox();
-  const life = await page.getByRole("heading", { name: "Game of Life", exact: true }).boundingBox();
-  expect(work.y).toBeLessThan(500);
-  expect(work.y).toBeLessThan(life.y);
+  const introduction = page.getByText("AI engineer, researcher, and founder building document tools and coding agents.", { exact: true });
+  const portrait = page.getByRole("img", { name: "Mehrdad Zaker", exact: true });
+  await expect(introduction).toHaveCSS("font-style", "normal");
+  const [nameBox, introBox, portraitBox, actionBox] = await Promise.all([
+    name.boundingBox(), introduction.boundingBox(), portrait.boundingBox(),
+    page.getByRole("link", { name: "Email Mehrdad", exact: true }).boundingBox(),
+  ]);
+  expect(Math.abs(nameBox.x - introBox.x)).toBeLessThan(1);
+  expect(portraitBox.x).toBeGreaterThan(nameBox.x + nameBox.width);
+  expect(actionBox.y + actionBox.height).toBeLessThan(800);
+  expect((await page.getByRole("heading", { name: "Selected work", exact: true }).boundingBox()).y).toBeLessThan(680);
 });
 
-test("the architectural work index uses the live reference title scale and generous drawing space", async ({ page }) => {
+test("featured project cards show real material and keep the career record available", async ({ page }) => {
   await page.goto("/");
-  await page.evaluate(() => document.fonts.ready);
   const work = page.getByRole("region", { name: "Selected work", exact: true });
-  const first = work.getByRole("link", { name: /^Neural Intelligence Labs/ });
-  const title = first.getByText("Neural Intelligence Labs", { exact: true });
-  const date = first.getByText("2025–Present · Founder / Member of Technical Staff", { exact: true });
-  // The live source is 32px here; Refero's exported 21px scale is normalized.
-  await expect(title).toHaveCSS("font-size", "32px");
-  await expect(date).toHaveCSS("font-size", "16px");
-  await expect(date).toHaveCSS("color", "rgb(190, 173, 137)");
-  const titleBox = await title.boundingBox();
-  const dateBox = await date.boundingBox();
-  expect(dateBox.y - titleBox.y - titleBox.height).toBeCloseTo(26, 1);
-  const second = await work.getByRole("link", { name: /^Enterprise search and recommendations/ }).boundingBox();
-  const firstBox = await first.boundingBox();
-  expect(second.x - firstBox.x - firstBox.width).toBeCloseTo(26, 1);
-  await expect(first).toHaveCSS("box-shadow", "none");
-  await expect(first).toHaveCSS("border-top-width", "0px");
-  expect((await work.boundingBox()).height).toBeGreaterThanOrEqual(600);
+  const projects = work.locator('[aria-label="Featured projects"] .mz-project-card');
+  await expect(projects).toHaveCount(3);
+  for (const project of await projects.all()) {
+    await expect(project.getByRole("heading", { level: 3 })).toBeVisible();
+    await expect(project).toHaveCSS("box-shadow", "none");
+    const image = project.locator("img");
+    await image.scrollIntoViewIfNeeded();
+    expect(await image.evaluate((img) => img.complete && img.naturalWidth > 0)).toBe(true);
+  }
+  await expect(work.getByRole("link", { name: /^Neural Intelligence Labs/ })).toBeVisible();
+  await expect(work.getByRole("link", { name: /^Enterprise search and recommendations/ })).toBeVisible();
 });
 
-test("major divider labels use the live reference's centered 27px italic treatment", async ({ page }) => {
+test("homepage section headings have a clear left alignment on desktop and mobile", async ({ page }) => {
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto("/");
-    await page.evaluate(() => document.fonts.ready);
-    for (const name of ["Game of Life", "Selected work", "Writing", "Contact"]) {
+    for (const name of ["Game of Life", "Selected work", "Writing"]) {
       const heading = page.getByRole("heading", { name, exact: true, level: 2 });
-      await expect(heading).toHaveCSS("font-size", "27.2px");
-      await expect(heading).toHaveCSS("font-style", "italic");
-      const box = await heading.boundingBox();
-      const center = await page.evaluate(() => document.documentElement.clientWidth / 2);
-      expect(Math.abs(box.x + box.width / 2 - center), `${name} at ${width}px`).toBeLessThanOrEqual(1);
+      await expect(heading).toHaveCSS("font-style", "normal");
+      const size = await heading.evaluate((element) => parseFloat(getComputedStyle(element).fontSize));
+      expect(size).toBeGreaterThanOrEqual(32);
+      expect(size).toBeLessThanOrEqual(44);
+      expect((await heading.boundingBox()).x).toBeLessThan(width / 3);
     }
   }
 });
 
-test("document pages use the viewport canvas with 26–51px interior gutters", async ({ page }) => {
-  for (const width of [1440, 390]) {
+test("document pages keep readable gutters and a capped canvas on wide screens", async ({ page }) => {
+  for (const width of [390, 1440, 1920]) {
     await page.setViewportSize({ width, height: 1000 });
     for (const path of ["/work/", "/research/", "/about/", "/resources/local-llm-practical-guide/"]) {
       await page.goto(path);
       const main = page.getByRole("main");
       const bounds = await main.boundingBox();
-      const viewport = await page.evaluate(() => document.documentElement.clientWidth);
-      expect(bounds.x, path).toBeCloseTo(0, 1);
-      expect(bounds.width, path).toBeCloseTo(viewport, 1);
+      expect(bounds.width, path).toBeLessThanOrEqual(1440);
+      expect(bounds.width, path).toBeLessThanOrEqual(width);
       const padding = await main.evaluate((element) => parseFloat(getComputedStyle(element).paddingLeft));
-      expect(padding, path).toBeGreaterThanOrEqual(26);
-      expect(padding, path).toBeLessThanOrEqual(51);
+      expect(padding, path).toBeGreaterThanOrEqual(24);
+      expect(padding, path).toBeLessThanOrEqual(56);
+      expect(Math.abs(bounds.x + bounds.width / 2 - width / 2), path).toBeLessThan(1);
     }
   }
 });
@@ -136,15 +128,17 @@ test("article typography uses the reference heading, long-form, and caption scal
   await expect(page.locator("time").first()).toHaveCSS("color", "rgb(190, 173, 137)");
 });
 
-test("the desktop name plate stays at the single 96px display size", async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 1000 });
-  await page.goto("/");
-  const name = page.getByRole("heading", { name: "Mehrdad Zaker", exact: true, level: 1 });
-  await expect(name).toHaveCSS("font-size", "96px");
-  await expect(name).toHaveCSS("line-height", "96px");
-  await expect(name).toHaveCSS("letter-spacing", "-0.96px");
-  const headings = page.getByRole("heading");
-  expect(await headings.evaluateAll((elements) => elements.filter((element) => getComputedStyle(element).fontSize === "96px").length)).toBe(1);
+test("the name keeps the original display face and fits at desktop and phone widths", async ({ page }) => {
+  for (const width of [375, 1280, 1920]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await page.goto("/");
+    const name = page.getByRole("heading", { name: "Mehrdad Zaker", exact: true, level: 1 });
+    await expect(name).toHaveCSS("font-family", /MZ Vellum Display/);
+    const box = await name.boundingBox();
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.x + box.width).toBeLessThanOrEqual(width);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
 });
 
 test("primary page introductions carry the manuscript display typography", async ({ page }) => {
@@ -172,39 +166,34 @@ test("work example headings remain readable after removing decorative marks", as
   }
 });
 
-test("mobile keeps the reference navigation and borderless project rhythm", async ({ page }) => {
+test("mobile keeps the framed navigation and stacks all entry cards without clipping", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await page.evaluate(() => document.fonts.ready);
   expect((await page.getByRole("banner").boundingBox()).height).toBe(66);
-  const work = page.getByRole("region", { name: "Selected work", exact: true });
-  const first = work.getByRole("link", { name: /^Neural Intelligence Labs/ });
-  const second = work.getByRole("link", { name: /^Enterprise search and recommendations/ });
-  const title = await first.getByText("Neural Intelligence Labs", { exact: true }).boundingBox();
-  const date = await first.getByText("2025–Present · Founder / Member of Technical Staff", { exact: true }).boundingBox();
-  expect(date.y - title.y - title.height).toBeCloseTo(26, 1);
-  const firstBox = await first.boundingBox();
-  const secondBox = await second.boundingBox();
-  expect(secondBox.y - firstBox.y - firstBox.height).toBeCloseTo(51, 1);
-  await expect(first).toHaveCSS("border-bottom-width", "0px");
+  const cards = page.locator(".mz-project-card");
+  const boxes = await cards.evaluateAll((elements) => elements.map((element) => {
+    const rect = element.getBoundingClientRect();
+    return { x: rect.x, right: rect.right, top: rect.top, bottom: rect.bottom };
+  }));
+  expect(boxes).toHaveLength(10);
+  for (const [index, box] of boxes.entries()) {
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.right).toBeLessThanOrEqual(390);
+    if (index) expect(box.top).toBeGreaterThan(boxes[index - 1].bottom);
+  }
   const action = page.getByRole("link", { name: "Email Mehrdad", exact: true });
-  await expect(action).toHaveCSS("padding-right", "18px");
+  await expect(action).toHaveAttribute("href", "/contact/#email");
+  expect((await action.boundingBox()).height).toBeGreaterThanOrEqual(44);
 });
 
-test("the source architectural illustrations sit behind the work and writing indices", async ({ page }) => {
+test("project information remains visible without ornamental backgrounds", async ({ page }) => {
   await page.goto("/");
-  const hero = page.getByRole("region", { name: "Mehrdad Zaker", exact: true });
-  expect(await hero.evaluate((element) => getComputedStyle(element, "::before").backgroundImage)).toBe("none");
-  const work = page.getByRole("region", { name: "Selected work", exact: true });
-  const decoration = await work.evaluate((element) => {
-    const architecture = getComputedStyle(element, "::before");
-    return { architecture: architecture.backgroundImage, opacity: architecture.opacity,
-      pointerEvents: architecture.pointerEvents };
-  });
-  expect(decoration.architecture).toMatch(/^url\(/);
-  expect(Number(decoration.opacity)).toBe(1);
-  expect(decoration.pointerEvents).toBe("none");
-  expect(await page.getByRole("region", { name: "Writing", exact: true }).evaluate((element) => getComputedStyle(element, "::before").backgroundImage)).toMatch(/ornamental-frame\.svg/);
+  for (const name of ["Selected work", "Writing"]) {
+    const region = page.getByRole("region", { name, exact: true });
+    expect(await region.evaluate((element) => getComputedStyle(element, "::before").content)).toBe("none");
+  }
+  await expect(page.getByRole("heading", { name: "Index (IDX)", exact: true })).toBeVisible();
+  await expect(page.getByText("Turn PDFs with different structures into JSON that an agent can use.", { exact: true })).toBeVisible();
 });
 
 test("the permitted full font families render without a third-party font service", async ({ page }) => {
@@ -243,15 +232,14 @@ test("structural hairlines and control outlines remain solid parchment", async (
   }
 });
 
-test("crosshair terminals align with the divider line rather than hanging below it", async ({ page }) => {
+test("new homepage dividers use a single hairline without repeated decorative labels", async ({ page }) => {
   await page.goto("/");
-  for (const name of ["Game of Life", "Selected work", "Writing", "Contact"]) {
-    const position = await page.getByRole("heading", { name, exact: true, level: 2 }).evaluate((heading) => {
-      let divider = heading.parentElement;
-      if (getComputedStyle(divider).display === "contents") divider = divider.parentElement;
-      return getComputedStyle(divider).backgroundPositionY;
-    });
-    expect(position, name).toBe("8px, 8px");
+  for (const name of ["Game of Life", "Selected work", "Writing"]) {
+    const heading = page.getByRole("heading", { name, exact: true, level: 2 });
+    const divider = page.getByRole("region", { name, exact: true }).locator(".eh-exec-section__head");
+    await expect(divider).toHaveCSS("border-bottom-width", "1px");
+    await expect(divider).toHaveCSS("border-bottom-style", "solid");
+    expect(await heading.evaluate((element) => getComputedStyle(element, "::before").content)).toBe("none");
   }
 });
 

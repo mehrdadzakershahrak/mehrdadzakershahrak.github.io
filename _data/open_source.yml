@@ -1,0 +1,35 @@
+- title: "RT-2-flash"
+  description: "A community implementation connecting vision, language, and robotic actions."
+  note: "Research implementation"
+  url: https://github.com/mehrdadzakershahrak/RT-2-flash
+  image: /assets/images/projects/rt-2-flash.png
+
+- title: "Weight-Agnostic Neural Network"
+  description: "Shared-weight networks and reinforcement learning experiments for CartPole."
+  note: "Unfinished experiment"
+  url: https://github.com/mehrdadzakershahrak/Weight-Agnostic-Neural-Network
+  image: /assets/images/projects/weight-agnostic-neural-network.png
+
+- title: "Semi-supervised GAN"
+  description: "Learning from labeled and unlabeled MNIST images with a generative adversarial network."
+  note: "Research implementation"
+  url: https://github.com/mehrdadzakershahrak/Semi-supervised-GAN
+  image: /assets/images/projects/semi-supervised-gan.png
+
+- title: "Order Matters"
+  description: "Learning an explanation order from human traces using inverse reinforcement learning."
+  note: "Research code"
+  url: https://github.com/mehrdadzakershahrak/Inverse_Reinforcement_Learning_on_Planning
+  image: /assets/images/research/human-robot-teaming.webp
+
+- title: "MindForge"
+  description: "Exploring a layered framework that divides tasks among specialized agents."
+  note: "Experimental framework"
+  url: https://github.com/mehrdadzakershahrak/MindForge-Framework
+  image: /assets/images/projects/mindforge-framework.png
+
+- title: "Model scaling behavior"
+  description: "A scaffold for comparing language-model training methods and scaling behavior."
+  note: "Exploratory scaffold"
+  url: https://github.com/mehrdadzakershahrak/model-scaling-behavior
+  image: /assets/images/projects/model-scaling-behavior.png

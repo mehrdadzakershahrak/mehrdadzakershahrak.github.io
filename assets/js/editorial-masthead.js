@@ -11,6 +11,14 @@
 (function () {
   "use strict";
 
+  // Keep native fragment navigation and focus instead of the theme's smooth-scroll handler.
+  var inPageLinks = document.querySelectorAll(".skip-links a[href^='#'], .mz-work-nav a[href^='#']");
+  for (var linkIndex = 0; linkIndex < inPageLinks.length; linkIndex++) {
+    inPageLinks[linkIndex].addEventListener("click", function (event) {
+      event.stopPropagation();
+    });
+  }
+
   // The letter keycaps are shortcuts, except while a visitor is using a control.
   var navigation = document.querySelector(".eh-masthead__nav");
   if (navigation) navigation.addEventListener("keydown", function (event) {

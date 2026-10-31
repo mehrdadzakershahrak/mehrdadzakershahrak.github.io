@@ -7,6 +7,7 @@ date: 2026-04-19
 last_modified_at: 2026-09-11
 author: "Mehrdad Zaker"
 content_type: "guide"
+card_image: /assets/images/research/interpretable-alignment.webp
 audience: "Teams setting launch gates for AI systems"
 pillar: "AI Reliability Evaluation"
 order: 4

@@ -98,8 +98,7 @@ suppress_default_h1: true
   "url": {{ page.url | absolute_url | jsonify }},
   "author": {
     "@type": "Person",
-    "name": "Mehrdad Zakershahrak",
-    "alternateName": "Mehrdad Zaker",
+    "name": "Mehrdad Zaker",
     "sameAs": [{{ scholar_url | jsonify }}]
   },
   "hasPart": [

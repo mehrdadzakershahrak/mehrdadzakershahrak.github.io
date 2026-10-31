@@ -15,9 +15,8 @@
   {%- endif -%}
 
   <header class="eh-engineering-intro">
-    <p class="eh-eyebrow">About me · An engineering life</p>
     <{{ about_heading_tag }} id="{{ about_title_id }}">It started with a robot.</{{ about_heading_tag }}>
-    <p>I’m Mehrdad Zakershahrak, also known as Mehrdad Zaker. For roughly twenty years, I’ve followed the same curiosity: how can an idea become something that works in the world?</p>
+    <p>I’m Mehrdad Zaker. For roughly twenty years, I’ve followed the same curiosity: how can an idea become something that works in the world?</p>
   </header>
 
   <div class="eh-engineering-photos" aria-label="Photographs from my early robotics years">
@@ -34,97 +33,79 @@
   <div class="eh-about__content">
     <div class="eh-engineering-story">
       <section aria-labelledby="story-start">
-        <p class="eh-eyebrow">Shiraz · Beginning in 2006</p>
         <h2 id="story-start">Teaching a robot to see and find its way</h2>
+        <p class="mz-story-context">Shiraz University, beginning in 2006</p>
         <p>At Shiraz University, I joined a team competing in the RoboCup Humanoid KidSize league. I built the robot’s vision and path-planning algorithms and implemented them on its onboard hardware. Seeing the code guide a physical machine made engineering feel immediate: every design choice had to work on the robot.</p>
         <p>After my bachelor’s in 2010, I started a business selling automatic openers for gates and garage doors. It was my first company, built around a practical use for automation.</p>
       </section>
 
       <section aria-labelledby="story-hardware">
-        <p class="eh-eyebrow">Graduate study · 2010–2016</p>
         <h2 id="story-hardware">From robot hardware to embedded learning</h2>
+        <p class="mz-story-context">Graduate study, 2010 to 2016</p>
         <p>That experience became a foundation for implementing machine learning models on FPGAs and embedded devices. After a master’s at K. N. Toosi University of Technology, I moved to the United States for a computer science master’s at the University of Nebraska–Lincoln. My work included ML and vision on FPGAs; my thesis focused on secure hardware authentication using physically unclonable functions.</p>
       </section>
 
       <section aria-labelledby="story-people">
-        <p class="eh-eyebrow">Arizona State University · 2016–2021</p>
         <h2 id="story-people">Bringing people into the system</h2>
+        <p class="mz-story-context">Arizona State University, 2016 to 2021</p>
         <p>My Ph.D. expanded that interest into human–AI interaction: how people understand, guide, and collaborate with intelligent systems. I developed methods for explaining AI plans progressively, with attention to the person receiving the explanation. Robotics provided one setting within that broader research, alongside work on planning and learning.</p>
         <p>I also built working prototypes for navigation, manipulation, and interaction. These two demos show that side of the work.</p>
         <div class="eh-demo-grid">
           <a class="eh-demo-card" href="https://www.youtube.com/watch?v=cCr1lNx5OU4">
             <div class="eh-demo-card__image">
               <img src="{{ '/assets/images/demo-search-rescue.jpg' | relative_url }}" alt="Search and rescue simulation demo" width="480" height="360" loading="lazy" decoding="async">
-              <span class="eh-demo-card__play" aria-hidden="true">▶</span>
+              <span class="eh-demo-card__play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
             </div>
             <div class="eh-demo-card__copy">
               <h3>Search and rescue</h3>
               <p>An interactive simulation I built to study human–robot interaction.</p>
-              <span class="eh-card-link">Watch demo on YouTube ↗</span>
+              <span class="eh-card-link">Watch demo on YouTube</span>
             </div>
           </a>
           <a class="eh-demo-card" href="https://www.youtube.com/watch?v=kF1w5hdzJ48">
             <div class="eh-demo-card__image">
               <img src="{{ '/assets/images/demo-ur5-ar.jpg' | relative_url }}" alt="UR5 robotic arm AR control demo" width="480" height="360" loading="lazy" decoding="async">
-              <span class="eh-demo-card__play" aria-hidden="true">▶</span>
+              <span class="eh-demo-card__play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
             </div>
             <div class="eh-demo-card__copy">
               <h3>UR5 AR control</h3>
               <p>A robot control prototype connecting an augmented reality interface to a physical arm.</p>
-              <span class="eh-card-link">Watch demo on YouTube ↗</span>
+              <span class="eh-card-link">Watch demo on YouTube</span>
             </div>
           </a>
         </div>
-        <p><a href="{{ '/research/' | relative_url }}">Explore the research and papers</a></p>
+        <p><a href="{{ '/research/' | relative_url }}">Research and papers</a></p>
       </section>
 
       <section aria-labelledby="story-industry">
-        <p class="eh-eyebrow">Production ML and robotics · 2021–2024</p>
         <h2 id="story-industry">Engineering for everyday use</h2>
+        <p class="mz-story-context">Production ML and robotics, 2021 to 2024</p>
         <p>As a Staff Applied ML Scientist, I built production search, ranking, and recommendation systems. I also explored 3D vision and robotic automation for distribution centers and co-invented a robotic vending system. The problems ranged from helping someone find a product to designing how a machine could retrieve it.</p>
       </section>
 
       <section aria-labelledby="story-now">
-        <p class="eh-eyebrow">Neural Intelligence Labs · 2025–Present</p>
         <h2 id="story-now">Building a company, still building things</h2>
+        <p class="mz-story-context">Neural Intelligence Labs, 2025 to present</p>
         <p>I founded <a href="https://neuralint.io">Neural Intelligence Labs</a> to bring research and product engineering together. As Founder / Member of Technical Staff, I work directly on tools that make AI useful in everyday workflows.</p>
         <div class="eh-project-grid">
           <article class="eh-project-card">
-            <div class="eh-project-visual eh-project-visual--gateway" aria-label="AI coding tools pass through access, budget, and privacy controls before reaching a model">
-              <span class="eh-visual-node">Codex · Claude Code</span>
-              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
-              <span class="eh-visual-gate">Access · Budget · Privacy</span>
-              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
-              <span class="eh-visual-node">AI models</span>
-            </div>
             <h3>Hormuz</h3>
-            <p>Give teams control over AI coding tools. I built a gateway for access policies, spending limits, and secret redaction.</p>
-            <a class="eh-card-link" href="https://usehormuz.github.io/">Explore Hormuz ↗</a>
+            <p>I built Hormuz, a gateway for access policies, spending limits, and secret redaction in AI coding tools such as Codex and Claude Code.</p>
+            <a class="eh-card-link" href="https://usehormuz.github.io/">Explore Hormuz</a>
           </article>
           <article class="eh-project-card">
-            <div class="eh-project-visual eh-project-visual--sources" aria-label="Documents connect an answer to its sources">
-              <span class="eh-visual-documents" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span class="eh-visual-node">Your documents</span>
-              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
-              <span class="eh-visual-gate">Answer + sources</span>
-            </div>
             <h3>IDX</h3>
-            <p>Work with private documents and trace answers to their sources. I designed the system architecture.</p>
+            <p>I designed the architecture for Index, connecting agent workflows to PDF parsing and structured JSON. Its document tools also connect answers to their sources.</p>
+            <a class="eh-card-link" href="{{ '/work/#index' | relative_url }}">Read about Index</a>
           </article>
           <article class="eh-project-card">
-            <div class="eh-project-visual eh-project-visual--support" aria-label="A technical issue enters an agent workflow that coordinates tools">
-              <span class="eh-visual-node">Technical issue</span>
-              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
-              <span class="eh-visual-gate">Agent workflow</span>
-              <span class="eh-visual-arrow" aria-hidden="true">↓</span>
-              <span class="eh-visual-node">40+ tools</span>
-            </div>
             <h3>Fixo</h3>
             <p>Coordinate tools to resolve technical issues. I built an Azure support workflow connecting more than 40 tools.</p>
           </article>
         </div>
+        <p>My recent projects also include <a href="{{ '/work/#koto' | relative_url }}">Koto</a>, a workspace for coding agents, and <a href="{{ '/work/#linkedfull' | relative_url }}">LinkedFull</a>, an iPhone app for finding clothing from visual inspiration.</p>
         <p>I still enjoy following an idea through the details that make it useful, whether the result is a robot, an embedded model, or a software tool.</p>
-        <p><a href="{{ '/work/' | relative_url }}">More about my engineering work</a></p>
+        <p><a href="{{ '/work/' | relative_url }}">More engineering work</a></p>
       </section>
     </div>
 
@@ -136,11 +117,11 @@
       </div>
       <div class="eh-about__item">
         <h3>Human–AI Interaction in LLM</h3>
-        <p>My chapter in Springer’s <em>Handbook of Human-Centered Artificial Intelligence</em>. <a href="https://doi.org/10.1007/978-981-97-8440-0_72-1">Read the chapter ↗</a></p>
+        <p>My chapter in Springer’s <em>Handbook of Human-Centered Artificial Intelligence</em>. <a href="https://doi.org/10.1007/978-981-97-8440-0_72-1">Read the chapter</a></p>
       </div>
       <div class="eh-about__item">
         <h3>Human–AI interaction and learning</h3>
-        <p>Research in explanation, planning, and collaboration, including work at ICRA and IROS. <a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&amp;hl=en">Publication record ↗</a></p>
+        <p>Research in explanation, planning, and collaboration, including work at ICRA and IROS. <a href="https://scholar.google.com/citations?user=Y_-UFnUAAAAJ&amp;hl=en">Publication record</a></p>
       </div>
     </section>
     <section class="eh-about-outside" aria-labelledby="about-life-title">

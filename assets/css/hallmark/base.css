@@ -1,0 +1,12 @@
+html.eh-html, body.eh-body { overflow-x: clip; }
+html { scrollbar-color: var(--color-muted) var(--color-paper); scroll-padding-top: var(--space-xl); }
+body { caret-color: var(--color-ink); }
+.eh-body :focus-visible { outline: 2px solid var(--color-focus); outline-offset: var(--space-2xs); transition: none; }
+.eh-body :is(h1, h2, h3) { overflow-wrap: break-word; min-width: 0; text-wrap: balance; }
+.eh-body p { text-wrap: pretty; }
+.eh-body :is(button, input, select, textarea) { font-family: var(--font-body); }
+.eh-body :is(a, button):active { opacity: 0.8; }
+.eh-body :is(button, input):disabled { opacity: 0.55; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}

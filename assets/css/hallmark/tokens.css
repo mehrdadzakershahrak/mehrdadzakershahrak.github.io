@@ -1,0 +1,43 @@
+:root {
+  --color-paper: var(--color-surface);
+  --color-paper-2: var(--color-surface);
+  --color-paper-3: var(--color-surface);
+  --color-ink-2: var(--color-ink);
+  --color-muted: var(--hp-tan);
+  --color-rule: var(--hp-cedar);
+  --color-accent-ink: var(--color-surface);
+  --color-focus: var(--color-ink);
+  --font-body: var(--hp-editorial);
+  --font-display: var(--hp-display);
+  --font-outlier: var(--font-mono);
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+  --container: 1440px;
+  --gutter: clamp(24px, 4vw, 56px);
+  --gap-columns: 32px;
+  --text-md: 19px;
+  --text-sm: 16px;
+  --text-lead: clamp(21px, 1.6vw, 25px);
+  --text-title: clamp(26px, 2.1vw, 32px);
+  --text-section: clamp(32px, 3vw, 44px);
+  --text-display: clamp(64px, 7.8vw, 112px);
+  --radius-card: 0;
+  --radius-control: 4.8px;
+  --rule-hair: 1px;
+  --tracking-display: -0.015em;
+  --display-weight: 400;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+}
+html[data-theme="light"] {
+  --color-muted: var(--hp-cedar);
+}

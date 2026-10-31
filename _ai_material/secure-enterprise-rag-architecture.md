@@ -7,6 +7,7 @@ date: 2026-04-19
 last_modified_at: 2026-09-11
 author: "Mehrdad Zaker"
 content_type: "guide"
+card_image: /assets/images/research/hardware-trust.webp
 audience: "Teams designing secure retrieval over enterprise data"
 pillar: "Secure Enterprise RAG"
 order: 3

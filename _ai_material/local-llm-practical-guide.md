@@ -7,6 +7,7 @@ date: 2026-04-22
 last_modified_at: 2026-04-22
 author: "Mehrdad Zaker"
 content_type: "reference"
+card_image: /assets/images/research/efficient-language-models.webp
 audience: "Teams evaluating local or on-device LLM deployments"
 problem_label: "Local LLM setup"
 topics:

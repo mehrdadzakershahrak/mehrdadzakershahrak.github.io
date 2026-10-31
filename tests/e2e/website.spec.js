@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 const PRIMARY_ROUTES = [
   { path: "/", heading: "Mehrdad Zaker" },
-  { path: "/work/", heading: "From research to production." },
+  { path: "/work/", heading: "Index, Koto, and LinkedFull" },
   { path: "/research/", heading: "Research by Mehrdad Zaker" },
   { path: "/newsletter/", heading: "Writing" },
   { path: "/newsletter/archive/", heading: "Writing" },
@@ -32,7 +32,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
 
   await expect(page).toHaveTitle(/Mehrdad Zaker/);
   await expect(page.getByRole("heading", { name: "Mehrdad Zaker", level: 1 })).toBeVisible();
-  await expect(page.getByText("AI engineer, researcher, and founder building private AI and reliable agent systems from research through production.")).toBeVisible();
+  await expect(page.getByText("AI engineer, researcher, and founder building document tools and coding agents.")).toBeVisible();
   await expect(page.getByText("My work spans private and agentic AI, production ML, reinforcement learning, human–AI interaction, and robotics.")).toBeVisible();
   await expect(page.getByRole("link", { name: "Email Mehrdad" })).toHaveAttribute("href", "/contact/#email");
   await expect(page.getByRole("img", { name: "Mehrdad Zaker" })).toHaveAttribute("src", "/assets/images/mehrdad-zaker-headshot.jpeg");
@@ -48,7 +48,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
 
   await expect(page.locator(".eh-exec-meta")).toContainText("15+ years");
   await expect(page.locator(".eh-exec-meta")).toContainText("Founder / Member of Technical Staff");
-  await expect(page.locator(".eh-exec-meta")).toContainText("Ph.D. CS · 350+ citations");
+  await expect(page.locator(".eh-exec-meta")).toContainText("Ph.D. CS, 350+ citations");
   await expect(page.locator(".eh-exec-meta")).toContainText("Robotics and invention");
 
   const life = page.locator("#life");
@@ -69,7 +69,7 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
   await expect(page.getByText("Founder / Member of Technical Staff, Neural Intelligence Labs")).toBeVisible();
   await expect(page.getByRole("link", { name: "Springer handbook chapter" })).toBeVisible();
 
-  const workTitles = await page.locator("#work .eh-exec-row__title").allTextContents();
+  const workTitles = await page.locator(".mz-experience-grid .mz-entry-card__title").allTextContents();
   expect(workTitles.map((title) => title.trim())).toEqual([
     "Neural Intelligence Labs",
     "Enterprise search and recommendations",
@@ -77,29 +77,31 @@ test("homepage presents the simplified personal profile", async ({ page }) => {
     "Autonomous robotic retrieval",
   ]);
 
-  const workKinds = await page.locator("#work .eh-exec-row > em").allTextContents();
+  const workKinds = await page.locator(".mz-experience-grid .mz-entry-card__meta").allTextContents();
   expect(workKinds.map((kind) => kind.trim())).toEqual([
-    "2025–Present · Founder / Member of Technical Staff",
-    "2021–2024 · Staff Applied ML Scientist",
-    "2016–2021 · Ph.D. research · Arizona State University",
-    "Robotics · Co-inventor",
+    "2025–Present Founder / Member of Technical Staff",
+    "2021–2024 Staff Applied ML Scientist",
+    "2016–2021 Ph.D. research, Arizona State University",
+    "Robotics Co-inventor",
   ]);
 
-  await expect(page.locator("#work .eh-work-mark")).toHaveCount(4);
+  await expect(page.locator(".mz-experience-grid img")).toHaveCount(4);
   await expect(page.locator("#work")).not.toContainText("Workflow-specific AI systems");
   await expect(page.locator("#work")).not.toContainText("Robotics and autonomy");
-  const workLinks = await page.locator("#work .eh-exec-row").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
+  const workLinks = await page.locator(".mz-experience-grid .mz-entry-card").evaluateAll((links) => links.map((link) => link.getAttribute("href")));
   expect(workLinks).toEqual([
     "/work/#neural-intelligence-labs",
     "/work/#enterprise-search-and-recommendations",
     "/work/#human-ai-and-robot-teaming-research",
     "/work/#autonomous-robotic-retrieval",
   ]);
-  await expect(page.locator(".eh-exec-row").filter({ hasText: "The Practical Guide to Running Local LLMs" })).toBeVisible();
+  await expect(page.locator(".mz-entry-card").filter({ hasText: "The Practical Guide to Running Local LLMs" })).toBeVisible();
 
   const body = page.locator("body");
   await expect(body).not.toContainText("Product Catalogue");
-  await expect(body).not.toContainText("IDX");
+  await expect(page.getByRole("heading", { name: "Index (IDX)", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Koto", exact: true })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "LinkedFull", exact: true })).toBeVisible();
   await expect(body).not.toContainText("Now");
   await expect(body).not.toContainText("Login");
 });
@@ -187,7 +189,8 @@ test("about page presents the current identity and rejects legacy claims", async
   await page.goto("/about/");
 
   const body = page.locator("body");
-  await expect(body).toContainText("Mehrdad Zakershahrak, also known as Mehrdad Zaker");
+  await expect(body).toContainText("I’m Mehrdad Zaker.");
+  await expect(body).not.toContainText("Zakershahrak");
   await expect(body).toContainText("Founder / Member of Technical Staff");
   await expect(body).toContainText("Staff Applied ML Scientist");
   await expect(body).toContainText("RoboCup Humanoid KidSize league");

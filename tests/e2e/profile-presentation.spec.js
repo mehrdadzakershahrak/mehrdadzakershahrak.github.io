@@ -10,7 +10,7 @@ test("the About page shows experience through its story and projects without a s
     await expect(page.getByRole("heading", { name: "Engineering for everyday use", exact: true })).toBeVisible();
     await expect(page.getByText(/^As a Staff Applied ML Scientist, I built/)).toBeVisible();
     await expect(page.getByRole("heading", { name: "Selected research and invention", exact: true })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Explore Hormuz ↗", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Explore Hormuz", exact: true })).toHaveAttribute("href", "https://usehormuz.github.io/");
     await expect(page.getByRole("heading", { name: "Autonomous robotic retrieval", exact: true })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   }

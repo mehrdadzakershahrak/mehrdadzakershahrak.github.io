@@ -1,0 +1,15 @@
+{%- assign entry = include.entry -%}
+{%- assign heading = include.heading | default: "h3" -%}
+<a class="mz-project-card mz-entry-card" href="{{ entry.url | relative_url }}" data-analytics="{{ include.analytics }}" data-analytics-label="{{ entry.url | slugify }}">
+  <div class="mz-project-card__image">
+    <img src="{{ entry.card_image | relative_url }}" alt="" width="900" height="900" loading="lazy" decoding="async">
+  </div>
+  <{{ heading }} class="mz-entry-card__title">{{ entry.title }}</{{ heading }}>
+  <p class="mz-entry-card__meta">
+    {%- if entry.kind -%}
+      <span>{{ entry.year }}</span> <span>{{ entry.kind | replace: ' · ', ', ' }}</span>
+    {%- else -%}
+      <span>{{ entry.content_type | default: "Note" | capitalize }}</span>
+    {%- endif -%}
+  </p>
+</a>

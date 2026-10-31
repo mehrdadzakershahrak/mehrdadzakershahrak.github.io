@@ -2,6 +2,7 @@
 
 - year: "2025–Present"
   title: "Neural Intelligence Labs"
+  card_image: /assets/images/research/efficient-language-models.webp
   mark: "bounded-stack"
   kind: "Founder / Member of Technical Staff"
   brief: >
@@ -19,6 +20,7 @@
 
 - year: "2021–2024"
   title: "Enterprise search and recommendations"
+  card_image: /assets/images/research/personalized-summarization.webp
   mark: "ranking-ladder"
   kind: "Staff Applied ML Scientist"
   brief: >
@@ -33,6 +35,7 @@
 
 - year: "2016–2021"
   title: "Human–AI and robot teaming research"
+  card_image: /assets/images/demo-ur5-ar.jpg
   mark: "team-plan"
   kind: "Ph.D. research · Arizona State University"
   brief: >
@@ -50,6 +53,7 @@
 
 - year: "Robotics"
   title: "Autonomous robotic retrieval"
+  card_image: /assets/images/research/human-robot-teaming.webp
   mark: "control-loop"
   kind: "Co-inventor"
   brief: >

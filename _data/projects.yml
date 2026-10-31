@@ -1,0 +1,57 @@
+- id: index
+  title: "Index (IDX)"
+  summary: "Turn PDFs with different structures into JSON that an agent can use."
+  image: /assets/images/projects/index.webp
+  image_alt: "Editorial illustration of documents passing through a parsing pipeline"
+  image_kind: illustration
+  focus: "Parsing across PDF structures"
+  problem: >-
+    A PDF inherits its structure from the software that created it. Text, tables,
+    and nested content can be stored in different ways, so a single parsing
+    procedure does not work consistently across documents.
+  approach: >-
+    I designed the system architecture for Index. It connects agent workflows
+    to PDF parsing and returns structured JSON for further processing.
+    The service also exposes an MCP interface for agents.
+  result: "99.86%"
+  result_label: "Reported parse success across 5 million documents."
+  result_note: "Evaluation figures provided by Mehrdad Zaker."
+  source_url: https://idx.mehrdadzaker.com/v2/portal
+  source_label: "Open Index"
+
+- id: koto
+  title: "Koto"
+  summary: "Run coding agents together, review their separate changes, and bring the work together."
+  image: /assets/images/projects/koto.webp
+  image_alt: "Koto wooden K logo"
+  image_kind: logo
+  focus: "Keeping parallel work reviewable"
+  problem: >-
+    Working with several coding agents means keeping track of their tasks,
+    edits, and conversations. Koto brings Codex, Claude, Kimi Code, and
+    open-source models into one coordinated workspace.
+  approach: >-
+    Each agent works in an isolated Git worktree. You can follow its output,
+    review its contribution, and approve integration into a separate worktree.
+    Saved sessions let you return to the work. The current release is an alpha CLI.
+  source_url: https://github.com/mehrdadxzaker/Koto
+  source_label: "Read Koto’s README"
+
+- id: linkedfull
+  title: "LinkedFull"
+  summary: "Find clothing from a photo or description, compare stores, and preview an outfit."
+  image: /assets/images/projects/linkedfull.jpg
+  image_alt: "LinkedFull app icon"
+  image_kind: logo
+  detail_image: /assets/images/projects/linkedfull-screen.jpg
+  detail_image_alt: "LinkedFull’s published iPhone app screenshot"
+  focus: "From visual inspiration to shopping"
+  problem: >-
+    A look in a photograph does not come with a product list. LinkedFull starts
+    with a picture or a description and searches for clothing across stores.
+  approach: >-
+    The iPhone app brings text and visual search, product discovery,
+    personalized recommendations, and virtual try-on into one flow.
+    Users can preview pieces on their own photos before visiting a retailer.
+  source_url: https://apps.apple.com/us/app/linkedfull/id6737245343
+  source_label: "View LinkedFull on the App Store"

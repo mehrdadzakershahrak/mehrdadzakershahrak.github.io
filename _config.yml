@@ -44,6 +44,8 @@ exclude:
   - playwright.config.js
   - README.md
   - design-qa.md
+  - DESIGN.md
+  - docs/project-sources.md
   - assets/images/haley-reference/README.md
   - test-results/
   - tests/

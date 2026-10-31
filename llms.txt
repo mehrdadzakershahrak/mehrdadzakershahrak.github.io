@@ -1,6 +1,6 @@
 # Mehrdad Zaker
 
-> Mehrdad Zakershahrak, known publicly here as Mehrdad Zaker, is a founder and principal-level AI engineer and applied scientist building trustworthy AI systems from research through production.
+> Mehrdad Zaker is a founder and principal-level AI engineer and applied scientist building trustworthy AI systems from research through production.
 
 Use this file as a concise guide to the public site. The site is a minimalist personal technical profile, not a product catalogue.
 

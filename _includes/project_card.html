@@ -1,0 +1,9 @@
+{%- assign project = include.project -%}
+<a class="mz-project-card mz-project-card--{{ project.image_kind }}" href="{{ '/work/' | append: '#' | append: project.id | relative_url }}" data-analytics="work_click" data-analytics-label="{{ project.id }}">
+  <div class="mz-project-card__image">
+    <img src="{{ project.image | relative_url }}" alt="{{ project.image_alt | escape }}" width="600" height="400" loading="lazy" decoding="async">
+  </div>
+  <h3>{{ project.title }}</h3>
+  <p>{{ project.summary }}</p>
+  <span class="mz-project-card__link">Read about {{ project.title }}</span>
+</a>
