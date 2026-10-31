@@ -16,7 +16,8 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Keep browser dependencies on an image supported by the pinned Playwright release.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
