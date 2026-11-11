@@ -60,6 +60,11 @@ collections:
     permalink: /podcast/:name/
 
 defaults:
+  # The abstract page is the sitemap record; its sibling PDF remains linked and crawlable.
+  - scope:
+      path: "research/resource-ratio-calibration/resource-ratio-calibration-preprint.pdf"
+    values:
+      sitemap: false
   - scope:
       path: ""
       type: ai_material

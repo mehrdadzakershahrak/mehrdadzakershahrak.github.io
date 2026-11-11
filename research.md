@@ -33,6 +33,13 @@ suppress_default_h1: true
     </aside>
   </header>
 
+  <section class="eh-research__thread" aria-labelledby="latest-preprint-title">
+    <p class="eh-eyebrow">Latest preprint · 2026</p>
+    <h2 id="latest-preprint-title"><a href="{{ '/research/resource-ratio-calibration/' | relative_url }}">Auditing Resource-Ratio Calibration in Public LLM Evaluation Archives</a></h2>
+    <p>Mehrdad Zakershahrak and Samira Ghodratnama audit how system choice, task domains, outcome verification, and incomplete measurements affect resource-ratio calibration.</p>
+    <p><a href="{{ '/research/resource-ratio-calibration/' | relative_url }}">Abstract and citation</a> · <a href="{{ '/research/resource-ratio-calibration/resource-ratio-calibration-preprint.pdf' | relative_url }}">Read paper (PDF)</a></p>
+  </section>
+
   <section class="eh-research__stories" aria-labelledby="research-projects-title">
     <div class="eh-research__section-head">
       <p class="eh-eyebrow">Five connected programs</p>
