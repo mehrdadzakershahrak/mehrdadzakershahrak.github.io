@@ -1,7 +1,7 @@
 ---
 layout: single
-title: "Auditing Resource-Ratio Calibration in Public LLM Evaluation Archives"
-description: "An audit of task-resource calibration, exact-grading errors, and system, domain, and measurement boundaries in public LLM evaluation archives."
+title: "Toward a Unit of AI Inference: Auditing Resource-Ratio Calibration"
+description: "Toward a unit of AI inference: an audit of resource-ratio calibration, outcome verification, and measurement boundaries in public LLM evaluation archives."
 permalink: /research/resource-ratio-calibration/
 classes: wide publication-page
 eyebrow: "Research preprint · 2026"
@@ -29,11 +29,11 @@ Resource ratios between tasks offer a tempting way to normalize language-model e
 
 ## Citation
 
-Mehrdad Zakershahrak and Samira Ghodratnama. 2026. *Auditing Resource-Ratio Calibration in Public LLM Evaluation Archives*. Preprint.
+Mehrdad Zakershahrak and Samira Ghodratnama. 2026. *Toward a Unit of AI Inference: Auditing Resource-Ratio Calibration*. Preprint.
 
 ```bibtex
 @misc{zakershahrak2026auditing,
-  title = {Auditing Resource-Ratio Calibration in Public LLM Evaluation Archives},
+  title = {Toward a Unit of AI Inference: Auditing Resource-Ratio Calibration},
   author = {Zakershahrak, Mehrdad and Ghodratnama, Samira},
   year = {2026},
   note = {Preprint},
